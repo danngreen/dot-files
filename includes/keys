@@ -1,0 +1,8 @@
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+bindkey '\e.' insert-last-word
+bindkey "^[a" beginning-of-line
+bindkey "^[e" end-of-line
+bindkey -e
+
+alias zshrc="vim ~/.zshrc"

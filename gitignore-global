@@ -1,0 +1,29 @@
+# build outputs
+*.o
+*.ee.hex
+*.eep
+*.lst
+*.lss
+*.map
+*.out
+default/*
+dep/*
+
+# OSX
+.DS_Store
+\.DS_Store
+
+# my name for local data inside a repo
+LOCAL/
+local/
+old/
+
+# kicad
+fp-info-cache
+*.bak
+*.kicad_pcb-bak
+*.sch-bak
+
+# ctags
+.tags
+.tags_*

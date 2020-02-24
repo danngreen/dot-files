@@ -1,0 +1,13 @@
+if [ -d "/usr/local/opt/make/libexec/gnubin" ] ; then
+    export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+fi
+
+export PATH=$HOME/bin:/usr/local/bin:$HOME/stm32/stlink:$PATH
+export PATH="$HOME/esp/xtensa-esp32-elf/bin:$PATH"
+
+export IDF_PATH=~/esp/esp-idf
+
+export PYTHONPATH=$PYTHONPATH:'.'
+export PYTHONPATH=/usr/local/opt/libxml2/lib/python2.7/site-packages:$PYTHONPATH
+
+export CPPUTEST_HOME=/Users/design/4ms/stm32/cpputest

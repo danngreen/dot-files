@@ -1,0 +1,4 @@
+setopt EXTENDED_GLOB
+for dotfile in ./dot-files/^include^README.md; do
+  ln -s "$dotfile" "${HOME}/.${dotfile:t}"
+done
