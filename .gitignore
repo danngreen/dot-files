@@ -1,1 +1,2 @@
-vim/bundle/YouCompleteMe
+vim/bundle/*
+!vim/bundle/Vundle.vim
