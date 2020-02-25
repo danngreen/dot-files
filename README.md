@@ -6,7 +6,7 @@ To install:
 
 ```
 cd ~
-git clone https://github.com/danngreen/dot-files.git dot-files
+git clone --recursive https://github.com/danngreen/dot-files.git dot-files
 source dot-files/install
 ```
 
@@ -20,9 +20,18 @@ ln -s dot-files/vimrc .vimrc
 ln -s dot-files/vim .vim
 ```
 
-If the file exists, it will give an error.
+If the file exists, it will give an error and not overwrite it.
 
-You might need to tell git to use the global excludes file
+Use Vundle to install the vim plugins:
+
+```
+vim
+:PluginInstall
+```
+
+After that, you may need to compile YouCompleteMe if you haven't before. 
+
+Tell git to use the global excludes file like this:
 
 ```
 git config --global core.excludesfile ~/.gitignore-global
