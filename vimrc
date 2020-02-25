@@ -56,7 +56,7 @@ noremap  :call CurtineIncSw()<CR>
 noremap <S-F2> :so ~/.vimrc<CR>
 noremap <F2> :new ~/.vimrc<CR>
 noremap <F1> :buffers<CR>:buffer 
-noremap <F11> :TagBarToggle<CR>
+noremap <F11> :TagbarToggle<CR>
 noremap <S-F11> :!ctags -R .<CR>
 
 let &path.="src,include,tests/,../src,../include,../tests"
