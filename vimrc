@@ -14,6 +14,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'amix/open_file_under_cursor.vim'
 Plugin 'junegunn/fzf.vim'
+Plugin 'tpope/vim-eunuch.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
@@ -52,7 +53,8 @@ let g:cpp_experimental_simple_template_highlight = 1
 "Shortcut Keys
 "-------------
 noremap <F12> :NERDTreeToggle<CR>
-noremap  :call CurtineIncSw()<CR>
+"Option-Tab : toggle .h and .c
+noremap  :call CurtineIncSw()<CR> 
 noremap <S-F2> :so ~/.vimrc<CR>
 noremap <F2> :new ~/.vimrc<CR>
 noremap <F1> :buffers<CR>:buffer 
