@@ -4,6 +4,7 @@ fi
 
 export PATH=$HOME/bin:/usr/local/bin:$HOME/stm32/stlink:$PATH
 export PATH="$HOME/esp/xtensa-esp32-elf/bin:$PATH"
+export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 
 export IDF_PATH=~/esp/esp-idf
 

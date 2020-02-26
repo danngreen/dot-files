@@ -2,3 +2,8 @@ https://dmitryfrank.com/articles/shell_shortcuts
 
 https://github.com/ctrlpvim/ctrlp.vim
 
+#git hook to update ctags anytime we commit, pull, etc.
+https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
+
+#use gcc -M to determine which headers (including system headers) to use for tags:
+https://www.topbug.net/blog/2012/03/17/generate-ctags-files-for-c-slash-c-plus-plus-source-files-and-all-of-their-included-header-files/#

@@ -14,7 +14,8 @@ Plugin 'majutsushi/tagbar'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'amix/open_file_under_cursor.vim'
 Plugin 'junegunn/fzf.vim'
-Plugin 'tpope/vim-eunuch.git'
+Plugin 'airblade/vim-rooter.git'
+Plugin 'tpope/vim-eunuch'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
@@ -52,19 +53,34 @@ let g:cpp_experimental_simple_template_highlight = 1
 
 "Shortcut Keys
 "-------------
+let mapleader = ","
+
+"By number
+noremap <F1> :ls<CR>:buffer#
+noremap <S-F1> :ls<CR>:sp#
+noremap <A-F1> :ls<CR>:vsp#
+
+"By name
+noremap <F2> :ls<CR>:b<space>
+noremap <S-F2> :ls<CR>:sb<space>
+noremap <A-F2> :ls<CR>:vert sb<space>
+noremap <S-A-F2> :ls<CR>:vert belowright sb<space>
+
 noremap <F12> :NERDTreeToggle<CR>
 "Option-Tab : toggle .h and .c
 noremap  :call CurtineIncSw()<CR> 
-noremap <S-F2> :so ~/.vimrc<CR>
-noremap <F2> :new ~/.vimrc<CR>
-noremap <F1> :buffers<CR>:buffer 
 noremap <F11> :TagbarToggle<CR>
 noremap <S-F11> :!ctags -R .<CR>
+
+noremap <leader>vs :source ~/.vimrc<CR>
+noremap <leader>vv :new ~/.vimrc<CR>
 
 let &path.="src,include,tests/,../src,../include,../tests"
 
 set ts=4
 set sw=4
+
+set hlsearch
 
 hi MatchParen term=underline cterm=underline guibg=white 
 let g:loaded_matchparen=1 

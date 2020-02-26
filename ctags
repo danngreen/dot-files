@@ -1,0 +1,8 @@
+--recurse=yes
+--exclude=.git
+--exclude=firmwares
+--exclude=LOCAL
+--exclude=local
+--languages=C,C++
+--append
+
