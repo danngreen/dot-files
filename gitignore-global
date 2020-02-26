@@ -28,3 +28,5 @@ _autosave*
 # ctags
 .tags
 .tags_*
+tags
+tags_*
