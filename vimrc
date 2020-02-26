@@ -14,11 +14,14 @@ Plugin 'majutsushi/tagbar'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'amix/open_file_under_cursor.vim'
 Plugin 'junegunn/fzf.vim'
-Plugin 'airblade/vim-rooter.git'
 Plugin 'tpope/vim-eunuch'
+"Plugin 'kcsongor/vim-tabbar.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
+"
+"vim-tabbar plugin:
+"set tabline=%!tabbar#tabline()
 
 filetype plugin indent on
 
@@ -66,12 +69,16 @@ noremap <S-F2> :ls<CR>:sb<space>
 noremap <A-F2> :ls<CR>:vert sb<space>
 noremap <S-A-F2> :ls<CR>:vert belowright sb<space>
 
+noremap <F3> :Files<space>
 noremap <F12> :NERDTreeToggle<CR>
+"
 "Option-Tab : toggle .h and .c
 noremap  :call CurtineIncSw()<CR> 
+
 noremap <F11> :TagbarToggle<CR>
 noremap <S-F11> :!ctags -R .<CR>
 
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 noremap <leader>vs :source ~/.vimrc<CR>
 noremap <leader>vv :new ~/.vimrc<CR>
 
