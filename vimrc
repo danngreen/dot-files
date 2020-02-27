@@ -36,20 +36,6 @@ let mapleader = ","
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
-"By name or number
-"<F1> or <leader><F1> will list buffers, then you type a name or number and press <CR>
-nnoremap <F2> :b<space>
-nnoremap <leader><F2> :ls<CR>:b<space>
-nnoremap <F1> :ls<CR>:b<space>
-
-"Todo: S/A-F# don't work in iTerm2
-"By number
-noremap <S-F1> :ls<CR>:sp#
-noremap <A-F1> :ls<CR>:vsp#
-nnoremap <S-F2> :ls<CR>:sb<space>
-nnoremap <A-F2> :ls<CR>:vert sb<space>
-nnoremap <S-A-F2> :ls<CR>:vert belowright sb<space>
-
 
 " Buffer Navigation
 " -----------------
@@ -75,6 +61,19 @@ nmap <leader><TAB> <Plug>AirlineSelectNextTab
 "Todo: Ctrl-Tilde?
 nnoremap <C-`> <Plug>AirlineSelectNextTab
 
+"By name or number
+"<F1> or <leader><F1> will list buffers, then you type a name or number and press <CR>
+nnoremap <F2> :b<space>
+nnoremap <leader><F2> :ls<CR>:b<space>
+nnoremap <F1> :ls<CR>:b<space>
+"Todo: S/A-F# don't work in iTerm2
+"By number
+noremap <S-F1> :ls<CR>:sp#
+noremap <A-F1> :ls<CR>:vsp#
+nnoremap <S-F2> :ls<CR>:sb<space>
+nnoremap <A-F2> :ls<CR>:vert sb<space>
+nnoremap <S-A-F2> :ls<CR>:vert belowright sb<space>
+
 noremap <F12> :NERDTreeToggle<CR>
 
 "Option-Tab : toggle .h and .c
@@ -99,7 +98,9 @@ set hidden
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-
+"clone and install fonts from https://github.com/powerline/fonts
+"then set MacVim font to a font ending in 'for Powerline'
+let g:airline_powerline_fonts = 1
 
 " Display
 " -------
