@@ -18,6 +18,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'thaerkh/vim-workspace.git'
 Plugin 'jeetsukumaran/vim-buffergator.git'
+Plugin 'tpope/vim-fugitive.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
@@ -98,6 +99,8 @@ set hidden
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_highlighting_cache = 1
 "clone and install fonts from https://github.com/powerline/fonts
 "then set MacVim font to a font ending in 'for Powerline'
 let g:airline_powerline_fonts = 1
@@ -105,7 +108,7 @@ let g:airline_powerline_fonts = 1
 " Display
 " -------
 colors molokai
-set guifont=Menlo_Regular:h12
+set guifont=Roboto_Mono_Light_for_Powerline:h13
 
 " Syntax
 " ------
