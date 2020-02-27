@@ -15,15 +15,90 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'amix/open_file_under_cursor.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-eunuch'
-"Plugin 'kcsongor/vim-tabbar.git'
+Plugin 'ctrlpvim/ctrlp.vim.git'
+Plugin 'thaerkh/vim-workspace.git'
+Plugin 'jeetsukumaran/vim-buffergator.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
-"
-"vim-tabbar plugin:
-"set tabline=%!tabbar#tabline()
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 filetype plugin indent on
+
+"Shortcut Keys
+"-------------
+let mapleader = ","
+
+:inoremap jk <esc>
+:inoremap <esc> <nop>
+
+"Fuzzy search for a file
+noremap <F3> :Files<CR>
+noremap <leader><F3> :Files<space>
+
+"By name or number
+"<F1> or <leader><F1> will list buffers, then you type a name or number and press <CR>
+nnoremap <F2> :b<space>
+nnoremap <leader><F2> :ls<CR>:b<space>
+nnoremap <F1> :ls<CR>:b<space>
+
+"Todo: S/A-F# don't work in iTerm2
+"By number
+noremap <S-F1> :ls<CR>:sp#
+noremap <A-F1> :ls<CR>:vsp#
+nnoremap <S-F2> :ls<CR>:sb<space>
+nnoremap <A-F2> :ls<CR>:vert sb<space>
+nnoremap <S-A-F2> :ls<CR>:vert belowright sb<space>
+
+
+" Buffer Navigation
+" -----------------
+
+" Close the current buffer and move to the previous one
+nmap <leader>w :bp <BAR> bd #<CR>
+
+nmap <leader>T :enew<cr>
+nnoremap <C-W>v :belowright vnew<CR>
+
+"Select a buffer from airline tabline
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader><S-TAB> <Plug>AirlineSelectPrevTab
+nmap <leader><TAB> <Plug>AirlineSelectNextTab
+"Todo: Ctrl-Tilde?
+nnoremap <C-`> <Plug>AirlineSelectNextTab
+
+noremap <F12> :NERDTreeToggle<CR>
+
+"Option-Tab : toggle .h and .c
+noremap  :call CurtineIncSw()<CR> 
+
+nnoremap <F11> :TagbarToggle<CR>
+nnoremap <S-F11> :!ctags -R .<CR>
+
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+nnoremap <leader>vs :source ~/.vimrc<CR>
+nnoremap <leader>vv :edit ~/.vimrc<CR>
+
+
+"Settings
+"--------
+set ts=4
+set sw=4
+set hlsearch
+set number
+set hidden
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 
 " Display
@@ -35,8 +110,7 @@ set guifont=Menlo_Regular:h12
 " ------
 syntax on
 
-"octol/vim-cpp-enhanced-highlight
-"--------------------------------
+"vim-cpp-enhanced-highlight options:
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -45,7 +119,6 @@ let g:cpp_posix_standard = 1
 let g:cpp_experimental_simple_template_highlight = 1
 "Highlight template functions (faster implementation but has some corner cases where it doesn't work.)
 "let g:cpp_experimental_template_highlight = 1
-
 "Highlighting of library concepts 
 "This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
 "let g:cpp_concepts_highlight = 1
@@ -54,40 +127,20 @@ let g:cpp_experimental_simple_template_highlight = 1
 "let g:cpp_no_function_highlight = 1
 
 
-"Shortcut Keys
-"-------------
-let mapleader = ","
+"ctrlP
+"-----
+" Setup some default ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(png|jpg|jpeg|pdf|o|d|a)$',
+\}
+" Use nearest .git directory as cwd
+let g:ctrlp_working_path_mode = 'r'
 
-"By number
-noremap <F1> :ls<CR>:buffer#
-noremap <S-F1> :ls<CR>:sp#
-noremap <A-F1> :ls<CR>:vsp#
 
-"By name
-noremap <F2> :ls<CR>:b<space>
-noremap <S-F2> :ls<CR>:sb<space>
-noremap <A-F2> :ls<CR>:vert sb<space>
-noremap <S-A-F2> :ls<CR>:vert belowright sb<space>
 
-noremap <F3> :Files<space>
-noremap <F12> :NERDTreeToggle<CR>
-"
-"Option-Tab : toggle .h and .c
-noremap  :call CurtineIncSw()<CR> 
-
-noremap <F11> :TagbarToggle<CR>
-noremap <S-F11> :!ctags -R .<CR>
-
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-noremap <leader>vs :source ~/.vimrc<CR>
-noremap <leader>vv :new ~/.vimrc<CR>
 
 let &path.="src,include,tests/,../src,../include,../tests"
-
-set ts=4
-set sw=4
-
-set hlsearch
 
 hi MatchParen term=underline cterm=underline guibg=white 
 let g:loaded_matchparen=1 
