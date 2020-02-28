@@ -30,19 +30,26 @@ filetype plugin indent on
 "-------------
 let mapleader = ","
 
+:nnoremap <esc> :noh<CR>
+:imap <esc> jk:noh<CR>a
+:vnoremap <esc> <nop>
 :inoremap jk <esc>
-:inoremap <esc> <nop>
+:vnoremap jk <esc>
 
 "Fuzzy search for a file
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
 
+"Search all files for selected text
+vnoremap <C-F> y:Ag <C-R>"<CR>
+
 " Buffer Navigation
 " -----------------
 
 " Close the current buffer and move to the previous one
 nmap <leader>w :bp <BAR> bd #<CR>
+nmap <leader>c :bp <BAR> bd #<CR>
 
 nmap <leader>T :enew<cr>
 nnoremap <C-W>v :belowright vnew<CR>
