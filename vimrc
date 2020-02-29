@@ -105,6 +105,18 @@ set hlsearch
 set number
 set hidden
 set mouse=a
+set splitright
+
+if !&scrolloff
+  set scrolloff=3       " Show next 3 lines while scrolling.
+endif
+if !&sidescrolloff
+  set sidescrolloff=5   " Show next 5 columns while side-scrolling.
+endif
+set nostartofline       " Do not jump to first character with page commands.
+set noswapfile                  " Don't use swapfile
+set backspace=indent,eol,start  " Makes backspace key more powerful.
+
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
