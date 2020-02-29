@@ -30,3 +30,7 @@ _autosave*
 .tags_*
 tags
 tags_*
+
+#vim
+.undodir/
+*.swp
