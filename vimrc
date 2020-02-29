@@ -105,16 +105,23 @@ let g:airline_powerline_fonts = 1
 
 " Display
 " -------
+syntax on
+
 colors molokai
 set guifont=Roboto_Mono_Light_for_Powerline:h13
+hi Search guibg=DarkYellow
+hi NonText guibg=black
+hi Normal guibg=black
+hi LineNr guibg=black
+hi Search guibg=DarkYellow
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
+
 " Comments
 autocmd FileType c setlocal commentstring=//%s
 autocmd FileType cpp setlocal commentstring=//%s
 
 " Syntax
 " ------
-syntax on
-
 "vim-cpp-enhanced-highlight options:
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
