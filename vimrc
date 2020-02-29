@@ -15,10 +15,12 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'amix/open_file_under_cursor.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-commentary'
 Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'thaerkh/vim-workspace.git'
 Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'tpope/vim-fugitive.git'
+Plugin 'flazz/vim-colorschemes.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
