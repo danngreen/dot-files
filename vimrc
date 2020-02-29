@@ -107,6 +107,9 @@ let g:airline_powerline_fonts = 1
 " -------
 colors molokai
 set guifont=Roboto_Mono_Light_for_Powerline:h13
+" Comments
+autocmd FileType c setlocal commentstring=//%s
+autocmd FileType cpp setlocal commentstring=//%s
 
 " Syntax
 " ------
