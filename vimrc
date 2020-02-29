@@ -38,6 +38,7 @@ let mapleader = ","
 :vnoremap <esc> <nop>
 :inoremap jk <esc>
 :vnoremap jk <esc>
+:inoremap jj <esc>
 
 " Searching
 " ---------

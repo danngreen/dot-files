@@ -10,5 +10,6 @@ export IDF_PATH=~/esp/esp-idf
 
 export PYTHONPATH=$PYTHONPATH:'.'
 export PYTHONPATH=/usr/local/opt/libxml2/lib/python2.7/site-packages:$PYTHONPATH
+export PYTHONPATH=/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages:$PYTHONPATH
 
 export CPPUTEST_HOME=/Users/design/4ms/stm32/cpputest
