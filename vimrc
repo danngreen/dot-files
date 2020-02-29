@@ -38,10 +38,12 @@ let mapleader = ","
 :inoremap jk <esc>
 :vnoremap jk <esc>
 
+" Searching
+" ---------
+
 "Fuzzy search for a file
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
-
 
 "Search all files for selected text
 vnoremap <C-F> y:Ag <C-R>"<CR>
@@ -71,22 +73,9 @@ nmap <leader><TAB> <Plug>AirlineSelectNextTab
 "Todo: Ctrl-Tilde?
 nnoremap <C-`> <Plug>AirlineSelectNextTab
 
-"By name or number
-"<F1> or <leader><F1> will list buffers, then you type a name or number and press <CR>
-nnoremap <F2> :b<space>
-nnoremap <leader><F2> :ls<CR>:b<space>
-nnoremap <F1> :ls<CR>:b<space>
-"Todo: S/A-F# don't work in iTerm2
-"By number
-noremap <S-F1> :ls<CR>:sp#
-noremap <A-F1> :ls<CR>:vsp#
-nnoremap <S-F2> :ls<CR>:sb<space>
-nnoremap <A-F2> :ls<CR>:vert sb<space>
-nnoremap <S-A-F2> :ls<CR>:vert belowright sb<space>
-
 noremap <F12> :NERDTreeToggle<CR>
 
-"Option-Tab : toggle .h and .c
+"Option-Tab : toggle .h and .c: FixMe: doesn't always work
 noremap  :call CurtineIncSw()<CR> 
 
 nnoremap <F11> :TagbarToggle<CR>
@@ -135,10 +124,8 @@ let g:cpp_experimental_simple_template_highlight = 1
 "Highlighting of library concepts 
 "This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
 "let g:cpp_concepts_highlight = 1
-
 "Disable highlighting of user defined functions
 "let g:cpp_no_function_highlight = 1
-
 
 "ctrlP
 "-----
@@ -151,12 +138,10 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 
-
-
 let &path.="src,include,tests/,../src,../include,../tests"
 
-hi MatchParen term=underline cterm=underline guibg=white 
-let g:loaded_matchparen=1 
+"hi MatchParen term=underline cterm=underline guibg=white
+"let g:loaded_matchparen=1
 
 function! SearchMultiLine(bang, ...)
   if a:0 > 0
@@ -189,5 +174,4 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
 
