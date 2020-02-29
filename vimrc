@@ -58,9 +58,20 @@ nmap <leader>w :bp <BAR> bd #<CR>
 nmap <leader>c :bp <BAR> bd #<CR>
 
 nmap <leader>T :enew<cr>
-nnoremap <C-W>v :belowright vnew<CR>
+"nnoremap <C-W>v :belowright vnew<CR>
 
 "Select a buffer from airline tabline
+nmap <M-1> <Plug>AirlineSelectTab1
+nmap <M-2> <Plug>AirlineSelectTab2
+nmap <M-3> <Plug>AirlineSelectTab3
+nmap <M-4> <Plug>AirlineSelectTab4
+nmap <M-5> <Plug>AirlineSelectTab5
+nmap <M-6> <Plug>AirlineSelectTab6
+nmap <M-7> <Plug>AirlineSelectTab7
+nmap <M-8> <Plug>AirlineSelectTab8
+nmap <M-9> <Plug>AirlineSelectTab9
+nmap <M-TAB> <Plug>AirlineSelectNextTab
+nmap <S-TAB> <Plug>AirlineSelectPrevTab
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -70,15 +81,13 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader><S-TAB> <Plug>AirlineSelectPrevTab
-nmap <leader><TAB> <Plug>AirlineSelectNextTab
 "Todo: Ctrl-Tilde?
 nnoremap <C-`> <Plug>AirlineSelectNextTab
 
 noremap <F12> :NERDTreeToggle<CR>
 
-"Option-Tab : toggle .h and .c: FixMe: doesn't always work
-noremap  :call CurtineIncSw()<CR> 
+"Option-h : toggle .h and .c: FixMe: doesn't always pick closest counterpart 
+noremap <M-h> :call CurtineIncSw()<CR>
 
 nnoremap <F11> :TagbarToggle<CR>
 nnoremap <S-F11> :!ctags -R .<CR>
