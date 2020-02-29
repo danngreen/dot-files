@@ -1,6 +1,7 @@
 set nocompatible
 filetype off
 
+let g:python3_host_prog = '/usr/local/bin/python3'
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -93,6 +94,7 @@ set sw=4
 set hlsearch
 set number
 set hidden
+set mouse=a
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
