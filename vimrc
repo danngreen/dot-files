@@ -55,12 +55,11 @@ vnoremap <C-F> y:Ag <C-R>"<CR>
 
 " Close the current buffer and move to the previous one
 nmap <leader>w :bp <BAR> bd #<CR>
-nmap <leader>c :bp <BAR> bd #<CR>
 
 nmap <leader>T :enew<cr>
-"nnoremap <C-W>v :belowright vnew<CR>
 
 "Select a buffer from airline tabline
+"Relies on iTerm2 Preferences>Profiles>Keys>Left/Right Option Key = Esc+
 nmap <M-1> <Plug>AirlineSelectTab1
 nmap <M-2> <Plug>AirlineSelectTab2
 nmap <M-3> <Plug>AirlineSelectTab3
@@ -72,6 +71,7 @@ nmap <M-8> <Plug>AirlineSelectTab8
 nmap <M-9> <Plug>AirlineSelectTab9
 nmap <M-TAB> <Plug>AirlineSelectNextTab
 nmap <S-TAB> <Plug>AirlineSelectPrevTab
+"Another way to select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -116,6 +116,7 @@ endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
 
 
 let g:airline#extensions#tabline#enabled = 1
@@ -130,15 +131,15 @@ let g:airline_powerline_fonts = 1
 " Display
 " -------
 syntax on
-
 colors molokai
+set termguicolors
 set guifont=Roboto_Mono_Light_for_Powerline:h13
-hi Search guibg=DarkYellow
 hi NonText guibg=black
 hi Normal guibg=black
 hi LineNr guibg=black
 hi Search guibg=DarkYellow
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
+hi Pmenu guibg=#333333
+
 
 " Comments
 autocmd FileType c setlocal commentstring=//%s
