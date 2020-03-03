@@ -42,20 +42,26 @@ let mapleader = ","
 
 " Searching
 " ---------
+" Replace all occurances of word under cursor (ask for conf.)
+:nnoremap <Leader>s *N:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+:vnoremap <Leader>s *N:<C-w>%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+" Replace all occurances of word under cursor (don't ask for conf.)
+:nnoremap <Leader>S *N:%s/\<<C-r><C-w>\>//g<Left><Left>
+:vnoremap <Leader>S *N:<C-w>%s/\<<C-r><C-w>\>//g<Left><Left>
 
 "Fuzzy search for a file
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
 "Search all files for selected text
-vnoremap <C-F> y:Ag <C-R>"<CR>
+vnoremap <C-s> :<C-w>Ag <C-r><C-w><CR>
+nnoremap <C-s> yiw:Ag <C-r>"
 
 " Buffer Navigation
 " -----------------
 
 " Close the current buffer and move to the previous one
 nmap <leader>w :bp <BAR> bd #<CR>
-nmap <leader>c :bp <BAR> bd #<CR>
 
 nmap <leader>T :enew<cr>
 "nnoremap <C-W>v :belowright vnew<CR>
@@ -96,7 +102,9 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
 nnoremap <leader>vv :edit ~/.vimrc<CR>
 
-
+noremap <M-C> "+y
+noremap <M-X> "+d
+noremap <D-E> "+y
 "Settings
 "--------
 set ts=4
