@@ -65,9 +65,9 @@ nnoremap <C-s> yiw:Ag <C-r>"
 nmap <leader>w :bp <BAR> bd #<CR>
 
 nmap <leader>T :enew<cr>
-"nnoremap <C-W>v :belowright vnew<CR>
 
 "Select a buffer from airline tabline
+"Relies on iTerm2 Preferences>Profiles>Keys>Left/Right Option Key = Esc+
 nmap <M-1> <Plug>AirlineSelectTab1
 nmap <M-2> <Plug>AirlineSelectTab2
 nmap <M-3> <Plug>AirlineSelectTab3
@@ -79,6 +79,7 @@ nmap <M-8> <Plug>AirlineSelectTab8
 nmap <M-9> <Plug>AirlineSelectTab9
 nmap <M-TAB> <Plug>AirlineSelectNextTab
 nmap <S-TAB> <Plug>AirlineSelectPrevTab
+"Another way to select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -125,6 +126,7 @@ endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
 
 
 let g:airline#extensions#tabline#enabled = 1
@@ -143,10 +145,9 @@ let g:workspace_autosave_untrailspaces = 0
 " Display
 " -------
 syntax on
-
 colors molokai
+set termguicolors
 set guifont=Roboto_Mono_Light_for_Powerline:h13
-hi Search guibg=DarkYellow
 hi NonText guibg=black
 hi Normal guibg=black
 hi LineNr guibg=black
@@ -155,6 +156,7 @@ set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 "let g:loaded_matchparen=1
 hi Pmenu guibg=#333333
+
 
 " Comments
 autocmd FileType c setlocal commentstring=//%s
@@ -187,8 +189,26 @@ let g:ctrlp_custom_ignore = {
 " Use nearest .git directory as cwd
 let g:ctrlp_working_path_mode = 'r'
 
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+let g:ycm_clangd_binary_path = exepath("clangd")
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>', '<CR>']
+let g:ycm_semantic_triggers =  {
+\   'c': ['->', '.'],
+\   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+\            're!\[.*\]\s'],
+\   'ocaml': ['.', '#'],
+\   'cpp,cuda,objcpp': ['->', '.', '::'],
+\   'perl': ['->'],
+\   'php': ['->', '::'],
+\   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
+\   'ruby,rust': ['.', '::'],
+\   'lua': ['.', ':'],
+\   'erlang': [':'],
+\ }
 
-let &path.="src,include,inc,tests/,../src,../include,../inc,../tests"
+let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
 function! SearchMultiLine(bang, ...)
   if a:0 > 0
