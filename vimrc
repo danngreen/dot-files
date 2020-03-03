@@ -22,6 +22,7 @@ Plugin 'thaerkh/vim-workspace.git'
 Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'flazz/vim-colorschemes.git'
+Plugin 'skywind3000/vim-preview'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
@@ -135,6 +136,10 @@ let g:airline_highlighting_cache = 1
 "then set MacVim font to a font ending in 'for Powerline'
 let g:airline_powerline_fonts = 1
 
+"vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
+"mode with a (temporary) trailing space in order to paste a buffer, and losing a space
+let g:workspace_autosave_untrailspaces = 0 
+
 " Display
 " -------
 syntax on
@@ -147,6 +152,9 @@ hi Normal guibg=black
 hi LineNr guibg=black
 hi Search guibg=DarkYellow
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
+hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
+"let g:loaded_matchparen=1
+hi Pmenu guibg=#333333
 
 " Comments
 autocmd FileType c setlocal commentstring=//%s
@@ -160,9 +168,9 @@ let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 "Highlight template functions (can be a little slow on large files)
-let g:cpp_experimental_simple_template_highlight = 1
+"let g:cpp_experimental_simple_template_highlight = 1
 "Highlight template functions (faster implementation but has some corner cases where it doesn't work.)
-"let g:cpp_experimental_template_highlight = 1
+let g:cpp_experimental_template_highlight = 1
 "Highlighting of library concepts 
 "This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
 "let g:cpp_concepts_highlight = 1
@@ -180,10 +188,7 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 
-let &path.="src,include,tests/,../src,../include,../tests"
-
-"hi MatchParen term=underline cterm=underline guibg=white
-"let g:loaded_matchparen=1
+let &path.="src,include,inc,tests/,../src,../include,../inc,../tests"
 
 function! SearchMultiLine(bang, ...)
   if a:0 > 0
