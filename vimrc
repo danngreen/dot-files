@@ -173,7 +173,7 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 
-let &path.="src,include,tests/,../src,../include,../tests"
+let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
 "hi MatchParen term=underline cterm=underline guibg=white
 "let g:loaded_matchparen=1
