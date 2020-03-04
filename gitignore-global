@@ -25,11 +25,13 @@ fp-info-cache
 *.sch-bak
 _autosave*
 
-# ctags
+# ctags, clangd
 .tags
 .tags_*
 tags
 tags_*
+.clangd/
+compile_commands.json
 
 #vim
 .undodir/
