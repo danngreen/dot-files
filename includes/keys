@@ -5,4 +5,6 @@ bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
 bindkey -e
 
-alias zshrc="vim ~/.zshrc"
+bindkey "\e\e[D" backward-word # alt + <-
+bindkey "\e\e[C" forward-word # alt + ->
+
