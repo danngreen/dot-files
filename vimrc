@@ -98,7 +98,7 @@ noremap <F12> :NERDTreeToggle<CR>
 noremap <M-h> :call CurtineIncSw()<CR>
 
 nnoremap <F11> :TagbarToggle<CR>
-nnoremap <S-F11> :!ctags -R .<CR>
+nnoremap <F23> :!ctags -R .<CR> "Shift + F11
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
@@ -154,8 +154,10 @@ hi LineNr guibg=black
 hi Search guibg=DarkYellow
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
-"let g:loaded_matchparen=1
+
+"Popup
 hi Pmenu guibg=#333333
+set completeopt=menu
 
 
 " Comments
@@ -193,7 +195,7 @@ let g:ctrlp_working_path_mode = 'r'
 let g:ycm_clangd_uses_ycmd_caching = 0
 let g:ycm_clangd_binary_path = exepath("clangd")
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>', '<CR>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 let g:ycm_semantic_triggers =  {
 \   'c': ['->', '.'],
 \   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
@@ -207,6 +209,9 @@ let g:ycm_semantic_triggers =  {
 \   'lua': ['.', ':'],
 \   'erlang': [':'],
 \ }
+let g:ycm_auto_trigger = 1
+noremap <F10> :let g:ycm_auto_trigger=0<CR>
+noremap <F22> :let g:ycm_auto_trigger=1<CR> "Shift+F10
 
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
