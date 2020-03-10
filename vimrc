@@ -6,7 +6,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-"Plugin 'ycm-core/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ericcurtin/CurtineIncSw.vim'
 Plugin 'vim-airline/vim-airline'
@@ -19,7 +18,6 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-commentary'
 Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'thaerkh/vim-workspace.git'
-"Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'jreybert/vimagit.git'
 Plugin 'flazz/vim-colorschemes.git'
