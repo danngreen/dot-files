@@ -1,8 +1,6 @@
 --recurse=yes
 --exclude=.git
---exclude=firmwares
 --exclude=LOCAL
 --exclude=local
+--exclude=build
 --languages=C,C++
---append
-

@@ -6,7 +6,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
+"Plugin 'ycm-core/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ericcurtin/CurtineIncSw.vim'
 Plugin 'vim-airline/vim-airline'
@@ -19,10 +19,12 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-commentary'
 Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'thaerkh/vim-workspace.git'
-Plugin 'jeetsukumaran/vim-buffergator.git'
+"Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'tpope/vim-fugitive.git'
+Plugin 'jreybert/vimagit.git'
 Plugin 'flazz/vim-colorschemes.git'
-Plugin 'skywind3000/vim-preview'
+Plugin 'ajh17/VimCompletesMe.git'
+" Plugin 'ervandew/supertab.git'
 
 call vundle#end()
 set rtp+=/usr/local/opt/fzf
@@ -55,16 +57,13 @@ noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
 "Search all files for selected text
-vnoremap <C-s> :<C-w>Ag <C-r><C-w><CR>
-nnoremap <C-s> yiw:Ag <C-r>"
+vnoremap <F4> :<C-w>Ag <C-r><C-w><CR>
+nnoremap <F4> yiw:Ag <C-r>"
 
 " Buffer Navigation
 " -----------------
-
 " Close the current buffer and move to the previous one
 nmap <leader>w :bp <BAR> bd #<CR>
-
-nmap <leader>T :enew<cr>
 
 "Select a buffer from airline tabline
 "Relies on iTerm2 Preferences>Profiles>Keys>Left/Right Option Key = Esc+
@@ -104,9 +103,16 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
 nnoremap <leader>vv :edit ~/.vimrc<CR>
 
+"Copy/paste
 noremap <M-C> "+y
 noremap <M-X> "+d
-noremap <D-E> "+y
+
+"Completion
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"Building
+nnoremap <leader>b :silent make<CR>:cw<CR>
+
 "Settings
 "--------
 set ts=4
@@ -116,6 +122,9 @@ set number
 set hidden
 set mouse=a
 set splitright
+set formatoptions-=r 	" Don't insert comment leader after hitting <Enter>
+set formatoptions-=o 	" Dont' insert comment leader after hitting o or O
+set formatoptions+=n 	" Format lists
 
 if !&scrolloff
   set scrolloff=3       " Show next 3 lines while scrolling.
