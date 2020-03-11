@@ -95,7 +95,7 @@ noremap <F12> :NERDTreeToggle<CR>
 noremap <M-h> :call CurtineIncSw()<CR>
 
 nnoremap <F11> :TagbarToggle<CR>
-nnoremap <F23> :!ctags -R .<CR> "Shift + F11
+nnoremap <F23> :silent !ctags -R .<CR> "Shift + F11
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
@@ -134,7 +134,8 @@ set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
-
+set magic 				" For regular expressions turn magic on
+set inccommand=nosplit
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -165,7 +166,6 @@ hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
-
 
 " Comments
 autocmd FileType c setlocal commentstring=//%s
@@ -199,26 +199,26 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 " Let clangd fully control code completion
-let g:ycm_clangd_uses_ycmd_caching = 0
-let g:ycm_clangd_binary_path = exepath("clangd")
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-let g:ycm_semantic_triggers =  {
-\   'c': ['->', '.'],
-\   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
-\            're!\[.*\]\s'],
-\   'ocaml': ['.', '#'],
-\   'cpp,cuda,objcpp': ['->', '.', '::'],
-\   'perl': ['->'],
-\   'php': ['->', '::'],
-\   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
-\   'ruby,rust': ['.', '::'],
-\   'lua': ['.', ':'],
-\   'erlang': [':'],
-\ }
-let g:ycm_auto_trigger = 1
-noremap <F10> :let g:ycm_auto_trigger=0<CR>
-noremap <F22> :let g:ycm_auto_trigger=1<CR> "Shift+F10
+" let g:ycm_clangd_uses_ycmd_caching = 0
+" let g:ycm_clangd_binary_path = exepath("clangd")
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+" let g:ycm_semantic_triggers =  {
+" \   'c': ['->', '.'],
+" \   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+" \            're!\[.*\]\s'],
+" \   'ocaml': ['.', '#'],
+" \   'cpp,cuda,objcpp': ['->', '.', '::'],
+" \   'perl': ['->'],
+" \   'php': ['->', '::'],
+" \   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
+" \   'ruby,rust': ['.', '::'],
+" \   'lua': ['.', ':'],
+" \   'erlang': [':'],
+" \ }
+" let g:ycm_auto_trigger = 1
+" noremap <F10> :let g:ycm_auto_trigger=0<CR>
+" noremap <F22> :let g:ycm_auto_trigger=1<CR> "Shift+F10
 
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
@@ -229,9 +229,6 @@ function! SearchMultiLine(bang, ...)
   endif
 endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
-
-" For regular expressions turn magic on
-set magic
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -254,3 +251,5 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+set exrc
+set secure
