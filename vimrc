@@ -2,33 +2,28 @@ set nocompatible
 filetype off
 
 let g:python3_host_prog = '/usr/local/bin/python3'
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ericcurtin/CurtineIncSw.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'majutsushi/tagbar'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'amix/open_file_under_cursor.vim'
-Plugin 'junegunn/fzf.vim'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-commentary'
-Plugin 'ctrlpvim/ctrlp.vim.git'
-Plugin 'thaerkh/vim-workspace.git'
-Plugin 'jeetsukumaran/vim-buffergator.git'
-Plugin 'tpope/vim-fugitive.git'
-Plugin 'flazz/vim-colorschemes.git'
-Plugin 'skywind3000/vim-preview'
-
-call vundle#end()
+call plug#begin('~/.vim/bundle')
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ericcurtin/CurtineIncSw.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'majutsushi/tagbar'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'amix/open_file_under_cursor.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-commentary'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'thaerkh/vim-workspace'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'tpope/vim-fugitive'
+Plug 'flazz/vim-colorschemes'
+Plug 'ajh17/VimCompletesMe'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+call plug#end()
 set rtp+=/usr/local/opt/fzf
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-filetype plugin indent on
 
 "Shortcut Keys
 "-------------
@@ -140,7 +135,7 @@ let g:airline_powerline_fonts = 1
 
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
-let g:workspace_autosave_untrailspaces = 0 
+let g:workspace_autosave_untrailspaces = 0
 
 " Display
 " -------
