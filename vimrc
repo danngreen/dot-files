@@ -86,24 +86,32 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-"Todo: Ctrl-Tilde?
-nnoremap <C-`> <Plug>AirlineSelectNextTab
 
 noremap <F12> :NERDTreeToggle<CR>
 
 "Option-h : toggle .h and .c: FixMe: doesn't always pick closest counterpart 
 noremap <M-h> :call CurtineIncSw()<CR>
 
+"Tags
 nnoremap <F11> :TagbarToggle<CR>
-nnoremap <F23> :!ctags -R .<CR> "Shift + F11
+"<F23> is Shift+<F11>
+nnoremap <F23> :!ctags -R .<CR> 
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
 nnoremap <leader>vv :edit ~/.vimrc<CR>
 
-noremap <M-C> "+y
-noremap <M-X> "+d
-noremap <D-E> "+y
+vnoremap <M-c> "+y
+vnoremap <M-x> "+d
+
+augroup every
+  autocmd!
+  au InsertEnter * set norelativenumber
+  au InsertLeave * set relativenumber
+augroup END
+nnoremap <leader>l :set norelativenumber<CR>
+nnoremap <leader>L :set relativenumber<CR>
+
 "Settings
 "--------
 set ts=4
@@ -151,7 +159,8 @@ hi LineNr guibg=black
 hi Search guibg=DarkYellow
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
-
+set incsearch
+set inccommand=nosplit
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
