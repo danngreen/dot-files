@@ -29,12 +29,13 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 "-------------
 let mapleader = ","
 
-:nnoremap <esc> :noh<CR>
-:imap <esc> jk:noh<CR>a
-:vnoremap <esc> <nop>
-:vnoremap <esc> <esc>
-:inoremap jk <esc>
-:inoremap jj <esc>
+nnoremap <esc> :noh<CR>
+vnoremap <esc> <esc>
+inoremap <esc> <nop>
+inoremap jk <esc>
+inoremap jj <esc>
+noremap Q @@ "Repeat last macro
+noremap s "_d
 
 " Searching
 " ---------
