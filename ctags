@@ -4,5 +4,3 @@
 --exclude=LOCAL
 --exclude=local
 --languages=C,C++
---append
-
