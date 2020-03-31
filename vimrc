@@ -130,7 +130,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
 "clone and install fonts from https://github.com/powerline/fonts
-"then set MacVim font to a font ending in 'for Powerline'
+let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1
 
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
