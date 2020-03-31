@@ -1,9 +1,6 @@
 export ZSH="${HOME}/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="sorin"
-#ZSH_THEME="theunraveler"
-#ZSH_THEME="pygmalion"
-#ZSH_THEME="amuse"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -72,9 +69,8 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+autoload -U zmv
 
-#source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
- 
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
 
