@@ -57,11 +57,8 @@ vnoremap <F4> :<C-u>Ag <C-r><C-w><CR>
 
 " Buffer Navigation
 " -----------------
-
 " Close the current buffer and move to the previous one
 nmap <leader>w :bp <BAR> bd #<CR>
-
-nmap <leader>T :enew<cr>
 
 "Select a buffer from airline tabline
 "Relies on iTerm2 Preferences>Profiles>Keys>Left/Right Option Key = Esc+
@@ -101,16 +98,17 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
 nnoremap <leader>vv :edit ~/.vimrc<CR>
 
+"Copy/paste
 vnoremap <M-c> "+y
 vnoremap <M-x> "+d
-
-augroup every
-  autocmd!
-  au InsertEnter * set norelativenumber
-  au InsertLeave * set relativenumber
-augroup END
 nnoremap <leader>l :set norelativenumber<CR>
 nnoremap <leader>L :set relativenumber<CR>
+
+"Completion
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"Building
+nnoremap <leader>b :silent make<CR>:cw<CR>
 
 "Settings
 "--------
@@ -121,6 +119,9 @@ set number
 set hidden
 set mouse=a
 set splitright
+set formatoptions-=r 	" Don't insert comment leader after hitting <Enter>
+set formatoptions-=o 	" Dont' insert comment leader after hitting o or O
+set formatoptions+=n 	" Format lists
 
 if !&scrolloff
   set scrolloff=3       " Show next 3 lines while scrolling.
@@ -132,7 +133,8 @@ set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
-
+set magic 				" For regular expressions turn magic on
+set inccommand=nosplit
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -166,7 +168,6 @@ set inccommand=nosplit
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
-
 
 " Comments
 autocmd FileType c setlocal commentstring=//%s
@@ -211,9 +212,6 @@ function! SearchMultiLine(bang, ...)
 endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
 
-" For regular expressions turn magic on
-set magic
-
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -235,3 +233,5 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+set exrc
+set secure
