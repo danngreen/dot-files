@@ -139,9 +139,10 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
-"clone and install fonts from https://github.com/powerline/fonts
+let g:airline_section_x='' "Disable displaying current function name (I find it distracting)
 let g:airline_theme = 'dgmolokai'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts, 
+									"then set iTerm or MacVim font to a font ending in 'for Powerline'
 
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
@@ -156,8 +157,9 @@ set guifont=Roboto_Mono_Light_for_Powerline:h13
 hi NonText guibg=black
 hi Normal guibg=black
 hi LineNr guibg=black
-hi Search guibg=DarkYellow
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
+hi Search guibg=white guifg=black
+hi Visual guibg=#803D3D
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 set incsearch
 set inccommand=nosplit
