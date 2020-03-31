@@ -34,25 +34,26 @@ vnoremap <esc> <esc>
 inoremap <esc> <nop>
 inoremap jk <esc>
 inoremap jj <esc>
-noremap Q @@ "Repeat last macro
-noremap s "_d
+"Repeat last macro
+noremap Q @@
 
 " Searching
 " ---------
-" Replace all occurances of word under cursor (ask for conf.)
-:nnoremap <Leader>s *N:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-:vnoremap <Leader>s *N:<C-w>%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-" Replace all occurances of word under cursor (don't ask for conf.)
-:nnoremap <Leader>S *N:%s/\<<C-r><C-w>\>//g<Left><Left>
-:vnoremap <Leader>S *N:<C-w>%s/\<<C-r><C-w>\>//g<Left><Left>
+" Replace all occurances of word under cursor (s = ask for conf., S = don't)
+nnoremap <leader>r *Nyiw:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
+" Replace visual selection (works with any characters, even / and \. 
+" (r = ask for conf. R = don't ask)
+vnoremap <leader>r y:%s/\V<C-R>=escape(@",'/\')<CR>//gc<Left><Left><Left>
+vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 
 "Fuzzy search for a file
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
 "Search all files for selected text
-vnoremap <C-s> :<C-w>Ag <C-r><C-w><CR>
-nnoremap <C-s> yiw:Ag <C-r>"
+nnoremap <F4> :Ag <C-r><C-w><CR>
+vnoremap <F4> :<C-u>Ag <C-r><C-w><CR>
 
 " Buffer Navigation
 " -----------------
