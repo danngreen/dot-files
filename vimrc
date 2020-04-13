@@ -5,6 +5,8 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin('~/.vim/bundle')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+
 Plug 'ericcurtin/CurtineIncSw.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -19,7 +21,11 @@ Plug 'thaerkh/vim-workspace'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'tpope/vim-fugitive'
 Plug 'flazz/vim-colorschemes'
+
 Plug 'ajh17/VimCompletesMe'
+let g:vcm_default_maps = 0
+imap <c-space>   <plug>vim_completes_me_forward
+
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
 set rtp+=/usr/local/opt/fzf
@@ -30,8 +36,7 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 let mapleader = ","
 
 nnoremap <esc> :noh<CR>
-vnoremap <esc> <esc>
-inoremap <esc> <nop>
+" inoremap <esc> <nop>
 inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
@@ -42,7 +47,7 @@ noremap Q @@
 " Replace all occurances of word under cursor (s = ask for conf., S = don't)
 nnoremap <leader>r *Nyiw:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
-" Replace visual selection (works with any characters, even / and \. 
+" Replace visual selection (works with any characters, even / and \
 " (r = ask for conf. R = don't ask)
 vnoremap <leader>r y:%s/\V<C-R>=escape(@",'/\')<CR>//gc<Left><Left><Left>
 vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
@@ -51,9 +56,33 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
+
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+" command! -bang -nargs=* Ag
+"   \ call fzf#vim#ag(<q-args>,
+"   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+"   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+"   \                 <bang>0)
+
+" 	:Ags Case-sensative
+command! -bang -nargs=* Ags
+	\ call fzf#vim#ag_raw('-s '. <q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
+command! -bang -nargs=* AG
+	\	call fzf#vim#ag_raw(<q-args>,
+	\       <bang>0 ? fzf#vim#with_preview('up:60%')
+	\               : fzf#vim#with_preview('right:50%:hidden', '?'),
+	\       <bang>0)
+
 "Search all files for selected text
 nnoremap <F4> :Ag <C-r><C-w><CR>
 vnoremap <F4> :<C-u>Ag <C-r><C-w><CR>
+nnoremap <F16> :Ags <C-r><C-w><CR>
+vnoremap <F16> :<C-u>Ags <C-r><C-w><CR>
 
 " Buffer Navigation
 " -----------------
@@ -92,7 +121,7 @@ noremap <M-h> :call CurtineIncSw()<CR>
 "Tags
 nnoremap <F11> :TagbarToggle<CR>
 "<F23> is Shift+<F11>
-nnoremap <F23> :!ctags -R .<CR> 
+nnoremap <F23> :!ctags -R .<CR>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
@@ -106,6 +135,16 @@ nnoremap <leader>L :set relativenumber<CR>
 
 "Completion
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 "Building
 nnoremap <leader>b :silent make<CR>:cw<CR>
@@ -132,7 +171,7 @@ endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:. 
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 set magic 				" For regular expressions turn magic on
 set inccommand=nosplit
 
@@ -143,8 +182,8 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
 let g:airline_section_x='' "Disable displaying current function name (I find it distracting)
 let g:airline_theme = 'dgmolokai'
-let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts, 
-									"then set iTerm or MacVim font to a font ending in 'for Powerline'
+let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
+" 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
 
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
@@ -161,10 +200,13 @@ hi Normal guibg=black
 hi LineNr guibg=black
 hi Search guibg=white guifg=black
 hi Visual guibg=#803D3D
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
+hi Function guifg=#22EEA6
+hi cCustomFunc guifg=#A6EE22 gui=bold
+
 set incsearch
 set inccommand=nosplit
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
@@ -184,7 +226,7 @@ let g:cpp_posix_standard = 1
 "let g:cpp_experimental_simple_template_highlight = 1
 "Highlight template functions (faster implementation but has some corner cases where it doesn't work.)
 let g:cpp_experimental_template_highlight = 1
-"Highlighting of library concepts 
+"Highlighting of library concepts
 "This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
 "let g:cpp_concepts_highlight = 1
 "Disable highlighting of user defined functions
