@@ -36,7 +36,8 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 "-------------
 let mapleader = ","
 
-nnoremap <esc> :noh<CR>
+"nnoremap <esc> :noh<CR>
+" inoremap <esc> <nop>
 inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
@@ -176,10 +177,11 @@ endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+"set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 set magic 				" For regular expressions turn magic on
-set inccommand=nosplit
-
+if has("nvim")
+	set inccommand=nosplit
+endif
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -198,7 +200,9 @@ let g:workspace_autosave_untrailspaces = 0
 " -------
 syntax on
 colors molokai
-set termguicolors
+if has("nvim")
+	set termguicolors
+endif
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 hi NonText guibg=black
 hi Normal guibg=black
@@ -211,9 +215,9 @@ hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
 
 set incsearch
-set inccommand=nosplit
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
-
+if has("nvim")
+	set inccommand=nosplit
+endif
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
