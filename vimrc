@@ -6,7 +6,6 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 call plug#begin('~/.vim/bundle')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-
 Plug 'ericcurtin/CurtineIncSw.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -41,6 +40,8 @@ inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
 noremap Q @@
+"Sensible Yank whole line with Y, like D
+noremap Y y$
 
 " Searching
 " ---------
@@ -56,6 +57,7 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
+autocmd BufNewFile,BufRead *.lib set syntax=none
 
 "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
@@ -114,6 +116,11 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
 noremap <F12> :NERDTreeToggle<CR>
+noremap <F24> :Vexplore<CR>
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+let g:netrw_altv = 1
+let g:netrw_browse_split = 4
 
 "Option-h : toggle .h and .c: FixMe: doesn't always pick closest counterpart 
 noremap <M-h> :call CurtineIncSw()<CR>
@@ -203,6 +210,7 @@ hi Visual guibg=#803D3D
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 hi Function guifg=#22EEA6
 hi cCustomFunc guifg=#A6EE22 gui=bold
+hi comment guifg=#999999
 
 set incsearch
 set inccommand=nosplit
@@ -242,9 +250,21 @@ let g:ctrlp_custom_ignore = {
 " Use nearest .git directory as cwd
 let g:ctrlp_working_path_mode = 'r'
 
+
+
 set makeprg=bear\ make
 
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
+
+function! <SID>StripTrailingWhitespaces()
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+nnoremap <leader>T :call <SID>StripTrailingWhitespaces()<CR>
 
 function! SearchMultiLine(bang, ...)
   if a:0 > 0
