@@ -15,13 +15,15 @@ Plug 'amix/open_file_under_cursor.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'thaerkh/vim-workspace'
-Plug 'jeetsukumaran/vim-buffergator'
 Plug 'tpope/vim-fugitive'
 Plug 'flazz/vim-colorschemes'
-
+Plug 'bfrg/vim-qf-preview'
 Plug 'ajh17/VimCompletesMe'
+Plug 'dr-kino/cscope-maps'
+
 let g:vcm_default_maps = 0
 imap <c-space>   <plug>vim_completes_me_forward
 
@@ -35,7 +37,6 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 let mapleader = ","
 
 nnoremap <esc> :noh<CR>
-" inoremap <esc> <nop>
 inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
@@ -57,25 +58,18 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
-autocmd BufNewFile,BufRead *.lib set syntax=none
 
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-" command! -bang -nargs=* Ag
-"   \ call fzf#vim#ag(<q-args>,
-"   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-"   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-"   \                 <bang>0)
-
-" 	:Ags Case-sensative
+"   :AG  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :AG! - Start fzf in fullscreen and display the preview window above
+" 	:Ags Case-sensitive
 command! -bang -nargs=* Ags
 	\ call fzf#vim#ag_raw('-s '. <q-args>,
   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
 
-command! -bang -nargs=* AG
-	\	call fzf#vim#ag_raw(<q-args>,
+command! -bang -nargs=* Ag
+	\	call fzf#vim#ag(<q-args>,
 	\       <bang>0 ? fzf#vim#with_preview('up:60%')
 	\               : fzf#vim#with_preview('right:50%:hidden', '?'),
 	\       <bang>0)
@@ -128,7 +122,10 @@ noremap <M-h> :call CurtineIncSw()<CR>
 "Tags
 nnoremap <F11> :TagbarToggle<CR>
 "<F23> is Shift+<F11>
-nnoremap <F23> :!ctags -R .<CR>
+nnoremap <F23> :!ctags -R .<CR>:!rm cscope.* && cscope -bkqR<CR>
+
+nnoremap <F10> :Copen<CR>
+nnoremap <F22> :ccl<CR>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vimrc<CR>
@@ -154,7 +151,8 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 
 "Building
-nnoremap <leader>b :silent make<CR>:cw<CR>
+"nnoremap <leader>b :silent make<CR>:cw<CR>
+nnoremap <leader>m :Make<CR>
 
 "Settings
 "--------
@@ -215,13 +213,11 @@ hi comment guifg=#999999
 set incsearch
 set inccommand=nosplit
 set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+
 "Popup
 hi Pmenu guibg=#333333
 set completeopt=menu
 
-" Comments
-autocmd FileType c setlocal commentstring=//%s
-autocmd FileType cpp setlocal commentstring=//%s
 
 " Syntax
 " ------
@@ -236,7 +232,7 @@ let g:cpp_posix_standard = 1
 let g:cpp_experimental_template_highlight = 1
 "Highlighting of library concepts
 "This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
-"let g:cpp_concepts_highlight = 1
+let g:cpp_concepts_highlight = 1
 "Disable highlighting of user defined functions
 "let g:cpp_no_function_highlight = 1
 
@@ -250,10 +246,31 @@ let g:ctrlp_custom_ignore = {
 " Use nearest .git directory as cwd
 let g:ctrlp_working_path_mode = 'r'
 
+augroup commentary_c_cpp
+	autocmd!
+	autocmd FileType c setlocal commentstring=//%s
+	autocmd FileType cpp setlocal commentstring=//%s
+augroup END
 
+augroup qfAlwaysBottom
+	autocmd!
+	autocmd FileType qf if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif
+augroup END
+
+augroup kicad_lib_filetype
+	autocmd!
+	autocmd BufNewFile,BufRead *.lib set syntax=none
+augroup END
+
+augroup qfpreview
+    autocmd!
+	"autocmd QuickFixCmdPost * copen
+    autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
+augroup END
 
 set makeprg=bear\ make
 
+set wildignore+=tags,tags.*,build/*,tests/*
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
 function! <SID>StripTrailingWhitespaces()
@@ -275,4 +292,5 @@ endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
 
 set exrc
+
 set secure
