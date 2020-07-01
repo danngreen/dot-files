@@ -8,3 +8,5 @@ bindkey -e
 bindkey "\e\e[D" backward-word # alt + <-
 bindkey "\e\e[C" forward-word # alt + ->
 
+bindkey "^[OA" up-line-or-history
+bindkey "^[OB" down-line-or-history

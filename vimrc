@@ -122,7 +122,7 @@ noremap <M-h> :call CurtineIncSw()<CR>
 "Tags
 nnoremap <F11> :TagbarToggle<CR>
 "<F23> is Shift+<F11>
-nnoremap <F23> :!ctags -R .<CR>:!rm cscope.* && cscope -bkqR<CR>
+nnoremap <F23> :!ctags -R .<CR>:!cscope -bkqR<CR>
 
 nnoremap <F10> :Copen<CR>
 nnoremap <F22> :ccl<CR>
@@ -250,6 +250,11 @@ augroup commentary_c_cpp
 	autocmd!
 	autocmd FileType c setlocal commentstring=//%s
 	autocmd FileType cpp setlocal commentstring=//%s
+augroup END
+
+augroup commentary_php
+	autocmd!
+	autocmd FileType php setlocal commentstring=//%s
 augroup END
 
 augroup qfAlwaysBottom
