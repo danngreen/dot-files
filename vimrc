@@ -75,10 +75,12 @@ command! -bang -nargs=* Ag
 	\       <bang>0)
 
 "Search all files for selected text
-nnoremap <F4> :Ag <C-r><C-w><CR>
-vnoremap <F4> :<C-u>Ag <C-r><C-w><CR>
-nnoremap <F16> :Ags <C-r><C-w><CR>
-vnoremap <F16> :<C-u>Ags <C-r><C-w><CR>
+
+nnoremap <F4> :Ag<CR>
+nnoremap <F16> :Ag <C-r><C-w><CR>
+vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
+nnoremap <leader><F4> :Ags <C-r><C-w><CR>
+vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
 
 " Buffer Navigation
 " -----------------
