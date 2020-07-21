@@ -1,6 +1,9 @@
 set nocompatible
 filetype off
 
+"nnoremap <leader>i yiwBaisset($<C-o>P) && <esc>
+"nnoremap <leader><C-i> :'<,'>s/Notice: .*: \(.*\) in.*\n/if (!isset($\1)) $\1 = "";/
+
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin('~/.vim/bundle')
@@ -31,12 +34,16 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
 set rtp+=/usr/local/opt/fzf
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+"CocCommand clangd.symbolInfo
+"CocCommand clangd.switchSourceHeader
 
 "Shortcut Keys
 "-------------
 let mapleader = ","
 
-nnoremap <esc> :noh<CR>
+if has("nvim")
+	nnoremap <esc> :noh<CR>
+endif "Why does this not work in vim8?
 inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
@@ -64,9 +71,9 @@ noremap <leader><F3> :Files<space>
 " 	:Ags Case-sensitive
 command! -bang -nargs=* Ags
 	\ call fzf#vim#ag_raw('-s '. <q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
+	\                 <bang>0 ? fzf#vim#with_preview('up:60%')
+	\                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+	\                 <bang>0)
 
 command! -bang -nargs=* Ag
 	\	call fzf#vim#ag(<q-args>,
@@ -178,9 +185,7 @@ endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 set magic 				" For regular expressions turn magic on
-set inccommand=nosplit
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -200,7 +205,9 @@ let g:workspace_autosave_untrailspaces = 0
 " -------
 syntax on
 colors molokai
-set termguicolors
+if has("nvim")
+	set termguicolors
+endif
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 hi NonText guibg=black
 hi Normal guibg=black
@@ -213,8 +220,10 @@ hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
 
 set incsearch
-set inccommand=nosplit
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+if has("nvim")
+	set inccommand=nosplit
+	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+endif
 
 "Popup
 hi Pmenu guibg=#333333
@@ -275,7 +284,7 @@ augroup qfpreview
     autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 augroup END
 
-set makeprg=bear\ make
+set makeprg=bear\ make\ -j16
 
 set wildignore+=tags,tags.*,build/*,tests/*
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
