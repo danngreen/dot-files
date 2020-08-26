@@ -25,7 +25,7 @@ fp-info-cache
 *.sch-bak
 _autosave*
 
-# ctags, cscope, clangd
+# ctags, cscope, clangd, ccls
 .tags
 .tags_*
 tags
@@ -33,6 +33,7 @@ tags_*
 .clangd/
 compile_commands.json
 cscope.*
+.ccls-cache
 
 #vim
 .undodir/
@@ -41,3 +42,4 @@ Session.vim
 
 #python
 __pycache__
+*.pyc

@@ -1,9 +1,6 @@
 set nocompatible
 filetype off
 
-"nnoremap <leader>i yiwBaisset($<C-o>P) && <esc>
-"nnoremap <leader><C-i> :'<,'>s/Notice: .*: \(.*\) in.*\n/if (!isset($\1)) $\1 = "";/
-
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin('~/.vim/bundle')
@@ -26,9 +23,10 @@ Plug 'flazz/vim-colorschemes'
 Plug 'bfrg/vim-qf-preview'
 Plug 'ajh17/VimCompletesMe'
 Plug 'dr-kino/cscope-maps'
+Plug 'rhysd/vim-clang-format'
+Plug 'dense-analysis/ale'
+Plug 'mhinz/vim-signify'
 
-let g:vcm_default_maps = 0
-imap <c-space>   <plug>vim_completes_me_forward
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
@@ -37,19 +35,30 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 "CocCommand clangd.symbolInfo
 "CocCommand clangd.switchSourceHeader
 
+let g:vcm_default_maps = 0
+imap <c-space>   <plug>vim_completes_me_forward
+
 "Shortcut Keys
 "-------------
 let mapleader = ","
 
-if has("nvim")
-	nnoremap <esc> :noh<CR>
-endif "Why does this not work in vim8?
+nnoremap <space> :noh<CR>
 inoremap jk <esc>
 inoremap jj <esc>
 "Repeat last macro
 noremap Q @@
 "Sensible Yank whole line with Y, like D
 noremap Y y$
+
+" Cursor in Insert mode
+let &t_SI = "\e[5 q"
+let &t_EI = "\e[2 q"
+
+" optional reset cursor on start:
+augroup myCmds
+	au!
+	autocmd VimEnter * silent !echo -ne "\e[2 q"
+augroup END
 
 " Searching
 " ---------
@@ -66,22 +75,21 @@ noremap <F3> :Files<CR>
 noremap <leader><F3> :Files<space>
 
 
-"   :AG  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :AG! - Start fzf in fullscreen and display the preview window above
-" 	:Ags Case-sensitive
+"Search all files for selected text
+"   :Ag  - Start fzf with preview window that can be disabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+" 	:Ags and Ags! - Case-sensitive versions
 command! -bang -nargs=* Ags
 	\ call fzf#vim#ag_raw('-s '. <q-args>,
 	\                 <bang>0 ? fzf#vim#with_preview('up:60%')
-	\                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+	\                         : fzf#vim#with_preview('right:50%', '?'),
 	\                 <bang>0)
 
 command! -bang -nargs=* Ag
 	\	call fzf#vim#ag(<q-args>,
 	\       <bang>0 ? fzf#vim#with_preview('up:60%')
-	\               : fzf#vim#with_preview('right:50%:hidden', '?'),
+	\               : fzf#vim#with_preview('right:50%', '?'),
 	\       <bang>0)
-
-"Search all files for selected text
 
 nnoremap <F4> :Ag<CR>
 nnoremap <F16> :Ag <C-r><C-w><CR>
@@ -128,10 +136,11 @@ let g:netrw_browse_split = 4
 "Option-h : toggle .h and .c: FixMe: doesn't always pick closest counterpart 
 noremap <M-h> :call CurtineIncSw()<CR>
 
+noremap <F9> :set list!<CR>
 "Tags
 nnoremap <F11> :TagbarToggle<CR>
 "<F23> is Shift+<F11>
-nnoremap <F23> :!ctags -R .<CR>:!cscope -bkqR<CR>
+nnoremap <F23> :Dispatch! ctags -R .<CR>:Dispatch! cscope -bkqR<CR>
 
 nnoremap <F10> :Copen<CR>
 nnoremap <F22> :ccl<CR>
@@ -161,7 +170,8 @@ inoremap <silent><expr> <Tab>
 
 "Building
 "nnoremap <leader>b :silent make<CR>:cw<CR>
-nnoremap <leader>m :Make<CR>
+nnoremap <leader>m :wa<CR>:Make<CR>
+nnoremap <leader>M :wa<CR>:Dispatch ccache make -f tests/Makefile<CR>
 
 "Settings
 "--------
@@ -187,6 +197,8 @@ set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set magic 				" For regular expressions turn magic on
 
+" Airline
+" -------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -201,6 +213,12 @@ let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
 let g:workspace_autosave_untrailspaces = 0
 
+" autocmd VimEnter *
+"    \ let g:airline#themes#dgmolokai#palette.tabline = {
+"    \    'airline_tabmod':       ['#f8f8f8','#780000',231,88,''],
+"    \    'airline_tabmod_unsel': ['#dddddd','#463030',231,52,''],
+"    \ } | :AirlineRefresh
+
 " Display
 " -------
 syntax on
@@ -212,7 +230,7 @@ set guifont=Roboto_Mono_Light_for_Powerline:h13
 hi NonText guibg=black
 hi Normal guibg=black
 hi LineNr guibg=black
-hi Search guibg=white guifg=black
+hi Search guibg=#DDAA00 guifg=black
 hi Visual guibg=#803D3D
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 hi Function guifg=#22EEA6
@@ -224,6 +242,7 @@ if has("nvim")
 	set inccommand=nosplit
 	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
+hi Whitespace guifg=grey50 gui=none
 
 "Popup
 hi Pmenu guibg=#333333
@@ -257,6 +276,54 @@ let g:ctrlp_custom_ignore = {
 " Use nearest .git directory as cwd
 let g:ctrlp_working_path_mode = 'r'
 
+" ALE / Clang-tidy
+" ------------
+let g:ale_linters = {'c' : ['clangtidy']}
+let g:ale_linters = {'cpp' : ['clangtidy']}
+let g:ale_c_parse_compile_commands = 1
+let g:ale_c_clangtidy_checks = ['clang-analyzer-*,bugprone-*,performance-*,readability-*']
+let g:ale_cpp_clangtidy_checks = ['clang-analyzer-*,bugprone-*,performance-*,readability-*']
+let g:ale_cpp_gcc_executable = ['arm-none-eabi-gcc']
+"only run manually, no automatic linting
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_filetype_changed = 0
+
+" Clang-format
+" ------------
+let g:clang_format#auto_format = 0
+let g:clang_format#detect_style_file = 1
+let g:clang_format#enable_fallback_style = 1
+let g:clang_format#style_options = {
+			\ "BasedOnStyle" : "LLVM",
+            \ "AccessModifierOffset" : "-4",
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+			\ "AllowShortBlocksOnASingleLine" : "Always",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+			\ "BreakBeforeBraces" : "Stroustrup",
+            \ "Standard" : "c++14",
+			\ "IndentCaseLabels" : "true",
+			\ "IndentPPDirectives" : "BeforeHash",
+			\ "IndentWidth" : 2,
+			\ "ColumnLimit" : 120,
+			\ "BreakConstructorInitializers" : "BeforeComma",
+			\ "BreakInheritanceList" : "BeforeComma",
+			\ "SpaceBeforeInheritanceColon" : "true",
+			\ "SpaceBeforeCtorInitializerColon" : "true",
+			\ "SpaceBeforeAssignmentOperators" : "true",
+			\ "SpaceAfterTemplateKeyword" : "false",
+			\ "SpaceAfterCStyleCast" : "false",
+			\ "SpaceBeforeParens" : "ControlStatements",
+			\ "SpaceBeforeRangeBasedForLoopColon" : "true",
+			\ "SpaceInEmptyParentheses" : "false",
+			\ "SpacesInAngles" : "false",
+			\ "SpacesInCStyleCastParentheses" : "false",
+			\ "UseTab" : "Always",
+			\ "TabWidth" : 2
+			\}
+
 augroup commentary_c_cpp
 	autocmd!
 	autocmd FileType c setlocal commentstring=//%s
@@ -280,12 +347,14 @@ augroup END
 
 augroup qfpreview
     autocmd!
-	"autocmd QuickFixCmdPost * copen
     autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 augroup END
 
-set makeprg=bear\ make\ -j16
+set makeprg=ccache\ bear\ make\ -j16
 
+
+
+set wildmenu
 set wildignore+=tags,tags.*,build/*,tests/*
 let &path.="src,include,tests,inc,../src,../include,../tests,../inc"
 
@@ -308,5 +377,4 @@ endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
 
 set exrc
-
 set secure
