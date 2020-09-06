@@ -70,8 +70,8 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 
 "Fuzzy search for a file
 
-noremap <F3> :Files<CR>
-noremap <leader><F3> :Files<space>
+noremap <F3> :LS .<CR>
+noremap <leader><F3> :LS<space>
 
 "Search all files for selected text
 "   :Ag  - Start fzf with preview window that can be disabled with "?" key
@@ -96,8 +96,8 @@ vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 nnoremap <leader><F4> :Ags <C-r><C-w><CR>
 vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
 
-" command! -bang -complete=dir -nargs=* LS
-"     \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
+command! -bang -complete=dir -nargs=* LS
+    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
 
 " Buffer Navigation
 " -----------------
@@ -438,10 +438,10 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+"command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+"command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
