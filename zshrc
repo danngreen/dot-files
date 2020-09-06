@@ -1,3 +1,5 @@
+ZSH_DISABLE_COMPFIX=true
+
 export ZSH="${HOME}/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="sorin"
@@ -69,8 +71,11 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-autoload -U zmv
+alias startidf='source $IDF_PATH/export.sh'
 
+autoload -U zmv
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
+
+source ~/.iterm2_shell_integration.zsh
 
