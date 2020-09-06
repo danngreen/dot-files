@@ -3,10 +3,10 @@ if [ -d "/usr/local/opt/make/libexec/gnubin" ] ; then
 fi
 
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="$HOME/4ms/esp/xtensa-esp32-elf/bin:$PATH"
+export PATH="$HOME/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin:$PATH"
 export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 
-export IDF_PATH=~/4ms/esp/esp-idf
+export IDF_PATH=~/4ms/esp/esp-idf_4.0.1
 
 export PYTHONPATH=$PYTHONPATH:'.'
 export PYTHONPATH=/usr/local/opt/libxml2/lib/python2.7/site-packages:$PYTHONPATH
