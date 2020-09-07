@@ -1,4 +1,7 @@
 setopt extended_glob
-for dotfile in ./dot-files/^(include|README.md|install|TODO); do
+for dotfile in ./dot-files/^(vim|include|README.md|install|TODO); do
   ln -s "$dotfile" "${HOME}/.${dotfile:t}"
 done
+cd ./dot-files
+stow vim
+ln -s ~/dot-files/vim/coc-settings.json ~/.config/nvim/coc-settings.json

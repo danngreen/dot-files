@@ -1,0 +1,27 @@
+{
+    "languageserver": {
+        "ccls": {
+            "command": "/Users/dann/4ms/ccls/Release/ccls",
+            "filetypes": [
+                "c",
+                "cpp",
+                "cc"
+            ],
+            "rootPatterns": [
+                ".ccls",
+                "compile_commands.json",
+                ".vim/",
+                ".git/"
+            ],
+            "initializationOptions": {
+                "cache": {
+                    "directory": "./.ccls-cache"
+                },
+				"clang": {
+					"excludeArgs": ["-specs=nosys.specs"]
+				}
+            }
+        }
+    }
+
+}

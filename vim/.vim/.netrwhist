@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/arm-none-eabi/include/c++/8.2.1'
+let g:netrw_dirhist_2='/Users/dann/dot-files/vim/bundle/fzf.vim'
+let g:netrw_dirhist_1='/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/arm-none-eabi/include/c++'
+let g:netrw_dirhist_0='/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/arm-none-eabi/include/c++/8.2.1'
+let g:netrw_dirhist_9='/Users/dann/4ms_local/stm32/STS/src'
+let g:netrw_dirhist_8='/Users/dann/4ms_local/stm32/ItsPowerTime/TS_DISCO_F429ZI'
+let g:netrw_dirhist_7='/Users/dann/4ms_local/stm32/dual-opener'
+let g:netrw_dirhist_6='/Users/dann/4ms_local/stm32/SWN'
+let g:netrw_dirhist_5='/Users/dann/4ms_local/stm32'
+let g:netrw_dirhist_4='/Users/dann/4ms_local/stm32/touch-sense'

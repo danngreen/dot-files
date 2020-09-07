@@ -60,7 +60,7 @@ augroup END
 
 " Searching
 " ---------
-" Replace all occurances of word under cursor (s = ask for conf., S = don't)
+" Replace all occurances of word under cursor (r = ask for conf., R = don't)
 nnoremap <leader>r *Nyiw:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
 " Replace visual selection (works with any characters, even / and \
@@ -70,14 +70,12 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 
 "Fuzzy search for a file
 
-noremap <F3> :LS .<CR>
-noremap <leader><F3> :LS<space>
 
 "Search all files for selected text
 "   :Ag  - Start fzf with preview window that can be disabled with "?" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
 " 	:Ags and Ags! - Case-sensitive versions
-"   :Files and Files! - search directory given by argument ,for example, :Files ../otherproject
+"   :LS and LS! - search directory given by argument ,for example, :Files ../otherproject
 command! -bang -nargs=* Ags
 	\ call fzf#vim#ag_raw('-s '. <q-args>,
 	\                 <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -90,14 +88,18 @@ command! -bang -nargs=* Ag
 	\               : fzf#vim#with_preview('right:50%', '?'),
 	\       <bang>0)
 
+"Find files even ones that are ignored by git (exclude .git and .ccls-cache dirs)
+command! -bang -complete=dir -nargs=* LS
+    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
+
 nnoremap <F4> :Ag<CR>
 nnoremap <F16> :Ag <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 nnoremap <leader><F4> :Ags <C-r><C-w><CR>
 vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
 
-command! -bang -complete=dir -nargs=* LS
-    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
+noremap <F3> :LS .<CR>
+noremap <leader><F3> :LS<space>
 
 " Buffer Navigation
 " -----------------
@@ -106,17 +108,17 @@ nmap <leader>w :bp <BAR> bd #<CR>
 
 "Select a buffer from airline tabline
 "Relies on iTerm2 Preferences>Profiles>Keys>Left/Right Option Key = Esc+
-nmap <M-1> <Plug>AirlineSelectTab1
-nmap <M-2> <Plug>AirlineSelectTab2
-nmap <M-3> <Plug>AirlineSelectTab3
-nmap <M-4> <Plug>AirlineSelectTab4
-nmap <M-5> <Plug>AirlineSelectTab5
-nmap <M-6> <Plug>AirlineSelectTab6
-nmap <M-7> <Plug>AirlineSelectTab7
-nmap <M-8> <Plug>AirlineSelectTab8
-nmap <M-9> <Plug>AirlineSelectTab9
-nmap <M-TAB> <Plug>AirlineSelectNextTab
-nmap <S-TAB> <Plug>AirlineSelectPrevTab
+" nmap <M-1> <Plug>AirlineSelectTab1
+" nmap <M-2> <Plug>AirlineSelectTab2
+" nmap <M-3> <Plug>AirlineSelectTab3
+" nmap <M-4> <Plug>AirlineSelectTab4
+" nmap <M-5> <Plug>AirlineSelectTab5
+" nmap <M-6> <Plug>AirlineSelectTab6
+" nmap <M-7> <Plug>AirlineSelectTab7
+" nmap <M-8> <Plug>AirlineSelectTab8
+" nmap <M-9> <Plug>AirlineSelectTab9
+" nmap <M-TAB> <Plug>AirlineSelectNextTab
+" nmap <S-TAB> <Plug>AirlineSelectPrevTab
 "Another way to select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -162,6 +164,8 @@ nnoremap <leader>L :set relativenumber<CR>
 "nnoremap <leader>b :silent make<CR>:cw<CR>
 nnoremap <leader>m :wa<CR>:Make<CR>
 nnoremap <leader>M :wa<CR>:Dispatch ccache make -f tests/Makefile<CR>
+"set makeprg=ccache\ bear\ make\ -j16
+set makeprg=bear\ make\ -j16
 
 "Settings
 "--------
@@ -228,9 +232,6 @@ if has("nvim")
 endif
 hi Whitespace guifg=grey50 gui=none
 
-"Popup
-hi Pmenu guibg=#333333
-set completeopt=menu
 
 
 " Syntax
@@ -334,8 +335,6 @@ augroup END
 "     autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 " augroup END
 
-"set makeprg=ccache\ bear\ make\ -j16
-set makeprg=bear\ make\ -j16
 
 set wildmenu
 set wildignore+=tags,tags.*,build/*,tests/*
@@ -363,11 +362,13 @@ set cmdheight=2
 set updatetime=300
 set signcolumn=yes
 
-"Coc
-"
 ""Completion
+"Popup
+hi Pmenu guibg=#333333
+set completeopt=menu
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+"Coc
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -448,19 +449,19 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
