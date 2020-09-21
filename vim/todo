@@ -1,0 +1,16 @@
+Quickfix window pops up on gr (vim.lsp.buf.references()). Would be nice to auto move cursor to it,
+And after you press enter on a line, it jumps the cursor to the new window, so you have to manually jump back.
+Would be nice for the cursor to stay there. Preview window? Or something like FZF's preview would be great.
+-->telescope works better!
+^^ same thing needed for errors/diagnostics
+
+"Fuzzy" completion, let us type more letters and the list narrows down
+
+Completion inserting a full function inserts the parameters as if it were a snippet, but we're not using snippets so we have to manually delete the params
+
+lsp seems to be most stable with compdb generating compile_commands.json (includes the headers), but still needs to be restarted frequently
+--Try a minimal config and see if it works
+--Might be ccls, try cquery or clangd or ..?
+--try to find a log that shows a crash. ccls log? lsp.log? 
+
+
