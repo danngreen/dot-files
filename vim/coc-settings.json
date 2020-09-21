@@ -13,13 +13,15 @@
                 ".vim/",
                 ".git/"
             ],
+		    "trace.server": "verbose",
             "initializationOptions": {
                 "cache": {
                     "directory": "./.ccls-cache"
                 },
 				"clang": {
 					"excludeArgs": ["-specs=nosys.specs"]
-				}
+				},
+				"highlight": { "lsRanges" : true }
             }
         }
     }
