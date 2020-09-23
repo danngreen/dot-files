@@ -18,23 +18,27 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/vim-clang-format'
-"
-"Plug 'flazz/vim-colorschemes'
+
 "Plug 'ajh17/VimCompletesMe'
 "Plug 'dr-kino/cscope-maps'
 "Plug 'dense-analysis/ale'
 "Plug 'mhinz/vim-signify'
 
-" Plug 'neovim/nvim-lspconfig'
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
+
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
-" Plug 'nvim-lua/diagnostic-nvim'
-" Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
+Plug 'nvim-lua/completion-nvim'
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'nvim-treesitter/nvim-treesitter'
-"Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+" Plug 'nvim-treesitter/nvim-treesitter'
+
+Plug 'flazz/vim-colorschemes'
+" Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 call plug#end()
@@ -157,6 +161,9 @@ nnoremap <F22> :ccl<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
+nnoremap <leader>nv :edit ~/.config/nvim/init.vim<CR>
+nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
+nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_config.lua<CR>
 
 "Copy/paste
 vnoremap <M-c> "+y
@@ -170,10 +177,8 @@ nnoremap <leader>m :wa<CR>:Make<CR>
 nnoremap <leader>t :wa<CR>:Dispatch ccache make -f tests/Makefile<CR>
 nnoremap <leader>MM :wa<CR>:Dispatch make clean && bear make -j16 && compdb -p ./ list > tmpcc && rm compile_commands.json && mv tmpcc compile_commands.json<CR>
 
-source ~/dot-files/vim/coc-keys.vim
-"source ~/dot-files/vim/nvim-lsp-setup.vim
-"set makeprg=ccache\ bear\ make\ -j16
-
+" source ~/dot-files/vim/coc-keys.vim
+source ~/dot-files/vim/nvim-lsp-setup.vim
 
 "Settings
 "--------
@@ -232,10 +237,11 @@ hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 hi Function guifg=#22EEA6
 hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
-hi LspDiagnosticsError guifg=red
-hi LspDiagnosticsWarning guifg=orange
-hi LspDiagnosticsInformation guifg=yellow
-hi LspDiagnosticsHint guifg=green
+
+hi LspDiagnosticsError guifg=red gui=bold,italic,underline
+hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
+hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
+hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
 
 set incsearch
 if has("nvim")
@@ -334,9 +340,10 @@ augroup END
 
 
 set wildmenu
-set wildignore+=tags,tags.*,build/*,tests/*
-"let &path.="src,include,tests,inc,src/drivers,src/util,src/processors"
-let &path.=".,,**"
+set wildignore+=tags,tags.*,build/*
+" let &path.="src,include,tests,inc,src/drivers,src/util,src/processors"
+" let &path.=".,,**"
+setlocal path=.,**
 
 function! <SID>StripTrailingWhitespaces()
     let _s=@/

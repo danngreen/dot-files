@@ -1,63 +1,13 @@
-lua <<EOF
-local nvim_lsp = require'nvim_lsp'
-local buf_set_keymap = vim.api.nvim_buf_set_keymap
-
-local on_attach_vim = function(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap(bufnr, 'n', 'K', 		'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<C-k>', 	'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', ',rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', ',e', 		'<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gr', 		'<cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', ',gr', 	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gd', 		'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gD', 		'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '1gd', 	'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gW', 		'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols{}<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'g0', 		'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gI', 		'<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  require'completion'.on_attach(client)
-  -- require'diagnostic'.on_attach(client)
-end
-
-nvim_lsp.ccls.setup{
-    cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
-    filetypes = { "c", "cpp", "objc", "objcpp" },
-    root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-	init_options = {
-		highlight = {lsRanges = true}
-	},
-	on_attach = on_attach_vim
-}
-EOF
-" --Show all diagnostics in quickfix?
-"https://github.com/neovim/nvim-lspconfig/issues/69
-" do
-"   local method = "textDocument/publishDiagnostics"
-"   local default_callback = vim.lsp.callbacks[method]
-"   vim.lsp.callbacks[method] = function(err, method, result, client_id)
-"     default_callback(err, method, result, client_id)
-"     if result and result.diagnostics then
-"       for _, v in ipairs(result.diagnostics) do
-"         v.bufnr = client_id
-"         v.lnum = v.range.start.line + 1
-"         v.col = v.range.start.character + 1
-"         v.text = v.message
-"       end
-"       vim.lsp.util.set_qflist(result.diagnostics)
-"     end
-"   end
-" end
+lua require("lsp_config")
 
 "diagnostic
-let g:space_before_virtual_text = 10 
-" let g:diagnostic_trimmed_virtual_text = '20'
-" let g:diagnostic_virtual_text_prefix = ' '
-" let g:diagnostic_enable_virtual_text = 1
+let g:space_before_virtual_text = 5 
+let g:diagnostic_trimmed_virtual_text = '40'
+" let g:diagnostic_virtual_text_prefix = '<'
+let g:diagnostic_enable_virtual_text = 1
 " let g:diagnostic_show_sign = 1
-" let g:diagnostic_enable_underline = 1
-" let g:diagnostic_auto_popup_while_jump = 1
+let g:diagnostic_enable_underline = 1
+ let g:diagnostic_auto_popup_while_jump = 1
 let g:diagnostic_insert_delay = 0 "If you don't want to show diagnostics while in insert mode, set the following
 
 "completion
