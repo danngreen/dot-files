@@ -2,7 +2,7 @@ lua require("lsp_config")
 
 "diagnostic
 let g:space_before_virtual_text = 5 
-let g:diagnostic_trimmed_virtual_text = '40'
+" let g:diagnostic_trimmed_virtual_text = '120'
 " let g:diagnostic_virtual_text_prefix = '<'
 let g:diagnostic_enable_virtual_text = 1
 " let g:diagnostic_show_sign = 1
