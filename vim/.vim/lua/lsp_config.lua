@@ -13,59 +13,68 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', ',gr',		'<cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gr',  	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gd', 		'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  -- buf_set_keymap(bufnr, 'n', 'gD', 		'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd
-  buf_set_keymap(bufnr, 'n', 'gD', 	'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', 'gD', 	'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd
+  buf_set_keymap(bufnr, 'n', 'gD', 	 	'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap(bufnr, 'n', ',gW',		'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gW',  	'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'g0', 		'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  -- buf_set_keymap(bufnr, 'n', 'gI', 		'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
-  buf_set_keymap(bufnr, 'n', ',ff',		'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', 'gI', 	'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
+  buf_set_keymap(bufnr, 'n', '<leader>ff', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+
+  buf_set_keymap(bufnr, 'n', '<M-h>',	'<cmd>ClangdSwitchSourceHeader<CR>', opts)
+  buf_set_keymap(bufnr, 'n', '<leader>h','<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
+	
   require'completion'.on_attach(client)
   require'diagnostic'.on_attach(client)
 end
-
--- nvim_lsp.ccls.setup{
---     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
---     filetypes = { "c", "cpp", "objc", "objcpp" },
---     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
--- 	init_options = {
--- 		highlight = {lsRanges = true}
--- 	},
--- 	on_attach = on_attach_vim
--- }
 
 -- local configs = require 'nvim_lsp/configs'
 local util = require 'nvim_lsp/util'
 
 -- https://clangd.llvm.org/extensions.html#switch-between-sourceheader
-local function switch_source_header(bufnr)
+
+local root_pattern = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")
+
+local function switch_source_header_splitcmd(bufnr, splitcmd)
   bufnr = util.validate_bufnr(bufnr)
   local params = { uri = vim.uri_from_bufnr(bufnr) }
   vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
     if err then error(tostring(err)) end
     if not result then print ("Corresponding file can’t be determined") return end
-    vim.api.nvim_command('edit '..vim.uri_to_fname(result))
+    vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
   end)
 end
-
-local root_pattern = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")
+nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
 nvim_lsp.clangd.setup {
   cmd = {"/usr/local/opt/llvm/bin/clangd", "--background-index", "--log=verbose", "--cross-file-rename", "--suggest-missing-includes", "--all-scopes-completion"},
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-  on_attach = on_attach_vim
-}
-  -- commands = {
-	-- ClangdSwitchSourceHeader = {
-	  -- function()
-		-- switch_source_header(0)
-	  -- end;
-	  -- description = "Switch between source/header";
-	-- };
-  -- };
+  on_attach = on_attach_vim,
 
--- nvim_lsp.clangd.switch_source_header = switch_source_header
+  commands = {
+	ClangdSwitchSourceHeader = {
+	  function()
+		switch_source_header_splitcmd(0, "edit")
+	  end;
+	  description = "Open source/header in a new vsplit";
+	},
+	ClangdSwitchSourceHeaderVSplit = {
+	  function()
+		switch_source_header_splitcmd(0, "vsplit")
+	  end;
+	  description = "Open source/header in a new vsplit";
+	},
+	ClangdSwitchSourceHeaderSplit = {
+	  function()
+		switch_source_header_splitcmd(0, "split")
+	  end;
+	  description = "Open source/header in a new split";
+	};
+  }
+};
+
+
   -- root_dir = function(fname)
   --   local filename = util.path.is_absolute(fname) and fname
   --     or util.path.join(vim.loop.cwd(), fname)
@@ -82,22 +91,13 @@ vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.docu
 -- vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 
+-- nvim_lsp.ccls.setup{
+--     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
+--     filetypes = { "c", "cpp", "objc", "objcpp" },
+--     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+-- 	init_options = {
+-- 		highlight = {lsRanges = true}
+-- 	},
+-- 	on_attach = on_attach_vim
+-- }
 
---Show all diagnostics in quickfix?
--- https://github.com/neovim/nvim-lspconfig/issues/69
- -- do
- --   local method = "textDocument/publishDiagnostics"
- --   local default_callback = vim.lsp.callbacks[method]
- --   vim.lsp.callbacks[method] = function(err, method, result, client_id)
- --     default_callback(err, method, result, client_id)
- --     if result and result.diagnostics then
- --       for _, v in ipairs(result.diagnostics) do
- --         v.bufnr = client_id
- --         v.lnum = v.range.start.line + 1
- --         v.col = v.range.start.character + 1
- --         v.text = v.message
- --       end
- --       vim.lsp.util.set_qflist(result.diagnostics)
- --     end
- --   end
- -- end
