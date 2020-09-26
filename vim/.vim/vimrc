@@ -105,7 +105,7 @@ command! -bang -nargs=* Ag
 
 "Find files even ones that are ignored by git (exclude .git and .ccls-cache dirs)
 command! -bang -complete=dir -nargs=* LS
-    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
+    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude *.o --exclude *.d', 'dir': <q-args>}, <bang>0))
 
 nnoremap <F4> :Ag<CR>
 nnoremap <F16> :Ag <C-r><C-w><CR>
@@ -161,7 +161,7 @@ nnoremap <F22> :ccl<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
-nnoremap <leader>nv :edit ~/.config/nvim/init.vim<CR>
+nnoremap <leader>vn :edit ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
 nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_config.lua<CR>
 

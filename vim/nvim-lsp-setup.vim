@@ -7,18 +7,21 @@ let g:space_before_virtual_text = 5
 let g:diagnostic_enable_virtual_text = 1
 " let g:diagnostic_show_sign = 1
 let g:diagnostic_enable_underline = 1
- let g:diagnostic_auto_popup_while_jump = 1
-let g:diagnostic_insert_delay = 0 "If you don't want to show diagnostics while in insert mode, set the following
+let g:diagnostic_auto_popup_while_jump = 1
+let g:diagnostic_insert_delay = 1 
 
 "completion
-let g:completion_enable_auto_popup = 0
-"let g:completion_enable_auto_hover = 0
-let g:completion_enable_auto_signature = 0
+let g:completion_enable_auto_popup = 1
+let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_signature = 1
 " possible value: "length", "alphabet", "none"
-let g:completion_sorting = "length"
+let g:completion_sorting = "none"
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 let g:completion_matching_ignore_case = 1
 let g:completion_trigger_character = ['.', '::']
+let g:completion_trigger_keyword_length = 3
+
+let g:completion_auto_change_source = 1
 "let g:completion_timer_cycle = 200 "default value is 80
 
 "Doesn't work:

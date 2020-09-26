@@ -1,10 +1,10 @@
 local nvim_lsp = require'nvim_lsp'
+local util = require 'nvim_lsp/util'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
 -- Attach: set keys, set omnifunc, attach to lsp plugins
 local on_attach_vim = function(client, bufnr)
   print("LSP started");
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local opts = { noremap=true, silent=true }
   buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -22,15 +22,18 @@ local on_attach_vim = function(client, bufnr)
 
   buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
-	
-  -- buf_set_keymap(bufnr, 'n', 'gD', 	'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd
-  -- buf_set_keymap(bufnr, 'n', 'gI', 	'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
+
+  buf_set_keymap(bufnr, 'n', 'gF', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd
+  buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
+
   require'completion'.on_attach(client)
   require'diagnostic'.on_attach(client)
+
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
---local util = require 'nvim_lsp/util'
--- local root_pattern = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")
+
+-- Clang
 
 local function switch_source_header_splitcmd(bufnr, splitcmd)
   bufnr = util.validate_bufnr(bufnr)
@@ -88,6 +91,7 @@ vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.im
 vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
+-- ccls
 
 -- nvim_lsp.ccls.setup{
 --     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
@@ -98,4 +102,8 @@ vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handl
 -- 	},
 -- 	on_attach = on_attach_vim
 -- }
+
+-- lua
+
+nvim_lsp.sumneko_lua.setup{}
 
