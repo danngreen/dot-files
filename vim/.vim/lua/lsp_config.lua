@@ -1,6 +1,11 @@
 local nvim_lsp = require'nvim_lsp'
-local util = require 'nvim_lsp/util'
+local util = require'nvim_lsp/util'
+local lsp_status = require'lsp-status'
+-- local config = require'nvim_lsp/config'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
+
+lsp_status.register_progress()
+-- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
 -- Attach: set keys, set omnifunc, attach to lsp plugins
 local on_attach_vim = function(client, bufnr)
@@ -28,6 +33,7 @@ local on_attach_vim = function(client, bufnr)
 
   require'completion'.on_attach(client)
   require'diagnostic'.on_attach(client)
+  require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
@@ -59,7 +65,9 @@ nvim_lsp.clangd.setup {
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
   on_attach = on_attach_vim,
-
+  callbacks = lsp_status.extensions.clangd.setup(),
+  capabilities = lsp_status.capabilities,
+  init_options = {clangdFileStatus = true},
   commands = {
 	ClangdSwitchSourceHeader = {
 	  function()
@@ -105,5 +113,8 @@ vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handl
 
 -- lua
 
-nvim_lsp.sumneko_lua.setup{}
+nvim_lsp.sumneko_lua.setup = {
+  callbacks = lsp_status.extensions.clangd.setup(),
+  capabilities = lsp_status.capabilities,
+}
 

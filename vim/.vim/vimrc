@@ -33,6 +33,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'nvim-treesitter/nvim-treesitter'
@@ -189,9 +190,6 @@ set number
 set hidden
 set mouse=a
 set splitright
-set formatoptions-=r 	" Don't insert comment leader after hitting <Enter>
-set formatoptions-=o 	" Dont' insert comment leader after hitting o or O
-set formatoptions+=n 	" Format lists
 
 " if !&scrolloff
 "   set scrolloff=1       " Show next 3 lines while scrolling.
@@ -211,7 +209,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
-let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
+"let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
+let g:airline_section_x='%{LspStatus()}'
 let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
 " 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
@@ -366,6 +365,10 @@ command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|
 set cmdheight=1
 set updatetime=300
 set signcolumn=yes
+
+set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in insert mode
+set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
+set formatoptions+=n 	" Format lists
 
 ""Completion
 "Popup
