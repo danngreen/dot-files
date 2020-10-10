@@ -65,15 +65,15 @@ noremap Q @@
 "Sensible Yank whole line with Y, like D
 noremap Y y$
 
-" Cursor in Insert mode
-let &t_SI = "\e[5 q"
-let &t_EI = "\e[2 q"
-
-" draw cursor on start:
-augroup cursorDraw
-	au!
-	autocmd VimEnter * silent !echo -ne "\e[2 q"
-augroup END
+" Vim Cursor in Insert mode
+if (!has("nvim"))
+	let &t_SI = "\e[3 q"
+	let &t_EI = "\e[1 q"
+	augroup cursorDraw
+		au!
+		autocmd VimEnter * silent !echo -ne "\e[1 q"
+	augroup END
+end
 
 "set cul
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50
@@ -111,14 +111,14 @@ command! -bang -nargs=* Ag
 command! -bang -complete=dir -nargs=* LS
     \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude *.o --exclude *.d', 'dir': <q-args>}, <bang>0))
 
+noremap <F3> :LS .<CR>
+noremap <leader><F3> :LS<space>
+
 nnoremap <F4> :Ag<CR>
 nnoremap <F16> :Ag <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 "nnoremap <leader><F4> :Ags <C-r><C-w><CR>
 "vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
-
-noremap <F3> :LS .<CR>
-noremap <leader><F3> :LS<space>
 
 nnoremap <leader>p <cmd>lua require'telescope.builtin'.git_files{}<CR>
 nnoremap <leader>P <cmd>lua require'telescope.builtin'.find_files{}<CR>
