@@ -178,7 +178,7 @@ vnoremap <M-x> "+d
 "Building
 "nnoremap <leader>b :silent make<CR>:cw<CR>
 nnoremap <leader>m :wa<CR>:Make<CR>
-nnoremap <leader>t :wa<CR>:Dispatch ccache make -f tests/Makefile<CR>
+nnoremap <leader>t :wa<CR>:Dispatch make -f tests/Makefile<CR>
 nnoremap <leader>MM :wa<CR>:Dispatch make clean && bear make -j16 && compdb -p ./ list > tmpcc && rm compile_commands.json && mv tmpcc compile_commands.json<CR>
 
 " source ~/dot-files/vim/coc-keys.vim
