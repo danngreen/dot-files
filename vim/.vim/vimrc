@@ -75,6 +75,9 @@ augroup cursorDraw
 	autocmd VimEnter * silent !echo -ne "\e[2 q"
 augroup END
 
+"set cul
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50
+
 " Searching
 " ---------
 " Replace all occurances of word under cursor (r = ask for conf., R = don't)
