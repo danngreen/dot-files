@@ -240,10 +240,12 @@ hi Function guifg=#22EEA6
 hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
 
+
 hi LspDiagnosticsError guifg=red gui=bold,italic,underline
 hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
 hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
 hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
+hi LspReferenceText guibg=#332222 
 
 set incsearch
 if has("nvim")
