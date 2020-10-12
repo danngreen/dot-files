@@ -1,16 +1,18 @@
 lua require("lsp_config")
 
-"diagnostic
+" Diagnostics
+"""""""""""""
 let g:space_before_virtual_text = 5 
 " let g:diagnostic_trimmed_virtual_text = '120'
 " let g:diagnostic_virtual_text_prefix = '<'
 let g:diagnostic_enable_virtual_text = 1
-" let g:diagnostic_show_sign = 1
+let g:diagnostic_show_sign = 1
 let g:diagnostic_enable_underline = 1
 let g:diagnostic_auto_popup_while_jump = 1
-let g:diagnostic_insert_delay = 1 
+let g:diagnostic_insert_delay = 800
 
-"completion
+" Completion
+""""""""""""
 let g:completion_enable_auto_popup = 1
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_signature = 1
@@ -18,33 +20,46 @@ let g:completion_enable_auto_signature = 1
 let g:completion_sorting = "none"
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 let g:completion_matching_ignore_case = 1
-let g:completion_trigger_character = ['.', '::']
+" let g:completion_trigger_character = ['.', '::']
 let g:completion_trigger_keyword_length = 3
-
+let g:completion_trigger_on_delete = 0
 let g:completion_auto_change_source = 1
-"let g:completion_timer_cycle = 200 "default value is 80
+let g:completion_timer_cycle = 100 "default value is 80
 
-"Doesn't work:
-lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+" complettion sources and chaining
+let g:completion_chain_complete_list = [
+    \{'complete_items': ['lsp', 'file']},
+    \{'mode': '<c-n>'},
+    \{'mode': '<c-p>'}
+\]
+imap <c-j> <Plug>(completion_next_source)
+imap <c-k> <Plug>(completion_prev_source)
 
-" augroup nvim_lsp_c
-" 	autocmd!
-" 	autocmd Filetype cpp setlocal omnifunc=v:lua.vim.lsp.omnifunc
-" 	autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
-" augroup END
-
-"Force stop
-nnoremap <leader>lss :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>:w<CR>:e<CR>
-"Show debug info
-nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))
-"Show log
-nnoremap <leader>lsL :new ~/.local/share/nvim/lsp.log<CR>
+ " let g:completion_chain_complete_list = {
+ "    \ 'lua': [
+ "    \    'string': [
+ "    \        {'mode': '<c-p>'},
+ "    \        {'mode': '<c-n>'}],
+ "    \    'func' : [
+ "    \        {'complete_items': ['lsp']}],
+ "    \    'default': [
+ "    \       {'complete_items': ['lsp', 'snippet']},
+ "    \       {'mode': '<c-p>'},
+ "    \       {'mode': '<c-n>'}],
+ "    \],
+ "    \ 'default' : {
+ "    \   'default': [
+ "    \       {'complete_items': ['lsp', 'snippet']},
+ "    \       {'mode': '<c-p>'},
+ "    \       {'mode': '<c-n>'}],
+ "    \   'comment': []
+ "    \   }
+ "    \}
+noremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use <Tab> to trigger completion
 function! s:check_back_space() abort
@@ -57,18 +72,48 @@ inoremap <silent><expr> <TAB>
   \ <SID>check_back_space() ? "\<TAB>" :
   \ completion#trigger_completion()
 
-" Set completeopt to have a better completion experience
+
+" imap <expr> <tab> completion#trigger_completion()
+
+" nmap <tab> <Plug>(completion_smart_tab)
+" nmap <s-tab> <Plug>(completion_smart_s_tab)
+
 set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
+" Reference highlighting
+""""""""""""""""""""""""
+lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+
+" Display
+"""""""""
+hi LspDiagnosticsError guifg=red gui=bold,italic,underline
+hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
+hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
+hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
+hi LspReferenceText guibg=#332222 
+
 " Statusline
+""""""""""""
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
     return luaeval("require('lsp-status').status()")
   endif
-
   return ''
 endfunction
+
+" Debugging/info macros
+"""""""""""""""""""""""
+"Force stop
+nnoremap <leader>lss :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
+"Show debug info
+nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
+"Show log
+nnoremap <leader>lsL :new ~/.local/share/nvim/lsp.log<CR>
+" Show completion characters
+nnoremap <leader>lsC :lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))
 

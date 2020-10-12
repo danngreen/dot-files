@@ -45,13 +45,14 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 call plug#end()
 set rtp^=~/.vim/bundle/ctrlp.vim
 set rtp+=/usr/local/opt/fzf
+
+" Basics
 set exrc
 set secure
-
 set makeprg=make\ -j16
 
-" let g:vcm_default_maps = 0
-"imap <c-space>   <plug>vim_completes_me_forward
+syntax on
+colors molokai
 
 "Shortcut Keys
 "-------------
@@ -139,7 +140,7 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <Tab> <Plug>AirlineSelectNextTab
+nmap <M-Tab> <Plug>AirlineSelectNextTab
 nmap <S-Tab> <Plug>AirlineSelectPrevTab
 
 noremap <F12> :NERDTreeToggle<CR>
@@ -224,8 +225,6 @@ let g:workspace_autosave_untrailspaces = 0
 
 " Display
 " -------
-syntax on
-colors molokai
 if has("nvim")
 	set termguicolors
 endif
@@ -239,21 +238,15 @@ hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 hi Function guifg=#22EEA6
 hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
+hi Whitespace guifg=grey50 gui=none
 
-
-hi LspDiagnosticsError guifg=red gui=bold,italic,underline
-hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
-hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
-hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
-hi LspReferenceText guibg=#332222 
+hi Pmenu guibg=#333333
 
 set incsearch
 if has("nvim")
 	set inccommand=nosplit
 	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
-hi Whitespace guifg=grey50 gui=none
-
 
 
 " Syntax
@@ -377,5 +370,4 @@ set formatoptions+=n 	" Format lists
 
 ""Completion
 "Popup
-hi Pmenu guibg=#333333
 
