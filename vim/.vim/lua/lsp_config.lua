@@ -54,13 +54,18 @@ nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
 nvim_lsp.clangd.setup {
   cmd = {
-	  "/usr/local/opt/llvm/bin/clangd",
+	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
       "--background-index",
       "--log=verbose",
+	  -- "--clang-tidy",
       "--cross-file-rename",
       "--suggest-missing-includes",
-      "--all-scopes-completion",
-	  "--completion-style=bundled"
+      --"--all-scopes-completion",
+	  "--completion-style=bundled",
+	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
+	  "--pch-storage=disk",
+	  "--enable-config"
   },
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
@@ -114,7 +119,6 @@ vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handl
 -- lua
 
 nvim_lsp.sumneko_lua.setup = {
-  callbacks = lsp_status.extensions.clangd.setup(),
   capabilities = lsp_status.capabilities,
 }
 
