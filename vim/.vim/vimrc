@@ -33,6 +33,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'nvim-treesitter/nvim-treesitter'
@@ -44,13 +45,14 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 call plug#end()
 set rtp^=~/.vim/bundle/ctrlp.vim
 set rtp+=/usr/local/opt/fzf
+
+" Basics
 set exrc
 set secure
-
 set makeprg=make\ -j16
 
-" let g:vcm_default_maps = 0
-"imap <c-space>   <plug>vim_completes_me_forward
+syntax on
+colors molokai
 
 "Shortcut Keys
 "-------------
@@ -64,15 +66,18 @@ noremap Q @@
 "Sensible Yank whole line with Y, like D
 noremap Y y$
 
-" Cursor in Insert mode
-let &t_SI = "\e[5 q"
-let &t_EI = "\e[2 q"
+" Vim Cursor in Insert mode
+if (!has("nvim"))
+	let &t_SI = "\e[3 q"
+	let &t_EI = "\e[1 q"
+	augroup cursorDraw
+		au!
+		autocmd VimEnter * silent !echo -ne "\e[1 q"
+	augroup END
+end
 
-" draw cursor on start:
-augroup cursorDraw
-	au!
-	autocmd VimEnter * silent !echo -ne "\e[2 q"
-augroup END
+"set cul
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50
 
 " Searching
 " ---------
@@ -105,16 +110,16 @@ command! -bang -nargs=* Ag
 
 "Find files even ones that are ignored by git (exclude .git and .ccls-cache dirs)
 command! -bang -complete=dir -nargs=* LS
-    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache', 'dir': <q-args>}, <bang>0))
+    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude *.o --exclude *.d', 'dir': <q-args>}, <bang>0))
+
+noremap <F3> :LS .<CR>
+noremap <leader><F3> :LS<space>
 
 nnoremap <F4> :Ag<CR>
 nnoremap <F16> :Ag <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 "nnoremap <leader><F4> :Ags <C-r><C-w><CR>
 "vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
-
-noremap <F3> :LS .<CR>
-noremap <leader><F3> :LS<space>
 
 nnoremap <leader>p <cmd>lua require'telescope.builtin'.git_files{}<CR>
 nnoremap <leader>P <cmd>lua require'telescope.builtin'.find_files{}<CR>
@@ -135,7 +140,7 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <Tab> <Plug>AirlineSelectNextTab
+nmap <M-Tab> <Plug>AirlineSelectNextTab
 nmap <S-Tab> <Plug>AirlineSelectPrevTab
 
 noremap <F12> :NERDTreeToggle<CR>
@@ -161,7 +166,7 @@ nnoremap <F22> :ccl<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
-nnoremap <leader>nv :edit ~/.config/nvim/init.vim<CR>
+nnoremap <leader>vn :edit ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
 nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_config.lua<CR>
 
@@ -174,7 +179,7 @@ vnoremap <M-x> "+d
 "Building
 "nnoremap <leader>b :silent make<CR>:cw<CR>
 nnoremap <leader>m :wa<CR>:Make<CR>
-nnoremap <leader>t :wa<CR>:Dispatch ccache make -f tests/Makefile<CR>
+nnoremap <leader>t :wa<CR>:Dispatch make -f tests/Makefile<CR>
 nnoremap <leader>MM :wa<CR>:Dispatch make clean && bear make -j16 && compdb -p ./ list > tmpcc && rm compile_commands.json && mv tmpcc compile_commands.json<CR>
 
 " source ~/dot-files/vim/coc-keys.vim
@@ -189,9 +194,6 @@ set number
 set hidden
 set mouse=a
 set splitright
-set formatoptions-=r 	" Don't insert comment leader after hitting <Enter>
-set formatoptions-=o 	" Dont' insert comment leader after hitting o or O
-set formatoptions+=n 	" Format lists
 
 " if !&scrolloff
 "   set scrolloff=1       " Show next 3 lines while scrolling.
@@ -211,7 +213,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
-let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
+"let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
+let g:airline_section_x='%{LspStatus()}'
 let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
 " 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
@@ -222,8 +225,6 @@ let g:workspace_autosave_untrailspaces = 0
 
 " Display
 " -------
-syntax on
-colors molokai
 if has("nvim")
 	set termguicolors
 endif
@@ -237,19 +238,15 @@ hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 hi Function guifg=#22EEA6
 hi cCustomFunc guifg=#A6EE22 gui=bold
 hi comment guifg=#999999
+hi Whitespace guifg=grey50 gui=none
 
-hi LspDiagnosticsError guifg=red gui=bold,italic,underline
-hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
-hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
-hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
+hi Pmenu guibg=#333333
 
 set incsearch
 if has("nvim")
 	set inccommand=nosplit
 	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
-hi Whitespace guifg=grey50 gui=none
-
 
 
 " Syntax
@@ -367,7 +364,10 @@ set cmdheight=1
 set updatetime=300
 set signcolumn=yes
 
+set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in insert mode
+set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
+set formatoptions+=n 	" Format lists
+
 ""Completion
 "Popup
-hi Pmenu guibg=#333333
 
