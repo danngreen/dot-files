@@ -8,12 +8,15 @@ let g:space_before_virtual_text = 5
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_show_sign = 1
 let g:diagnostic_enable_underline = 1
-let g:diagnostic_auto_popup_while_jump = 1
+let g:diagnostic_auto_popup_while_jump = 0
 let g:diagnostic_insert_delay = 800
+
+nnoremap <leader>f[ :PrevDiagnosticCycle<CR>
+nnoremap <leader>f] :NextDiagnosticCycle<CR>
 
 " Completion
 """"""""""""
-let g:completion_enable_auto_popup = 1
+let g:completion_enable_auto_popup = 0
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_signature = 1
 " possible value: "length", "alphabet", "none"
@@ -23,7 +26,7 @@ let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_character = ['.', '::']
 let g:completion_trigger_keyword_length = 3
 let g:completion_trigger_on_delete = 0
-let g:completion_auto_change_source = 1
+let g:completion_auto_change_source = 0
 let g:completion_timer_cycle = 100 "default value is 80
 
 " complettion sources and chaining
@@ -55,7 +58,7 @@ imap <c-k> <Plug>(completion_prev_source)
  "    \   'comment': []
  "    \   }
  "    \}
-noremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
+nnoremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"

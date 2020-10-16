@@ -72,7 +72,7 @@ fi
 # export ARCHFLAGS="-arch x86_64"
 
 alias startidf='source $IDF_PATH/export.sh'
-
+alias vi='~/bin/nvim'
 autoload -U zmv
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths

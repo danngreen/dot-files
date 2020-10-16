@@ -71,7 +71,16 @@ nvim_lsp.clangd.setup {
   root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
   on_attach = on_attach_vim,
   callbacks = lsp_status.extensions.clangd.setup(),
-  capabilities = lsp_status.capabilities,
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = false
+        }
+      }
+    }
+  },
+
   init_options = {clangdFileStatus = true},
   commands = {
 	ClangdSwitchSourceHeader = {
@@ -118,7 +127,15 @@ vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handl
 
 -- lua
 
-nvim_lsp.sumneko_lua.setup = {
+nvim_lsp.sumneko_lua.setup {
+  capabilities = lsp_status.capabilities,
+}
+
+nvim_lsp.rust_analyzer.setup {
+	on_attach = on_attach_vim,
+	cmd = {"/usr/local/bin/rust-analyzer"},
+	filetypes = {"rust"},
+	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
   capabilities = lsp_status.capabilities,
 }
 
