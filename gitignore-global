@@ -34,6 +34,7 @@ tags_*
 compile_commands.json
 cscope.*
 .ccls-cache
+.cache
 
 #vim
 .undodir/
