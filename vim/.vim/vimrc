@@ -169,6 +169,7 @@ nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
 nnoremap <leader>vn :edit ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
 nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_config.lua<CR>
+nnoremap <leader>vcc :edit ~/Library/Preferences/clangd/config.yaml<CR>
 
 "Copy/paste
 vnoremap <M-c> "+y
