@@ -1,11 +1,14 @@
+--https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 local nvim_lsp = require'nvim_lsp'
 local util = require'nvim_lsp/util'
 local lsp_status = require'lsp-status'
 -- local config = require'nvim_lsp/config'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
+-- Registers the progress callback
 lsp_status.register_progress()
--- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
+-- Set default client capabilities plus window/workDoneProgress
+--config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
 -- Attach: set keys, set omnifunc, attach to lsp plugins
 local on_attach_vim = function(client, bufnr)
