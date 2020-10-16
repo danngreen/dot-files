@@ -104,10 +104,13 @@ hi LspReferenceText guibg=#332222
 """"""""""""
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('lsp-status').status()")
+    return luaeval("require('shorter_statusline').status()")
+    "return luaeval("require('lsp-status').status()")
   endif
   return ''
 endfunction
+
+let g:airline_section_x='%{LspStatus()}'
 
 " Debugging/info macros
 """""""""""""""""""""""
