@@ -28,10 +28,10 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
-  buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
-  buf_set_keymap(bufnr, 'n', 'gF', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd
+  buf_set_keymap(bufnr, 'n', 'gF', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
   buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 
   require'completion'.on_attach(client)
@@ -53,59 +53,60 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
     vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
   end)
 end
+
 nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
-nvim_lsp.clangd.setup {
-  cmd = {
-	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
-      "--background-index",
-      "--log=verbose",
-	  -- "--clang-tidy",
-      "--cross-file-rename",
-      "--suggest-missing-includes",
-      --"--all-scopes-completion",
-	  "--completion-style=bundled",
-	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
-	  "--pch-storage=disk",
-	  "--enable-config"
-  },
-  filetypes = {"c", "cpp", "objc", "objcpp"},
-  root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-  on_attach = on_attach_vim,
-  callbacks = lsp_status.extensions.clangd.setup(),
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = false
-        }
-      }
-    }
-  },
+--nvim_lsp.clangd.setup {
+--  cmd = {
+--	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+--      "--background-index",
+--      "--log=verbose",
+--	  -- "--clang-tidy",
+--      "--cross-file-rename",
+--      "--suggest-missing-includes",
+--      --"--all-scopes-completion",
+--	  "--completion-style=bundled",
+--	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+--	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
+--	  "--pch-storage=disk",
+--	  "--enable-config"
+--  },
+--  filetypes = {"c", "cpp", "objc", "objcpp"},
+--  root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+--  on_attach = on_attach_vim,
+--  callbacks = lsp_status.extensions.clangd.setup(),
+--  capabilities = {
+--    textDocument = {
+--      completion = {
+--        completionItem = {
+--          snippetSupport = false
+--        }
+--      }
+--    }
+--  },
 
-  init_options = {clangdFileStatus = true},
-  commands = {
-	ClangdSwitchSourceHeader = {
-	  function()
-		switch_source_header_splitcmd(0, "edit")
-	  end;
-	  description = "Open source/header in a new vsplit";
-	},
-	ClangdSwitchSourceHeaderVSplit = {
-	  function()
-		switch_source_header_splitcmd(0, "vsplit")
-	  end;
-	  description = "Open source/header in a new vsplit";
-	},
-	ClangdSwitchSourceHeaderSplit = {
-	  function()
-		switch_source_header_splitcmd(0, "split")
-	  end;
-	  description = "Open source/header in a new split";
-	};
-  }
-};
+--  init_options = {clangdFileStatus = true},
+--  commands = {
+--	ClangdSwitchSourceHeader = {
+--	  function()
+--		switch_source_header_splitcmd(0, "edit")
+--	  end;
+--	  description = "Open source/header in a new vsplit";
+--	},
+--	ClangdSwitchSourceHeaderVSplit = {
+--	  function()
+--		switch_source_header_splitcmd(0, "vsplit")
+--	  end;
+--	  description = "Open source/header in a new vsplit";
+--	},
+--	ClangdSwitchSourceHeaderSplit = {
+--	  function()
+--		switch_source_header_splitcmd(0, "split")
+--	  end;
+--	  description = "Open source/header in a new split";
+--	};
+--  }
+--};
 
 vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
@@ -118,15 +119,34 @@ vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handl
 
 -- ccls
 
--- nvim_lsp.ccls.setup{
---     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
---     filetypes = { "c", "cpp", "objc", "objcpp" },
---     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
--- 	init_options = {
--- 		highlight = {lsRanges = true}
--- 	},
--- 	on_attach = on_attach_vim
--- }
+nvim_lsp.ccls.switch_source_header_splitcmd = switch_source_header_splitcmd
+
+nvim_lsp.ccls.setup{
+    cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    root_dir = nvim_lsp.util.root_pattern("compile_commands.json"),
+	init_options = {
+		highlight = {lsRanges = true}
+	},
+	capabilities = {
+		textDocument = {
+			completion = {
+			completionItem = {
+				snippetSupport = false
+			}
+		}
+		}
+	},
+	on_attach = on_attach_vim,
+	commands = {
+		CSwitchSourceHeader = {
+		  function()
+			switch_source_header_splitcmd(0, "edit")
+		  end;
+		  description = "Open source/header in a new vsplit";
+		}
+	}
+}
 
 -- lua
 
