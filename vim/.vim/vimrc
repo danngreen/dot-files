@@ -158,6 +158,7 @@ let g:netrw_browse_split = 4
 " noremap <M-h> :call CurtineIncSw()<CR>
 " nnoremap <leader>h <C-W>v:call CurtineIncSw()<CR>
 
+let g:AlternateExtensionMappings = [{'.cc' : '.hh', '.hh' : '.cc'}, {'.cpp' : '.h', '.h' : '.hpp', '.hpp' : '.cpp'}, {'.c': '.h', '.h': '.c'}]
 noremap <M-h> :Alternate<CR>
 nnoremap <leader>h <C-W>v:Alternate<CR>
 
