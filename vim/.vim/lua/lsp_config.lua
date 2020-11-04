@@ -138,14 +138,6 @@ nvim_lsp.ccls.setup{
 		}
 	},
 	on_attach = on_attach_vim,
-	commands = {
-		CSwitchSourceHeader = {
-		  function()
-			switch_source_header_splitcmd(0, "edit")
-		  end;
-		  description = "Open source/header in a new vsplit";
-		}
-	}
 }
 
 -- lua
@@ -162,3 +154,8 @@ nvim_lsp.rust_analyzer.setup {
   capabilities = lsp_status.capabilities,
 }
 
+nvim_lsp.tsserver.setup {
+	filetypes = {"javascript"},
+	root_dir = nvim_lsp.util.root_pattern(".git"),
+	on_attach = on_attach_vim,
+}
