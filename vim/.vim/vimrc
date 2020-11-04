@@ -428,4 +428,6 @@ set formatoptions+=n 	" Format lists
 
 ""Completion
 "Popup
-
+"Fix LSP floating windows being interpreted as markdown:
+hi markdownError none
+hi Error none
