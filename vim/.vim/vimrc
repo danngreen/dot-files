@@ -223,11 +223,10 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
 "let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
-"let g:airline_section_x='%{LspStatus()}'
+let g:airline_section_x='%{LspStatus()}'
 let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
 " 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
-
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
 let g:workspace_autosave_untrailspaces = 0
@@ -251,6 +250,7 @@ hi comment guifg=#999999
 hi Whitespace guifg=grey50 gui=none
 
 hi Pmenu guibg=#333333
+
 
 set incsearch
 if has("nvim")
