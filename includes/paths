@@ -9,8 +9,8 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export IDF_PATH=~/4ms/esp/esp-idf_4.0.1
 
 export PYTHONPATH=$PYTHONPATH:'.'
-export PYTHONPATH=/usr/local/opt/libxml2/lib/python2.7/site-packages:$PYTHONPATH
-export PYTHONPATH=/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages:$PYTHONPATH
+# export PYTHONPATH=/usr/local/opt/libxml2/lib/python2.7/site-packages:$PYTHONPATH
+# export PYTHONPATH=/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages:$PYTHONPATH
 
 export CPPUTEST_HOME=/Users/dann/4ms/stm32/cpputest
 export RACK_DIR=/Users/dann/4ms/vcv/Rack
