@@ -102,15 +102,18 @@ hi LspReferenceText guibg=#332222
 
 " Statusline
 """"""""""""
-function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('shorter_statusline').status()")
-    "return luaeval("require('lsp-status').status()")
-  endif
-  return ''
-endfunction
+if has('nvim')
+	function! LspStatus() abort
+	  if luaeval('#vim.lsp.buf_get_clients() > 0')
+		return luaeval("require('shorter_statusline').status()")
+		"return luaeval("require('lsp-status').status()")
+	  endif
+	  return ''
+	endfunction
 
-let g:airline_section_x='%{LspStatus()}'
+	let g:airline_section_x='%{LspStatus()}'
+endif
+
 
 " Debugging/info macros
 """""""""""""""""""""""

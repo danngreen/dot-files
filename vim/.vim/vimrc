@@ -191,8 +191,10 @@ nnoremap <leader>m :wa<CR>:Make<CR>
 nnoremap <leader>t :wa<CR>:Dispatch make -f tests/Makefile<CR>
 nnoremap <leader>MM :wa<CR>:Dispatch make clean && bear make -j16 && compdb -p ./ list > tmpcc && rm compile_commands.json && mv tmpcc compile_commands.json<CR>
 
-" source ~/dot-files/vim/coc-keys.vim
-source ~/dot-files/vim/nvim-lsp-setup.vim
+if has("nvim")
+	" source ~/dot-files/vim/coc-keys.vim
+	source ~/dot-files/vim/nvim-lsp-setup.vim
+endif
 
 "Settings
 "--------
