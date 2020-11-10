@@ -40,7 +40,6 @@ Plug 'nvim-lua/lsp-status.nvim'
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'nvim-treesitter/nvim-treesitter'
 
-Plug 'flazz/vim-colorschemes'
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -100,13 +99,13 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 "   :LS and LS! - search directory given by argument ,for example, :Files ../otherproject
 command! -bang -nargs=* Ags
 	\ call fzf#vim#ag_raw('-s '. <q-args>,
-	\       <bang>0 ? fzf#vim#with_preview('up:60%')
+	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
 	\               : fzf#vim#with_preview('right:50%', '?'),
 	\       <bang>0)
 
 command! -bang -nargs=* Ag
 	\	call fzf#vim#ag(<q-args>,
-	\       <bang>0 ? fzf#vim#with_preview('up:60%')
+	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
 	\               : fzf#vim#with_preview('right:50%', '?'),
 	\       <bang>0)
 
@@ -158,7 +157,8 @@ let g:netrw_browse_split = 4
 " noremap <M-h> :call CurtineIncSw()<CR>
 " nnoremap <leader>h <C-W>v:call CurtineIncSw()<CR>
 
-let g:AlternateExtensionMappings = [{'.cc' : '.hh', '.hh' : '.cc'}, {'.cpp' : '.h', '.h' : '.hpp', '.hpp' : '.cpp'}, {'.c': '.h', '.h': '.c'}]
+let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.c', '.c':'.cc'}]
+
 noremap <M-h> :Alternate<CR>
 nnoremap <leader>h <C-W>v:Alternate<CR>
 
@@ -225,11 +225,10 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_highlighting_cache = 1
 "let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
-"let g:airline_section_x='%{LspStatus()}'
+let g:airline_section_x='%{LspStatus()}'
 let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
 " 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
-
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
 let g:workspace_autosave_untrailspaces = 0
@@ -240,9 +239,10 @@ if has("nvim")
 	set termguicolors
 endif
 set guifont=Roboto_Mono_Light_for_Powerline:h13
-hi NonText guibg=black
-hi Normal guibg=black
-hi LineNr guibg=black
+
+"hi NonText guibg=black
+"hi Normal guibg=black
+"hi LineNr guibg=black
 hi Search guibg=#DDAA00 guifg=black
 hi Visual guibg=#803D3D
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
@@ -252,6 +252,7 @@ hi comment guifg=#999999
 hi Whitespace guifg=grey50 gui=none
 
 hi Pmenu guibg=#333333
+
 
 set incsearch
 if has("nvim")
@@ -431,4 +432,6 @@ set formatoptions+=n 	" Format lists
 
 ""Completion
 "Popup
-
+"Fix LSP floating windows being interpreted as markdown:
+hi markdownError none
+hi Error none
