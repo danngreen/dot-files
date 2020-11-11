@@ -1,3 +1,6 @@
+local useclangd = false;
+local useccls = not useclangd;
+
 --https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 local nvim_lsp = require'nvim_lsp'
 local util = require'nvim_lsp/util'
@@ -42,87 +45,82 @@ local on_attach_vim = function(client, bufnr)
 end
 
 
--- Clang
+-- Clangd
+if (useclangd) then
 
- --local function switch_source_header_splitcmd(bufnr, splitcmd)
- --  bufnr = util.validate_bufnr(bufnr)
- --  local params = { uri = vim.uri_from_bufnr(bufnr) }
- --  vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
- --    if err then error(tostring(err)) end
- --    if not result then print ("Corresponding file can’t be determined") return end
- --    vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
- --  end)
- --end
+ local function switch_source_header_splitcmd(bufnr, splitcmd)
+   bufnr = util.validate_bufnr(bufnr)
+   local params = { uri = vim.uri_from_bufnr(bufnr) }
+   vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
+     if err then error(tostring(err)) end
+     if not result then print ("Corresponding file can’t be determined") return end
+     vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
+   end)
+ end
 
---nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
+nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
---nvim_lsp.clangd.setup {
- -- cmd = {
-	  --"/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
- --     "--background-index",
- --     "--log=verbose",
-	  ---- "--clang-tidy",
- --     "--cross-file-rename",
- --     "--suggest-missing-includes",
- --     --"--all-scopes-completion",
-	  --"--completion-style=bundled",
-	  --"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  --"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
-	  --"--pch-storage=disk",
-	  --"--enable-config"
- -- },
- -- filetypes = {"c", "cpp", "objc", "objcpp"},
- -- root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json", "compile_flags.txt" ),
- -- on_attach = on_attach_vim,
- -- callbacks = lsp_status.extensions.clangd.setup(),
- -- capabilities = {
- --   textDocument = {
- --     completion = {
- --       completionItem = {
- --         snippetSupport = false
- --       }
- --     }
- --   }
- -- },
+nvim_lsp.clangd.setup {
+  cmd = {
+	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+      "--background-index",
+      "--log=verbose",
+	  -- "--clang-tidy",
+      "--cross-file-rename",
+      "--suggest-missing-includes",
+      --"--all-scopes-completion",
+	  "--completion-style=bundled",
+	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
+	  "--pch-storage=disk",
+	  "--enable-config"
+  },
+  filetypes = {"c", "cpp", "objc", "objcpp"},
+  root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json", "compile_flags.txt" ),
+  on_attach = on_attach_vim,
+  callbacks = lsp_status.extensions.clangd.setup(),
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = false
+        }
+      }
+    }
+  },
 
- -- init_options = {clangdFileStatus = true},
- -- commands = {
-	--ClangdSwitchSourceHeader = {
-	  --function()
-		--switch_source_header_splitcmd(0, "edit")
-	  --end;
-	  --description = "Open source/header in a new vsplit";
-	--},
-	--ClangdSwitchSourceHeaderVSplit = {
-	  --function()
-		--switch_source_header_splitcmd(0, "vsplit")
-	  --end;
-	  --description = "Open source/header in a new vsplit";
-	--},
-	--ClangdSwitchSourceHeaderSplit = {
-	  --function()
-		--switch_source_header_splitcmd(0, "split")
-	  --end;
-	  --description = "Open source/header in a new split";
-	--};
- -- }
---};
+  init_options = {clangdFileStatus = true},
+  commands = {
+	ClangdSwitchSourceHeader = {
+	  function()
+		switch_source_header_splitcmd(0, "edit")
+	  end;
+	  description = "Open source/header in a new vsplit";
+	},
+	ClangdSwitchSourceHeaderVSplit = {
+	  function()
+		switch_source_header_splitcmd(0, "vsplit")
+	  end;
+	  description = "Open source/header in a new vsplit";
+	},
+	ClangdSwitchSourceHeaderSplit = {
+	  function()
+		switch_source_header_splitcmd(0, "split")
+	  end;
+	  description = "Open source/header in a new split";
+	};
+  }
+};
 
-vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+end --Clangd
 
 -- ccls
+if (useccls) then
 
 nvim_lsp.ccls.setup{
-    cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
+    cmd = { "/Users/design/4ms/ccls/Release/ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
-    root_dir = nvim_lsp.util.root_pattern(".ccls"),
+    root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
 	init_options = {
 		highlight = {lsRanges = true},
 		--compilationDatabaseDirectory = "build/"
@@ -138,6 +136,17 @@ nvim_lsp.ccls.setup{
 	},
 	on_attach = on_attach_vim,
 }
+
+end
+
+vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 -- lua
 
