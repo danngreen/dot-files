@@ -1,3 +1,4 @@
+# vim: set filetype=zsh:
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey '\e.' insert-last-word
