@@ -289,7 +289,7 @@ let g:ctrlp_working_path_mode = 'r'
 
 " Clang-format
 " ------------
-let g:clang_format#auto_format = 0
+let g:clang_format#auto_format = 1
 let g:clang_format#detect_style_file = 1
 let g:clang_format#enable_fallback_style = 1
 let g:clang_format#style_options = {
@@ -342,34 +342,6 @@ let g:clang_format#style_options = {
 	\ "SpacesInAngles" : "false",
 	\ "SpacesInCStyleCastParentheses" : "false",
 	\ }
-			" \ "BasedOnStyle" : "LLVM",
-            " \ "AccessModifierOffset" : "-4",
-            " \ "AllowShortIfStatementsOnASingleLine" : "true",
-			" \ "AllowShortBlocksOnASingleLine" : "Always",
-            " \ "AlwaysBreakTemplateDeclarations" : "true",
-			" \ "BreakBeforeBraces" : "Stroustrup",
-            " \ "Standard" : "c++17",
-			" \ "IndentCaseLabels" : "true",
-			" \ "IndentPPDirectives" : "BeforeHash",
-			" \ "IndentWidth" : 4,
-			" \ "ColumnLimit" : 120,
-			" \ "BreakConstructorInitializers" : "BeforeComma",
-			" \ "BreakInheritanceList" : "BeforeComma",
-			" \ "SpaceBeforeInheritanceColon" : "true",
-			" \ "SpaceBeforeCtorInitializerColon" : "true",
-			" \ "SpaceBeforeAssignmentOperators" : "true",
-			" \ "SpaceAfterTemplateKeyword" : "false",
-			" \ "SpaceAfterCStyleCast" : "false",
-			" \ "SpaceBeforeParens" : "ControlStatements",
-			" \ "SpaceBeforeRangeBasedForLoopColon" : "true",
-			" \ "SpaceInEmptyParentheses" : "false",
-			" \ "SpacesInAngles" : "false",
-			" \ "SpacesInCStyleCastParentheses" : "false",
-			" \ "UseTab" : "Always",
-			" \ "TabWidth" : 4
-			" \}
-
-" \ "AlignAfterOpenBracket" : "BAS_Align",
 
 augroup commentary_c_cpp
 	autocmd!
@@ -382,25 +354,13 @@ augroup commentary_php
 	autocmd FileType php setlocal commentstring=//%s
 augroup END
 
-" augroup qfAlwaysBottom
-" 	autocmd!
-" 	  autocmd FileType qf if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif
-" augroup END
-
 augroup kicad_lib_filetype
 	autocmd!
 	autocmd BufNewFile,BufRead *.lib set syntax=none
 augroup END
 
-" augroup qfpreview
-"     autocmd!
-"     autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
-" augroup END
-
-
 set wildmenu
 set wildignore+=tags,tags.*,build/*
-" let &path.="src,include,tests,inc,src/drivers,src/util,src/processors"
 " let &path.=".,,**"
 setlocal path=.,**
 
