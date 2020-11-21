@@ -20,6 +20,7 @@ HIST_STAMPS="mm/dd/yyyy"
 plugins=(git colored-man-pages colorize pip python brew osx fd)
 
 source $ZSH/oh-my-zsh.sh
+unsetopt share_history
 
 export EDITOR='nvim'
 
@@ -32,3 +33,4 @@ alias vi=nvim
 alias startidf='source $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
 
+alias stmprog=~/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
