@@ -1,9 +1,10 @@
-local useclangd = false;
+local useclangd = true;
 local useccls = not useclangd;
 
 --https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
-local nvim_lsp = require'nvim_lsp'
-local util = require'nvim_lsp/util'
+if (vim == nil) then vim = {}; end
+local nvim_lsp = require'lspconfig'
+local util = require'lspconfig/util'
 local lsp_status = require'lsp-status'
 -- local config = require'nvim_lsp/config'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
@@ -21,7 +22,7 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -38,12 +39,27 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 
   require'completion'.on_attach(client)
-  require'diagnostic'.on_attach(client)
   require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
+
+--- let g:space_before_virtual_text = 5
+--- let g:diagnostic_auto_popup_while_jump = 0
+--- let g:diagnostic_insert_delay = 800
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    signs = true,
+    -- This is similar to:
+    -- "let g:diagnostic_insert_delay = 1"
+    update_in_insert = false,
+	underline = true,
+	virtual_text = { spacing = 4, },
+
+  }
+)
 
 -- Clangd
 if (useclangd) then
@@ -76,9 +92,9 @@ nvim_lsp.clangd.setup {
 	  "--enable-config"
   },
   filetypes = {"c", "cpp", "objc", "objcpp"},
-  root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json", "compile_flags.txt" ),
+  root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
   on_attach = on_attach_vim,
-  callbacks = lsp_status.extensions.clangd.setup(),
+  handlers = lsp_status.extensions.clangd.setup(),
   capabilities = {
     textDocument = {
       completion = {
@@ -118,7 +134,7 @@ end --Clangd
 if (useccls) then
 
 nvim_lsp.ccls.setup{
-    cmd = { "/Users/design/4ms/ccls/Release/ccls" },
+    cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
 	init_options = {
@@ -139,20 +155,20 @@ nvim_lsp.ccls.setup{
 
 end
 
-vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 -- lua
 
-nvim_lsp.sumneko_lua.setup {
-  capabilities = lsp_status.capabilities,
-}
+-- nvim_lsp.sumneko_lua.setup {
+--   capabilities = lsp_status.capabilities,
+-- }
 
 nvim_lsp.rust_analyzer.setup {
 	on_attach = on_attach_vim,

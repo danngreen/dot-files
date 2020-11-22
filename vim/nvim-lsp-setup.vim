@@ -2,17 +2,9 @@ lua require("lsp_config")
 
 " Diagnostics
 """""""""""""
-let g:space_before_virtual_text = 5 
-" let g:diagnostic_trimmed_virtual_text = '120'
-" let g:diagnostic_virtual_text_prefix = '<'
-let g:diagnostic_enable_virtual_text = 1
-let g:diagnostic_show_sign = 1
-let g:diagnostic_enable_underline = 1
-let g:diagnostic_auto_popup_while_jump = 0
-let g:diagnostic_insert_delay = 800
-
-nnoremap <leader>f[ :PrevDiagnosticCycle<CR>
-nnoremap <leader>f] :NextDiagnosticCycle<CR>
+nnoremap <leader>f[ <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <leader>f] <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <leader>fp <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
 " Completion
 """"""""""""
@@ -88,16 +80,16 @@ set shortmess+=c
 
 " Reference highlighting
 """"""""""""""""""""""""
-lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+" lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+" lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+" lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 
 " Display
 """""""""
-hi LspDiagnosticsError guifg=red gui=bold,italic,underline
-hi LspDiagnosticsWarning guifg=orange gui=bold,italic,underline
-hi LspDiagnosticsInformation guifg=yellow gui=bold,italic,underline
-hi LspDiagnosticsHint guifg=green gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
+hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
 hi LspReferenceText guibg=#332222 
 
 " Statusline
