@@ -42,6 +42,12 @@ local on_attach_vim = function(client, bufnr)
   require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	-- vim.api.nvim_command (autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight())
+	-- vim.api.nvim_command (autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight())
+	-- vim.api.nvim_command (autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references())
+	vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+	vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+	vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 end
 
 
