@@ -360,7 +360,7 @@ augroup END
 
 set wildmenu
 set wildignore+=tags,tags.*,build/*
-" let &path.=".,,**"
+let &path.=".,,**"
 setlocal path=.,**
 
 function! <SID>StripTrailingWhitespaces()
