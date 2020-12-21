@@ -87,7 +87,7 @@ nvim_lsp.clangd.setup {
       --"--all-scopes-completion",
 	  "--completion-style=bundled",
 	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/**/bin/arm-none-eabi-*",
+	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-*",
 	  "--pch-storage=disk",
 	  "--enable-config"
   },
