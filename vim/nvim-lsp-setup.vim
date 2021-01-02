@@ -1,4 +1,5 @@
 lua require("lsp_config")
+"lua print(package.path)
 
 " Diagnostics
 """""""""""""
@@ -12,7 +13,7 @@ let g:completion_enable_auto_popup = 0
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_signature = 1
 " possible value: "length", "alphabet", "none"
-let g:completion_sorting = "none"
+let g:completion_sorting = "alphabet"
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_character = ['.', '::']
@@ -23,7 +24,7 @@ let g:completion_timer_cycle = 100 "default value is 80
 
 " complettion sources and chaining
 let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'file']},
+    \{'complete_items': ['lsp', 'file', '<c-n>']},
     \{'mode': '<c-n>'},
     \{'mode': '<c-p>'}
 \]
@@ -80,9 +81,9 @@ set shortmess+=c
 
 " Reference highlighting
 """"""""""""""""""""""""
-lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+" lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+" lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+" lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 
 " Display
 """""""""

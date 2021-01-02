@@ -156,7 +156,8 @@ let g:netrw_browse_split = 4
 " noremap <M-h> :call CurtineIncSw()<CR>
 " nnoremap <leader>h <C-W>v:call CurtineIncSw()<CR>
 
-let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.c', '.c':'.cc'}]
+let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.cc'}, {'.c':'.h', '.h':'.c'}]
+let g:AlternatePaths = ['.', '../inc', '../include', '../src', '../Src', '../Inc']
 
 noremap <M-h> :Alternate<CR>
 nnoremap <leader>h <C-W>v:Alternate<CR>
@@ -297,9 +298,11 @@ let g:clang_format#style_options = {
 	\ "UseTab" : "Always",
 	\ "TabWidth" :  4,
 	\ "IndentWidth" :  4,
-	\ "ColumnLimit" :  120,
+	\ "ColumnLimit" :  0,
 	\ "AccessModifierOffset" :  "-4",
 	\ "AlignAfterOpenBracket" : "Align",
+	\ "AlignEscapedNewlines" : "Left",
+	\ "AlignOperands" : "true",
 	\ "AllowShortFunctionsOnASingleLine" : "All",
 	\ "AllowShortIfStatementsOnASingleLine" : "Never",
 	\ "AllowShortBlocksOnASingleLine" : "true",
@@ -310,6 +313,7 @@ let g:clang_format#style_options = {
 	\ "BreakConstructorInitializers" : "BeforeComma",
 	\ "BreakInheritanceList" : "AfterColon",
 	\ "BreakBeforeBraces" : "Custom",
+	\ "BreakBeforeTernaryOperators" : "false",
 	\ "BraceWrapping" : { 
 		\ "AfterCaseLabel" :  "false",
 		\ "AfterClass" :  "false",
@@ -328,6 +332,7 @@ let g:clang_format#style_options = {
 		\ "SplitEmptyNamespace" :  "false",
 	\ },
 	\ "ConstructorInitializerIndentWidth" :  4,
+	\ "ContinuationIndentWidth" : 0,
 	\ "IndentCaseLabels" : "true",
 	\ "IndentPPDirectives" : "BeforeHash",
 	\ "SpaceBeforeInheritanceColon" : "true",

@@ -1,4 +1,5 @@
-local useclangd = true;
+local useclangd = false;
+-- local useccls = false;
 local useccls = not useclangd;
 
 --https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
@@ -42,6 +43,9 @@ local on_attach_vim = function(client, bufnr)
   require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+  vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+  vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 end
 
 
@@ -133,25 +137,34 @@ end --Clangd
 -- ccls
 if (useccls) then
 
-nvim_lsp.ccls.setup{
+nvim_lsp.ccls.setup( {
     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
 	init_options = {
 		highlight = {lsRanges = true},
+		cache = {retainInMemory = 1},
+		diagnostics = {
+			onOpen = 0,
+			onChange = 0,
+			onSave = 100
+		},
+		index = {
+			threads = 8
+		}
 		--compilationDatabaseDirectory = "build/"
 	},
 	capabilities = {
 		textDocument = {
 			completion = {
-			completionItem = {
-				snippetSupport = false
+				completionItem = {
+					snippetSupport = false
+				}
 			}
-		}
 		}
 	},
 	on_attach = on_attach_vim,
-}
+})
 
 end
 
@@ -175,7 +188,17 @@ nvim_lsp.rust_analyzer.setup {
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
 	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
-  capabilities = lsp_status.capabilities,
+	capabilities = lsp_status.capabilities,
+	settings = { 
+		["rust-analyzer"] = {
+			cargo = {
+				target = "thumbv7m-none-eabi"
+			}, 
+			checkOnSave = {
+				all_targets = false
+			}
+		}
+	}
 }
 
 nvim_lsp.tsserver.setup {
