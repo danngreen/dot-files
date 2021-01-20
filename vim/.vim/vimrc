@@ -21,7 +21,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'rhysd/vim-clang-format'
 
 "Plug 'ajh17/VimCompletesMe'
-"Plug 'dr-kino/cscope-maps'
+Plug 'dr-kino/cscope-maps'
 "Plug 'dense-analysis/ale'
 "Plug 'mhinz/vim-signify'
 
@@ -37,7 +37,8 @@ Plug 'nvim-lua/lsp-status.nvim'
 
 " Plug 'rust-lang/rust.vim'
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-" Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'kevinhwang91/nvim-bqf'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
