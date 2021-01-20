@@ -1,21 +1,20 @@
-local useclangd = false;
--- local useccls = false;
-local useccls = not useclangd;
+local useclangd = true
+-- local useclangd = false
+local useccls = false
+-- local useccls = not useclangd;
 
 --https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 if (vim == nil) then vim = {}; end
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
 local lsp_status = require'lsp-status'
--- local config = require'nvim_lsp/config'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
--- Registers the progress callback
 lsp_status.register_progress()
+
 -- Set default client capabilities plus window/workDoneProgress
 --config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
--- Attach: set keys, set omnifunc, attach to lsp plugins
 local on_attach_vim = function(client, bufnr)
   print("LSP started");
 
@@ -49,19 +48,13 @@ local on_attach_vim = function(client, bufnr)
 end
 
 
---- let g:space_before_virtual_text = 5
---- let g:diagnostic_auto_popup_while_jump = 0
---- let g:diagnostic_insert_delay = 800
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     signs = true,
-    -- This is similar to:
-    -- "let g:diagnostic_insert_delay = 1"
     update_in_insert = false,
 	underline = true,
 	virtual_text = { spacing = 4, },
-
   }
 )
 
@@ -83,17 +76,21 @@ nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 nvim_lsp.clangd.setup {
   cmd = {
 	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+	  -- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
       "--background-index",
-      "--log=verbose",
+	  "-j=32",
+      "--log=error",
 	  -- "--clang-tidy",
       "--cross-file-rename",
-      "--suggest-missing-includes",
+      -- "--suggest-missing-includes",
       --"--all-scopes-completion",
 	  "--completion-style=bundled",
 	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-*",
-	  "--pch-storage=disk",
-	  "--enable-config"
+	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-g*",
+	  "--query-driver=/usr/bin/g*",
+	  "--pch-storage=memory",
+	  "--enable-config",
+	  -- "--async-preamble" --                - Reuse even stale preambles, and rebuild them in the background. This improves latency at the cost of accuracy.
   },
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
@@ -108,7 +105,7 @@ nvim_lsp.clangd.setup {
       }
     }
   },
-
+  flags = {allow_incremental_sync = true},
   init_options = {clangdFileStatus = true},
   commands = {
 	ClangdSwitchSourceHeader = {
@@ -138,7 +135,7 @@ end --Clangd
 if (useccls) then
 
 nvim_lsp.ccls.setup( {
-    cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
+    cmd = { "/Users/design/4ms/ccls/Release/ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
     root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
 	init_options = {
@@ -189,11 +186,11 @@ nvim_lsp.rust_analyzer.setup {
 	filetypes = {"rust"},
 	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
 	capabilities = lsp_status.capabilities,
-	settings = { 
+	settings = {
 		["rust-analyzer"] = {
 			cargo = {
 				target = "thumbv7m-none-eabi"
-			}, 
+			},
 			checkOnSave = {
 				all_targets = false
 			}
