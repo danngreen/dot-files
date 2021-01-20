@@ -44,3 +44,5 @@ Session.vim
 #python
 __pycache__
 *.pyc
+
+debug_log.txt
