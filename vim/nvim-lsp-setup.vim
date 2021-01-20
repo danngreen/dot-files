@@ -1,5 +1,4 @@
 lua require("lsp_config")
-"lua print(package.path)
 
 " Diagnostics
 """""""""""""
@@ -79,11 +78,6 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
-" Reference highlighting
-""""""""""""""""""""""""
-" lua vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-" lua vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-" lua vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 
 " Display
 """""""""
@@ -96,15 +90,15 @@ hi LspReferenceText guibg=#332222
 " Statusline
 """"""""""""
 if has('nvim')
-	function! LspStatus() abort
-	  if luaeval('#vim.lsp.buf_get_clients() > 0')
-		return luaeval("require('shorter_statusline').status()")
-		"return luaeval("require('lsp-status').status()")
-	  endif
-	  return ''
-	endfunction
+	"function! LspStatus() abort
+	"  if luaeval('#vim.lsp.buf_get_clients() > 0')
+	"	return luaeval("require('shorter_statusline').status()")
+	"	"return luaeval("require('lsp-status').status()")
+	"  endif
+	"  return ''
+	"endfunction
 
-	let g:airline_section_x='%{LspStatus()}'
+	"let g:airline_section_x='%{LspStatus()}'
 endif
 
 
