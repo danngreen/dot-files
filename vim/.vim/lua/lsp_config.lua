@@ -1,4 +1,5 @@
-local useclangd = false;
+local useclangd = true;
+-- local useclangd = false;
 -- local useccls = false;
 local useccls = not useclangd;
 
@@ -49,10 +50,6 @@ local on_attach_vim = function(client, bufnr)
 end
 
 
---- let g:space_before_virtual_text = 5
---- let g:diagnostic_auto_popup_while_jump = 0
---- let g:diagnostic_insert_delay = 800
-
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     signs = true,
@@ -84,15 +81,17 @@ nvim_lsp.clangd.setup {
   cmd = {
 	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
       "--background-index",
-      "--log=verbose",
+      "--log=error",
+	  "-j=32",
 	  -- "--clang-tidy",
       "--cross-file-rename",
-      "--suggest-missing-includes",
+      -- "--suggest-missing-includes",
       --"--all-scopes-completion",
 	  "--completion-style=bundled",
 	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-*",
-	  "--pch-storage=disk",
+	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-g*",
+	  "--query-driver=/usr/bin/g*",
+	  "--pch-storage=memory",
 	  "--enable-config"
   },
   filetypes = {"c", "cpp", "objc", "objcpp"},
@@ -108,8 +107,8 @@ nvim_lsp.clangd.setup {
       }
     }
   },
-
-  init_options = {clangdFileStatus = true},
+  flags = {allow_incremental_sync = true},
+  init_options = {clangdFileStatus = false},
   commands = {
 	ClangdSwitchSourceHeader = {
 	  function()
@@ -140,7 +139,8 @@ if (useccls) then
 nvim_lsp.ccls.setup( {
     cmd = { "/Users/dann/4ms/ccls/Release/ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
-    root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
+    --root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
+    root_dir = nvim_lsp.util.root_pattern(".ccls", "compile_commands.json"),
 	init_options = {
 		highlight = {lsRanges = true},
 		cache = {retainInMemory = 1},
@@ -206,3 +206,5 @@ nvim_lsp.tsserver.setup {
 	root_dir = nvim_lsp.util.root_pattern(".git"),
 	on_attach = on_attach_vim,
 }
+
+nvim_lsp.cmake.setup {}
