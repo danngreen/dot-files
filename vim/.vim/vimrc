@@ -35,7 +35,7 @@ Plug 'glepnir/lspsaga.nvim'
 
 Plug 'rust-lang/rust.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'kevinhwang91/nvim-bqf'
+" Plug 'kevinhwang91/nvim-bqf'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -148,6 +148,14 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 25
 let g:netrw_altv = 1
 let g:netrw_browse_split = 4
+
+if (has("nvim"))
+lua <<EOF
+require('bqf').setup({
+    auto_resize_height = false,
+})
+EOF
+endif
 
 let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.cc'}, {'.c':'.h', '.h':'.c'}]
 let g:AlternatePaths = ['.', '../inc', '../include', '../src', '../Src', '../Inc']

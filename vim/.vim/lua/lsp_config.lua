@@ -88,7 +88,7 @@ nvim_lsp.clangd.setup {
 	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
 	  -- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
       "--background-index",
-      "--log=error",
+      "--log=verbose",
 	  "-j=32",
 	  -- "--clang-tidy",
       "--cross-file-rename",
