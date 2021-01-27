@@ -5,28 +5,25 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin('~/.vim/bundle')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"Plug 'ericcurtin/CurtineIncSw.vim'
 Plug 'ton/vim-alternate'
 Plug 'vim-airline/vim-airline'
 Plug 'danngreen/vim-airline-themes'
+
 Plug 'majutsushi/tagbar'
 Plug 'amix/open_file_under_cursor.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/vim-clang-format'
 
-"Plug 'ajh17/VimCompletesMe'
 Plug 'dr-kino/cscope-maps'
-"Plug 'dense-analysis/ale'
-"Plug 'mhinz/vim-signify'
 
-Plug 'RishabhRD/popfix'
-Plug 'RishabhRD/nvim-lsputils'
+" Plug 'RishabhRD/popfix'
+" Plug 'RishabhRD/nvim-lsputils'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/popup.nvim'
@@ -34,9 +31,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'glepnir/lspsaga.nvim'
 
-" Plug 'rust-lang/rust.vim'
-" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'rust-lang/rust.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'kevinhwang91/nvim-bqf'
 
@@ -115,7 +112,8 @@ command! -bang -complete=dir -nargs=* LS
 
 noremap <F3> :Files<CR>
 noremap <F15> :LS .<CR>
-noremap <leader><F3> :LS<space>
+" nnoremap <F15> <cmd>lua require'telescope.builtin'.git_files{}<CR>
+nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.find_files{}<CR>
 noremap <leader>v<F3> :LS ~/dot-files/vim
 
 nnoremap <F4> :Ag<CR>
@@ -124,8 +122,6 @@ vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 "nnoremap <leader><F4> :Ags <C-r><C-w><CR>
 "vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
 
-nnoremap <leader>p <cmd>lua require'telescope.builtin'.git_files{}<CR>
-nnoremap <leader>P <cmd>lua require'telescope.builtin'.find_files{}<CR>
 nnoremap <leader><F4> <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 " Buffer Navigation
@@ -153,10 +149,6 @@ let g:netrw_winsize = 25
 let g:netrw_altv = 1
 let g:netrw_browse_split = 4
 
-"Option-h : toggle .h and .c: FixMe: doesn't always pick closest counterpart 
-" noremap <M-h> :call CurtineIncSw()<CR>
-" nnoremap <leader>h <C-W>v:call CurtineIncSw()<CR>
-
 let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.cc'}, {'.c':'.h', '.h':'.c'}]
 let g:AlternatePaths = ['.', '../inc', '../include', '../src', '../Src', '../Inc']
 
@@ -166,10 +158,11 @@ nnoremap <leader>h <C-W>v:Alternate<CR>
 noremap <F9> :set list!<CR>
 "Tags
 nnoremap <F11> :TagbarToggle<CR>
+let g:tagbar_file_size_limit = 100000 
 "<F23> is Shift+<F11>
 nnoremap <F23> :Dispatch! ctags -R .<CR>:Dispatch! cscope -bkqR<CR>
 
-nnoremap <F10> :Copen<CR>
+nnoremap <F10> :cope<CR>
 nnoremap <F22> :ccl<CR>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -193,8 +186,7 @@ nnoremap <leader>t :wa<CR>:Dispatch make -f tests/Makefile<CR>
 nnoremap <leader>MM :wa<CR>:Dispatch make clean && bear make -j16 && compdb -p ./ list > tmpcc && rm compile_commands.json && mv tmpcc compile_commands.json<CR>
 
 if has("nvim")
-	" source ~/dot-files/vim/coc-keys.vim
-	source ~/dot-files/vim/nvim-lsp-setup.vim
+source ~/dot-files/vim/nvim-lsp-setup.vim
 endif
 
 "Settings
@@ -211,7 +203,7 @@ set splitright
 "   set scrolloff=1       " Show next 3 lines while scrolling.
 " endif
 if !&sidescrolloff
-  set sidescrolloff=5   " Show next 5 columns while side-scrolling.
+set sidescrolloff=5   " Show next 5 columns while side-scrolling.
 endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
@@ -237,7 +229,7 @@ let g:workspace_autosave_untrailspaces = 0
 " Display
 " -------
 if has("nvim")
-	set termguicolors
+set termguicolors
 endif
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 
@@ -257,8 +249,8 @@ hi Pmenu guibg=#333333
 
 set incsearch
 if has("nvim")
-	set inccommand=nosplit
-	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+set inccommand=nosplit
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 
 
@@ -282,8 +274,8 @@ let g:cpp_no_function_highlight = 0
 "-----
 " Setup some default ignores
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-  \ 'file': '\v\.(png|jpg|jpeg|pdf|o|d|a)$',
+\ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+\ 'file': '\v\.(png|jpg|jpeg|pdf|o|d|a)$',
 \}
 " Use nearest .git directory as cwd
 let g:ctrlp_working_path_mode = 'r'
@@ -294,74 +286,74 @@ let g:clang_format#auto_format = 1
 let g:clang_format#detect_style_file = 1
 let g:clang_format#enable_fallback_style = 1
 let g:clang_format#style_options = {
-	\ "BasedOnStyle" : "LLVM",
-	\ "Standard" : "c++17",
-	\ "UseTab" : "Always",
-	\ "TabWidth" :  4,
-	\ "IndentWidth" :  4,
-	\ "ColumnLimit" :  0,
-	\ "AccessModifierOffset" :  "-4",
-	\ "AlignAfterOpenBracket" : "Align",
-	\ "AlignEscapedNewlines" : "Left",
-	\ "AlignOperands" : "true",
-	\ "AllowShortFunctionsOnASingleLine" : "All",
-	\ "AllowShortIfStatementsOnASingleLine" : "Never",
-	\ "AllowShortBlocksOnASingleLine" : "true",
-	\ "AlwaysBreakTemplateDeclarations" : "true",
-	\ "AllowAllArgumentsOnNextLine" : "true",
-	\ "BinPackArguments" :  "false",
-	\ "BinPackParameters" :  "false",
-	\ "BreakConstructorInitializers" : "BeforeComma",
-	\ "BreakInheritanceList" : "AfterColon",
-	\ "BreakBeforeBraces" : "Custom",
-	\ "BreakBeforeTernaryOperators" : "false",
-	\ "BraceWrapping" : { 
-		\ "AfterCaseLabel" :  "false",
-		\ "AfterClass" :  "false",
-		\ "AfterControlStatement" :  "MultiLine",
-		\ "AfterEnum" :  "false",
-		\ "AfterFunction" :  "false",
-		\ "AfterNamespace" :  "true",
-		\ "AfterStruct" :  "false",
-		\ "AfterUnion" :  "false",
-		\ "AfterExternBlock" :  "false",
-		\ "BeforeCatch" :  "false",
-		\ "BeforeElse" :  "false",
-		\ "IndentBraces" :  "false",
-		\ "SplitEmptyFunction" :  "false",
-		\ "SplitEmptyRecord" :  "false",
-		\ "SplitEmptyNamespace" :  "false",
-	\ },
-	\ "ConstructorInitializerIndentWidth" :  4,
-	\ "ContinuationIndentWidth" : 0,
-	\ "IndentCaseLabels" : "true",
-	\ "IndentPPDirectives" : "BeforeHash",
-	\ "SpaceBeforeInheritanceColon" : "true",
-	\ "SpaceBeforeCtorInitializerColon" : "true",
-	\ "SpaceBeforeAssignmentOperators" : "true",
-	\ "SpaceAfterTemplateKeyword" : "false",
-	\ "SpaceAfterCStyleCast" : "false",
-	\ "SpaceBeforeParens" : "ControlStatements",
-	\ "SpaceBeforeRangeBasedForLoopColon" : "true",
-	\ "SpaceInEmptyParentheses" : "false",
-	\ "SpacesInAngles" : "false",
-	\ "SpacesInCStyleCastParentheses" : "false",
-	\ }
+\ "BasedOnStyle" : "LLVM",
+\ "Standard" : "c++17",
+\ "UseTab" : "Always",
+\ "TabWidth" :  4,
+\ "IndentWidth" :  4,
+\ "ColumnLimit" :  0,
+\ "AccessModifierOffset" :  "-4",
+\ "AlignAfterOpenBracket" : "Align",
+\ "AlignEscapedNewlines" : "Left",
+\ "AlignOperands" : "true",
+\ "AllowShortIfStatementsOnASingleLine" : "Never",
+\ "AllowShortFunctionsOnASingleLine" : "All",
+\ "AllowShortBlocksOnASingleLine" : "true",
+\ "AlwaysBreakTemplateDeclarations" : "true",
+\ "AllowAllArgumentsOnNextLine" : "true",
+\ "BinPackArguments" :  "false",
+\ "BinPackParameters" :  "false",
+\ "BreakConstructorInitializers" : "BeforeComma",
+\ "BreakInheritanceList" : "AfterColon",
+\ "BreakBeforeBraces" : "Custom",
+\ "BreakBeforeTernaryOperators" : "false",
+\ "BraceWrapping" : { 
+	\ "AfterCaseLabel" :  "false",
+	\ "AfterClass" :  "false",
+	\ "AfterControlStatement" :  "MultiLine",
+	\ "AfterEnum" :  "false",
+	\ "AfterFunction" :  "false",
+	\ "AfterNamespace" :  "true",
+	\ "AfterStruct" :  "false",
+	\ "AfterUnion" :  "false",
+	\ "AfterExternBlock" :  "false",
+	\ "BeforeCatch" :  "false",
+	\ "BeforeElse" :  "false",
+	\ "IndentBraces" :  "false",
+	\ "SplitEmptyFunction" :  "false",
+	\ "SplitEmptyRecord" :  "false",
+	\ "SplitEmptyNamespace" :  "false",
+\ },
+\ "ConstructorInitializerIndentWidth" :  4,
+\ "ContinuationIndentWidth" : 0,
+\ "IndentCaseLabels" : "true",
+\ "IndentPPDirectives" : "BeforeHash",
+\ "SpaceBeforeInheritanceColon" : "true",
+\ "SpaceBeforeCtorInitializerColon" : "true",
+\ "SpaceBeforeAssignmentOperators" : "true",
+\ "SpaceAfterTemplateKeyword" : "false",
+\ "SpaceAfterCStyleCast" : "false",
+\ "SpaceBeforeParens" : "ControlStatements",
+\ "SpaceBeforeRangeBasedForLoopColon" : "true",
+\ "SpaceInEmptyParentheses" : "false",
+\ "SpacesInAngles" : "false",
+\ "SpacesInCStyleCastParentheses" : "false",
+\ }
 
 augroup commentary_c_cpp
-	autocmd!
-	autocmd FileType c setlocal commentstring=//%s
-	autocmd FileType cpp setlocal commentstring=//%s
+autocmd!
+autocmd FileType c setlocal commentstring=//%s
+autocmd FileType cpp setlocal commentstring=//%s
 augroup END
 
 augroup commentary_php
-	autocmd!
-	autocmd FileType php setlocal commentstring=//%s
+autocmd!
+autocmd FileType php setlocal commentstring=//%s
 augroup END
 
 augroup kicad_lib_filetype
-	autocmd!
-	autocmd BufNewFile,BufRead *.lib set syntax=none
+autocmd!
+autocmd BufNewFile,BufRead *.lib set syntax=none
 augroup END
 
 set wildmenu
@@ -370,20 +362,20 @@ let &path.=".,,**"
 setlocal path=.,**
 
 function! <SID>StripTrailingWhitespaces()
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
+let _s=@/
+let l = line(".")
+let c = col(".")
+%s/\s\+$//e
+let @/=_s
+call cursor(l, c)
 endfunction
 nnoremap <leader>T :call <SID>StripTrailingWhitespaces()<CR>
 
 function! SearchMultiLine(bang, ...)
-  if a:0 > 0
-    let sep = (a:bang) ? '\_W\+' : '\_s\+'
-    let @/ = join(a:000, sep)
-  endif
+if a:0 > 0
+let sep = (a:bang) ? '\_W\+' : '\_s\+'
+let @/ = join(a:000, sep)
+endif
 endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
 

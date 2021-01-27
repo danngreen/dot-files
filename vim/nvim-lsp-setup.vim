@@ -12,7 +12,7 @@ let g:completion_enable_auto_popup = 0
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_signature = 1
 " possible value: "length", "alphabet", "none"
-let g:completion_sorting = "alphabet"
+let g:completion_sorting = "none"
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_character = ['.', '::']
@@ -50,7 +50,6 @@ imap <c-k> <Plug>(completion_prev_source)
  "    \   'comment': []
  "    \   }
  "    \}
-nnoremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -112,4 +111,5 @@ nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 nnoremap <leader>lsL :new ~/.local/share/nvim/lsp.log<CR>
 " Show completion characters
 nnoremap <leader>lsC :lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))
-
+" Show current symbol type (useful for completion chain list)
+nnoremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>

@@ -7,10 +7,18 @@ local useccls = false
 if (vim == nil) then vim = {}; end
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
-local lsp_status = require'lsp-status'
+-- local lsp_status = require'lsp-status'
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
-lsp_status.register_progress()
+local saga = require'lspsaga'
+
+
+saga.init_lsp_saga{
+	border_style=3,
+	max_hover_width = 100
+}
+
+-- lsp_status.register_progress()
 
 -- Set default client capabilities plus window/workDoneProgress
 --config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
@@ -38,8 +46,10 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', 'gF', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
   buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 
+  buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
   require'completion'.on_attach(client)
-  require'lsp-status'.on_attach(client)
+  -- require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
@@ -94,7 +104,7 @@ nvim_lsp.clangd.setup {
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
   on_attach = on_attach_vim,
-  handlers = lsp_status.extensions.clangd.setup(),
+  -- handlers = lsp_status.extensions.clangd.setup(),
   capabilities = {
     textDocument = {
       completion = {
@@ -165,14 +175,15 @@ nvim_lsp.ccls.setup( {
 
 end
 
-vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+-- from RishabhRD/nvim-lsputils:
+-- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+-- vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+-- vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+-- vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+-- vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+-- vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+-- vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+-- vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 -- lua
 
@@ -185,7 +196,7 @@ nvim_lsp.rust_analyzer.setup {
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
 	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
-	capabilities = lsp_status.capabilities,
+	-- capabilities = lsp_status.capabilities,
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {
