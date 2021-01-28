@@ -12,9 +12,8 @@ local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
 local saga = require'lspsaga'
 
-
 saga.init_lsp_saga{
-	border_style=3,
+	border_style = 3,
 	max_hover_width = 100
 }
 

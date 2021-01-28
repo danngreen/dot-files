@@ -34,8 +34,8 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'glepnir/lspsaga.nvim'
 
 Plug 'rust-lang/rust.vim'
-Plug 'nvim-treesitter/nvim-treesitter'
-" Plug 'kevinhwang91/nvim-bqf'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'kevinhwang91/nvim-bqf'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -254,6 +254,17 @@ hi Whitespace guifg=grey50 gui=none
 
 hi Pmenu guibg=#333333
 
+if has("nvim")
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+	-- one of "all" "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"cpp", "lua", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
+  highlight = {
+    enable = true
+  },
+}
+EOF
+endif
 
 set incsearch
 if has("nvim")
