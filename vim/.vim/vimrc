@@ -49,6 +49,8 @@ set exrc
 set secure
 set makeprg=make\ -j16
 
+set encoding=UTF-8
+
 syntax on
 colors molokai
 
@@ -143,11 +145,11 @@ nmap <M-Tab> <Plug>AirlineSelectNextTab
 nmap <S-Tab> <Plug>AirlineSelectPrevTab
 
 noremap <F12> :NERDTreeToggle<CR>
-noremap <F24> :Vexplore<CR>
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
-let g:netrw_altv = 1
-let g:netrw_browse_split = 4
+" noremap <F24> :Vexplore<CR>
+" let g:netrw_banner = 0
+" let g:netrw_winsize = 25
+" let g:netrw_altv = 1
+" let g:netrw_browse_split = 4
 
 if (has("nvim"))
 lua <<EOF

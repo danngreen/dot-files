@@ -13,8 +13,19 @@ local buf_set_keymap = vim.api.nvim_buf_set_keymap
 local saga = require'lspsaga'
 
 saga.init_lsp_saga{
-	border_style = 3,
-	max_hover_width = 100
+	border_style = 2,
+	max_hover_width = 100,
+	-- use_saga_diagnostic_handler = true
+	-- use_saga_diagnostic_sign = true
+	error_sign = '☓',
+	warn_sign = '▻',
+	hint_sign = '➝',
+	infor_sign = '◦',
+	code_action_icon = ' ',
+	finder_definition_icon = '== ',
+	finder_reference_icon = '& ',
+	definition_preview_icon = '(==) '
+	-- reanme_row = 1
 }
 
 -- lsp_status.register_progress()
