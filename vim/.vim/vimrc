@@ -15,7 +15,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/vim-clang-format'
@@ -29,7 +28,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
-Plug 'nvim-lua/completion-nvim'
+"Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'glepnir/lspsaga.nvim'
 
@@ -260,9 +260,12 @@ if has("nvim")
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
 	-- one of "all" "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = {"cpp", "lua", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
+  ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
+  --not lua
   highlight = {
-    enable = true
+    enable = true,
+	incremental_selection = false,
+	indent = false
   },
 }
 EOF
