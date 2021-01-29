@@ -3,12 +3,12 @@ local useclangd = true
 local useccls = false
 -- local useccls = not useclangd;
 
---https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 if (vim == nil) then vim = {}; end
+
+--https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
 -- local lsp_status = require'lsp-status'
-local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
 local saga = require'lspsaga'
 
@@ -28,11 +28,29 @@ saga.init_lsp_saga{
 	-- reanme_row = 1
 }
 
--- lsp_status.register_progress()
+require'compe'.setup {
+  enabled = true;
+  debug = false;
+  min_length = 2;
+  preselect = 'disable'; -- || 'disable' || 'always';
+  throttle_time = 500;
+  source_timeout = 500;
+  incomplete_delay = 400;
+  allow_prefix_unmatch = true;
 
+  source = {
+    path = true;
+    buffer = true;
+    vsnip = false;
+    nvim_lsp = true;
+  };
+}
+
+-- lsp_status.register_progress()
 -- Set default client capabilities plus window/workDoneProgress
 --config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
+local buf_set_keymap = vim.api.nvim_buf_set_keymap
 local on_attach_vim = function(client, bufnr)
   print("LSP started");
 
@@ -58,7 +76,7 @@ local on_attach_vim = function(client, bufnr)
 
   buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
-  require'completion'.on_attach(client)
+  -- require'completion'.on_attach(client)
   -- require'lsp-status'.on_attach(client)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

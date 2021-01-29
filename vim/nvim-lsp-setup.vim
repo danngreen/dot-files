@@ -8,27 +8,27 @@ nnoremap <leader>fp <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
 " Completion
 """"""""""""
-let g:completion_enable_auto_popup = 0
-let g:completion_enable_auto_hover = 1
-let g:completion_enable_auto_signature = 1
-" possible value: "length", "alphabet", "none"
-let g:completion_sorting = "none"
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-let g:completion_matching_ignore_case = 1
-" let g:completion_trigger_character = ['.', '::']
-let g:completion_trigger_keyword_length = 3
-let g:completion_trigger_on_delete = 0
-let g:completion_auto_change_source = 0
-let g:completion_timer_cycle = 100 "default value is 80
+" let g:completion_enable_auto_popup = 0
+" let g:completion_enable_auto_hover = 1
+" let g:completion_enable_auto_signature = 1
+" " possible value: "length", "alphabet", "none"
+" let g:completion_sorting = "none"
+" let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+" let g:completion_matching_ignore_case = 1
+" " let g:completion_trigger_character = ['.', '::']
+" let g:completion_trigger_keyword_length = 3
+" let g:completion_trigger_on_delete = 0
+" let g:completion_auto_change_source = 0
+" let g:completion_timer_cycle = 100 "default value is 80
 
-" complettion sources and chaining
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'file', '<c-n>']},
-    \{'mode': '<c-n>'},
-    \{'mode': '<c-p>'}
-\]
-imap <c-j> <Plug>(completion_next_source)
-imap <c-k> <Plug>(completion_prev_source)
+" " complettion sources and chaining
+" let g:completion_chain_complete_list = [
+"     \{'complete_items': ['lsp', 'file', '<c-n>']},
+"     \{'mode': '<c-n>'},
+"     \{'mode': '<c-p>'}
+" \]
+" imap <c-j> <Plug>(completion_next_source)
+" imap <c-k> <Plug>(completion_prev_source)
 
  " let g:completion_chain_complete_list = {
  "    \ 'lua': [
@@ -55,6 +55,16 @@ imap <c-k> <Plug>(completion_prev_source)
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
+
+
+" imap <expr> <tab> completion#trigger_completion()
+
+" nmap <tab> <Plug>(completion_smart_tab)
+" nmap <s-tab> <Plug>(completion_smart_s_tab)
+
+set completeopt=menu,menuone,noinsert,noselect
+
 " Use <Tab> to trigger completion
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -64,15 +74,13 @@ endfunction
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>check_back_space() ? "\<TAB>" :
-  \ completion#trigger_completion()
+  \ compe#complete()
 
+" inoremap <silent><expr> <TAB>   compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+ 
 
-" imap <expr> <tab> completion#trigger_completion()
-
-" nmap <tab> <Plug>(completion_smart_tab)
-" nmap <s-tab> <Plug>(completion_smart_s_tab)
-
-set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
@@ -84,7 +92,7 @@ hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
-hi LspReferenceText guibg=#332222 
+hi LspReferenceText guibg=#442244 
 
 " Statusline
 """"""""""""
