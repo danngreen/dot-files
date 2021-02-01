@@ -6,62 +6,9 @@ nnoremap <leader>f[ <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>f] <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <leader>fp <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
-" Completion
-""""""""""""
-" let g:completion_enable_auto_popup = 0
-" let g:completion_enable_auto_hover = 1
-" let g:completion_enable_auto_signature = 1
-" " possible value: "length", "alphabet", "none"
-" let g:completion_sorting = "none"
-" let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-" let g:completion_matching_ignore_case = 1
-" " let g:completion_trigger_character = ['.', '::']
-" let g:completion_trigger_keyword_length = 3
-" let g:completion_trigger_on_delete = 0
-" let g:completion_auto_change_source = 0
-" let g:completion_timer_cycle = 100 "default value is 80
-
-" " complettion sources and chaining
-" let g:completion_chain_complete_list = [
-"     \{'complete_items': ['lsp', 'file', '<c-n>']},
-"     \{'mode': '<c-n>'},
-"     \{'mode': '<c-p>'}
-" \]
-" imap <c-j> <Plug>(completion_next_source)
-" imap <c-k> <Plug>(completion_prev_source)
-
- " let g:completion_chain_complete_list = {
- "    \ 'lua': [
- "    \    'string': [
- "    \        {'mode': '<c-p>'},
- "    \        {'mode': '<c-n>'}],
- "    \    'func' : [
- "    \        {'complete_items': ['lsp']}],
- "    \    'default': [
- "    \       {'complete_items': ['lsp', 'snippet']},
- "    \       {'mode': '<c-p>'},
- "    \       {'mode': '<c-n>'}],
- "    \],
- "    \ 'default' : {
- "    \   'default': [
- "    \       {'complete_items': ['lsp', 'snippet']},
- "    \       {'mode': '<c-p>'},
- "    \       {'mode': '<c-n>'}],
- "    \   'comment': []
- "    \   }
- "    \}
-
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-
-
-
-" imap <expr> <tab> completion#trigger_completion()
-
-" nmap <tab> <Plug>(completion_smart_tab)
-" nmap <s-tab> <Plug>(completion_smart_s_tab)
 
 set completeopt=menu,menuone,noinsert,noselect
 
@@ -76,12 +23,9 @@ inoremap <silent><expr> <TAB>
   \ <SID>check_back_space() ? "\<TAB>" :
   \ compe#complete()
 
-" inoremap <silent><expr> <TAB>   compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
  
-
-
 " Avoid showing message extra message when using completion
 set shortmess+=c
 

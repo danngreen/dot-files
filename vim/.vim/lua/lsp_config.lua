@@ -8,25 +8,24 @@ if (vim == nil) then vim = {}; end
 --https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
--- local lsp_status = require'lsp-status'
 
-local saga = require'lspsaga'
+-- local saga = require'lspsaga'
 
-saga.init_lsp_saga{
-	border_style = 2,
-	max_hover_width = 100,
-	-- use_saga_diagnostic_handler = true
-	-- use_saga_diagnostic_sign = true
-	error_sign = '☓',
-	warn_sign = '▻',
-	hint_sign = '➝',
-	infor_sign = '◦',
-	code_action_icon = ' ',
-	finder_definition_icon = '== ',
-	finder_reference_icon = '& ',
-	definition_preview_icon = '(==) '
-	-- reanme_row = 1
-}
+-- saga.init_lsp_saga{
+-- 	border_style = 2,
+-- 	max_hover_width = 100,
+-- 	-- use_saga_diagnostic_handler = true
+-- 	-- use_saga_diagnostic_sign = true
+-- 	error_sign = '☓',
+-- 	warn_sign = '▻',
+-- 	hint_sign = '➝',
+-- 	infor_sign = '◦',
+-- 	code_action_icon = ' ',
+-- 	finder_definition_icon = '== ',
+-- 	finder_reference_icon = '& ',
+-- 	definition_preview_icon = '(==) '
+-- 	-- reanme_row = 1
+-- }
 
 require'compe'.setup {
   enabled = true;
@@ -46,10 +45,6 @@ require'compe'.setup {
   };
 }
 
--- lsp_status.register_progress()
--- Set default client capabilities plus window/workDoneProgress
---config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
-
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 local on_attach_vim = function(client, bufnr)
   print("LSP started");
@@ -57,14 +52,16 @@ local on_attach_vim = function(client, bufnr)
   local opts = { noremap=true, silent=true }
   buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+
   buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gW',  		'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', 'gw',  		'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
   
   -- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
@@ -73,13 +70,11 @@ local on_attach_vim = function(client, bufnr)
   --buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
   --buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
-  buf_set_keymap(bufnr, 'n', 'gF', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
+  buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
   buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 
-  buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
-  -- require'completion'.on_attach(client)
-  -- require'lsp-status'.on_attach(client)
+  -- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
@@ -206,27 +201,62 @@ nvim_lsp.ccls.setup( {
 end
 
 -- from RishabhRD/nvim-lsputils:
--- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
--- vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
--- vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
--- vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
--- vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
--- vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
--- vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
--- vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+
+local border_chars = {
+	TOP_LEFT = '┌',
+	TOP_RIGHT = '┐',
+	MID_HORIZONTAL = '─',
+	MID_VERTICAL = '│',
+	BOTTOM_LEFT = '└',
+	BOTTOM_RIGHT = '┘',
+}
+vim.g.lsp_utils_location_opts = {
+	height = 24,
+	mode = 'editor',
+	preview = {
+		title = 'Location Preview',
+		border = true,
+		border_chars = border_chars
+	},
+	keymaps = {
+		n = {
+			['<C-n>'] = 'j',
+			['<C-p>'] = 'k',
+		}
+	}
+}
+vim.g.lsp_utils_symbols_opts = {
+	height = 24,
+	mode = 'editor',
+	preview = {
+		title = 'Symbols Preview',
+		border = true,
+		border_chars = border_chars
+	},
+	prompt = {},
+}
+
 
 -- lua
 
--- nvim_lsp.sumneko_lua.setup {
---   capabilities = lsp_status.capabilities,
--- }
+nvim_lsp.sumneko_lua.setup {}
+
+
+-- rust
 
 nvim_lsp.rust_analyzer.setup {
 	on_attach = on_attach_vim,
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
 	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
-	-- capabilities = lsp_status.capabilities,
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {
@@ -239,10 +269,14 @@ nvim_lsp.rust_analyzer.setup {
 	}
 }
 
+-- tsserver/javascript
+
 nvim_lsp.tsserver.setup {
 	filetypes = {"javascript"},
 	root_dir = nvim_lsp.util.root_pattern(".git"),
 	on_attach = on_attach_vim,
 }
+
+-- cmake
 
 nvim_lsp.cmake.setup {}
