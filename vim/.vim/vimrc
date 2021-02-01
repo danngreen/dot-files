@@ -21,8 +21,9 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'dr-kino/cscope-maps'
 
-" Plug 'RishabhRD/popfix'
-" Plug 'RishabhRD/nvim-lsputils'
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
+"Plug 'glepnir/lspsaga.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/popup.nvim'
@@ -31,14 +32,14 @@ Plug 'nvim-lua/telescope.nvim'
 "Plug 'nvim-lua/completion-nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-lua/lsp-status.nvim'
-Plug 'glepnir/lspsaga.nvim'
 
-Plug 'rust-lang/rust.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kevinhwang91/nvim-bqf'
-
+"
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 set rtp^=~/.vim/bundle/ctrlp.vim
@@ -155,6 +156,8 @@ if (has("nvim"))
 lua <<EOF
 require('bqf').setup({
     auto_resize_height = false,
+	auto_preview = false,
+	auto_enable = true
 })
 EOF
 endif
