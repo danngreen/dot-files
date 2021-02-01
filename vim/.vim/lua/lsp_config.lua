@@ -5,7 +5,6 @@ local useccls = false
 
 if (vim == nil) then vim = {}; end
 
---https://github.com/nvim-lua/completion-nvim/wiki/per-server-setup-by-lua
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
 
@@ -31,8 +30,8 @@ require'compe'.setup {
   enabled = true;
   debug = false;
   min_length = 2;
-  preselect = 'disable'; -- || 'disable' || 'always';
-  throttle_time = 500;
+  preselect = 'enable'; -- || 'disable' || 'always';
+  -- throttle_time = 500;
   source_timeout = 500;
   incomplete_delay = 400;
   allow_prefix_unmatch = true;
@@ -64,8 +63,8 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', 'gw',  		'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
   
-  -- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua require\'lspsaga.codeaction\'.code_action()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua require\'lspsaga.codeaction\'.code_action()<CR>', opts)
 
   --buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
   --buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
@@ -129,7 +128,6 @@ nvim_lsp.clangd.setup {
   filetypes = {"c", "cpp", "objc", "objcpp"},
   root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
   on_attach = on_attach_vim,
-  -- handlers = lsp_status.extensions.clangd.setup(),
   capabilities = {
     textDocument = {
       completion = {
