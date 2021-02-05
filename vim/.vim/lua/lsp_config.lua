@@ -30,17 +30,21 @@ require'compe'.setup {
   enabled = true;
   debug = false;
   min_length = 2;
-  preselect = 'enable'; -- || 'disable' || 'always';
-  -- throttle_time = 500;
-  source_timeout = 500;
-  incomplete_delay = 400;
-  allow_prefix_unmatch = true;
+  preselect = 'disable'; -- 'enable' || 'disable' || 'always';
+  -- throttle_time = 500; --what is this? Something to do with preventing flickering?
+  source_timeout = 500; --what is this?
+  incomplete_delay = 400; --what is this?
+  allow_prefix_unmatch = false; --what is this?
 
   source = {
     path = true;
     buffer = true;
+	calc =true;
     vsnip = false;
     nvim_lsp = true;
+	nvim_lua = true;
+	tags = true;
+	treesitter = true;
   };
 }
 
@@ -62,13 +66,14 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gw',  		'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  
+
   buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   -- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua require\'lspsaga.codeaction\'.code_action()<CR>', opts)
 
   --buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
   --buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
+    -- if client.resolved_capabilities.type_definition then
   buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
   buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 
@@ -76,10 +81,18 @@ local on_attach_vim = function(client, bufnr)
   -- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-  vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-  vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+	  hi LspReferenceText guibg=#442244 
+      augroup lsp_document_highlight
+        autocmd!
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
+	end
+    
   buf_set_keymap(bufnr, 'n', '<leader>fx', '<cmd>lua vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs=false,update_in_insert=false,underline=false,virtual_text=false})<CR>:e<CR>', opts)
 end
 
@@ -110,8 +123,8 @@ nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
 nvim_lsp.clangd.setup {
   cmd = {
-	  "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
-	  -- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
+	  --"/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+	  "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
       "--background-index",
       "--log=verbose",
 	  "-j=32",
@@ -139,7 +152,14 @@ nvim_lsp.clangd.setup {
     }
   },
   flags = {allow_incremental_sync = true},
-  init_options = {clangdFileStatus = false},
+  init_options = {
+	clangdFileStatus = false,
+	-- diagnostics = {
+	--   onOpen = 0,
+	--   onChange = 0,
+	--   onSave = 100
+	-- },
+  },
   commands = {
 	ClangdSwitchSourceHeader = {
 	  function()
@@ -246,8 +266,26 @@ vim.g.lsp_utils_symbols_opts = {
 
 -- lua
 
-nvim_lsp.sumneko_lua.setup {}
+nvim_lsp.sumneko_lua.setup {
+	cmd = {"/Users/design/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/design/bin/lua-language-server/main.lua"},
+	settings = {
+		Lua = {
+			runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },
+			completion = { keywordSnippet = "Disable", },
+			diagnostics = { enable = true, globals = {
+				"vim", "describe", "it", "before_each", "after_each" },
+			},
+			workspace = {
+				library = {
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+				}
+			},
+		}
+	},
+	on_attach = on_attach_vim
 
+}
 
 -- rust
 

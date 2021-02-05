@@ -36,21 +36,6 @@ hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
 hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
-hi LspReferenceText guibg=#442244 
-
-" Statusline
-""""""""""""
-if has('nvim')
-	"function! LspStatus() abort
-	"  if luaeval('#vim.lsp.buf_get_clients() > 0')
-	"	return luaeval("require('shorter_statusline').status()")
-	"	"return luaeval("require('lsp-status').status()")
-	"  endif
-	"  return ''
-	"endfunction
-
-	"let g:airline_section_x='%{LspStatus()}'
-endif
 
 
 " Debugging/info macros
