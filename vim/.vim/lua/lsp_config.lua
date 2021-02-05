@@ -79,8 +79,9 @@ local on_attach_vim = function(client, bufnr)
   vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
   vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
   vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
-end
 
+  buf_set_keymap(bufnr, 'n', '<leader>fx', '<cmd>lua vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs=false,update_in_insert=false,underline=false,virtual_text=false})<CR>:e<CR>', opts)
+end
 
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
