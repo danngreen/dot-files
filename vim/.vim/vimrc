@@ -144,7 +144,9 @@ nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 " Buffer Navigation
 " -----------------
 " Close the current buffer and move to the previous one
-nmap <leader>w :bp <BAR> bd #<CR>
+nnoremap <C-w>C <C-w>c
+nnoremap <C-w>c :bp <BAR> bd #<CR>
+"nmap <leader>w :bp <BAR> bd #<CR>
 
 "Select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
