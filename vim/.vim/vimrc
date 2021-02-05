@@ -10,6 +10,8 @@ Plug 'ton/vim-alternate'
 Plug 'vim-airline/vim-airline'
 Plug 'danngreen/vim-airline-themes'
 
+Plug 'vimwiki/vimwiki'
+
 Plug 'majutsushi/tagbar'
 Plug 'amix/open_file_under_cursor.vim'
 Plug 'junegunn/fzf.vim'
@@ -45,6 +47,7 @@ set rtp^=~/.vim/bundle/ctrlp.vim
 set rtp+=/usr/local/opt/fzf
 
 " Basics
+" ------
 set exrc
 set secure
 set makeprg=make\ -j16
@@ -67,6 +70,7 @@ noremap Q @@
 noremap Y y$
 
 " Vim Cursor in Insert mode
+"--------------------------
 if (!has("nvim"))
 	let &t_SI = "\e[3 q"
 	let &t_EI = "\e[1 q"
@@ -75,12 +79,10 @@ if (!has("nvim"))
 		autocmd VimEnter * silent !echo -ne "\e[1 q"
 	augroup END
 end
-
-"set cul
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50
 
-" Searching
-" ---------
+" Searching/Replacing
+" -------------------
 " Replace all occurances of word under cursor (r = ask for conf., R = don't)
 nnoremap <leader>r *Nyiw:%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
@@ -89,28 +91,40 @@ nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <leader>r y:%s/\V<C-R>=escape(@",'/\')<CR>//gc<Left><Left><Left>
 vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 
-"Fuzzy search for a file
-
 "Search all files for selected text
 "   :Ag  - Start fzf with preview window that can be disabled with "?" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
 " 	:Ags and Ags! - Case-sensitive versions
 "   :LS and LS! - search directory given by argument ,for example, :Files ../otherproject
-command! -bang -nargs=* Ags
-	\ call fzf#vim#ag_raw('-s '. <q-args>,
+command! -bang -nargs=* Ags call fzf#vim#ag_raw('-s '. <q-args>,
 	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
-	\               : fzf#vim#with_preview('right:50%', '?'),
-	\       <bang>0)
+	\               : fzf#vim#with_preview('right:50%', '?'), <bang>0)
 
-command! -bang -nargs=* Ag
-	\	call fzf#vim#ag(<q-args>,
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>,
 	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
-	\               : fzf#vim#with_preview('right:50%', '?'),
-	\       <bang>0)
+	\               : fzf#vim#with_preview('right:50%', '?'), <bang>0)
+
+" function! s:search_dir_up(query, ...)
+"   if type(a:query) != s:TYPE.string
+"     return s:warn('Invalid query argument')
+"   endif
+"   let query = empty(a:query) ? '^(?=.)' : a:query
+"   let args = copy(a:000)
+"   let ag_opts = len(args) > 1 && type(args[0]) == s:TYPE.string ? remove(args, 0) : ''
+"   let command = ag_opts . ' -- ' . fzf#shellescape(query)
+"   return call('fzf#vim#ag_raw', insert(args, command, 0))
+" endfunction
+" command! -bang -nargs=0 AG2 call s:search_dir_up("--hidden '^(?=.)' ../", fzf#vim#with_preview('right:50%', '?'), <bang>0)
+
+"Todo: how to check if <q-args> is empty, and if so replace it with '^(?=.)' 
+command! -bang -nargs=0 AGUP call fzf#vim#ag_raw("--hidden '^(?=.)' ../", fzf#vim#with_preview('right:50%', '?'), <bang>0)
+command! -bang -nargs=* AGUParg call fzf#vim#ag_raw('--hidden <q-args> ../', fzf#vim#with_preview('right:50%', '?'), <bang>0)
 
 "Find files even ones that are ignored by git (exclude .git and .ccls-cache, .cache, .clangd dirs)
 command! -bang -complete=dir -nargs=* LS
-    \ call fzf#run(fzf#wrap({'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude .cache --exclude *.o --exclude *.d', 'dir': <q-args>}, <bang>0))
+    \ call fzf#run(fzf#wrap({
+	\ 		'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude .cache --exclude *.o --exclude *.d', 
+	\ 		'dir': <q-args>}, <bang>0))
 
 noremap <F3> :Files<CR>
 noremap <F15> :LS .<CR>
@@ -126,6 +140,7 @@ vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
 
 nnoremap <leader><F4> <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
+
 " Buffer Navigation
 " -----------------
 " Close the current buffer and move to the previous one
@@ -145,12 +160,9 @@ nmap <M-Tab> <Plug>AirlineSelectNextTab
 nmap <S-Tab> <Plug>AirlineSelectPrevTab
 
 noremap <F12> :NERDTreeToggle<CR>
-" noremap <F24> :Vexplore<CR>
-" let g:netrw_banner = 0
-" let g:netrw_winsize = 25
-" let g:netrw_altv = 1
-" let g:netrw_browse_split = 4
 
+"BQF quickfix improvements
+"-------------------------
 if (has("nvim"))
 lua <<EOF
 require('bqf').setup({
@@ -161,11 +173,17 @@ require('bqf').setup({
 EOF
 endif
 
+" Alternate File
+" --------------
 let g:AlternateExtensionMappings = [{'.cc':'.hh', '.hh':'.h', '.h':'.hpp', '.hpp':'.cpp', '.cpp':'.cc'}, {'.c':'.h', '.h':'.c'}]
 let g:AlternatePaths = ['.', '../inc', '../include', '../src', '../Src', '../Inc']
-
 noremap <M-h> :Alternate<CR>
 nnoremap <leader>h <C-W>v:Alternate<CR>
+
+" Vim Wiki
+let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
+"au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
+
 
 noremap <F9> :set list!<CR>
 "Tags
@@ -228,12 +246,15 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-let g:airline_highlighting_cache = 1
-"let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
-" let g:airline_section_x='%{LspStatus()}'
+"let g:airline_highlighting_cache = 1
+let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
 let g:airline_theme = 'dgmolokai'
 let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
 " 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
+let g:airline#extensions#nvimlsp#enabled = 1
+let g:airline#extensions#nvimlsp#warning_symbol = "W"
+let g:airline#extensions#nvimlsp#error_symbol = "E"
+"
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
 let g:workspace_autosave_untrailspaces = 0
