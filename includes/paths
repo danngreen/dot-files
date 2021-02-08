@@ -4,12 +4,13 @@ if [ -d "/usr/local/opt/make/libexec/gnubin" ] ; then
 fi
 
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/Library/Python/3.8/bin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="$HOME/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin:$PATH"
-export PATH=$HOME/bin/nvim/bin:$PATH
+export PATH="$HOME/bin/nvim/bin:$PATH"
 
 export IDF_PATH=~/4ms/esp/esp-idf_4.0.1
 
