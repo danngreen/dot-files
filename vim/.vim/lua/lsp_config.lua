@@ -44,7 +44,7 @@ require'compe'.setup {
     vsnip = false;
     nvim_lsp = true;
 	nvim_lua = true;
-	tags = true;
+	tags = false;
 	treesitter = true;
   };
 }
