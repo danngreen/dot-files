@@ -7,6 +7,7 @@ if (vim == nil) then vim = {}; end
 
 local nvim_lsp = require'lspconfig'
 local util = require'lspconfig/util'
+local telescope = require'telescope.builtin'
 
 -- local saga = require'lspsaga'
 
@@ -58,8 +59,8 @@ local on_attach_vim = function(client, bufnr)
   buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
+  -- buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 
@@ -153,12 +154,7 @@ nvim_lsp.clangd.setup {
   },
   flags = {allow_incremental_sync = true},
   init_options = {
-	clangdFileStatus = false,
-	-- diagnostics = {
-	--   onOpen = 0,
-	--   onChange = 0,
-	--   onSave = 100
-	-- },
+	clangdFileStatus = false
   },
   commands = {
 	ClangdSwitchSourceHeader = {
@@ -221,7 +217,7 @@ end
 
 -- from RishabhRD/nvim-lsputils:
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+-- vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
 vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
 vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
 vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler

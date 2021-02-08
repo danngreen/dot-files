@@ -24,20 +24,24 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'dr-kino/cscope-maps'
 
+"LSP
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+" Plug 'sharkdp/bat' " Preview for telescope
+" Plug 'sharkdp/fd' "finder
+" Plug 'BurntSushi/ripgrep' "finder
+Plug 'nvim-lua/telescope.nvim'
+
+Plug 'hrsh7th/nvim-compe'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
 "Plug 'glepnir/lspsaga.nvim'
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/telescope.nvim'
-Plug 'hrsh7th/nvim-compe'
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kevinhwang91/nvim-bqf'
 "
-" Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 Plug 'rust-lang/rust.vim'
@@ -61,9 +65,11 @@ colors molokai
 "-------------
 let mapleader = ","
 
+nmap <leader>WW <Plug>VimwikiIndex
+
 nnoremap <space> :noh<CR>
-inoremap jk <esc>
-inoremap jj <esc>
+" inoremap jk <esc>
+" inoremap jj <esc>
 "Repeat last macro
 noremap Q @@
 "Sensible Yank whole line with Y, like D
@@ -91,54 +97,61 @@ nnoremap <leader>R *N:%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <leader>r y:%s/\V<C-R>=escape(@",'/\')<CR>//gc<Left><Left><Left>
 vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 
-"Search all files for selected text
-"   :Ag  - Start fzf with preview window that can be disabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-" 	:Ags and Ags! - Case-sensitive versions
-"   :LS and LS! - search directory given by argument ,for example, :Files ../otherproject
-command! -bang -nargs=* Ags call fzf#vim#ag_raw('-s '. <q-args>,
-	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
-	\               : fzf#vim#with_preview('right:50%', '?'), <bang>0)
+" Find Files (by file name)
+" -------------------------
 
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>,
-	\       <bang>0 ? fzf#vim#with_preview('up:60%', '?')
-	\               : fzf#vim#with_preview('right:50%', '?'), <bang>0)
-
-" function! s:search_dir_up(query, ...)
-"   if type(a:query) != s:TYPE.string
-"     return s:warn('Invalid query argument')
-"   endif
-"   let query = empty(a:query) ? '^(?=.)' : a:query
-"   let args = copy(a:000)
-"   let ag_opts = len(args) > 1 && type(args[0]) == s:TYPE.string ? remove(args, 0) : ''
-"   let command = ag_opts . ' -- ' . fzf#shellescape(query)
-"   return call('fzf#vim#ag_raw', insert(args, command, 0))
-" endfunction
-" command! -bang -nargs=0 AG2 call s:search_dir_up("--hidden '^(?=.)' ../", fzf#vim#with_preview('right:50%', '?'), <bang>0)
-
-"Todo: how to check if <q-args> is empty, and if so replace it with '^(?=.)' 
-command! -bang -nargs=0 AGUP call fzf#vim#ag_raw("--hidden '^(?=.)' ../", fzf#vim#with_preview('right:50%', '?'), <bang>0)
-command! -bang -nargs=* AGUParg call fzf#vim#ag_raw('--hidden <q-args> ../', fzf#vim#with_preview('right:50%', '?'), <bang>0)
-
-"Find files even ones that are ignored by git (exclude .git and .ccls-cache, .cache, .clangd dirs)
-command! -bang -complete=dir -nargs=* LS
+" :LS Find all files in a given directory (1 argument required) -- even ones that are ignored by git (exclude .git/ and cache/ dirs, binary files)
+command! -bang -complete=dir -nargs=1 LS
     \ call fzf#run(fzf#wrap({
-	\ 		'source': 'fd --type f --type l --hidden --follow --no-ignore --exclude .git --exclude .ccls-cache --exclude .clangd --exclude .cache --exclude *.o --exclude *.d', 
+	\ 		'source': 'fd --type f --type l --hidden --follow --no-ignore -E .git -E .ccls-cache -E .clangd -E .cache -E *.o -E *.d -E .DS_Store -E cscope* -E tags* -E *.hex -E *.bin', 
 	\ 		'dir': <q-args>}, <bang>0))
 
+" F3: Find project files:
 noremap <F3> :Files<CR>
+
+" Shift+F3: Find all files in current dir:
 noremap <F15> :LS .<CR>
-" nnoremap <F15> <cmd>lua require'telescope.builtin'.git_files{}<CR>
-nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.find_files{}<CR>
-noremap <leader>v<F3> :LS ~/dot-files/vim
 
-nnoremap <F4> :Ag<CR>
-nnoremap <F16> :Ag <C-r><C-w><CR>
-vnoremap <F16> :<C-u>Ag <C-r><C-w><CR>
-"nnoremap <leader><F4> :Ags <C-r><C-w><CR>
-"vnoremap <leader><F4> :<C-u>Ags <C-r><C-w><CR>
+" <leader>F3: Telescope find git files (project fileS)
+nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files{}<CR>
+"
+" <leader>Shift+F3: Telescope find all file (except cache dirs, binary files, tags/cscope)
+nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files({find_command = {"fd", "--type", "f", "--type", "l", "--hidden", "--follow", "--no-ignore", "-E", ".git", "-E", ".ccls-cache", "-E", ".clangd", "-E", ".cache", "-E", "*.o", "-E", "*.d", "-E", ".DS_Store", "-E", "cscope*", "-E", "tags*", "-E", "*.hex", "-E", "*.bin"}})<CR>
 
+" <leader>v+F3: Find files in vim dotfiles
+noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
+
+" Grep files
+" ----------
+
+":Rg - ripgrep to search in project files, following symlinks
+command! -nargs=* Rg call fzf#vim#grep(
+	\ 				"rg --follow --hidden --column --line-number --no-heading --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' --color=always --smart-case -- ".shellescape(<q-args>), 1,
+	\               fzf#vim#with_preview('right:50%', '?'), 0)
+
+":RG - ripgrep called continually as you type: doesn't seem to work with regex like: 'ExactMatch !FilterThisOut 
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt =	"rg --follow --hidden --column --line-number --no-heading --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' --color=always --smart-case -- %s || true"
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nnoremap <F4> :Rg<CR>
+nnoremap <F16> :Rg <C-r><C-w><CR>
+vnoremap <F4> :<C-u>Rg <C-r><C-w><CR>
+vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
+
+"Telescope "live grep": slower than Rg, but kind of cooler interface
 nnoremap <leader><F4> <cmd>lua require'telescope.builtin'.live_grep{}<CR>
+
+" :FindInDir <dir> -- Uses telescope but is very slow at searching large dirs
+command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_command = {"fd", ".", <f-args>, "--type", "f", "--type", "l", "--hidden", "--follow", "--no-ignore", "-E", ".git", "-E", ".ccls-cache", "-E", ".clangd", "-E", ".cache", "-E", "*.o", "-E", "*.d", "-E", ".DS_Store", "-E", "cscope*", "-E", "tags*", "-E", "*.hex", "-E", "*.bin"}})
+
+
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 
 " Buffer Navigation
@@ -146,7 +159,7 @@ nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 " Close the current buffer and move to the previous one
 nnoremap <C-w>C <C-w>c
 nnoremap <C-w>c :bp <BAR> bd #<CR>
-"nmap <leader>w :bp <BAR> bd #<CR>
+nmap <leader>w :bp <BAR> bd #<CR>
 
 "Select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
