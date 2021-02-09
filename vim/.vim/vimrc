@@ -126,7 +126,7 @@ noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
 
 ":Rg - ripgrep to search in project files, following symlinks
 command! -nargs=* Rg call fzf#vim#grep(
-	\ 				"rg --follow --hidden --column --line-number --no-heading --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' --color=always --smart-case -- ".shellescape(<q-args>), 1,
+	\ 				"rg --follow --hidden --column --line-number --no-heading --smart-case --no-ignore -g '!.*cache/*' -g '!.git/*' -g '!tags*' -g '!cscope*' -g '!compile_commands.json' --color=always --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' -- ".shellescape(<q-args>), 1,
 	\               fzf#vim#with_preview('right:50%', '?'), 0)
 
 ":RG - ripgrep called continually as you type: doesn't seem to work with regex like: 'ExactMatch !FilterThisOut 
