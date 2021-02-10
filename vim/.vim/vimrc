@@ -273,6 +273,7 @@ let g:airline#extensions#nvimlsp#error_symbol = "E"
 "vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
 "mode with a (temporary) trailing space in order to paste a buffer, and losing a space
 let g:workspace_autosave_untrailspaces = 0
+let g:workspace_autosave = 0
 
 " Display
 " -------
