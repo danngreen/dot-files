@@ -94,12 +94,10 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'n', '<leader>f[', 	'<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', '<leader>f]', 	'<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', '<leader>fp', 	'<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	--
-	--hack to disable diagnostics for a buffer:
-	buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs=false,update_in_insert=false,underline=false,virtual_text=false})<CR>:e<CR>', opts)
-	-- Better way, but only temporary:
-	buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua vim.lsp.diagnostic.clear(0)', opts)
-	-- Better way, but only temporary:
+
+	-- Temporarily disable diagnostics
+	buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.diagnostic.clear(0)<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>let b:show_diags = exists("b:show_diags") ? 1-b:show_diags : 0<CR>', opts)
 
 
 	--Completion
@@ -117,13 +115,21 @@ local on_attach_vim = function(client, bufnr)
 	end
 end
 
+local function should_show_diagnostics()
+	return vim.b.show_diags ~= 0
+end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	vim.lsp.diagnostic.on_publish_diagnostics, {
-		signs = true,
 		update_in_insert = true,
-	underline = true,
-	virtual_text = { spacing = 4, },
+		signs = function(_,_) if should_show_diagnostics() then return true else return false end end,
+		underline = function(_,_) if should_show_diagnostics() then return true else return false end end,
+		virtual_text =
+			function (_, _)
+				if (should_show_diagnostics()) then return {spacing = 4}
+				else return false
+			end
+		end,
 	}
 )
 
@@ -231,10 +237,10 @@ end
 -- from RishabhRD/nvim-lsputils:
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 -- vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+-- vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+-- vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+-- vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+-- vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
