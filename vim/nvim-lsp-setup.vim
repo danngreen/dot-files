@@ -7,8 +7,6 @@ lua require("lsp_config")
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-set completeopt=menu,menuone,noinsert,noselect
-
 " Use <Tab> to trigger completion
 function! s:check_back_space() abort
     let col = col('.') - 1

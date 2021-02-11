@@ -31,15 +31,20 @@ require'compe'.setup {
 	debug = false;
 	min_length = 2;
 	preselect = 'disable'; -- 'enable' || 'disable' || 'always';
-	-- throttle_time = 500; --what is this? Something to do with preventing flickering?
+	-- throttle_time = 80; --what is this? Something to do with preventing flickering?
 	source_timeout = 500; --what is this?
 	incomplete_delay = 400; --what is this?
-	allow_prefix_unmatch = true; --what is this?
+	allow_prefix_unmatch = true; --when false, only matches with the same first char will be shown
+
+	max_abbr_width = 100;
+	max_kind_width = 100;
+	max_menu_width = 100;
+	documentation = true;
 
 	source = {
 		path = true;
 		buffer = true;
-		calc =true;
+		calc = true;
 		vsnip = false;
 		nvim_lsp = true;
 		nvim_lua = true;
@@ -102,6 +107,7 @@ local on_attach_vim = function(client, bufnr)
 
 	--Completion
 	-- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	vim.o.completeopt = "menuone,noselect"
 
 	if client.resolved_capabilities.document_highlight then
 		vim.api.nvim_exec([[
