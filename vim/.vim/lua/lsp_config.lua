@@ -1,7 +1,6 @@
 local useclangd = true
 -- local useclangd = false
-local useccls = false
--- local useccls = not useclangd;
+local useccls = not useclangd;
 
 if (vim == nil) then vim = {}; end
 
@@ -28,154 +27,169 @@ local telescope = require'telescope.builtin'
 -- }
 
 require'compe'.setup {
-  enabled = true;
-  debug = false;
-  min_length = 2;
-  preselect = 'disable'; -- 'enable' || 'disable' || 'always';
-  -- throttle_time = 500; --what is this? Something to do with preventing flickering?
-  source_timeout = 500; --what is this?
-  incomplete_delay = 400; --what is this?
-  allow_prefix_unmatch = false; --what is this?
+	enabled = true;
+	debug = false;
+	min_length = 2;
+	preselect = 'disable'; -- 'enable' || 'disable' || 'always';
+	-- throttle_time = 500; --what is this? Something to do with preventing flickering?
+	source_timeout = 500; --what is this?
+	incomplete_delay = 400; --what is this?
+	allow_prefix_unmatch = true; --what is this?
 
-  source = {
-    path = true;
-    buffer = true;
-	calc =true;
-    vsnip = false;
-    nvim_lsp = true;
-	nvim_lua = true;
-	tags = false;
-	treesitter = true;
-  };
+	source = {
+		path = true;
+		buffer = true;
+		calc =true;
+		vsnip = false;
+		nvim_lsp = true;
+		nvim_lua = true;
+		tags = false;
+		treesitter = true;
+	};
 }
 
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 local on_attach_vim = function(client, bufnr)
-  print("LSP started");
+	print("LSP started");
 
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
-  -- buf_set_keymap(bufnr, 'n', 'gr',  		'<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	local opts = { noremap=true, silent=true }
+	--Symbol info (hover/signature)
+	buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
-  buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'gw',  		'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+	--Refs/Defs
+	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
+	-- buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+		-- if client.resolved_capabilities.type_definition then --?
+	buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
+	buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
+	buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gN', 			'<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+	
 
-  buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  -- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua require\'lspsaga.codeaction\'.code_action()<CR>', opts)
+	--Symbols
+	buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gw',			'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
 
-  --buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
-  --buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
+	--Code Action
+	buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	-- buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua require\'lspsaga.codeaction\'.code_action()<CR>', opts)
 
-    -- if client.resolved_capabilities.type_definition then
-  buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
-  buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
+	--Rename symbol
+	buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
-  -- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
-  -- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
+	--Switch header (replaced with Alternate File)
+	--buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
+	--buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	-- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
+	-- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
 
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-	  hi LspReferenceText guibg=#442244 
-      augroup lsp_document_highlight
-        autocmd!
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
+	--Diagnostics
+	buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>f[', 	'<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>f]', 	'<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>fp', 	'<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	--
+	--hack to disable diagnostics for a buffer:
+	buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs=false,update_in_insert=false,underline=false,virtual_text=false})<CR>:e<CR>', opts)
+	-- Better way, but only temporary:
+	buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua vim.lsp.diagnostic.clear(0)', opts)
+	-- Better way, but only temporary:
+
+
+	--Completion
+	-- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+	if client.resolved_capabilities.document_highlight then
+		vim.api.nvim_exec([[
+			hi LspReferenceText guibg=#442244 
+			augroup lsp_document_highlight
+				autocmd!
+				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+				autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+			augroup END
+		]], false)
 	end
-    
-  buf_set_keymap(bufnr, 'n', '<leader>fx', '<cmd>lua vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs=false,update_in_insert=false,underline=false,virtual_text=false})<CR>:e<CR>', opts)
 end
 
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    signs = true,
-    update_in_insert = false,
+	vim.lsp.diagnostic.on_publish_diagnostics, {
+		signs = true,
+		update_in_insert = true,
 	underline = true,
 	virtual_text = { spacing = 4, },
-  }
+	}
 )
 
 -- Clangd
 if (useclangd) then
 
- local function switch_source_header_splitcmd(bufnr, splitcmd)
-   bufnr = util.validate_bufnr(bufnr)
-   local params = { uri = vim.uri_from_bufnr(bufnr) }
-   vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
-     if err then error(tostring(err)) end
-     if not result then print ("Corresponding file can’t be determined") return end
-     vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
-   end)
- end
+-- local function switch_source_header_splitcmd(bufnr, splitcmd)
+-- 	bufnr = util.validate_bufnr(bufnr)
+-- 	local params = { uri = vim.uri_from_bufnr(bufnr) }
+-- 	vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
+-- 		if err then error(tostring(err)) end
+-- 		if not result then print ("Corresponding file can’t be determined") return end
+-- 		vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
+-- 	end)
+-- end
 
-nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
+-- nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
 nvim_lsp.clangd.setup {
-  cmd = {
-	  --"/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
-	  "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
-      "--background-index",
-      "--log=verbose",
-	  "-j=32",
-	  -- "--clang-tidy",
-      "--cross-file-rename",
-      -- "--suggest-missing-includes",
-      --"--all-scopes-completion",
-	  "--completion-style=bundled",
-	  "--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-	  "--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-g*",
-	  "--query-driver=/usr/bin/g*",
-	  "--pch-storage=memory",
-	  "--enable-config"
-  },
-  filetypes = {"c", "cpp", "objc", "objcpp"},
-  root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
-  on_attach = on_attach_vim,
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = false
-        }
-      }
-    }
-  },
-  flags = {allow_incremental_sync = true},
-  init_options = {
-	clangdFileStatus = false
-  },
-  commands = {
-	ClangdSwitchSourceHeader = {
-	  function()
-		switch_source_header_splitcmd(0, "edit")
-	  end;
-	  description = "Open source/header in a new vsplit";
+	cmd = {
+		"/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+		-- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
+		"--background-index",
+		"--log=verbose",
+		"-j=32",
+		-- "--clang-tidy",
+		"--cross-file-rename",
+		-- "--suggest-missing-includes",
+		-- "--all-scopes-completion",
+		"--completion-style=bundled",
+		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-g*",
+		"--query-driver=/usr/bin/g*",
+		"--pch-storage=memory",
+		"--enable-config"
 	},
-	ClangdSwitchSourceHeaderVSplit = {
-	  function()
-		switch_source_header_splitcmd(0, "vsplit")
-	  end;
-	  description = "Open source/header in a new vsplit";
+	filetypes = {"c", "cpp", "objc", "objcpp"},
+	root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
+	on_attach = on_attach_vim,
+	capabilities = {
+		textDocument = {
+			completion = {
+				completionItem = {
+					snippetSupport = false
+				}
+			}
+		}
 	},
-	ClangdSwitchSourceHeaderSplit = {
-	  function()
-		switch_source_header_splitcmd(0, "split")
-	  end;
-	  description = "Open source/header in a new split";
-	};
-  }
+	flags = {allow_incremental_sync = true},
+	init_options = {
+		clangdFileStatus = false
+	},
+	-- commands = {
+	-- 	ClangdSwitchSourceHeader = {
+	-- 		function() switch_source_header_splitcmd(0, "edit") end;
+	-- 		description = "Open source/header in a new vsplit";
+	-- 	},
+	-- 	ClangdSwitchSourceHeaderVSplit = {
+	-- 		function() switch_source_header_splitcmd(0, "vsplit") end;
+	-- 		description = "Open source/header in a new vsplit";
+	-- 	},
+	-- 	ClangdSwitchSourceHeaderSplit = {
+	-- 		function() switch_source_header_splitcmd(0, "split") end;
+	-- 		description = "Open source/header in a new split";
+	-- 	};
+	-- }
 };
 
 end --Clangd
@@ -184,10 +198,9 @@ end --Clangd
 if (useccls) then
 
 nvim_lsp.ccls.setup( {
-    cmd = { "/Users/design/4ms/ccls/Release/ccls" },
-    filetypes = { "c", "cpp", "objc", "objcpp" },
-    --root_dir = nvim_lsp.util.root_pattern("compile_commands.json", ".ccls"),
-    root_dir = nvim_lsp.util.root_pattern(".ccls", "compile_commands.json"),
+	cmd = { "/Users/design/4ms/ccls/Release/ccls" },
+	filetypes = { "c", "cpp", "objc", "objcpp" },
+	root_dir = nvim_lsp.util.root_pattern(".ccls", "compile_commands.json"),
 	init_options = {
 		highlight = {lsRanges = true},
 		cache = {retainInMemory = 1},
@@ -263,7 +276,7 @@ vim.g.lsp_utils_symbols_opts = {
 -- lua
 
 nvim_lsp.sumneko_lua.setup {
-	cmd = {"/Users/design/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/design/bin/lua-language-server/main.lua"},
+	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
 	settings = {
 		Lua = {
 			runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },

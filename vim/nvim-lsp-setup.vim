@@ -1,10 +1,7 @@
 lua require("lsp_config")
 
-" Diagnostics
+" Completion
 """""""""""""
-nnoremap <leader>f[ <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <leader>f] <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <leader>fp <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
