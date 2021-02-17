@@ -5,8 +5,6 @@ local useccls = not useclangd;
 if (vim == nil) then vim = {}; end
 
 local nvim_lsp = require'lspconfig'
-local util = require'lspconfig/util'
-local telescope = require'telescope.builtin'
 
 -- local saga = require'lspsaga'
 
