@@ -1,8 +1,4 @@
-[submodule "vim/bundle/Vundle.vim"]
-	path = vim/bundle/Vundle.vim
-	url = https://github.com/VundleVim/Vundle.vim.git
-
-#[submodule "vim/bundle/YouCompleteMe"]
+[submodule "vim/bundle/YouCompleteMe"]
 #	path = vim/bundle/YouCompleteMe
 #	url = https://github.com/ycm-core/YouCompleteMe.git
 #
@@ -37,4 +33,3 @@
 #[submodule "vim/bundle/fzf.vim"]
 #	path = vim/bundle/fzf.vim
 #	url = https://github.com/junegunn/fzf.vim.git
-

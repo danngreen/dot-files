@@ -30,7 +30,7 @@ source ~/dot-files/includes/paths
 source ~/.iterm2_shell_integration.zsh
 
 alias vi=nvim
-alias startidf='source $IDF_PATH/export.sh'
+alias startidf='. $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
 
-alias stmprog=~/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
+alias vissh='vi ~/.ssh/known_hosts'
