@@ -40,7 +40,7 @@ Plug 'RishabhRD/nvim-lsputils'
 "Plug 'glepnir/lspsaga.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'kevinhwang91/nvim-bqf'
+" Plug 'kevinhwang91/nvim-bqf'
 "
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -100,11 +100,29 @@ vnoremap <leader>R y:%s/\V<C-R>=escape(@",'/\')<CR>//g<Left><Left>
 " Find Files (by file name)
 " -------------------------
 let g:fzf_preview_window = ['right:50%:nohidden', '?']
+
 " :LS Find all files in a given directory (1 argument required) -- even ones that are ignored by git (exclude .git/ and cache/ dirs, binary files)
 command! -bang -complete=dir -nargs=1 LS
     \ call fzf#run(fzf#wrap({
-	\ 		'source': 'fd --type f --type l --hidden --follow --no-ignore -E .git -E .ccls-cache -E .clangd -E .cache -E *.o -E *.d -E .DS_Store -E cscope* -E tags* -E *.hex -E *.bin', 
-	\ 		'dir': <q-args>}, <bang>0))
+	\ 'source': "fd
+	\ 		--type f
+	\ 		--type l
+	\ 		--hidden
+	\ 		--follow
+	\ 		--no-ignore
+	\ 		-E .git
+	\ 		-E .ccls-cache
+	\ 		-E .clangd
+	\ 		-E .cache
+	\ 		-E *.o
+	\ 		-E *.d
+	\ 		-E .DS_Store
+	\ 		-E cscope*
+	\ 		-E tags*
+	\ 		-E *.hex
+	\ 		-E *.bin
+	\ ", 
+	\ 'dir': <q-args>}, <bang>0))
 
 " F3: Find project files:
 noremap <F3> :Files<CR>
@@ -116,7 +134,24 @@ noremap <F15> :LS .<CR>
 nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files{}<CR>
 "
 " <leader>Shift+F3: Telescope find all file (except cache dirs, binary files, tags/cscope)
-nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files({find_command = {"fd", "--type", "f", "--type", "l", "--hidden", "--follow", "--no-ignore", "-E", ".git", "-E", ".ccls-cache", "-E", ".clangd", "-E", ".cache", "-E", "*.o", "-E", "*.d", "-E", ".DS_Store", "-E", "cscope*", "-E", "tags*", "-E", "*.hex", "-E", "*.bin"}})<CR>
+nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files( 
+	\ {find_command = {"fd", 
+		\"--type", "f", 
+		\"--type", "l", 
+		\"--hidden", 
+		\"--follow", 
+		\"-E", ".git", 
+		\"-E", ".ccls-cache", 
+		\"-E", ".clangd", 
+		\"-E", ".cache", 
+		\"-E", "*.o", 
+		\"-E", "*.d", 
+		\"-E", ".DS_Store", 
+		\"-E", "cscope*", 
+		\"-E", "tags*", 
+		\"-E", "*.hex", 
+		\"-E", "*.bin"
+	\}})<CR>
 
 " <leader>v+F3: Find files in vim dotfiles
 noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
@@ -125,19 +160,55 @@ noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
 " ----------
 
 ":Rg - ripgrep to search in project files, following symlinks
-command! -nargs=* Rg call fzf#vim#grep(
-	\ 				"rg --follow --hidden --column --line-number --no-heading --smart-case --no-ignore -g '!.*cache/*' -g '!.git/*' -g '!tags*' -g '!cscope*' -g '!compile_commands.json' --color=always --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' -- ".shellescape(<q-args>), 1,
-	\               fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
+command! -nargs=* Rg call fzf#vim#grep("rg \
+							\ --follow
+							\ --hidden
+							\ --column
+							\ --line-number
+							\ --no-heading
+							\ --smart-case
+							\ --no-ignore
+							\ -g '!.*cache/*'
+							\ -g '!.git/*'
+							\ -g '!tags*'
+							\ -g '!cscope*'
+							\ -g '!compile_commands.json'
+							\ -g '!*.map'
+							\ -g '!*.dmp'
+							\ --color=always
+							\ --colors 'match:bg:yellow'
+							\ --colors 'match:fg:black'
+							\ --colors 'match:style:nobold'
+							\ --colors 'path:fg:blue'
+							\ --colors 'path:style:bold'
+							\ --colors 'line:fg:yellow'
+							\ --colors 'line:style:bold'
+							\ -- ".shellescape(<q-args>),
+						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
 
 ":RG - ripgrep called continually as you type: doesn't seem to work with regex like: 'ExactMatch !FilterThisOut 
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt =	"rg --follow --hidden --column --line-number --no-heading --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:blue' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold' --color=always --smart-case -- %s || true"
+  let command_fmt =	"rg  \
+					\ --follow
+					\ --hidden
+					\ --column
+					\ --line-number
+					\ --no-heading
+					\ --colors 'match:bg:yellow'
+					\ --colors 'match:fg:black'
+					\ --colors 'match:style:nobold'
+					\ --colors 'path:fg:blue'
+					\ --colors 'path:style:bold'
+					\ --colors 'line:fg:yellow'
+					\ --colors 'line:style:bold'
+					\ --color=always
+					\ --smart-case
+					\ -- %s || true"
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
-
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 nnoremap <F4> :Rg<CR>
@@ -149,7 +220,27 @@ vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
 nnoremap <leader><F4> <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 
 " :FindInDir <dir> -- Uses telescope but is very slow at searching large dirs
-command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_command = {"fd", ".", <f-args>, "--type", "f", "--type", "l", "--hidden", "--follow", "--no-ignore", "-E", ".git", "-E", ".ccls-cache", "-E", ".clangd", "-E", ".cache", "-E", "*.o", "-E", "*.d", "-E", ".DS_Store", "-E", "cscope*", "-E", "tags*", "-E", "*.hex", "-E", "*.bin"}})
+command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_command = {
+		\"fd", ".", <f-args>, 
+		\"--type", "f", 
+		\"--type", "l", 
+		\"--hidden", 
+		\"--follow", 
+		\"--no-ignore", 
+		\"-E", ".git", 
+		\"-E", ".ccls-cache", 
+		\"-E", ".clangd", 
+		\"-E", ".cache", 
+		\"-E", "*.o", 
+		\"-E", "*.d", 
+		\"-E", ".DS_Store", 
+		\"-E", "cscope*", 
+		\"-E", "tags*", 
+		\"-E", "*.map", 
+		\"-E", "*.dmp", 
+		\"-E", "*.hex", 
+		\"-E", "*.bin"
+	\ }})
 
 
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
@@ -178,15 +269,15 @@ noremap <F12> :NERDTreeToggle<CR>
 
 "BQF quickfix improvements
 "-------------------------
-if (has("nvim"))
-lua <<EOF
-require('bqf').setup({
-    auto_resize_height = false,
-	auto_preview = false,
-	auto_enable = true
-})
-EOF
-endif
+" if (has("nvim"))
+" lua <<EOF
+" require('bqf').setup({
+"     auto_resize_height = false,
+" 	auto_preview = false,
+" 	auto_enable = true
+" })
+" EOF
+" endif
 
 " Alternate File
 " --------------
