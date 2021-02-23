@@ -5,7 +5,7 @@ lua require("lsp_config")
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use <Tab> to trigger completion
 function! s:check_back_space() abort
