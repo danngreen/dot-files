@@ -104,6 +104,8 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.diagnostic.clear(0)<CR>', opts)
 	buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>let b:show_diags = exists("b:show_diags") ? 1-b:show_diags : 0<CR>', opts)
 
+	-- buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>lua require(\'lspconfig\')["clangd"].manager.try_add()<CR>', opts)
+
 
 	--Completion
 	-- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
