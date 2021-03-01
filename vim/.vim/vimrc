@@ -41,7 +41,9 @@ Plug 'RishabhRD/nvim-lsputils'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'kevinhwang91/nvim-bqf'
-"
+
+Plug 'voldikss/vim-floaterm'
+
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 Plug 'rust-lang/rust.vim'
@@ -75,6 +77,8 @@ noremap Q @@
 "Sensible Yank whole line with Y, like D
 noremap Y y$
 
+let g:floaterm_keymap_new    = '<F7>'
+let g:floaterm_keymap_toggle    = '<F8>'
 " Vim Cursor in Insert mode
 "--------------------------
 if (!has("nvim"))
@@ -258,6 +262,7 @@ nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 nnoremap <C-w>C <C-w>c
 nnoremap <C-w>c :bp <BAR> bd #<CR>
 nmap <leader>w :bp <BAR> bd #<CR>
+nmap <M-w> :bp <BAR> bd #<CR>
 
 "Select a buffer from airline tabline
 nmap <leader>1 <Plug>AirlineSelectTab1
@@ -305,7 +310,7 @@ let g:tagbar_file_size_limit = 100000
 "<F23> is Shift+<F11>
 nnoremap <F23> :Dispatch! ctags -R .<CR>:Dispatch! cscope -bkqR<CR>
 
-nnoremap <F10> :cope<CR>
+nnoremap <F10> :Cope<CR>
 nnoremap <F22> :ccl<CR>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -455,18 +460,15 @@ let g:clang_format#style_options = {
 \ "AccessModifierOffset" :  "-4",
 \ "AlignAfterOpenBracket" : "Align",
 \ "AlignEscapedNewlines" : "Left",
-\ "AlignOperands" : "true",
-\ "AllowShortIfStatementsOnASingleLine" : "Never",
-\ "AllowShortFunctionsOnASingleLine" : "All",
-\ "AllowShortBlocksOnASingleLine" : "true",
-\ "AlwaysBreakTemplateDeclarations" : "true",
+\ "AlignOperands" : "AlignAfterOperator",
 \ "AllowAllArgumentsOnNextLine" : "true",
+\ "AllowShortBlocksOnASingleLine" : "true",
+\ "AllowShortFunctionsOnASingleLine" : "All",
+\ "AllowShortIfStatementsOnASingleLine" : "Never",
+\ "AlwaysBreakTemplateDeclarations" : "true",
 \ "BinPackArguments" :  "false",
 \ "BinPackParameters" :  "false",
-\ "BreakConstructorInitializers" : "BeforeComma",
-\ "BreakInheritanceList" : "AfterColon",
 \ "BreakBeforeBraces" : "Custom",
-\ "BreakBeforeTernaryOperators" : "false",
 \ "BraceWrapping" : { 
 	\ "AfterCaseLabel" :  "false",
 	\ "AfterClass" :  "false",
@@ -484,15 +486,18 @@ let g:clang_format#style_options = {
 	\ "SplitEmptyRecord" :  "false",
 	\ "SplitEmptyNamespace" :  "false",
 \ },
+\ "BreakBeforeTernaryOperators" : "false",
+\ "BreakConstructorInitializers" : "BeforeComma",
+\ "BreakInheritanceList" : "AfterColon",
 \ "ConstructorInitializerIndentWidth" :  4,
-\ "ContinuationIndentWidth" : 0,
+\ "ContinuationIndentWidth" : 4,
 \ "IndentCaseLabels" : "true",
 \ "IndentPPDirectives" : "BeforeHash",
-\ "SpaceBeforeInheritanceColon" : "true",
-\ "SpaceBeforeCtorInitializerColon" : "true",
-\ "SpaceBeforeAssignmentOperators" : "true",
-\ "SpaceAfterTemplateKeyword" : "false",
 \ "SpaceAfterCStyleCast" : "false",
+\ "SpaceAfterTemplateKeyword" : "false",
+\ "SpaceBeforeAssignmentOperators" : "true",
+\ "SpaceBeforeCtorInitializerColon" : "true",
+\ "SpaceBeforeInheritanceColon" : "true",
 \ "SpaceBeforeParens" : "ControlStatements",
 \ "SpaceBeforeRangeBasedForLoopColon" : "true",
 \ "SpaceInEmptyParentheses" : "false",
@@ -514,6 +519,11 @@ augroup END
 augroup kicad_lib_filetype
 autocmd!
 autocmd BufNewFile,BufRead *.lib set syntax=none
+augroup END
+
+augroup clangd_yaml
+	autocmd!
+	autocmd BufNewFile,BufRead .clangd set syntax=yaml
 augroup END
 
 set wildmenu
