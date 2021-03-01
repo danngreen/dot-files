@@ -167,14 +167,18 @@ nvim_lsp.clangd.setup {
 		-- "--all-scopes-completion",
 		"--completion-style=bundled",
 		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/bin/arm-none-eabi-g*",
+		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/*/bin/*/arm-none-eabi-g*",
 		"--query-driver=/usr/bin/g*",
+		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 		"--pch-storage=memory",
 		"--enable-config"
 	},
 	filetypes = {"c", "cpp", "objc", "objcpp"},
 	root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
+    -- on_init = function(client, result)
+    --   client.offset_encoding = {"utf-16"}
+    -- end;
 	capabilities = {
 		textDocument = {
 			completion = {
