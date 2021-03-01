@@ -40,7 +40,7 @@ nnoremap <leader>lss :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 "Show debug info
 nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 "Show log
-nnoremap <leader>lsL :new ~/.local/share/nvim/lsp.log<CR>
+nnoremap <leader>lsL :lua vim.api.nvim_command("e "..vim.lsp.get_log_path())<CR>
 " Show completion characters
 nnoremap <leader>lsC :lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))
 " Show current symbol type (useful for completion chain list)
