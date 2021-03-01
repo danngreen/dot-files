@@ -131,7 +131,7 @@ noremap <F3> :Files<CR>
 noremap <F15> :LS .<CR>
 
 " <leader>F3: Telescope find git files (project fileS)
-nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files{}<CR>
+nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
 "
 " <leader>Shift+F3: Telescope find all file (except cache dirs, binary files, tags/cscope)
 nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files( 
@@ -168,6 +168,7 @@ command! -nargs=* Rg call fzf#vim#grep("rg \
 							\ --no-heading
 							\ --smart-case
 							\ --no-ignore
+							\ -g '!.ccls-cache'
 							\ -g '!.*cache/*'
 							\ -g '!.git/*'
 							\ -g '!tags*'
@@ -211,13 +212,19 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
+" Todo: F4=find in git files, S+F4 find word under cursor in git files,
+" <leader>F4 = find in all files, <leader>S+F4 = find word in all files
 nnoremap <F4> :Rg<CR>
-nnoremap <F16> :Rg <C-r><C-w><CR>
 vnoremap <F4> :<C-u>Rg <C-r><C-w><CR>
+nnoremap <F16> :Rg <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
 
-"Telescope "live grep": slower than Rg, but kind of cooler interface
-nnoremap <leader><F4> <cmd>lua require'telescope.builtin'.live_grep{}<CR>
+lua require("finders")
+
+nnoremap <F5> <cmd>lua require'finders'.find_stuff()<CR>
+nnoremap <F17> <cmd>lua require'finders'.find_word()<CR>
+nnoremap <leader><F5> <cmd>lua require'finders'.find_stuff_all_files()<CR>
+nnoremap <leader><F17> <cmd>lua require'finders'.find_word_all_files()<CR>
 
 " :FindInDir <dir> -- Uses telescope but is very slow at searching large dirs
 command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_command = {
