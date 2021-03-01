@@ -156,7 +156,8 @@ if (useclangd) then
 
 nvim_lsp.clangd.setup {
 	cmd = {
-		"/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
+		"/usr/local/opt/llvm/bin/clangd", --version 11.1.0
+		-- "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
 		-- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
 		"--background-index",
 		"--log=verbose",
