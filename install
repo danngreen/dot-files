@@ -4,4 +4,3 @@ for dotfile in ./dot-files/^(vim|include|README.md|install|TODO); do
 done
 cd ./dot-files
 stow vim
-ln -s ~/dot-files/vim/coc-settings.json ~/.config/nvim/coc-settings.json
