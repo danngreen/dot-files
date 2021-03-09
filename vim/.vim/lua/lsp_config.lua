@@ -49,6 +49,19 @@ require'compe'.setup {
 	};
 }
 
+-- Formatting
+FormatSetState = function(value)
+    vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
+end
+
+_G.lsp_format = function()
+	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
+		vim.lsp.buf.formatting_sync()
+		-- Can pass options to the formatter:
+        -- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
+	end
+end
+
 local buf_set_keymap = vim.api.nvim_buf_set_keymap
 local on_attach_vim = function(client, bufnr)
 	print("LSP started");
@@ -117,11 +130,22 @@ local on_attach_vim = function(client, bufnr)
 			augroup END
 		]], false)
 	end
+
+	--Formatting
+	if client.resolved_capabilities.document_formatting then
+        vim.cmd [[augroup Format]]
+        vim.cmd [[autocmd! * <buffer>]]
+        vim.cmd [[autocmd BufWritePost <buffer> lua lsp_format() ]]
+        vim.cmd [[augroup END]]
+		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
+		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
+    end
+
 end
 
  --
  -- Diagnostics
- -- 
+ --
 local function should_show_diagnostics()
 	return vim.b.show_diags ~= 0
 end
@@ -234,6 +258,7 @@ require'lspconfig'.clangd.setup {
 		"--log=verbose",
 		"-j=32",
 		"--cross-file-rename",
+		"--fallback-style=LLVM",
 		-- "--clang-tidy",
 		-- "--suggest-missing-includes",
 		-- "--all-scopes-completion",
@@ -249,7 +274,16 @@ require'lspconfig'.clangd.setup {
 	root_dir = require'lspconfig'.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
 	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
+
+	--Are both of these actually needed?
+	on_init = function(client)
+        client.config.flags = {}
+        if client.config.flags then
+          client.config.flags.allow_incremental_sync = true
+        end
+    end;
 	flags = {allow_incremental_sync = true},
+
 	init_options = { clangdFileStatus = false, },
 	commands = {
 		ClangdSwitchSourceHeader = {
