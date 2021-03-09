@@ -1,10 +1,8 @@
 local useclangd = true
 -- local useclangd = false
-local useccls = not useclangd;
+-- local useccls = not useclangd;
 
 if (vim == nil) then vim = {}; end
-
-local nvim_lsp = require'lspconfig'
 
 -- local saga = require'lspsaga'
 
@@ -47,7 +45,7 @@ require'compe'.setup {
 		nvim_lsp = true;
 		nvim_lua = true;
 		tags = false;
-		treesitter = true;
+		treesitter = false;
 	};
 }
 
@@ -63,10 +61,11 @@ local on_attach_vim = function(client, bufnr)
 
 	--Refs/Defs
 	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
-	-- buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-		-- if client.resolved_capabilities.type_definition then --?
+	
+	-- if client.resolved_capabilities.type_definition then --?
 	buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
 	buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 	buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
@@ -86,8 +85,8 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
 	--Switch header (replaced with Alternate File)
-	--buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
-	--buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>h', '<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
 	-- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
 	-- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
@@ -106,7 +105,6 @@ local on_attach_vim = function(client, bufnr)
 
 
 	--Completion
-	-- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 	vim.o.completeopt = "menuone,noselect"
 
 	if client.resolved_capabilities.document_highlight then
@@ -121,6 +119,9 @@ local on_attach_vim = function(client, bufnr)
 	end
 end
 
+ --
+ -- Diagnostics
+ -- 
 local function should_show_diagnostics()
 	return vim.b.show_diags ~= 0
 end
@@ -139,121 +140,40 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	}
 )
 
--- Clangd
-if (useclangd) then
+--
+-- Handlers
+--
 
--- local function switch_source_header_splitcmd(bufnr, splitcmd)
--- 	bufnr = util.validate_bufnr(bufnr)
--- 	local params = { uri = vim.uri_from_bufnr(bufnr) }
--- 	vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
--- 		if err then error(tostring(err)) end
--- 		if not result then print ("Corresponding file can’t be determined") return end
--- 		vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
--- 	end)
--- end
-
--- nvim_lsp.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
-
-nvim_lsp.clangd.setup {
-	cmd = {
-		"/usr/local/opt/llvm/bin/clangd", --version 11.1.0
-		-- "/Users/dann/bin/clangd_11.0.0-rc1/bin/clangd",
-		-- "/Users/dann/bin/clangd_snapshot_20210113/bin/clangd",
-		"--background-index",
-		"--log=verbose",
-		"-j=32",
-		-- "--clang-tidy",
-		"--cross-file-rename",
-		-- "--suggest-missing-includes",
-		-- "--all-scopes-completion",
-		"--completion-style=bundled",
-		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/*/bin/*/arm-none-eabi-g*",
-		"--query-driver=/usr/bin/g*",
-		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
-		"--pch-storage=memory",
-		"--enable-config"
-	},
-	filetypes = {"c", "cpp", "objc", "objcpp"},
-	root_dir = nvim_lsp.util.root_pattern(".clangd", "compile_commands.json" ),
-	on_attach = on_attach_vim,
-    -- on_init = function(client, result)
-    --   client.offset_encoding = {"utf-16"}
-    -- end;
-	capabilities = {
-		textDocument = {
-			completion = {
-				completionItem = {
-					snippetSupport = false
-				}
-			}
-		}
-	},
-	flags = {allow_incremental_sync = true},
-	init_options = {
-		clangdFileStatus = false
-	},
-	-- commands = {
-	-- 	ClangdSwitchSourceHeader = {
-	-- 		function() switch_source_header_splitcmd(0, "edit") end;
-	-- 		description = "Open source/header in a new vsplit";
-	-- 	},
-	-- 	ClangdSwitchSourceHeaderVSplit = {
-	-- 		function() switch_source_header_splitcmd(0, "vsplit") end;
-	-- 		description = "Open source/header in a new vsplit";
-	-- 	},
-	-- 	ClangdSwitchSourceHeaderSplit = {
-	-- 		function() switch_source_header_splitcmd(0, "split") end;
-	-- 		description = "Open source/header in a new split";
-	-- 	};
-	-- }
-};
-
-end --Clangd
-
--- ccls
-if (useccls) then
-
-nvim_lsp.ccls.setup( {
-	cmd = { "/Users/design/4ms/ccls/Release/ccls" },
-	filetypes = { "c", "cpp", "objc", "objcpp" },
-	root_dir = nvim_lsp.util.root_pattern(".ccls", "compile_commands.json"),
-	init_options = {
-		highlight = {lsRanges = true},
-		cache = {retainInMemory = 1},
-		diagnostics = {
-			onOpen = 0,
-			onChange = 0,
-			onSave = 100
-		},
-		index = {
-			threads = 8
-		}
-		--compilationDatabaseDirectory = "build/"
-	},
-	capabilities = {
-		textDocument = {
-			completion = {
-				completionItem = {
-					snippetSupport = false
-				}
-			}
-		}
-	},
-	on_attach = on_attach_vim,
-})
-
+function _G.foo()
+    -- local win = vim.api.nvim_get_current_win() -- save where we are now
+    local bufnr = vim.api.nvim_get_current_buf()
+    local params = vim.lsp.util.make_position_params() -- create params for "go to definition"
+    local method = "textDocument/references"
+    -- vim.cmd [[vsplit]] -- new split
+    local lsp_response = vim.lsp.buf_request_sync(bufnr, method, params, 1000) -- call the LSP(s)
+    local result = {}
+    for _, client in pairs(lsp_response) do -- loop over all LSPs
+        for _, r in pairs(client.result) do -- loop over all results per LSP
+            table.insert(result, r) -- put them in a table
+        end
+    end
+	--print(vim.inspect(result))
+    -- vim.lsp.handlers[method](nil, method, result) -- call the handler
+	require'lsputil.locations'.references_handler(nil, method, result, vim.lsp.get_active_clients()[1].id, bufnr) -- call some other handler.. dones't work?
+    -- vim.api.nvim_set_current_win(win) -- return to the original window
 end
 
--- from RishabhRD/nvim-lsputils:
+-- LSP Utils RishabhRD/nvim-lsputils:
+
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
--- vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
 -- vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
 -- vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
 -- vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
 -- vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+
 
 local border_chars = {
 	TOP_LEFT = '┌',
@@ -289,10 +209,108 @@ vim.g.lsp_utils_symbols_opts = {
 	prompt = {},
 }
 
+--
+-- Clangd
+--
+
+if (useclangd) then
+
+local function switch_source_header_splitcmd(bufnr, splitcmd)
+	bufnr = require'lspconfig'.util.validate_bufnr(bufnr)
+	local params = { uri = vim.uri_from_bufnr(bufnr) }
+	vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
+		if err then error(tostring(err)) end
+		if not result then print ("Corresponding file can’t be determined") return end
+		vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
+	end)
+end
+require'lspconfig'.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
+
+require'lspconfig'.clangd.setup {
+	cmd = {
+		-- "/usr/local/opt/llvm/bin/clangd", --version 11.0.0
+		"/Users/dann/bin/clangd_12.0.0-rc2/bin/clangd",
+		"--background-index",
+		"--log=verbose",
+		"-j=32",
+		"--cross-file-rename",
+		-- "--clang-tidy",
+		-- "--suggest-missing-includes",
+		-- "--all-scopes-completion",
+		"--completion-style=bundled",
+		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/*/bin/*/arm-none-eabi-g*",
+		"--query-driver=/usr/bin/g*",
+		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
+		"--pch-storage=memory",
+		"--enable-config"
+	},
+	filetypes = {"c", "cpp", "objc", "objcpp"},
+	root_dir = require'lspconfig'.util.root_pattern(".clangd", "compile_commands.json" ),
+	on_attach = on_attach_vim,
+	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
+	flags = {allow_incremental_sync = true},
+	init_options = { clangdFileStatus = false, },
+	commands = {
+		ClangdSwitchSourceHeader = {
+			function() switch_source_header_splitcmd(0, "edit") end;
+			description = "Open source/header in a new vsplit";
+		},
+		ClangdSwitchSourceHeaderVSplit = {
+			function() switch_source_header_splitcmd(0, "vsplit") end;
+			description = "Open source/header in a new vsplit";
+		},
+		ClangdSwitchSourceHeaderSplit = {
+			function() switch_source_header_splitcmd(0, "split") end;
+			description = "Open source/header in a new split";
+		};
+	}
+};
+
+end --Clangd
+
+--
+-- ccls
+--
+--
+if (useccls) then
+
+require'lspconfig'.ccls.setup( {
+	cmd = { "/Users/design/4ms/ccls/Release/ccls" },
+	filetypes = { "c", "cpp", "objc", "objcpp" },
+	root_dir = require'lspconfig'.util.root_pattern(".ccls", "compile_commands.json"),
+	init_options = {
+		highlight = {lsRanges = true},
+		cache = {retainInMemory = 1},
+		diagnostics = {
+			onOpen = 0,
+			onChange = 0,
+			onSave = 100
+		},
+		index = {
+			threads = 8
+		}
+		--compilationDatabaseDirectory = "build/"
+	},
+	capabilities = {
+		textDocument = {
+			completion = {
+				completionItem = {
+					snippetSupport = false
+				}
+			}
+		}
+	},
+	on_attach = on_attach_vim,
+})
+
+end
+
+
 
 -- lua
 
-nvim_lsp.sumneko_lua.setup {
+require'lspconfig'.sumneko_lua.setup {
 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
 	settings = {
 		Lua = {
@@ -315,11 +333,11 @@ nvim_lsp.sumneko_lua.setup {
 
 -- rust
 
-nvim_lsp.rust_analyzer.setup {
+require'lspconfig'.rust_analyzer.setup {
 	on_attach = on_attach_vim,
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
-	root_dir = nvim_lsp.util.root_pattern("Cargo.toml"),
+	root_dir = require'lspconfig'.util.root_pattern("Cargo.toml"),
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {
@@ -334,12 +352,12 @@ nvim_lsp.rust_analyzer.setup {
 
 -- tsserver/javascript
 
-nvim_lsp.tsserver.setup {
+require'lspconfig'.tsserver.setup {
 	filetypes = {"javascript"},
-	root_dir = nvim_lsp.util.root_pattern(".git"),
+	root_dir = require'lspconfig'.util.root_pattern(".git"),
 	on_attach = on_attach_vim,
 }
 
 -- cmake
 
-nvim_lsp.cmake.setup {}
+require'lspconfig'.cmake.setup {}
