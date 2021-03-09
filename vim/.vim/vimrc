@@ -33,6 +33,7 @@ Plug 'nvim-lua/plenary.nvim'
 " Plug 'sharkdp/fd' "finder
 " Plug 'BurntSushi/ripgrep' "finder
 Plug 'nvim-lua/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'hrsh7th/nvim-compe'
 Plug 'RishabhRD/popfix'
@@ -49,7 +50,6 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'rust-lang/rust.vim'
 
 call plug#end()
-set rtp^=~/.vim/bundle/ctrlp.vim
 set rtp+=/usr/local/opt/fzf
 
 " Basics
@@ -71,7 +71,6 @@ nmap <leader>WW <Plug>VimwikiIndex
 
 nnoremap <space> :noh<CR>
 " inoremap jk <esc>
-" inoremap jj <esc>
 "Repeat last macro
 noremap Q @@
 "Sensible Yank whole line with Y, like D
@@ -79,6 +78,7 @@ noremap Y y$
 
 let g:floaterm_keymap_new    = '<F7>'
 let g:floaterm_keymap_toggle    = '<F8>'
+
 " Vim Cursor in Insert mode
 "--------------------------
 if (!has("nvim"))
@@ -133,6 +133,23 @@ noremap <F3> :Files<CR>
 
 " Shift+F3: Find all files in current dir:
 "noremap <F15> :LS .<CR> "Doesn't work?!!
+
+lua <<EOF
+require'telescope'.setup{
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = true,
+            override_file_sorter = true,
+        }
+    },
+--	defaults = {
+--		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--	}
+}
+EOF
+
+lua require'telescope'.load_extension('fzy_native')
 
 " <leader>F3: Telescope find git files (project fileS)
 nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
@@ -373,8 +390,6 @@ nnoremap <leader>vcc :edit ~/Library/Preferences/clangd/config.yaml<CR>
 "Copy/paste
 vnoremap <M-c> "+y
 vnoremap <M-x> "+d
-" nnoremap <leader>l :set norelativenumber<CR>
-" nnoremap <leader>L :set relativenumber<CR>
 
 "Building
 nnoremap <leader>m :wa<CR>:Make<CR>
@@ -468,91 +483,8 @@ set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 
 
-" Syntax
-" ------
-"vim-cpp-enhanced-highlight options:
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_posix_standard = 1
-"Highlight template functions (can be a little slow on large files)
-let g:cpp_experimental_simple_template_highlight = 1
-"Highlight template functions (faster implementation but has some corner cases where it doesn't work.)
-let g:cpp_experimental_template_highlight = 0
-"This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
-let g:cpp_concepts_highlight = 1
-"Disable highlighting of user defined functions
-let g:cpp_no_function_highlight = 0
-
-"ctrlP
-"-----
-" Setup some default ignores
-let g:ctrlp_custom_ignore = {
-\ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-\ 'file': '\v\.(png|jpg|jpeg|pdf|o|d|a)$',
-\}
-" Use nearest .git directory as cwd
-let g:ctrlp_working_path_mode = 'r'
-
 " Clang-format
-" ------------
-let g:clang_format#auto_format = 1
-let g:clang_format#detect_style_file = 1
-let g:clang_format#enable_fallback_style = 1
-let g:clang_format#style_options = {
-\ "BasedOnStyle" : "LLVM",
-\ "Standard" : "c++17",
-\ "UseTab" : "Always",
-\ "TabWidth" :  4,
-\ "IndentWidth" :  4,
-\ "ColumnLimit" :  0,
-\ "AccessModifierOffset" :  "-4",
-\ "AlignAfterOpenBracket" : "Align",
-\ "AlignEscapedNewlines" : "Left",
-\ "AlignOperands" : "AlignAfterOperator",
-\ "AllowAllArgumentsOnNextLine" : "true",
-\ "AllowShortBlocksOnASingleLine" : "true",
-\ "AllowShortFunctionsOnASingleLine" : "All",
-\ "AllowShortIfStatementsOnASingleLine" : "Never",
-\ "AlwaysBreakTemplateDeclarations" : "true",
-\ "BinPackArguments" :  "false",
-\ "BinPackParameters" :  "false",
-\ "BreakBeforeBraces" : "Custom",
-\ "BraceWrapping" : { 
-	\ "AfterCaseLabel" :  "false",
-	\ "AfterClass" :  "false",
-	\ "AfterControlStatement" :  "MultiLine",
-	\ "AfterEnum" :  "false",
-	\ "AfterFunction" :  "false",
-	\ "AfterNamespace" :  "true",
-	\ "AfterStruct" :  "false",
-	\ "AfterUnion" :  "false",
-	\ "AfterExternBlock" :  "false",
-	\ "BeforeCatch" :  "false",
-	\ "BeforeElse" :  "false",
-	\ "IndentBraces" :  "false",
-	\ "SplitEmptyFunction" :  "false",
-	\ "SplitEmptyRecord" :  "false",
-	\ "SplitEmptyNamespace" :  "false",
-\ },
-\ "BreakBeforeTernaryOperators" : "false",
-\ "BreakConstructorInitializers" : "BeforeComma",
-\ "BreakInheritanceList" : "AfterColon",
-\ "ConstructorInitializerIndentWidth" :  4,
-\ "ContinuationIndentWidth" : 4,
-\ "IndentCaseLabels" : "true",
-\ "IndentPPDirectives" : "BeforeHash",
-\ "SpaceAfterCStyleCast" : "false",
-\ "SpaceAfterTemplateKeyword" : "false",
-\ "SpaceBeforeAssignmentOperators" : "true",
-\ "SpaceBeforeCtorInitializerColon" : "true",
-\ "SpaceBeforeInheritanceColon" : "true",
-\ "SpaceBeforeParens" : "ControlStatements",
-\ "SpaceBeforeRangeBasedForLoopColon" : "true",
-\ "SpaceInEmptyParentheses" : "false",
-\ "SpacesInAngles" : "false",
-\ "SpacesInCStyleCastParentheses" : "false",
-\ }
+source ~/dot-files/vim/clang-format-setup.vim
 
 "Format lsp logs:
 function! FormatLspLogLine()
@@ -611,7 +543,15 @@ set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in ins
 set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
 set formatoptions+=n 	" Format lists
 
-""Completion
+",pl Format Json from LspLog
+nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
+",pjj Format Json 
+nnoremap <leader>pjj :.!python -m json.tool<CR>
+vnoremap <leader>pjj :!python -m json.tool<CR>
+
+
+
+"Completion
 "Popup
 "Fix LSP floating windows being interpreted as markdown:
 hi markdownError none
