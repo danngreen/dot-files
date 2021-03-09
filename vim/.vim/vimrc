@@ -131,7 +131,7 @@ command! -bang -complete=dir -nargs=1 LS
 noremap <F3> :Files<CR>
 
 " Shift+F3: Find all files in current dir:
-noremap <F15> :LS .<CR>
+"noremap <F15> :LS .<CR> "Doesn't work?!!
 
 lua <<EOF
 require'telescope'.setup{
@@ -160,6 +160,8 @@ nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files(
 		\"--type", "l", 
 		\"--hidden", 
 		\"--follow", 
+		\"--no-ignore", 
+		\"--color=never",
 		\"-E", ".git", 
 		\"-E", ".ccls-cache", 
 		\"-E", ".clangd", 
@@ -207,6 +209,46 @@ command! -nargs=* Rg call fzf#vim#grep("rg \
 							\ -- ".shellescape(<q-args>),
 						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
 
+":RgDir texttofind dirtosearch
+command! -nargs=* RgDir call fzf#vim#grep("rg \
+							\ --follow
+							\ --hidden
+							\ --column
+							\ --line-number
+							\ --no-heading
+							\ --smart-case
+							\ --no-ignore
+							\ -g '!.ccls-cache'
+							\ -g '!.*cache/*'
+							\ -g '!.git/*'
+							\ -g '!tags*'
+							\ -g '!cscope*'
+							\ -g '!compile_commands.json'
+							\ -g '!*.map'
+							\ -g '!*.dmp'
+							\ --color=always
+							\ --colors 'match:bg:yellow'
+							\ --colors 'match:fg:black'
+							\ --colors 'match:style:nobold'
+							\ --colors 'path:fg:blue'
+							\ --colors 'path:style:bold'
+							\ --colors 'line:fg:yellow'
+							\ --colors 'line:style:bold'
+							\ -- ".<q-args>,
+						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
+
+command! -nargs=* Rgd call fzf#vim#grep("rg \
+							\ --follow
+							\ --hidden
+							\ --column
+							\ --line-number
+							\ --no-heading
+							\ --smart-case
+							\ --no-ignore
+							\ -g '<args>/**' 
+							\ -- ",
+						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
+
 ":RG - ripgrep called continually as you type: doesn't seem to work with regex like: 'ExactMatch !FilterThisOut 
 function! RipgrepFzf(query, fullscreen)
   let command_fmt =	"rg  \
@@ -246,9 +288,13 @@ nnoremap <F17> <cmd>lua require'finders'.find_word()<CR>
 nnoremap <leader><F5> <cmd>lua require'finders'.find_stuff_all_files()<CR>
 nnoremap <leader><F17> <cmd>lua require'finders'.find_word_all_files()<CR>
 
+" Doesn't work: PATH must come after PATTERN for Rg, but telescope API doesn't
+" seem to allow that...
+command! -nargs=1 RgInDir lua require'finders'.find_stuff_in_dir(<f-args>)<CR>
+
 " :FindInDir <dir> -- Uses telescope but is very slow at searching large dirs
-command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_command = {
-		\"fd", ".", <f-args>, 
+command! -nargs=+ FindInDir lua require'telescope.builtin'.find_files({find_command = {
+		\"fd", <f-args>, 
 		\"--type", "f", 
 		\"--type", "l", 
 		\"--hidden", 
@@ -272,9 +318,9 @@ command! -nargs=1 FindInDir lua require'telescope.builtin'.find_files({find_comm
 
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 
- " Buffer Navigation
- " -----------------
-
+" Buffer Navigation
+" -----------------
+"
 nnoremap <F2> :Buffers<CR>
 
 " Close the current buffer and move to the previous one
@@ -436,6 +482,11 @@ set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 
 
+
+"Format lsp logs:
+function! FormatLspLogLine()
+s/\s<--/00EOL00<--/ge | s/\s-->/00EOL00-->/ge | s/<<<\s/<<<00EOL00/ge | s/\(\\n\)\+/00EOL00/ge | s/>>>\s/>>>00EOL00/ge | s/00EOL00/\r/ge
+endfunction
 
 augroup commentary_c_cpp
 autocmd!

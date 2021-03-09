@@ -1,3 +1,7 @@
+require'telescope'.setup{
+	set_env = { ['COLORTERM'] = 'truecolor' }
+}
+
 local telescope = require'telescope.builtin'
 
 local find_cmd_default = {
@@ -24,14 +28,22 @@ local find_all_files_cmd_extras = {
 	"-g '!*.dmp'"
 }
 
-local find_all_files_cmd = {unpack(find_cmd_default)}
-for _,v in ipairs(find_all_files_cmd_extras) do
-	table.insert(find_all_files_cmd, v)
+
+local function append_table(a, b)
+	local c = {unpack(a)}
+	for _,v in ipairs(b) do
+		table.insert(c, v)
+	end
 end
+
+local find_all_files_cmd = append_table(find_cmd_default, find_all_files_cmd_extras)
 
 local M = {
 	find_stuff = function()
 		telescope.live_grep({vimgrep_arguments = find_cmd_default})
+		end,
+	find_stuff_in_dir = function(dir)
+		telescope.live_grep({vimgrep_arguments = append_table(find_cmd_default, {"-g '"..dir.."/**'"})})
 		end,
 	find_word = function()
 		telescope.grep_string({vimgrep_arguments = find_cmd_default})
