@@ -33,6 +33,7 @@ Plug 'nvim-lua/plenary.nvim'
 " Plug 'sharkdp/fd' "finder
 " Plug 'BurntSushi/ripgrep' "finder
 Plug 'nvim-lua/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'hrsh7th/nvim-compe'
 Plug 'RishabhRD/popfix'
@@ -49,7 +50,6 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'rust-lang/rust.vim'
 
 call plug#end()
-set rtp^=~/.vim/bundle/ctrlp.vim
 set rtp+=/usr/local/opt/fzf
 
 " Basics
@@ -71,7 +71,6 @@ nmap <leader>WW <Plug>VimwikiIndex
 
 nnoremap <space> :noh<CR>
 " inoremap jk <esc>
-" inoremap jj <esc>
 "Repeat last macro
 noremap Q @@
 "Sensible Yank whole line with Y, like D
@@ -79,6 +78,7 @@ noremap Y y$
 
 let g:floaterm_keymap_new    = '<F7>'
 let g:floaterm_keymap_toggle    = '<F8>'
+
 " Vim Cursor in Insert mode
 "--------------------------
 if (!has("nvim"))
@@ -133,6 +133,23 @@ noremap <F3> :Files<CR>
 
 " Shift+F3: Find all files in current dir:
 noremap <F15> :LS .<CR>
+
+lua <<EOF
+require'telescope'.setup{
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = true,
+            override_file_sorter = true,
+        }
+    },
+--	defaults = {
+--		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--	}
+}
+EOF
+
+lua require'telescope'.load_extension('fzy_native')
 
 " <leader>F3: Telescope find git files (project fileS)
 nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
