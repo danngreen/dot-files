@@ -492,7 +492,15 @@ set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in ins
 set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
 set formatoptions+=n 	" Format lists
 
-""Completion
+",pl Format Json from LspLog
+nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
+",pjj Format Json 
+nnoremap <leader>pjj :.!python -m json.tool<CR>
+vnoremap <leader>pjj :!python -m json.tool<CR>
+
+
+
+"Completion
 "Popup
 "Fix LSP floating windows being interpreted as markdown:
 hi markdownError none
