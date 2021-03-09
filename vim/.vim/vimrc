@@ -344,8 +344,6 @@ nnoremap <leader>vcc :edit ~/Library/Preferences/clangd/config.yaml<CR>
 "Copy/paste
 vnoremap <M-c> "+y
 vnoremap <M-x> "+d
-" nnoremap <leader>l :set norelativenumber<CR>
-" nnoremap <leader>L :set relativenumber<CR>
 
 "Building
 nnoremap <leader>m :wa<CR>:Make<CR>
@@ -439,91 +437,8 @@ set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 
 
-" Syntax
-" ------
-"vim-cpp-enhanced-highlight options:
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_posix_standard = 1
-"Highlight template functions (can be a little slow on large files)
-let g:cpp_experimental_simple_template_highlight = 1
-"Highlight template functions (faster implementation but has some corner cases where it doesn't work.)
-let g:cpp_experimental_template_highlight = 0
-"This will highlight the keywords concept and requires as well as all named requirements (like DefaultConstructible) in the standard library.
-let g:cpp_concepts_highlight = 1
-"Disable highlighting of user defined functions
-let g:cpp_no_function_highlight = 0
-
-"ctrlP
-"-----
-" Setup some default ignores
-let g:ctrlp_custom_ignore = {
-\ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-\ 'file': '\v\.(png|jpg|jpeg|pdf|o|d|a)$',
-\}
-" Use nearest .git directory as cwd
-let g:ctrlp_working_path_mode = 'r'
-
 " Clang-format
-" ------------
-let g:clang_format#auto_format = 1
-let g:clang_format#detect_style_file = 1
-let g:clang_format#enable_fallback_style = 1
-let g:clang_format#style_options = {
-\ "BasedOnStyle" : "LLVM",
-\ "Standard" : "c++17",
-\ "UseTab" : "Always",
-\ "TabWidth" :  4,
-\ "IndentWidth" :  4,
-\ "ColumnLimit" :  0,
-\ "AccessModifierOffset" :  "-4",
-\ "AlignAfterOpenBracket" : "Align",
-\ "AlignEscapedNewlines" : "Left",
-\ "AlignOperands" : "AlignAfterOperator",
-\ "AllowAllArgumentsOnNextLine" : "true",
-\ "AllowShortBlocksOnASingleLine" : "true",
-\ "AllowShortFunctionsOnASingleLine" : "All",
-\ "AllowShortIfStatementsOnASingleLine" : "Never",
-\ "AlwaysBreakTemplateDeclarations" : "true",
-\ "BinPackArguments" :  "false",
-\ "BinPackParameters" :  "false",
-\ "BreakBeforeBraces" : "Custom",
-\ "BraceWrapping" : { 
-	\ "AfterCaseLabel" :  "false",
-	\ "AfterClass" :  "false",
-	\ "AfterControlStatement" :  "MultiLine",
-	\ "AfterEnum" :  "false",
-	\ "AfterFunction" :  "false",
-	\ "AfterNamespace" :  "true",
-	\ "AfterStruct" :  "false",
-	\ "AfterUnion" :  "false",
-	\ "AfterExternBlock" :  "false",
-	\ "BeforeCatch" :  "false",
-	\ "BeforeElse" :  "false",
-	\ "IndentBraces" :  "false",
-	\ "SplitEmptyFunction" :  "false",
-	\ "SplitEmptyRecord" :  "false",
-	\ "SplitEmptyNamespace" :  "false",
-\ },
-\ "BreakBeforeTernaryOperators" : "false",
-\ "BreakConstructorInitializers" : "BeforeComma",
-\ "BreakInheritanceList" : "AfterColon",
-\ "ConstructorInitializerIndentWidth" :  4,
-\ "ContinuationIndentWidth" : 4,
-\ "IndentCaseLabels" : "true",
-\ "IndentPPDirectives" : "BeforeHash",
-\ "SpaceAfterCStyleCast" : "false",
-\ "SpaceAfterTemplateKeyword" : "false",
-\ "SpaceBeforeAssignmentOperators" : "true",
-\ "SpaceBeforeCtorInitializerColon" : "true",
-\ "SpaceBeforeInheritanceColon" : "true",
-\ "SpaceBeforeParens" : "ControlStatements",
-\ "SpaceBeforeRangeBasedForLoopColon" : "true",
-\ "SpaceInEmptyParentheses" : "false",
-\ "SpacesInAngles" : "false",
-\ "SpacesInCStyleCastParentheses" : "false",
-\ }
+source ~/dot-files/vim/clang-format-setup.vim
 
 augroup commentary_c_cpp
 autocmd!
