@@ -554,6 +554,11 @@ let g:clang_format#style_options = {
 \ "SpacesInCStyleCastParentheses" : "false",
 \ }
 
+"Format lsp logs:
+function! FormatLspLogLine()
+s/\s<--/00EOL00<--/ge | s/\s-->/00EOL00-->/ge | s/<<<\s/<<<00EOL00/ge | s/\(\\n\)\+/00EOL00/ge | s/>>>\s/>>>00EOL00/ge | s/00EOL00/\r/ge
+endfunction
+
 augroup commentary_c_cpp
 autocmd!
 autocmd FileType c setlocal commentstring=//%s
