@@ -4,7 +4,7 @@ lua require("lsp_config")
 """""""""""""
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-" imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use <Tab> to trigger completion
@@ -27,10 +27,10 @@ set shortmess+=c
 
 " Display
 """""""""
-hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
-hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
-hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
-hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
+" hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
+" hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
+" hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
+" hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
 
 
 " Debugging/info macros

@@ -98,8 +98,8 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
 	--Switch header (replaced with Alternate File)
-	buf_set_keymap(bufnr, 'n', '<M-h>',		'<cmd>ClangdSwitchSourceHeader<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>h', '<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<M-h>',			'<cmd>ClangdSwitchSourceHeader<CR>', opts)
+	buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
 
 	-- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
 	-- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
@@ -121,8 +121,8 @@ local on_attach_vim = function(client, bufnr)
 	vim.o.completeopt = "menuone,noselect"
 
 	if client.resolved_capabilities.document_highlight then
+		-- vim.cmd [[hi LspReferenceText guibg=#442244]]
 		vim.api.nvim_exec([[
-			hi LspReferenceText guibg=#442244 
 			augroup lsp_document_highlight
 				autocmd!
 				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()

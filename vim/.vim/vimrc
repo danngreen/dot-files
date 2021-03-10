@@ -9,6 +9,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ton/vim-alternate'
 Plug 'vim-airline/vim-airline'
 Plug 'danngreen/vim-airline-themes'
+Plug 'sainnhe/sonokai'
 
 Plug 'vimwiki/vimwiki'
 
@@ -43,13 +44,14 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'voldikss/vim-floaterm'
-
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-
 Plug 'rust-lang/rust.vim'
 
 call plug#end()
 set rtp+=/usr/local/opt/fzf
+
+if has("nvim")
+	source ~/dot-files/vim/nvim-lsp-setup.vim
+endif
 
 " Basics
 " ------
@@ -60,7 +62,6 @@ set makeprg=make\ -j16
 set encoding=UTF-8
 
 syntax on
-colors molokai
 
 "Shortcut Keys
 "-------------
@@ -237,6 +238,7 @@ command! -nargs=* RgDir call fzf#vim#grep("rg \
 							\ -- ".<q-args>,
 						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
 
+":Rgd doesn't work :(
 command! -nargs=* Rgd call fzf#vim#grep("rg \
 							\ --follow
 							\ --hidden
@@ -395,9 +397,6 @@ nnoremap <leader>m :wa<CR>:Make<CR>
 nnoremap <leader>t :wa<CR>:Make tests<CR>
 nnoremap <leader>MM :wa<CR>:Make compile_commands<CR>
 
-if has("nvim")
-source ~/dot-files/vim/nvim-lsp-setup.vim
-endif
 
 "Settings
 "--------
@@ -442,23 +441,29 @@ let g:workspace_autosave = 0
 
 " Display
 " -------
-if has("nvim")
-set termguicolors
+if has("termguicolors")
+	set termguicolors
 endif
+syntax enable
+let g:sonokai_style = 'default' 
+let g:sonokai_enable_italic = 1
+" let g:sonokai_diagnostic_text_highlight = 1
+" let g:sonokai_current_word = 'underline'
+colors sonokai
+
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 
 "hi NonText guibg=black
 "hi Normal guibg=black
 "hi LineNr guibg=black
-hi Search guibg=#DDAA00 guifg=black
-hi Visual guibg=#803D3D
-hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
-hi Function guifg=#22EEA6
-hi cCustomFunc guifg=#A6EE22 gui=bold
-hi comment guifg=#999999
-hi Whitespace guifg=grey50 gui=none
-
-hi Pmenu guibg=#333333
+" hi Search guibg=#DDAA00 guifg=black
+" hi Visual guibg=#803D3D
+" hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
+" hi Function guifg=#22EEA6
+" hi cCustomFunc guifg=#A6EE22 gui=bold
+" hi comment guifg=#999999
+" hi Whitespace guifg=grey50 gui=none
+" hi Pmenu guibg=#333333
 
 if has("nvim")
 lua <<EOF
@@ -478,10 +483,8 @@ endif
 set incsearch
 if has("nvim")
 set inccommand=nosplit
-set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
-
-
 
 "Format lsp logs:
 function! FormatLspLogLine()
