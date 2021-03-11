@@ -22,16 +22,10 @@ Plug 'tpope/vim-dispatch'
 Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
 
-Plug 'dr-kino/cscope-maps'
-
 "LSP
 Plug 'neovim/nvim-lspconfig'
-
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-" Plug 'sharkdp/bat' " Preview for telescope
-" Plug 'sharkdp/fd' "finder
-" Plug 'BurntSushi/ripgrep' "finder
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
@@ -41,6 +35,7 @@ Plug 'RishabhRD/nvim-lsputils'
 "Plug 'glepnir/lspsaga.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 " Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'voldikss/vim-floaterm'
@@ -121,7 +116,7 @@ command! -bang -complete=dir -nargs=1 LS
 	\ 		-E *.o
 	\ 		-E *.d
 	\ 		-E .DS_Store
-	\ 		-E cscope*
+	\ 		-E cscope
 	\ 		-E tags*
 	\ 		-E *.hex
 	\ 		-E *.bin
@@ -371,11 +366,24 @@ let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
 
 
 noremap <F9> :set list!<CR>
+
 "Tags
+set cscopetag
+set csto=0 "check cscope before checking ctags
+if filereadable("cscope.out")
+	cs add cscope.out  
+elseif $CSCOPE_DB != ""
+	cs add $CSCOPE_DB
+endif
+set cscopeverbose  
+
+
 nnoremap <F11> :TagbarToggle<CR>
 let g:tagbar_file_size_limit = 100000 
-"<F23> is Shift+<F11>
+
+"Rebuild tags <F23> is Shift+<F11>
 nnoremap <F23> :Dispatch! ctags -R .<CR>:Dispatch! cscope -bkqR<CR>
+
 
 nnoremap <F10> :Cope<CR>
 nnoremap <F22> :ccl<CR>
@@ -448,8 +456,18 @@ syntax enable
 let g:sonokai_style = 'default' 
 let g:sonokai_enable_italic = 1
 " let g:sonokai_diagnostic_text_highlight = 1
-" let g:sonokai_current_word = 'underline'
+let g:sonokai_current_word = 'grey background'
 colors sonokai
+
+function! SynStack ()
+    for i1 in synstack(line("."), col("."))
+        let i2 = synIDtrans(i1)
+        let n1 = synIDattr(i1, "name")
+        let n2 = synIDattr(i2, "name")
+        echo n1 "->" n2
+    endfor
+endfunction
+nnoremap gm1 :call SynStack()<CR>
 
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 
