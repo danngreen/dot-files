@@ -10,6 +10,9 @@ Plug 'ton/vim-alternate'
 Plug 'vim-airline/vim-airline'
 Plug 'danngreen/vim-airline-themes'
 Plug 'sainnhe/sonokai'
+" Plug 'rktjmp/lush.nvim'
+" Plug 'npxbr/gruvbox.nvim'
+" Plug 'sainnhe/edge'
 
 Plug 'vimwiki/vimwiki'
 
@@ -22,16 +25,13 @@ Plug 'tpope/vim-dispatch'
 Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
 
-Plug 'dr-kino/cscope-maps'
+" Plug 'dr-kino/cscope-maps'
 
 "LSP
 Plug 'neovim/nvim-lspconfig'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-" Plug 'sharkdp/bat' " Preview for telescope
-" Plug 'sharkdp/fd' "finder
-" Plug 'BurntSushi/ripgrep' "finder
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
@@ -142,14 +142,16 @@ require'telescope'.setup{
             override_file_sorter = true,
         }
     },
---	defaults = {
+	defaults = {
 --		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
 --		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
---	}
+		set_env = { ['COLORTERM'] = 'truecolor' },
+	}
 }
 EOF
 
 lua require'telescope'.load_extension('fzy_native')
+lua require('plenary.reload').reload_module("finders")
 
 " <leader>F3: Telescope find git files (project fileS)
 nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
@@ -178,6 +180,7 @@ nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files(
 
 " <leader>v+F3: Find files in vim dotfiles
 noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
+noremap <leader>v<F15> <cmd>lua require'finders'.find_dotfiles()<CR>
 
 " Grep files
 " ----------
@@ -283,7 +286,6 @@ vnoremap <F4> :<C-u>Rg <C-r><C-w><CR>
 nnoremap <F16> :Rg <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
 
-lua require("finders")
 
 nnoremap <F5> <cmd>lua require'finders'.find_stuff()<CR>
 nnoremap <F17> <cmd>lua require'finders'.find_word()<CR>
@@ -482,7 +484,7 @@ endif
 
 set incsearch
 if has("nvim")
-set inccommand=nosplit
+	set inccommand=nosplit
 	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 

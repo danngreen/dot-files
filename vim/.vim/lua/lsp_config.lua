@@ -1,8 +1,17 @@
+local nvim_lspconfig = require'lspconfig'
+local compe = require'compe'
+local RishabhRD_codeAction = require'lsputil.codeAction'
+local RishabhRD_locations = require'lsputil.locations'
+local RishabhRD_symbols = require'lsputil.symbols'
+
+require('plenary.reload').reload_module("lsp_telescope")
+_G.pretty_telescope = require'lsp_telescope'
+
 local useclangd = true
--- local useclangd = false
--- local useccls = not useclangd;
+local useccls = not useclangd;
 
 if (vim == nil) then vim = {}; end
+
 
 -- local saga = require'lspsaga'
 
@@ -22,7 +31,7 @@ if (vim == nil) then vim = {}; end
 -- 	-- reanme_row = 1
 -- }
 
-require'compe'.setup {
+compe.setup {
 	enabled = true;
 	debug = false;
 	min_length = 2;
@@ -73,17 +82,16 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
 	--Refs/Defs
-	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua pretty_telescope.pretty_refs()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	
-	-- if client.resolved_capabilities.type_definition then --?
+
+	-- if client.resolved_capabilities.type_definition then
 	buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
 	buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 	buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gN', 			'<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
-	
 
 	--Symbols
 	buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
@@ -181,22 +189,19 @@ function _G.foo()
             table.insert(result, r) -- put them in a table
         end
     end
-	--print(vim.inspect(result))
+	print(vim.inspect(result))
     -- vim.lsp.handlers[method](nil, method, result) -- call the handler
-	require'lsputil.locations'.references_handler(nil, method, result, vim.lsp.get_active_clients()[1].id, bufnr) -- call some other handler.. dones't work?
     -- vim.api.nvim_set_current_win(win) -- return to the original window
 end
 
--- LSP Utils RishabhRD/nvim-lsputils:
-
-vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
--- vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
--- vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
--- vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
--- vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+vim.lsp.handlers['textDocument/codeAction'] = RishabhRD_codeAction.code_action_handler
+vim.lsp.handlers['textDocument/references'] = RishabhRD_locations.references_handler
+-- vim.lsp.handlers['textDocument/definition'] = RishabhRD_locations.definition_handler
+-- vim.lsp.handlers['textDocument/declaration'] = RishabhRD_locations.declaration_handler
+-- vim.lsp.handlers['textDocument/typeDefinition'] = RishabhRD_locations.typeDefinition_handler
+-- vim.lsp.handlers['textDocument/implementation'] = RishabhRD_locations.implementation_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = RishabhRD_symbols.document_handler
+vim.lsp.handlers['workspace/symbol'] = RishabhRD_symbols.workspace_handler
 
 
 local border_chars = {
@@ -233,6 +238,8 @@ vim.g.lsp_utils_symbols_opts = {
 	prompt = {},
 }
 
+
+
 --
 -- Clangd
 --
@@ -240,17 +247,18 @@ vim.g.lsp_utils_symbols_opts = {
 if (useclangd) then
 
 local function switch_source_header_splitcmd(bufnr, splitcmd)
-	bufnr = require'lspconfig'.util.validate_bufnr(bufnr)
+	bufnr = nvim_lspconfig.util.validate_bufnr(bufnr)
 	local params = { uri = vim.uri_from_bufnr(bufnr) }
 	vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
 		if err then error(tostring(err)) end
 		if not result then print ("Corresponding file can’t be determined") return end
+		-- print("Switching to "..vim.uri_from_fname(result))
 		vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
 	end)
 end
-require'lspconfig'.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
+-- nvim_lspconfig.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
-require'lspconfig'.clangd.setup {
+nvim_lspconfig.clangd.setup {
 	cmd = {
 		-- "/usr/local/opt/llvm/bin/clangd", --version 11.0.0
 		"/Users/dann/bin/clangd_12.0.0-rc2/bin/clangd",
@@ -271,7 +279,7 @@ require'lspconfig'.clangd.setup {
 		"--enable-config"
 	},
 	filetypes = {"c", "cpp", "objc", "objcpp"},
-	root_dir = require'lspconfig'.util.root_pattern(".clangd", "compile_commands.json" ),
+	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
 	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
 
@@ -300,7 +308,6 @@ require'lspconfig'.clangd.setup {
 		};
 	}
 };
-
 end --Clangd
 
 --
@@ -309,10 +316,10 @@ end --Clangd
 --
 if (useccls) then
 
-require'lspconfig'.ccls.setup( {
+nvim_lspconfig.ccls.setup( {
 	cmd = { "/Users/design/4ms/ccls/Release/ccls" },
 	filetypes = { "c", "cpp", "objc", "objcpp" },
-	root_dir = require'lspconfig'.util.root_pattern(".ccls", "compile_commands.json"),
+	root_dir = nvim_lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
 	init_options = {
 		highlight = {lsRanges = true},
 		cache = {retainInMemory = 1},
@@ -344,7 +351,7 @@ end
 
 -- lua
 
-require'lspconfig'.sumneko_lua.setup {
+nvim_lspconfig.sumneko_lua.setup {
 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
 	settings = {
 		Lua = {
@@ -362,16 +369,15 @@ require'lspconfig'.sumneko_lua.setup {
 		}
 	},
 	on_attach = on_attach_vim
-
 }
 
 -- rust
 
-require'lspconfig'.rust_analyzer.setup {
+nvim_lspconfig.rust_analyzer.setup {
 	on_attach = on_attach_vim,
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
-	root_dir = require'lspconfig'.util.root_pattern("Cargo.toml"),
+	root_dir = nvim_lspconfig.util.root_pattern("Cargo.toml"),
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {
@@ -386,12 +392,12 @@ require'lspconfig'.rust_analyzer.setup {
 
 -- tsserver/javascript
 
-require'lspconfig'.tsserver.setup {
+nvim_lspconfig.tsserver.setup {
 	filetypes = {"javascript"},
-	root_dir = require'lspconfig'.util.root_pattern(".git"),
+	root_dir = nvim_lspconfig.util.root_pattern(".git"),
 	on_attach = on_attach_vim,
 }
 
 -- cmake
 
-require'lspconfig'.cmake.setup {}
+nvim_lspconfig.cmake.setup {}
