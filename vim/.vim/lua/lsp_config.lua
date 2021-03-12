@@ -73,17 +73,17 @@ local on_attach_vim = function(client, bufnr)
 	buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
 	--Refs/Defs
-	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'telescope.builtin\'.lsp_references{}<CR>', opts)
+	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua pretty_telescope.pretty_refs()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	
-	-- if client.resolved_capabilities.type_definition then --?
+
+	-- if client.resolved_capabilities.type_definition then
 	buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
 	buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
 	buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
 	buf_set_keymap(bufnr, 'n', 'gN', 			'<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
-	
+
 
 	--Symbols
 	buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
