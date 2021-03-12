@@ -1,3 +1,4 @@
+" lua require('plenary.reload').reload_module("lsp_config")
 lua require("lsp_config")
 
 " Completion
