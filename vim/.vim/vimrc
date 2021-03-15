@@ -64,7 +64,7 @@ let mapleader = ","
 
 nmap <leader>WW <Plug>VimwikiIndex
 
-nnoremap <space> :noh<CR>
+nnoremap <space> <cmd>noh<CR>
 " inoremap jk <esc>
 "Repeat last macro
 noremap Q @@
@@ -370,14 +370,14 @@ let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
 noremap <F9> :set list!<CR>
 
 "Tags
-set cscopetag
-set csto=0 "check cscope before checking ctags
-if filereadable("cscope.out")
-	cs add cscope.out  
-elseif $CSCOPE_DB != ""
-	cs add $CSCOPE_DB
-endif
-set cscopeverbose  
+" set cscopetag
+" set csto=0 "check cscope before checking ctags
+" if filereadable("cscope.out")
+" 	cs add cscope.out  
+" elseif $CSCOPE_DB != ""
+" 	cs add $CSCOPE_DB
+" endif
+" set cscopeverbose  
 
 
 nnoremap <F11> :TagbarToggle<CR>
@@ -460,8 +460,9 @@ let g:sonokai_enable_italic = 1
 let g:sonokai_diagnostic_text_highlight = 0
 let g:sonokai_diagnostic_line_highlight = 0
 let g:sonokai_current_word = 'grey background'
-
+let g:sonokai_better_performance = 1
 colors sonokai
+" colors molokai
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
