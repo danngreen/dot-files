@@ -4,7 +4,7 @@ require'telescope'.setup{
 
 local telescope = require'telescope.builtin'
 
-local find_cmd_default = {
+local grep_cmd_default = {
 	"rg",
 	"--color=never",
 	"--no-heading",
@@ -25,7 +25,20 @@ local find_all_files_cmd_extras = {
 	"-g '!cscope*'",
 	"-g '!compile_commands.json'",
 	"-g '!*.map'",
-	"-g '!*.dmp'"
+	"-g '!*.dmp'",
+	"-E", "*.hex",
+	"-E", "*.bin",
+	"-E", ".DS_Store",
+	"-E", "*.o",
+	"-E", "*.d",
+}
+
+local find_filename_cmd_default = {
+	"fd",
+	"--type", "f",
+	"--type", "l",
+	"--follow",
+	"--color=never",
 }
 
 
@@ -36,24 +49,32 @@ local function append_table(a, b)
 	end
 end
 
-local find_all_files_cmd = append_table(find_cmd_default, find_all_files_cmd_extras)
+local grep_all_files_cmd = append_table(grep_cmd_default, find_all_files_cmd_extras)
+local find_all_files_cmd = append_table(find_filename_cmd_default, find_all_files_cmd_extras)
 
 local M = {
 	find_stuff = function()
-		telescope.live_grep({vimgrep_arguments = find_cmd_default})
+		telescope.live_grep({vimgrep_arguments = grep_cmd_default})
 		end,
 	find_stuff_in_dir = function(dir)
-		telescope.live_grep({vimgrep_arguments = append_table(find_cmd_default, {"-g '"..dir.."/**'"})})
+		telescope.live_grep({vimgrep_arguments = append_table(grep_cmd_default, {"-g '"..dir.."/**'"})})
 		end,
 	find_word = function()
-		telescope.grep_string({vimgrep_arguments = find_cmd_default})
+		telescope.grep_string({vimgrep_arguments = grep_cmd_default})
 		end,
 	find_stuff_all_files = function()
-		telescope.live_grep({vimgrep_arguments = find_all_files_cmd})
+		telescope.live_grep({vimgrep_arguments = grep_all_files_cmd})
 		end,
 	find_word_all_files = function()
-		telescope.grep_string({vimgrep_arguments = find_all_files_cmd})
-		end
+		telescope.grep_string({vimgrep_arguments = grep_all_files_cmd})
+		end,
+	find_file = function()
+		telescope.find_files({find_command = find_filename_cmd_default})
+		end,
+	find_all_files = function()
+		telescope.find_files({find_command = find_all_files_cmd})
+		end,
 }
+
 return M
 

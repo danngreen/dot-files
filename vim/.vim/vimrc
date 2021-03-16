@@ -147,29 +147,31 @@ EOF
 lua require'telescope'.load_extension('fzy_native')
 
 " <leader>F3: Telescope find git files (project fileS)
-nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
+" nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
+nnoremap <leader><F3> <cmd>lua require'finders'.find_file()<CR>
+nnoremap <leader><F15> <cmd>lua require'finders'.find_all_files()<CR>
 "
 " <leader>Shift+F3: Telescope find all file (except cache dirs, binary files, tags/cscope)
-nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files( 
-	\ {find_command = {"fd", 
-		\"--type", "f", 
-		\"--type", "l", 
-		\"--hidden", 
-		\"--follow", 
-		\"--no-ignore", 
-		\"--color=never",
-		\"-E", ".git", 
-		\"-E", ".ccls-cache", 
-		\"-E", ".clangd", 
-		\"-E", ".cache", 
-		\"-E", "*.o", 
-		\"-E", "*.d", 
-		\"-E", ".DS_Store", 
-		\"-E", "cscope*", 
-		\"-E", "tags*", 
-		\"-E", "*.hex", 
-		\"-E", "*.bin"
-	\}})<CR>
+" nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files( 
+" 	\ {find_command = {"fd", 
+" 		\"--type", "f", 
+" 		\"--type", "l", 
+" 		\"--hidden", 
+" 		\"--follow", 
+" 		\"--no-ignore", 
+" 		\"--color=never",
+" 		\"-E", ".git", 
+" 		\"-E", ".ccls-cache", 
+" 		\"-E", ".clangd", 
+" 		\"-E", ".cache", 
+" 		\"-E", "*.o", 
+" 		\"-E", "*.d", 
+" 		\"-E", ".DS_Store", 
+" 		\"-E", "cscope*", 
+" 		\"-E", "tags*", 
+" 		\"-E", "*.hex", 
+" 		\"-E", "*.bin"
+" 	\}})<CR>
 
 " <leader>v+F3: Find files in vim dotfiles
 noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
