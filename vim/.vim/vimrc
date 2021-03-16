@@ -370,14 +370,14 @@ let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
 noremap <F9> :set list!<CR>
 
 "Tags
-set cscopetag
-set csto=0 "check cscope before checking ctags
-if filereadable("cscope.out")
-	cs add cscope.out  
-elseif $CSCOPE_DB != ""
-	cs add $CSCOPE_DB
-endif
-set cscopeverbose  
+" set cscopetag
+" set csto=0 "check cscope before checking ctags
+" if filereadable("cscope.out")
+" 	cs add cscope.out  
+" elseif $CSCOPE_DB != ""
+" 	cs add $CSCOPE_DB
+" endif
+" set cscopeverbose  
 
 
 nnoremap <F11> :TagbarToggle<CR>
