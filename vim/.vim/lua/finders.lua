@@ -76,5 +76,44 @@ local M = {
 		end,
 }
 
+
+function M.find_dotfiles()
+	-- reloader()
+	require('telescope.builtin').find_files {
+		find_command = {
+			"fd",
+			"--type", "f",
+			"--type", "l",
+			"--hidden",
+			"--follow",
+			"--no-ignore",
+			"--color=never",
+			"-E", ".git",
+			"-E", ".ccls-cache",
+			"-E", ".clangd",
+			"-E", ".cache",
+			"-E", "*.o",
+			"-E", "*.d",
+			"-E", ".DS_Store",
+			"-E", "cscope*",
+			"-E", "tags*",
+			"-E", "*.hex",
+			"-E", "*.bin"
+		},
+		hidden = true,
+		follow = true,
+		-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
+		shorten_path = false,
+		cwd = "~/dot-files/vim/",
+		prompt = "~/dot-files/vim/",
+		height = 20,
+
+		layout_strategy = 'horizontal',
+		layout_options = {
+			preview_width = 0.55,
+		},
+	}
+end
+
 return M
 

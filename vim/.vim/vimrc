@@ -61,7 +61,7 @@ let mapleader = ","
 
 nmap <leader>WW <Plug>VimwikiIndex
 
-nnoremap <space> :noh<CR>
+nnoremap <space> <cmd>noh<CR>
 " inoremap jk <esc>
 "Repeat last macro
 noremap Q @@
@@ -134,14 +134,16 @@ require'telescope'.setup{
             override_file_sorter = true,
         }
     },
---	defaults = {
+	defaults = {
 --		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
 --		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
---	}
+		set_env = { ['COLORTERM'] = 'truecolor' },
+	}
 }
 EOF
 
 lua require'telescope'.load_extension('fzy_native')
+" lua require('plenary.reload').reload_module("finders")
 
 " <leader>F3: Telescope find git files (project fileS)
 " nnoremap <leader><F3> <cmd>lua require'telescope.builtin'.git_files()<CR>
@@ -172,6 +174,7 @@ nnoremap <leader><F15> <cmd>lua require'finders'.find_all_files()<CR>
 
 " <leader>v+F3: Find files in vim dotfiles
 noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
+noremap <leader>v<F15> <cmd>lua require'finders'.find_dotfiles()<CR>
 
 " Grep files
 " ----------
@@ -277,7 +280,6 @@ vnoremap <F4> :<C-u>Rg <C-r><C-w><CR>
 nnoremap <F16> :Rg <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
 
-lua require("finders")
 
 nnoremap <F5> <cmd>lua require'finders'.find_stuff()<CR>
 nnoremap <F17> <cmd>lua require'finders'.find_word()<CR>
@@ -457,6 +459,7 @@ let g:sonokai_enable_italic = 1
 let g:sonokai_diagnostic_text_highlight = 0
 let g:sonokai_diagnostic_line_highlight = 0
 let g:sonokai_current_word = 'grey background'
+let g:sonokai_better_performance = 1
 
 function! s:sonokai_custom() abort
     let l:palette = sonokai#get_palette('shusia')
@@ -478,6 +481,7 @@ augroup SonokaiCustom
 augroup END
 
 colors sonokai
+" colors molokai
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
@@ -520,7 +524,7 @@ endif
 
 set incsearch
 if has("nvim")
-set inccommand=nosplit
+	set inccommand=nosplit
 	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
 endif
 
