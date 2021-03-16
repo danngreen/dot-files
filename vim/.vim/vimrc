@@ -458,6 +458,25 @@ let g:sonokai_diagnostic_text_highlight = 0
 let g:sonokai_diagnostic_line_highlight = 0
 let g:sonokai_current_word = 'grey background'
 
+function! s:sonokai_custom() abort
+    let l:palette = sonokai#get_palette('shusia')
+	call sonokai#highlight('MatchParen', l:palette.none, l:palette.bg4, 'underline')
+    let l:bg5 = ['#464664',   '237',  'PurplyGray']
+	highlight link LspDiagnosticsVirtualTextError Red
+	highlight link LspDiagnosticsVirtualTextWarning Yellow
+	highlight link LspDiagnosticsVirtualTextInformation Green
+	highlight link LspDiagnosticsVirtualTextHint Green
+	call sonokai#highlight('ErrorText', l:palette.none, l:palette.diff_red)
+	call sonokai#highlight('WarningText', l:palette.none, l:palette.diff_yellow)
+	call sonokai#highlight('InfoText', l:palette.none, l:palette.diff_blue)
+	call sonokai#highlight('HintText', l:palette.none, l:palette.diff_green)
+endfunction
+
+augroup SonokaiCustom
+  autocmd!
+  autocmd ColorScheme sonokai call s:sonokai_custom()
+augroup END
+
 colors sonokai
 
 function! SynStack ()
