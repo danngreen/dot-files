@@ -44,9 +44,6 @@ Plug 'rust-lang/rust.vim'
 call plug#end()
 set rtp+=/usr/local/opt/fzf
 
-if has("nvim")
-	source ~/dot-files/vim/nvim-lsp-setup.vim
-endif
 
 " Basics
 " ------
@@ -572,6 +569,7 @@ nnoremap <leader>pjj :.!python -m json.tool<CR>
 vnoremap <leader>pjj :!python -m json.tool<CR>
 
 
+source ~/dot-files/vim/nvim-lsp-setup.vim
 
 "Completion
 "Popup
