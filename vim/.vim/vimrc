@@ -9,21 +9,19 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 Plug 'tanvirtin/nvim-monokai'
 Plug 'romgrk/barbar.nvim'
-Plug 'itchyny/lightline.vim'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'vim-scripts/hexHighlight.vim'
 
 Plug 'ton/vim-alternate'
 Plug 'vimwiki/vimwiki'
 
 Plug 'majutsushi/tagbar'
-"Plug 'amix/open_file_under_cursor.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'thaerkh/vim-workspace'
-" Plug 'kevinhwang91/nvim-bqf'
 
 "LSP
 Plug 'neovim/nvim-lspconfig'
@@ -35,7 +33,6 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
-"Plug 'glepnir/lspsaga.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
@@ -351,29 +348,26 @@ if has("termguicolors")
 	set termguicolors
 endif
 
-function! LspStatus() abort
-	return luaeval('get_diagnostics_counts()')
-endfunction
+lua <<EOF
+require('lualine').setup{ 
+	options = { theme = 'molokai', icons_enabled = false},
+	extensions = { 'fzf' , 'fugitive', 'nerdtree'},
+	sections = { 
+		lualine_a = { {'mode', upper = true} },
+		lualine_b = { {'branch', icon = ''} },
+		lualine_c = { {'filename', full_path = true, file_status = true}, {'diagnostics', sources = { 'nvim_lsp'}}},
+		lualine_x = {'location'}, 
+		lualine_y = {},
+		lualine_z = {'progress'}, 
+	},
+}
+EOF
 
-let g:lightline = {'colorscheme': 'molokai',
-	  \   'active': {
-      \       'left': [ [ 'mode', 'paste' ],
-      \                 [ 'gitbranch', 'fullfilename', 'modified' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype', 'lsp_diagnostic_count' ] ]
-      \   },
-	  \   'component': { 'fullfilename': '%f'},
-      \   'component_function': {
-      \       'gitbranch': 'FugitiveHead',
-	  \ 	  'lsp_diagnostic_count': 'LspStatus'
-      \   },
-	  \ }
 
 " function! s:bufferline_custom() abort
 hi BufferCurrent guifg=#080808 guibg=#e6db74
 hi BufferCurrentIndex guifg=#080808 guibg=#e6db74
-hi BufferCurrentSign guifg=#080808 guibg=#e6db74
+hi BufferCurrentSign guifg=grey guibg=#080808
 hi BufferCurrentMod guifg=#080808 guibg=#e6db74
 hi BufferCurrentTarget guifg=red guibg=#e6db74
 hi BufferVisible guifg=#080808 guibg=#808080
@@ -403,34 +397,6 @@ highlight link LspDiagnosticsVirtualTextHint HintMsg
 highlight LspReferenceText guibg=#433536
 
 
-" let g:sonokai_style = 'default' 
-" let g:sonokai_enable_italic = 1
-" let g:sonokai_diagnostic_text_highlight = 0
-" let g:sonokai_diagnostic_line_highlight = 0
-" let g:sonokai_current_word = 'grey background'
-" let g:sonokai_better_performance = 1
-
-" function! s:sonokai_custom() abort
-"     let l:palette = sonokai#get_palette('shusia')
-" 	call sonokai#highlight('MatchParen', l:palette.none, l:palette.bg4, 'underline')
-"     let l:bg5 = ['#464664',   '237',  'PurplyGray']
-" 	highlight link LspDiagnosticsVirtualTextError Red
-" 	highlight link LspDiagnosticsVirtualTextWarning Yellow
-" 	highlight link LspDiagnosticsVirtualTextInformation Green
-" 	highlight link LspDiagnosticsVirtualTextHint Green
-" 	call sonokai#highlight('ErrorText', l:palette.none, l:palette.diff_red)
-" 	call sonokai#highlight('WarningText', l:palette.none, l:palette.diff_yellow)
-" 	call sonokai#highlight('InfoText', l:palette.none, l:palette.diff_blue)
-" 	call sonokai#highlight('HintText', l:palette.none, l:palette.diff_green)
-" endfunction
-
-" augroup SonokaiCustom
-"   autocmd!
-"   autocmd ColorScheme sonokai call s:sonokai_custom()
-" augroup END
-
-" colors sonokai
-
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
         let i2 = synIDtrans(i1)
@@ -439,13 +405,9 @@ function! SynStack ()
         echo n1 "->" n2
     endfor
 endfunction
-nnoremap gm1 :call SynStack()<CR>
 
 set guifont=Roboto_Mono_Light_for_Powerline:h13
 
-"hi NonText guibg=black
-"hi Normal guibg=black
-"hi LineNr guibg=black
 " hi Search guibg=#DDAA00 guifg=black
 hi Visual guibg=#803D3D
 hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE

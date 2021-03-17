@@ -172,22 +172,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	}
 )
 
-function _G.get_diagnostics_counts()
-	local sl='[]'
-	if not vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
-		sl = ''
-		local errcnt = vim.lsp.diagnostic.get_count(0, [[Error]])
-		if errcnt > 0 then
-			sl = sl..'E:'..errcnt..' '
-		else
-	 		local warncnt = vim.lsp.diagnostic.get_count(0, [[Warning]])
-	 		if warncnt > 0 then
-	 			sl = sl..'W:'..warncnt
-	 		end
-	 	end
-	end
-	return sl
-end
 --
 -- Handlers
 --
