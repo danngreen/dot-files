@@ -6,21 +6,20 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin('~/.vim/bundle')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'romgrk/barbar.nvim'
+Plug 'itchyny/lightline.vim'
 Plug 'ton/vim-alternate'
-Plug 'vim-airline/vim-airline'
-Plug 'danngreen/vim-airline-themes'
-Plug 'sainnhe/sonokai'
-
 Plug 'vimwiki/vimwiki'
 
 Plug 'majutsushi/tagbar'
-Plug 'amix/open_file_under_cursor.vim'
+"Plug 'amix/open_file_under_cursor.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-fugitive'
+Plug 'thaerkh/vim-workspace'
+" Plug 'kevinhwang91/nvim-bqf'
 
 "LSP
 Plug 'neovim/nvim-lspconfig'
@@ -36,7 +35,6 @@ Plug 'RishabhRD/nvim-lsputils'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
-" Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'voldikss/vim-floaterm'
 Plug 'rust-lang/rust.vim'
@@ -44,15 +42,13 @@ Plug 'rust-lang/rust.vim'
 call plug#end()
 set rtp+=/usr/local/opt/fzf
 
-
 " Basics
 " ------
 set exrc
 set secure
 set makeprg=make\ -j16
-
 set encoding=UTF-8
-
+set noshowmode "Don't show mode, since it's shown in status bar
 syntax on
 
 "Shortcut Keys
@@ -68,8 +64,6 @@ noremap Q @@
 "Sensible Yank whole line with Y, like D
 noremap Y y$
 
-let g:floaterm_keymap_new    = '<F7>'
-let g:floaterm_keymap_toggle    = '<F8>'
 
 " Vim Cursor in Insert mode
 "--------------------------
@@ -135,8 +129,8 @@ require'telescope'.setup{
         }
     },
 	defaults = {
---		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
---		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+		file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+		generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
 		set_env = { ['COLORTERM'] = 'truecolor' },
 	}
 }
@@ -150,27 +144,6 @@ lua require'telescope'.load_extension('fzy_native')
 nnoremap <leader><F3> <cmd>lua require'finders'.find_file()<CR>
 nnoremap <leader><F15> <cmd>lua require'finders'.find_all_files()<CR>
 "
-" <leader>Shift+F3: Telescope find all file (except cache dirs, binary files, tags/cscope)
-" nnoremap <leader><F15> <cmd>lua require'telescope.builtin'.find_files( 
-" 	\ {find_command = {"fd", 
-" 		\"--type", "f", 
-" 		\"--type", "l", 
-" 		\"--hidden", 
-" 		\"--follow", 
-" 		\"--no-ignore", 
-" 		\"--color=never",
-" 		\"-E", ".git", 
-" 		\"-E", ".ccls-cache", 
-" 		\"-E", ".clangd", 
-" 		\"-E", ".cache", 
-" 		\"-E", "*.o", 
-" 		\"-E", "*.d", 
-" 		\"-E", ".DS_Store", 
-" 		\"-E", "cscope*", 
-" 		\"-E", "tags*", 
-" 		\"-E", "*.hex", 
-" 		\"-E", "*.bin"
-" 	\}})<CR>
 
 " <leader>v+F3: Find files in vim dotfiles
 noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
@@ -208,7 +181,7 @@ command! -nargs=* Rg call fzf#vim#grep("rg \
 						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
 
 ":RgDir texttofind dirtosearch
-command! -nargs=* RgDir call fzf#vim#grep("rg \
+command! -nargs=* -complete=dir RgDir call fzf#vim#grep("rg \
 							\ --follow
 							\ --hidden
 							\ --column
@@ -235,51 +208,12 @@ command! -nargs=* RgDir call fzf#vim#grep("rg \
 							\ -- ".<q-args>,
 						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
 
-":Rgd doesn't work :(
-command! -nargs=* Rgd call fzf#vim#grep("rg \
-							\ --follow
-							\ --hidden
-							\ --column
-							\ --line-number
-							\ --no-heading
-							\ --smart-case
-							\ --no-ignore
-							\ -g '<args>/**' 
-							\ -- ",
-						\ 1, fzf#vim#with_preview('right:50%:nohidden', '?'), 0)
-
-":RG - ripgrep called continually as you type: doesn't seem to work with regex like: 'ExactMatch !FilterThisOut 
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt =	"rg  \
-					\ --follow
-					\ --hidden
-					\ --column
-					\ --line-number
-					\ --no-heading
-					\ --colors 'match:bg:yellow'
-					\ --colors 'match:fg:black'
-					\ --colors 'match:style:nobold'
-					\ --colors 'path:fg:blue'
-					\ --colors 'path:style:bold'
-					\ --colors 'line:fg:yellow'
-					\ --colors 'line:style:bold'
-					\ --color=always
-					\ --smart-case
-					\ -- %s || true"
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-
 " Todo: F4=find in git files, S+F4 find word under cursor in git files,
 " <leader>F4 = find in all files, <leader>S+F4 = find word in all files
 nnoremap <F4> :Rg<CR>
 vnoremap <F4> :<C-u>Rg <C-r><C-w><CR>
 nnoremap <F16> :Rg <C-r><C-w><CR>
 vnoremap <F16> :<C-u>Rg <C-r><C-w><CR>
-
 
 nnoremap <F5> <cmd>lua require'finders'.find_stuff()<CR>
 nnoremap <F17> <cmd>lua require'finders'.find_word()<CR>
@@ -290,37 +224,25 @@ nnoremap <leader><F17> <cmd>lua require'finders'.find_word_all_files()<CR>
 " seem to allow that...
 command! -nargs=1 RgInDir lua require'finders'.find_stuff_in_dir(<f-args>)<CR>
 
-" :FindInDir <dir> -- Uses telescope but is very slow at searching large dirs
-command! -nargs=+ FindInDir lua require'telescope.builtin'.find_files({find_command = {
-		\"fd", <f-args>, 
-		\"--type", "f", 
-		\"--type", "l", 
-		\"--hidden", 
-		\"--follow", 
-		\"--no-ignore", 
-		\"-E", ".git", 
-		\"-E", ".ccls-cache", 
-		\"-E", ".clangd", 
-		\"-E", ".cache", 
-		\"-E", "*.o", 
-		\"-E", "*.d", 
-		\"-E", ".DS_Store", 
-		\"-E", "cscope*", 
-		\"-E", "tags*", 
-		\"-E", "*.map", 
-		\"-E", "*.dmp", 
-		\"-E", "*.hex", 
-		\"-E", "*.bin"
-	\ }})
-
-
 nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 
 " Buffer Navigation
 " -----------------
-"
+
 nnoremap <F2> :Buffers<CR>
 
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.closable = v:true
+let bufferline.auto_hide = v:true
+let bufferline.clickable = v:true
+let bufferline.icons = v:false
+let bufferline.numbers = v:true
+let bufferline.semantic_letters = v:true
+let bufferline.icon_separator_active = '|'
+let bufferline.icon_separator_inactive = '|'
+let bufferline.icon_close_tab = 'X'
+let bufferline.icon_close_tab_modified = '●'
+let bufferline.maximum_padding = 2
 " Close the current buffer and move to the previous one
 nnoremap <C-w>C <C-w>c
 nnoremap <C-w>c :bp <BAR> bd #<CR>
@@ -328,31 +250,20 @@ nmap <leader>w :bp <BAR> bd #<CR>
 nmap <M-w> :bp <BAR> bd #<CR>
 
 "Select a buffer from airline tabline
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <M-Tab> <Plug>AirlineSelectNextTab
-nmap <S-Tab> <Plug>AirlineSelectPrevTab
+nmap <leader>1 <cmd>BufferGoto 1<CR>
+nmap <leader>2 <cmd>BufferGoto 2<CR>
+nmap <leader>3 <cmd>BufferGoto 3<CR>
+nmap <leader>4 <cmd>BufferGoto 4<CR>
+nmap <leader>5 <cmd>BufferGoto 5<CR>
+nmap <leader>6 <cmd>BufferGoto 6<CR>
+nmap <leader>7 <cmd>BufferGoto 7<CR>
+nmap <leader>8 <cmd>BufferGoto 8<CR>
+nmap <leader>9 <cmd>BufferGoto 9<CR>
+nmap <M-Tab> <cmd>BufferNext<CR>
+nmap <S-Tab> <cmd>BufferPrevious<CR>
+nmap <M-<> <cmd>BufferMovePrevious<CR>
+nmap <M->> <cmd>BufferMoveNext<CR>
 
-noremap <F12> :NERDTreeToggle<CR>
-
-"BQF quickfix improvements
-"-------------------------
-" if (has("nvim"))
-" lua <<EOF
-" require('bqf').setup({
-"     auto_resize_height = false,
-" 	auto_preview = false,
-" 	auto_enable = true
-" })
-" EOF
-" endif
 
 " Alternate File
 " --------------
@@ -365,30 +276,21 @@ nnoremap <leader>h <C-W>v:Alternate<CR>
 let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
 "au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
 
+let g:floaterm_keymap_new    = '<F7>'
+let g:floaterm_keymap_toggle    = '<F8>'
 
 noremap <F9> :set list!<CR>
-
-"Tags
-" set cscopetag
-" set csto=0 "check cscope before checking ctags
-" if filereadable("cscope.out")
-" 	cs add cscope.out  
-" elseif $CSCOPE_DB != ""
-" 	cs add $CSCOPE_DB
-" endif
-" set cscopeverbose  
-
-
-nnoremap <F11> :TagbarToggle<CR>
-let g:tagbar_file_size_limit = 100000 
-
-"Rebuild tags <F23> is Shift+<F11>
-nnoremap <F23> :Dispatch! ctags -R .<CR>:Dispatch! cscope -bkqR<CR>
-
-
 nnoremap <F10> :Cope<CR>
 nnoremap <F22> :ccl<CR>
 
+"Tags
+nnoremap <F11> :TagbarToggle<CR>
+nnoremap <F23> :Dispatch! ctags -R .<CR>
+let g:tagbar_file_size_limit = 100000 
+
+noremap <F12> :NERDTreeToggle<CR>
+
+" commonly used files
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
@@ -406,7 +308,6 @@ nnoremap <leader>m :wa<CR>:Make<CR>
 nnoremap <leader>t :wa<CR>:Make tests<CR>
 nnoremap <leader>MM :wa<CR>:Make compile_commands<CR>
 
-
 "Settings
 "--------
 set ts=4
@@ -416,35 +317,20 @@ set number
 set hidden
 set mouse=a
 set splitright
-
-" if !&scrolloff
-"   set scrolloff=1       " Show next 3 lines while scrolling.
-" endif
-if !&sidescrolloff
-set sidescrolloff=5   " Show next 5 columns while side-scrolling.
-endif
 set nostartofline       " Do not jump to first character with page commands.
 set noswapfile                  " Don't use swapfile
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set magic 				" For regular expressions turn magic on
-
-" Airline
-" -------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-"let g:airline_highlighting_cache = 1
-let g:airline_section_x=airline#section#create(['']) "Disable displaying current function name (I find it distracting)
-let g:airline_theme = 'dgmolokai'
-let g:airline_powerline_fonts = 1 	"clone and install fonts from https://github.com/powerline/fonts,
-" 									 then set iTerm or MacVim font to a font ending in 'for Powerline'
-let g:airline#extensions#nvimlsp#enabled = 1
-let g:airline#extensions#nvimlsp#warning_symbol = "W"
-let g:airline#extensions#nvimlsp#error_symbol = "E"
-"
-"vim-workspace shouldn't remove trailing spaces: conflicts with exiting Insert
-"mode with a (temporary) trailing space in order to paste a buffer, and losing a space
+set incsearch
+set inccommand=nosplit
+set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
+set cmdheight=1
+set updatetime=300
+set signcolumn=yes
+set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in insert mode
+set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
+set formatoptions+=n 	" Format lists
+ 
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave = 0
 
@@ -454,34 +340,77 @@ if has("termguicolors")
 	set termguicolors
 endif
 syntax enable
-let g:sonokai_style = 'default' 
-let g:sonokai_enable_italic = 1
-let g:sonokai_diagnostic_text_highlight = 0
-let g:sonokai_diagnostic_line_highlight = 0
-let g:sonokai_current_word = 'grey background'
-let g:sonokai_better_performance = 1
+colors molokai
+let g:lightline = {'colorscheme': 'molokai',
+	  \   'active': {
+      \       'left': [ [ 'mode', 'paste' ],
+      \                 [ 'gitbranch', 'fullfilename', 'modified' ] ]
+      \   },
+	  \   'component': { 'fullfilename': '%f' },
+      \   'component_function': {
+      \       'gitbranch': 'FugitiveHead'
+      \   },
+	  \ }
+" function! s:bufferline_custom() abort
+hi BufferCurrent guifg=#080808 guibg=#e6db74
+hi BufferCurrentIndex guifg=#080808 guibg=#e6db74
+hi BufferCurrentSign guifg=#080808 guibg=#e6db74
+hi BufferCurrentMod guifg=#080808 guibg=#e6db74
+hi BufferCurrentTarget guifg=red guibg=#e6db74
+hi BufferVisible guifg=#080808 guibg=#808080
+hi BufferVisibleIndex guifg=#080808 guibg=#808080
+hi BufferVisibleSign guifg=#080808 guibg=#808080
+hi BufferVisibleMod guifg=#080808 guibg=#808080
+hi BufferVisibleTarget guifg=red guibg=#808080
+hi BufferInactive guifg=grey guibg=#080808
+hi BufferInactiveIndex guifg=grey guibg=#080808
+hi BufferInactiveSign guifg=grey guibg=#080808
+hi BufferInactiveMod guifg=grey guibg=#080808
+hi BufferInactiveTarget guifg=red guibg=#080808
+hi BufferTabpageFill guibg=#080808
+" endfunction
+" augroup MolokaiCustom
+"   autocmd!
+"   autocmd ColorScheme molokai call s:bufferline_custom()
+" augroup END
+highlight ErrorMsg guifg=#F92672 guibg=#232526 gui=none 
+highlight WarningMsg guifg=#FD971F guibg=#232526 gui=none 
+highlight InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
+highlight HintMsg guifg=#A6E22E guibg=#232526 gui=none 
+highlight link LspDiagnosticsVirtualTextError ErrorMsg
+highlight link LspDiagnosticsVirtualTextWarning WarningMsg
+highlight link LspDiagnosticsVirtualTextInformation InfoMsg
+highlight link LspDiagnosticsVirtualTextHint HintMsg
+highlight LspReferenceText guibg=#433536
 
-function! s:sonokai_custom() abort
-    let l:palette = sonokai#get_palette('shusia')
-	call sonokai#highlight('MatchParen', l:palette.none, l:palette.bg4, 'underline')
-    let l:bg5 = ['#464664',   '237',  'PurplyGray']
-	highlight link LspDiagnosticsVirtualTextError Red
-	highlight link LspDiagnosticsVirtualTextWarning Yellow
-	highlight link LspDiagnosticsVirtualTextInformation Green
-	highlight link LspDiagnosticsVirtualTextHint Green
-	call sonokai#highlight('ErrorText', l:palette.none, l:palette.diff_red)
-	call sonokai#highlight('WarningText', l:palette.none, l:palette.diff_yellow)
-	call sonokai#highlight('InfoText', l:palette.none, l:palette.diff_blue)
-	call sonokai#highlight('HintText', l:palette.none, l:palette.diff_green)
-endfunction
 
-augroup SonokaiCustom
-  autocmd!
-  autocmd ColorScheme sonokai call s:sonokai_custom()
-augroup END
+" let g:sonokai_style = 'default' 
+" let g:sonokai_enable_italic = 1
+" let g:sonokai_diagnostic_text_highlight = 0
+" let g:sonokai_diagnostic_line_highlight = 0
+" let g:sonokai_current_word = 'grey background'
+" let g:sonokai_better_performance = 1
 
-colors sonokai
-" colors molokai
+" function! s:sonokai_custom() abort
+"     let l:palette = sonokai#get_palette('shusia')
+" 	call sonokai#highlight('MatchParen', l:palette.none, l:palette.bg4, 'underline')
+"     let l:bg5 = ['#464664',   '237',  'PurplyGray']
+" 	highlight link LspDiagnosticsVirtualTextError Red
+" 	highlight link LspDiagnosticsVirtualTextWarning Yellow
+" 	highlight link LspDiagnosticsVirtualTextInformation Green
+" 	highlight link LspDiagnosticsVirtualTextHint Green
+" 	call sonokai#highlight('ErrorText', l:palette.none, l:palette.diff_red)
+" 	call sonokai#highlight('WarningText', l:palette.none, l:palette.diff_yellow)
+" 	call sonokai#highlight('InfoText', l:palette.none, l:palette.diff_blue)
+" 	call sonokai#highlight('HintText', l:palette.none, l:palette.diff_green)
+" endfunction
+
+" augroup SonokaiCustom
+"   autocmd!
+"   autocmd ColorScheme sonokai call s:sonokai_custom()
+" augroup END
+
+" colors sonokai
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
@@ -499,8 +428,8 @@ set guifont=Roboto_Mono_Light_for_Powerline:h13
 "hi Normal guibg=black
 "hi LineNr guibg=black
 " hi Search guibg=#DDAA00 guifg=black
-" hi Visual guibg=#803D3D
-" hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
+hi Visual guibg=#803D3D
+hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 " hi Function guifg=#22EEA6
 " hi cCustomFunc guifg=#A6EE22 gui=bold
 " hi comment guifg=#999999
@@ -510,9 +439,7 @@ set guifont=Roboto_Mono_Light_for_Powerline:h13
 if has("nvim")
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-	-- one of "all" "maintained" (parsers with maintainers), or a list of languages
   ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
-  --not lua
   highlight = {
     enable = true,
 	incremental_selection = false,
@@ -522,16 +449,6 @@ require'nvim-treesitter.configs'.setup {
 EOF
 endif
 
-set incsearch
-if has("nvim")
-	set inccommand=nosplit
-	set listchars=eol:⏎,tab:\|\ ,trail:*,nbsp:⎵,space:.
-endif
-
-"Format lsp logs:
-function! FormatLspLogLine()
-s/\s<--/00EOL00<--/ge | s/\s-->/00EOL00-->/ge | s/<<<\s/<<<00EOL00/ge | s/\(\\n\)\+/00EOL00/ge | s/>>>\s/>>>00EOL00/ge | s/00EOL00/\r/ge
-endfunction
 
 augroup commentary_c_cpp
 autocmd!
@@ -577,13 +494,11 @@ endif
 endfunction
 command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|normal! /<C-R>/<CR>
 
-set cmdheight=1
-set updatetime=300
-set signcolumn=yes
-
-set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in insert mode
-set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
-set formatoptions+=n 	" Format lists
+"
+"Format lsp logs:
+function! FormatLspLogLine()
+s/\s<--/00EOL00<--/ge | s/\s-->/00EOL00-->/ge | s/<<<\s/<<<00EOL00/ge | s/\(\\n\)\+/00EOL00/ge | s/>>>\s/>>>00EOL00/ge | s/00EOL00/\r/ge
+endfunction
 
 ",pl Format Json from LspLog
 nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
@@ -594,8 +509,6 @@ vnoremap <leader>pjj :!python -m json.tool<CR>
 
 source ~/dot-files/vim/nvim-lsp-setup.vim
 
-"Completion
-"Popup
 "Fix LSP floating windows being interpreted as markdown:
 hi markdownError none
 hi Error none

@@ -7,7 +7,7 @@ local RishabhRD_symbols = require'lsputil.symbols'
 -- require('plenary.reload').reload_module("lsp_telescope")
 _G.pretty_telescope = require'lsp_telescope'
 
-local useclangd = true
+local useclangd = true  
 local useccls = not useclangd;
 
 if (vim == nil) then vim = {}; end
@@ -65,7 +65,7 @@ end
 
 _G.lsp_format = function()
 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
-		vim.lsp.buf.formatting_sync()
+		vim.lsp.buf.formatting_sync(nil, 500)
 		-- Can pass options to the formatter:
         -- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
 	end
