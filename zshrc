@@ -29,8 +29,8 @@ source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
 source ~/.iterm2_shell_integration.zsh
 
+alias v=nvim
 alias vi=nvim
 alias startidf='. $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
-
-alias vissh='vi ~/.ssh/known_hosts'
+alias g=git
