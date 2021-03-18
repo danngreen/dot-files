@@ -355,11 +355,22 @@ require('lualine').setup{
 	sections = { 
 		lualine_a = { {'mode', upper = true} },
 		lualine_b = { {'branch', icon = ''} },
-		lualine_c = { {'filename', full_path = true, file_status = true}, {'diagnostics', sources = { 'nvim_lsp'}}},
+		lualine_c = { {'filename', full_path = true, shorten=true, file_status = true, color = {fg = '#F0F0F0', gui = 'bold'}}, 
+					  {'diagnostics', sources = { 'nvim_lsp'}}
+					},
 		lualine_x = {'location'}, 
 		lualine_y = {},
 		lualine_z = {'progress'}, 
 	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { {'filename', full_path = true, shorten = true, file_status = true, color = {fg = '#000000', bg= '#808080'} } },
+		lualine_x = {}, 
+		lualine_y = {},
+		lualine_z = {}, 
+
+	}
 }
 EOF
 
