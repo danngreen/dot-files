@@ -33,6 +33,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
+Plug 'm-pilia/vim-ccls'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
@@ -301,7 +302,7 @@ nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
 nnoremap <leader>vn :edit ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
-nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_config.lua<CR>
+nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_conf.lua<CR>
 nnoremap <leader>vcc :edit ~/Library/Preferences/clangd/config.yaml<CR>
 
 "Copy/paste
@@ -397,7 +398,7 @@ hi BufferTabpageFill guibg=#080808
 "   autocmd!
 "   autocmd ColorScheme molokai call s:bufferline_custom()
 " augroup END
-highlight ErrorMsg guifg=#F92672 guibg=#232526 gui=none 
+highlight ErrorMsg guifg=#F92622 guibg=#232526 gui=none 
 highlight WarningMsg guifg=#FD971F guibg=#232526 gui=none 
 highlight InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
 highlight HintMsg guifg=#A6E22E guibg=#232526 gui=none 

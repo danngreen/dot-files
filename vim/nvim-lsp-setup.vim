@@ -1,5 +1,5 @@
-" lua require('plenary.reload').reload_module("lsp_config")
-lua require("lsp_config")
+lua require('plenary.reload').reload_module("lsp_conf")
+lua require("lsp_conf")
 
 " Completion
 """""""""""""
@@ -24,14 +24,6 @@ inoremap <silent><expr> <C-e>     compe#close('<C-e>')
  
 " Avoid showing message extra message when using completion
 set shortmess+=c
-
-
-" Display
-"""""""""
-" hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
-" hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
-" hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
-" hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
 
 
 " Debugging/info macros
