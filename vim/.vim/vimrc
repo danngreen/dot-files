@@ -336,6 +336,7 @@ set signcolumn=yes
 set formatoptions-=r 	" Don't insert comment leader after hitting <Enter> in insert mode
 set formatoptions-=o 	" Dont' insert comment leader after hitting o or O in normal mode
 set formatoptions+=n 	" Format lists
+set shortmess+=c		" Avoid showing message extra message when using completion
  
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave = 0
@@ -499,9 +500,11 @@ nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
 nnoremap <leader>pjj :.!python -m json.tool<CR>
 vnoremap <leader>pjj :!python -m json.tool<CR>
 
-
-source ~/dot-files/vim/nvim-lsp-setup.vim
+lua require('plenary.reload').reload_module("lsp_conf")
+lua require'lsp_conf'
 
 "Fix LSP floating windows being interpreted as markdown:
 hi markdownError none
 hi Error none
+
+noh

@@ -1,3 +1,4 @@
+if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
 local compe = require'compe'
 local RishabhRD_codeAction = require'lsputil.codeAction'
@@ -5,14 +6,16 @@ local RishabhRD_locations = require'lsputil.locations'
 local RishabhRD_symbols = require'lsputil.symbols'
 
 local lsp_conf = {}
-
 require('plenary.reload').reload_module("lsp_telescope")
 lsp_conf.pretty_telescope = require'lsp_telescope'
 
 local useclangd = false
 local useccls = true
 
-if (vim == nil) then vim = {}; end
+
+--
+-- Completion
+--
 
 compe.setup {
 	enabled = true;
@@ -41,6 +44,30 @@ compe.setup {
 	};
 }
 
+local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then return true
+    else return false
+    end
+end
+
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then return t "<C-n>"
+  elseif check_back_space() then return t "<Tab>"
+  else return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then return t "<C-p>"
+  else return t "<S-Tab>"
+  end
+end
+vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+
 --
 -- Formatting
 --
@@ -56,6 +83,10 @@ lsp_conf.lsp_format = function()
 	end
 end
 
+--
+-- Diagnostics
+--
+
 local virtual_text = {}
 virtual_text.show = true
 virtual_text.toggle = function()
@@ -69,63 +100,62 @@ end
 lsp_conf.virtual_text = virtual_text
 
 
-local buf_set_keymap = vim.api.nvim_buf_set_keymap
+--
+-- LSP Buffer key maps
+--
+
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: "..client.name);
 
-	local opts = { noremap=true, silent=true }
+	local keymap_opts = { noremap=true, silent=true }
+
 	--Symbol info (hover/signature)
-	buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', 			'<cmd>lua vim.lsp.buf.hover()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', keymap_opts)
 
 	--Refs/Defs
-	buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'lsp_conf\'.pretty_telescope.pretty_refs()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'lsp_conf\'.pretty_telescope.pretty_refs()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', keymap_opts)
 
 	-- if client.resolved_capabilities.type_definition then
-	buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) --not supported by clangd, but works in ccls
-	buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', opts) --not supported by clangd
-	buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', 'gN', 			'<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', 			'<cmd>lua vim.lsp.buf.type_definition()<CR>', keymap_opts) --not supported by clangd, but works in ccls
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gI', 			'<cmd>lua vim.lsp.buf.implementation()<CR>', keymap_opts) --not supported by clangd...
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gn', 			'<cmd>lua vim.lsp.buf.incoming_calls()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gN', 			'<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', keymap_opts)
 
 	--Symbols
-	buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', 'gw',			'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gw',	'<cmd>lua require\'telescope.builtin\'.lsp_workspace_symbols()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gw',			'<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'g0', 			'<cmd>lua vim.lsp.buf.document_symbol()<CR>', keymap_opts)
 
 	--Code Action
-	buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ff', 	'<cmd>lua vim.lsp.buf.code_action()<CR>', keymap_opts)
 
 	--Rename symbol
-	buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', 	'<cmd>lua vim.lsp.buf.rename()<CR>', keymap_opts)
 
 	--Switch header (replaced with Alternate File)
-	buf_set_keymap(bufnr, 'n', '<M-h>',			'<cmd>ClangdSwitchSourceHeader<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', opts)
-
-	-- buf_set_keymap(bufnr, 'n', 'gh', 			'<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>', opts)
-	-- buf_set_keymap(bufnr, 'n', 'gp', 			'<cmd>lua require\'lspsaga.provider\'.preview_definition()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<M-h>',			'<cmd>ClangdSwitchSourceHeader<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>h', 	'<cmd>ClangdSwitchSourceHeaderVSplit<CR>', keymap_opts)
 
 	--Diagnostics
-	buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>f[', 	'<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>f]', 	'<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap(bufnr, 'n', '<leader>fp', 	'<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', 	'<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f[', 	'<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f]', 	'<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fp', 	'<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', keymap_opts)
 
 	-- Temporarily disable diagnostics (virt text, signs, etc)
-	buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.diagnostic.clear(0)<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.diagnostic.clear(0)<CR>', keymap_opts)
 	-- Toggle virtual text diagnostics
-	buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua require\'lsp_conf\'.virtual_text.toggle()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua require\'lsp_conf\'.virtual_text.toggle()<CR>', keymap_opts)
 
-	-- buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>lua require(\'lspconfig\')["clangd"].manager.try_add()<CR>', opts)
-
-
-	--Completion
+	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
 
+	--Highlight current word
 	if client.resolved_capabilities.document_highlight then
 		vim.api.nvim_exec([[
 			augroup lsp_document_highlight
@@ -145,6 +175,9 @@ local on_attach_vim = function(client, bufnr)
 		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
 		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
     end
+
+	-- Todo: get this working (re-attach server/client)
+	-- buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>lua require(\'lspconfig\')["clangd"].manager.try_add()<CR>', opts)
 
 end
 
@@ -345,11 +378,32 @@ nvim_lspconfig.tsserver.setup {
 
 nvim_lspconfig.cmake.setup {}
 
+
+--
+-- General key maps
+--
+
+--Force stop
+vim.api.nvim_set_keymap('n', '<leader>lss','<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>', {noremap=true})
+--Show debug info
+vim.api.nvim_set_keymap('n', '<leader>lsI','<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>', {noremap=true})
+-- nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
+--Show log
+vim.api.nvim_set_keymap('n', '<leader>lsL','<cmd>lua vim.api.nvim_command("e "..vim.lsp.get_log_path())<CR>', {noremap=true})
+-- nnoremap <leader>lsL :lua vim.api.nvim_command("e "..vim.lsp.get_log_path())<CR>
+--Show completion characters
+vim.api.nvim_set_keymap('n', '<leader>lsC','<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))<CR>', {noremap=true})
+-- nnoremap <leader>lsC :lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))
+--Show current symbol type (useful for completion chain list)
+vim.api.nvim_set_keymap('n', '<leader>lsc','<cmd>echo synIDattr(synID(line(\'.\'), col(\'.\'), 1), "name")<CR>', {noremap=true})
+-- nnoremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
+
+
 --
 -- scratch pad
 --
-function _G.hover(name)
-  local name = name or 'clangd'
+function _G.hover(_name)
+  local name = _name or 'clangd'
   local clients = vim.tbl_filter(function(c) return c.name == name end,  vim.lsp.get_active_clients())
   local match, client = next(clients)
   assert(match, 'No active client found with name=' .. name)
