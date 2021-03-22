@@ -104,8 +104,8 @@ function M.find_dotfiles()
 		follow = true,
 		-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
 		shorten_path = false,
-		cwd = "~/dot-files/vim/",
-		prompt = "~/dot-files/vim/",
+		cwd = "~/dot-files/",
+		prompt = "~/dot-files/",
 		height = 20,
 
 		layout_strategy = 'horizontal',

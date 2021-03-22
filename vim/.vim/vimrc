@@ -148,7 +148,7 @@ nnoremap <leader><F15> <cmd>lua require'finders'.find_all_files()<CR>
 "
 
 " <leader>v+F3: Find files in vim dotfiles
-noremap <leader>v<F3> :LS ~/dot-files/vim<CR>
+noremap <leader>v<F3> :LS ~/dot-files<CR>
 noremap <leader>v<F15> <cmd>lua require'finders'.find_dotfiles()<CR>
 
 " Grep files
@@ -301,8 +301,7 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>vs :source ~/.vim/vimrc<CR>
 nnoremap <leader>vv :edit ~/.vim/vimrc<CR>
 nnoremap <leader>vn :edit ~/.config/nvim/init.vim<CR>
-nnoremap <leader>vl :edit ~/dot-files/vim/nvim-lsp-setup.vim<CR>
-nnoremap <leader>va :edit ~/dot-files/vim/.vim/lua/lsp_conf.lua<CR>
+nnoremap <leader>va :edit ~/.config/nvim/lua/conf/lsp.lua<CR>
 nnoremap <leader>vcc :edit ~/Library/Preferences/clangd/config.yaml<CR>
 
 "Copy/paste
@@ -488,8 +487,8 @@ nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
 nnoremap <leader>pjj :.!python -m json.tool<CR>
 vnoremap <leader>pjj :!python -m json.tool<CR>
 
-lua require('plenary.reload').reload_module("lsp_conf")
-lua require'lsp_conf'
+lua require('plenary.reload').reload_module("conf.lsp")
+lua require'conf.lsp'
 
 "Fix LSP floating windows being interpreted as markdown:
 hi markdownError none

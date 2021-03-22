@@ -5,9 +5,9 @@ local RishabhRD_codeAction = require'lsputil.codeAction'
 local RishabhRD_locations = require'lsputil.locations'
 local RishabhRD_symbols = require'lsputil.symbols'
 
-local lsp_conf = {}
+local conf_lsp = {}
 require('plenary.reload').reload_module("lsp_telescope")
-lsp_conf.pretty_telescope = require'lsp_telescope'
+conf_lsp.pretty_telescope = require'lsp_telescope'
 
 local useclangd = true
 local useccls = false
@@ -75,7 +75,7 @@ FormatSetState = function(value)
     vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
 end
 
-lsp_conf.lsp_format = function()
+conf_lsp.lsp_format = function()
 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
 		vim.lsp.buf.formatting_sync(nil, 500)
 		-- Can pass options to the formatter:
@@ -97,7 +97,7 @@ virtual_text.toggle = function()
         {virtual_text = virtual_text.show}
     )
 end
-lsp_conf.virtual_text = virtual_text
+conf_lsp.virtual_text = virtual_text
 
 
 --
@@ -115,7 +115,7 @@ local on_attach_vim = function(client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-k>', 		'<cmd>lua vim.lsp.buf.signature_help()<CR>', keymap_opts)
 
 	--Refs/Defs
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'lsp_conf\'.pretty_telescope.pretty_refs()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',			'<cmd>lua require\'conf.lsp\'.pretty_telescope.pretty_refs()<CR>', keymap_opts)
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gr',	'<cmd>lua vim.lsp.buf.references()<CR>', keymap_opts)
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', 			'<cmd>lua vim.lsp.buf.definition()<CR>', keymap_opts)
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', 	 		'<cmd>lua vim.lsp.buf.declaration()<CR>', keymap_opts)
@@ -150,7 +150,7 @@ local on_attach_vim = function(client, bufnr)
 	-- Temporarily disable diagnostics (virt text, signs, etc)
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fC', '<cmd>lua vim.lsp.diagnostic.clear(0)<CR>', keymap_opts)
 	-- Toggle virtual text diagnostics
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua require\'lsp_conf\'.virtual_text.toggle()<CR>', keymap_opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>lua require\'conf.lsp\'.virtual_text.toggle()<CR>', keymap_opts)
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
@@ -170,7 +170,7 @@ local on_attach_vim = function(client, bufnr)
 	if client.resolved_capabilities.document_formatting then
         vim.cmd [[augroup Format]]
         vim.cmd [[autocmd! * <buffer>]]
-        vim.cmd [[autocmd BufWritePost <buffer> lua require'lsp_conf'.lsp_format() ]]
+        vim.cmd [[autocmd BufWritePost <buffer> lua require'conf.lsp'.lsp_format() ]]
         vim.cmd [[augroup END]]
 		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
 		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
@@ -429,4 +429,4 @@ function _G.footest()
 end
 
 
-return lsp_conf
+return conf_lsp
