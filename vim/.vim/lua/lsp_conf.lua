@@ -9,8 +9,8 @@ local lsp_conf = {}
 require('plenary.reload').reload_module("lsp_telescope")
 lsp_conf.pretty_telescope = require'lsp_telescope'
 
-local useclangd = false
-local useccls = true
+local useclangd = true
+local useccls = false
 
 
 --
