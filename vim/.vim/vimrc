@@ -409,6 +409,10 @@ highlight link LspDiagnosticsVirtualTextInformation InfoMsg
 highlight link LspDiagnosticsVirtualTextHint HintMsg
 highlight LspReferenceText guibg=#433536
 
+lua <<EOF
+local monokai = require'monokai'
+monokai.highlight("TSTemplateArg", {fg = monokai.alternate_blue, bg = monokai.bg})
+EOF
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
@@ -432,13 +436,17 @@ hi MatchParen term=bold cterm=bold gui=bold guibg=#446644 guifg=NONE
 
 if has("nvim")
 lua <<EOF
+require('plenary.reload').reload_module("nvim-treesitter.configs")
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
-  highlight = {
-    enable = true,
+	ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
+	highlight = {
+		enable = true,
+		custom_captures = {
+		  ["template_arg"] = "TSTemplateArg",
+		},
+	},
 	incremental_selection = false,
 	indent = false
-  },
 }
 EOF
 endif
