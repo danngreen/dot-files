@@ -488,7 +488,7 @@ nnoremap <leader>pjl ^f{v%yo<esc>P:.!python -m json.tool<CR>
 nnoremap <leader>pjj :.!python -m json.tool<CR>
 vnoremap <leader>pjj :!python -m json.tool<CR>
 
-lua require('plenary.reload').reload_module("conf.lsp")
+"lua require('plenary.reload').reload_module("conf.lsp")
 lua require'conf.lsp'
 
 "Fix LSP floating windows being interpreted as markdown:
