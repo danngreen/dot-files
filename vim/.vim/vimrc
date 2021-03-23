@@ -51,6 +51,7 @@ set secure
 set makeprg=make\ -j16
 set encoding=UTF-8
 set noshowmode "Don't show mode, since it's shown in status bar
+let g:vimsyn_embed = 'lP'
 syntax on
 
 "Shortcut Keys
