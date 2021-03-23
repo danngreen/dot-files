@@ -4,4 +4,4 @@ for dotfile in ./dot-files/(ctags|fzf.zsh|gitignore-global|zshrc); do
 done
 cd ./dot-files
 stow -v vim
-stow -v --target=/Users/dann/.config/nvim config_nvim
+stow -v --target=$HOME/.config/nvim config_nvim
