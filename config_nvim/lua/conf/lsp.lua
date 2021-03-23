@@ -77,7 +77,7 @@ end
 
 conf_lsp.lsp_format = function()
 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
-		vim.lsp.buf.formatting_sync(nil, 500)
+		vim.lsp.buf.formatting_sync(nil, 300)
 		-- Can pass options to the formatter:
         -- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
 	end
@@ -170,7 +170,7 @@ local on_attach_vim = function(client, bufnr)
 	if client.resolved_capabilities.document_formatting then
         vim.cmd [[augroup Format]]
         vim.cmd [[autocmd! * <buffer>]]
-        vim.cmd [[autocmd BufWritePost <buffer> lua require'conf.lsp'.lsp_format() ]]
+        vim.cmd [[autocmd BufWritePre <buffer> lua require'conf.lsp'.lsp_format() ]]
         vim.cmd [[augroup END]]
 		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
 		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
