@@ -19,7 +19,11 @@ require('packer').startup(function()
 
 	--Finding Files
 	use {'scrooloose/nerdtree', opt = true, cmd = {'NERDTreeToggle' }}
-	use {'junegunn/fzf.vim', rtp = '/usr/local/opt/fzf', run = "vim.g.fzf_preview_window = \"['right:50%:nohidden', '?']\""}
+	use {'junegunn/fzf.vim',
+		requires = {'junegunn/fzf'},
+		rtp = '/usr/local/opt/fzf', 
+		config = "vim.cmd(\"let g:fzf_preview_window = ['right:50%:nohidden', '?']\")"
+	}
 	use {'ton/vim-alternate'}
 
 	----Looking good
@@ -48,9 +52,8 @@ require('packer').startup(function()
 		}
 		end
 	}
-	use {'nvim-telescope/telescope-fzy-native.nvim', config = function()
-			require'telescope'.load_extension('fzy_native')
-		end
+	use {'nvim-telescope/telescope-fzy-native.nvim', 
+		config = "require'telescope'.load_extension('fzy_native')"
 	}
 	use {'hrsh7th/nvim-compe'}
 	use {'RishabhRD/popfix'}
@@ -62,10 +65,11 @@ require('packer').startup(function()
 	use {'m-pilia/vim-ccls'}
 	use {'rust-lang/rust.vim'}
 
-	-- Tweaks the way I like it
+	-- Tweaks
 	use {'vimwiki/vimwiki', 
-		config = function() vim.g.vimwiki_list = "[{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]" end, 
-		run = 'nmap <leader>WW <Plug>VimwikiIndex'
+		config = [[vim.cmd("let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]")]]
+			-- vim.g.vimwiki_list = "[{'path': '~/Sync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]" --why doesn't this work?
+			-- vim.api.nvim_set_keymap('n',',WW', '<cmd>VimwikiIndex<CR>', {noremap=true}) -- why doesn't this work?
 	}
 	use {'thaerkh/vim-workspace'}
 	use {'tpope/vim-eunuch'}

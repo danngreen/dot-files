@@ -13,7 +13,7 @@ vim.o.showmode = false -- Don't show -- INSERT-- mode, since it's shown in statu
 vim.o.tabstop = 4; vim.bo.tabstop = 4
 vim.o.shiftwidth = 4; vim.bo.shiftwidth = 4
 vim.o.hlsearch = true
-vim.o.number = true
+vim.o.number = true; vim.wo.number = true
 vim.o.hidden = true
 vim.o.mouse = 'a'
 vim.o.splitright = true
@@ -39,8 +39,6 @@ vim.o.termguicolors = true
 vim.g.vimsyn_embed = 'lP'
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
 
-
-
 -- Key mappings
 local map = vim.api.nvim_set_keymap
 local nmap = function(k, c, opt) map('n', k, c, opt) end
@@ -50,8 +48,8 @@ local vnoremap = function(k, c) map('v', k, c, {noremap =true}) end
 vim.g.mapleader = ','
 vim.g.localmapleader = ','
 nnoremap('<space>', '<cmd>noh<CR>')
-nnoremap('Q', '@@')
 nnoremap('Y', 'y$')
+nnoremap('<leader>WW', '<cmd>VimwikiIndex<CR>')
 
 -- Searching/Replacing in current buffer
 -- Replace all occurances of word under cursor or visual selection (r = ask for conf., R = don't)
@@ -65,6 +63,19 @@ nnoremap('<F2>' ,'<cmd>Buffers<CR>') --FZF buffers
 nnoremap('<F3>' ,'<cmd>Files<CR>') --FZF find files
 nnoremap('<leader><F3>', '<cmd>lua require\'finders\'.find_file()<CR>')
 nnoremap('<leader><F15>', '<cmd>lua require\'finders\'.find_all_files()<CR>')
---nnoremap ('<leader>v<F3>', '<cmd>LS ~/dot-files<CR>') --Find files in vim dotfiles
-nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.find_dotfiles()<CR>')
+_G.LS = require'finders'.LS
+nnoremap ('<leader>v<F3>', '<cmd>lua LS ~/dot-files<CR>') --Find files in vim dotfiles
+nnoremap ('<leader>p<F3>', '<cmd>lua LS ~/.local/share/nvim/<CR>') --Find files in vim dotfiles
+nnoremap ('<leader>v<F15>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.config/nvim/")<CR>')
+nnoremap ('<leader>p<F15>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.local/share/nvim/")<CR>')
+
+-- Grep Files
+nnoremap('<F4>', ':Rg<CR>')
+vnoremap('<F4>', ':<C-u>Rg <C-r><C-w><CR>')
+nnoremap('<F16>', ':Rg <C-r><C-w><CR>')
+vnoremap('<F16>', ':<C-u>Rg <C-r><C-w><CR>')
+nnoremap('<F5>', '<cmd>lua require\'finders\'.find_stuff()<CR>')
+nnoremap('<F17>', '<cmd>lua require\'finders\'.find_word()<CR>')
+nnoremap('<leader><F5>', '<cmd>lua require\'finders\'.find_stuff_all_files()<CR>')
+nnoremap('<leader><F17>', '<cmd>lua require\'finders\'.find_word_all_files()<CR>') --broken?
 

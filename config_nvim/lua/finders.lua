@@ -4,7 +4,7 @@ require'telescope'.setup{
 
 local telescope = require'telescope.builtin'
 
-local grep_cmd_default = {
+local grep_cmd = {
 	"rg",
 	"--color=never",
 	"--no-heading",
@@ -15,11 +15,19 @@ local grep_cmd_default = {
 	"--follow"
 }
 
-local find_all_files_cmd_extras = {
+local grep_all_files_cmd = {
+	"rg",
+	"--color=never",
+	"--no-heading",
+	"--with-filename",
+	"--line-number",
+	"--column",
+	"--smart-case",
+	"--follow",
 	"--hidden",
 	"--no-ignore",
 	"-g '!.ccls-cache'",
-	"-g '!.*cache/*'",
+	"-g '!.cache'",
 	"-g '!.git/*'",
 	"-g '!tags*'",
 	"-g '!cscope*'",
@@ -33,7 +41,7 @@ local find_all_files_cmd_extras = {
 	"-E", "*.d",
 }
 
-local find_filename_cmd_default = {
+local find_cmd = {
 	"fd",
 	"--type", "f",
 	"--type", "l",
@@ -41,26 +49,46 @@ local find_filename_cmd_default = {
 	"--color=never",
 }
 
+local find_all_files_cmd = {
+	"fd",
+	"--type", "f",
+	"--type", "l",
+	"--follow",
+	"--hidden",
+	"--no-ignore",
+	"-E.ccls-cache",
+	"-E.cache",
+	"-E.git/*",
+	"-E**/.git",
+	"-Etags*",
+	"-Ecscope*",
+	"-Ecompile_commands.json",
+	"-E*.map",
+	"-E*.dmp",
+	"-E*.hex",
+	"-E*.bin",
+	"-E.DS_Store",
+	"-E*.o",
+	"-E*.d",
+}
 
 local function append_table(a, b)
 	local c = {unpack(a)}
 	for _,v in ipairs(b) do
 		table.insert(c, v)
 	end
+	return c
 end
-
-local grep_all_files_cmd = append_table(grep_cmd_default, find_all_files_cmd_extras)
-local find_all_files_cmd = append_table(find_filename_cmd_default, find_all_files_cmd_extras)
 
 local M = {
 	find_stuff = function()
-		telescope.live_grep({vimgrep_arguments = grep_cmd_default})
+		telescope.live_grep({vimgrep_arguments = grep_cmd})
 		end,
-	find_stuff_in_dir = function(dir)
-		telescope.live_grep({vimgrep_arguments = append_table(grep_cmd_default, {"-g '"..dir.."/**'"})})
+	find_stuff_in_dir = function(dir) --doesn't work
+		telescope.live_grep({vimgrep_arguments = append_table(grep_cmd, {"-g", " '"..dir.."/**'"})})
 		end,
 	find_word = function()
-		telescope.grep_string({vimgrep_arguments = grep_cmd_default})
+		telescope.grep_string({vimgrep_arguments = grep_cmd})
 		end,
 	find_stuff_all_files = function()
 		telescope.live_grep({vimgrep_arguments = grep_all_files_cmd})
@@ -69,51 +97,30 @@ local M = {
 		telescope.grep_string({vimgrep_arguments = grep_all_files_cmd})
 		end,
 	find_file = function()
-		telescope.find_files({find_command = find_filename_cmd_default})
+		telescope.find_files({find_command = find_cmd})
 		end,
 	find_all_files = function()
 		telescope.find_files({find_command = find_all_files_cmd})
 		end,
+
+	find_files_in_dir = function(path)
+		telescope.find_files {find_command = find_all_files_cmd,
+			-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
+			shorten_path = false,
+			cwd = path,
+			prompt = path,
+			height = 20,
+			layout_strategy = 'horizontal',
+			layout_options = { preview_width = 0.55 },
+		}
+	end,
+
+	LS = function(path)
+		local cmd = table.concat(find_all_files_cmd, " ")
+		vim.cmd([[call fzf#run(fzf#wrap({'source': "]]..cmd..[[", 'dir': ']]..path..[['}, 0))]])
+	end
 }
 
-
-function M.find_dotfiles()
-	-- reloader()
-	require('telescope.builtin').find_files {
-		find_command = {
-			"fd",
-			"--type", "f",
-			"--type", "l",
-			"--hidden",
-			"--follow",
-			"--no-ignore",
-			"--color=never",
-			"-E", ".git",
-			"-E", ".ccls-cache",
-			"-E", ".clangd",
-			"-E", ".cache",
-			"-E", "*.o",
-			"-E", "*.d",
-			"-E", ".DS_Store",
-			"-E", "cscope*",
-			"-E", "tags*",
-			"-E", "*.hex",
-			"-E", "*.bin"
-		},
-		hidden = true,
-		follow = true,
-		-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
-		shorten_path = false,
-		cwd = "~/dot-files/",
-		prompt = "~/dot-files/",
-		height = 20,
-
-		layout_strategy = 'horizontal',
-		layout_options = {
-			preview_width = 0.55,
-		},
-	}
-end
+_G.LS = M.LS
 
 return M
-
