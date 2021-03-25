@@ -3,12 +3,12 @@ require'plugins'
 vim.api.nvim_exec([[
   augroup init_dot_lua
     autocmd!
-    autocmd BufWritePost ~/.config/nvim/init.lua luafile init.lua
+    autocmd BufWritePost ~/.config/nvim/init.lua luafile %
   augroup end
 ]], false)
 
---Options 
-vim.o.exrc = true 
+--Options
+vim.o.exrc = true
 vim.o.secure = true
 vim.o.makeprg = 'make -j16'
 vim.o.encoding = 'UTF-8' -- Do we need this?
@@ -34,10 +34,13 @@ vim.o.formatoptions = vim.o.formatoptions.."n"  --Format lists
 vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
 vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
 vim.o.shortmess = vim.o.shortmess.."c"	-- Avoid showing message extra message when using completion
+vim.o.wildmenu =  true
+vim.o.wildignore = vim.o.wildignore.."tags,tags.*,build/*"
+-- let &path.=".,,**"
+-- setlocal path=.,**
 
 -- Key mappings
 local map = vim.api.nvim_set_keymap
-local nmap = function(k, c, opt) map('n', k, c, opt) end
 local noremap = function(k, c) map('', k, c, {noremap =true}) end
 local nnoremap = function(k, c) map('n', k, c, {noremap =true}) end
 local tnoremap = function(k, c) map('t', k, c, {noremap =true}) end
@@ -49,7 +52,7 @@ nnoremap('<space>', '<cmd>noh<CR>')
 nnoremap('Y', 'y$')
 nnoremap('<leader>WW', '<cmd>VimwikiIndex<CR>')
 nnoremap('<leader>w', ':BufferClose<CR>') --w/o barbar it's ':bp <BAR> bd #<CR>'
-nnoremap('<M-w>', ':BufferClose<CR>') 
+nnoremap('<M-w>', ':BufferClose<CR>')
 nnoremap('<leader>1', '<cmd>BufferGoto 1<CR>')
 nnoremap('<leader>2', '<cmd>BufferGoto 2<CR>')
 nnoremap('<leader>3', '<cmd>BufferGoto 3<CR>')
@@ -128,6 +131,10 @@ vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
 vim.o.termguicolors = true
 vim.g.vimsyn_embed = 'lP'
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
+vim.api.nvim_exec([[augroup textyankpost
+	autocmd!
+	au TextYankPost * lua vim.highlight.on_yank {on_visual = true}
+	augroup end]], false)
 require'conf.lualine'
 vim.cmd[[
 hi BufferCurrent guifg=#080808 guibg=#e6db74
@@ -150,6 +157,14 @@ hi Visual guibg=#803D3D
 hi MatchParen term=bold cterm=bold gui=bold,underline guibg=#446644 guifg=red
 ]]
 
+--Filetypes
+vim.api.nvim_exec([[
+augroup filetype_aucmds
+	autocmd!
+	autocmd BufNewFile,BufRead *.lib set syntax=none
+	autocmd BufNewFile,BufRead .clangd set syntax=yaml
+augroup END]], false)
+
 --LSP
 require'conf.lsp'
 nnoremap('<leader>q', '<cmd>lua require\'telescope.builtin\'.quickfix{}<CR>')
@@ -164,4 +179,10 @@ hi link LspDiagnosticsVirtualTextWarning WarningMsg
 hi link LspDiagnosticsVirtualTextInformation InfoMsg
 hi link LspDiagnosticsVirtualTextHint HintMsg
 hi LspReferenceText guibg=#433536
+]]
+
+-- Fix LSP floating windows being interpreted as markdown:
+vim.cmd[[
+hi markdownError none
+hi Error none
 ]]
