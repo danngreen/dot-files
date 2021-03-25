@@ -235,18 +235,17 @@ nnoremap <leader>q <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 nnoremap <F2> :Buffers<CR>
 
 let bufferline = get(g:, 'bufferline', {})
+let bufferline.animation = v:false 
 let bufferline.closable = v:true
 let bufferline.auto_hide = v:true
 let bufferline.clickable = v:true
 let bufferline.icons = "numbers"
 let bufferline.numbers = v:true
-let bufferline.semantic_letters = v:true
 let bufferline.icon_separator_active = '|'
 let bufferline.icon_separator_inactive = '|'
 let bufferline.icon_close_tab = 'X'
 let bufferline.icon_close_tab_modified = '●'
 let bufferline.maximum_padding = 2
-let bufferline.animation = v:false 
 " Close the current buffer and move to the previous one
 nnoremap <C-w>C <C-w>c
 nnoremap <C-w>c :BufferClose<CR>
@@ -379,7 +378,7 @@ hi BufferTabpageFill guibg=#080808
 "   autocmd!
 "   autocmd ColorScheme molokai call s:bufferline_custom()
 " augroup END
-highlight ErrorMsg guifg=#F92622 guibg=#232526 gui=none 
+highlight ErrorMsg guifg=#F92622 guibg=#232526 gui=none
 highlight WarningMsg guifg=#FD971F guibg=#232526 gui=none 
 highlight InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
 highlight HintMsg guifg=#A6E22E guibg=#232526 gui=none 
@@ -418,7 +417,7 @@ if has("nvim")
 lua <<EOF
 require('plenary.reload').reload_module("nvim-treesitter.configs")
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"}, 
+	ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
 	highlight = {
 		enable = true,
 		custom_captures = {

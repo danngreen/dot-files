@@ -81,12 +81,20 @@ local function append_table(a, b)
 end
 
 local M = {
+	buffers = function()
+		telescope.buffers({
+			layout_strategy = "center",
+			results_height = 12,
+			width = 0.4,
+			preview = 0.9
+		})
+	end,
 	find_stuff = function()
 		telescope.live_grep({vimgrep_arguments = grep_cmd})
-		end,
+	end,
 	find_stuff_in_dir = function(dir) --doesn't work
 		telescope.live_grep({vimgrep_arguments = append_table(grep_cmd, {"-g", " '"..dir.."/**'"})})
-		end,
+	end,
 	find_word = function()
 		telescope.grep_string({vimgrep_arguments = grep_cmd})
 		end,
