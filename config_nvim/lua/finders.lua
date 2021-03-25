@@ -112,14 +112,16 @@ local M = {
 		end,
 
 	find_files_in_dir = function(path)
-		telescope.find_files {find_command = find_all_files_cmd,
-			-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
+		-- require'telescope'.extensions.fzf_writer.files{
+		telescope.find_files {
+			find_command = find_all_files_cmd,
 			shorten_path = false,
 			cwd = path,
 			prompt = path,
 			height = 20,
 			layout_strategy = 'horizontal',
 			layout_options = { preview_width = 0.55 },
+			-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
 		}
 	end,
 
