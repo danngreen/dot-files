@@ -35,7 +35,7 @@ require('packer').startup(function()
 
 	----Looking good
 	use {'tanvirtin/nvim-monokai'}
-	use {'romgrk/barbar.nvim', --can't we do config in plugin's native lua? 
+	use {'romgrk/barbar.nvim', --can't we do config in plugin's native lua?
 		config = function() vim.cmd[[
 			let bufferline = get(g:, 'bufferline', {})
 			let bufferline.animation = v:false
@@ -46,9 +46,32 @@ require('packer').startup(function()
 			let bufferline.icon_close_tab = '✖︎'
 			let bufferline.icon_close_tab_modified = '◻︎'
 			let bufferline.maximum_padding = 2
-		]] end
-	}
-	use {'hoob3rt/lualine.nvim'}
+		]]
+	end }
+	use {'hoob3rt/lualine.nvim', config = function()
+		require('lualine').setup{
+			options = { theme = 'molokai', icons_enabled = true},
+			extensions = { 'fzf' , 'fugitive', 'nerdtree'},
+			sections = {
+				lualine_a = { {'mode', upper = false} },
+				lualine_b = { {'branch', icon = ''} },
+				lualine_c = { {require'conf.lualine'.smart_filename, color = {fg = '#F0F0F0', gui = 'bold'}},
+							  {'diagnostics', sources = {'nvim_lsp'}}
+							},
+				lualine_x = {'location'},
+				lualine_y = {},
+				lualine_z = {'progress'},
+			},
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { {require'conf.lualine'.smart_filename, color = {fg = '#000000', bg= '#808080'} } },
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
+			},
+		}
+	end }
 	use {'vim-scripts/hexHighlight.vim'}
 
 	-- Navigating code
@@ -58,7 +81,7 @@ require('packer').startup(function()
 	use {'nvim-lua/telescope.nvim', config = function()
 		require'telescope'.setup{
 			extensions = {
-				fzy_native = {
+				fzf_writer = {
 					override_generic_sorter = true,
 					override_file_sorter = true,
 				}
@@ -72,9 +95,8 @@ require('packer').startup(function()
 		}
 		end
 	}
-	use {'nvim-telescope/telescope-fzy-native.nvim', 
-		config = "require'telescope'.load_extension('fzy_native')"
-	}
+	use {'nvim-telescope/telescope-fzy-native.nvim', config = "require'telescope'.load_extension('fzy_native')" }
+	use {'nvim-telescope/telescope-fzf-writer.nvim', config = "require'telescope'.load_extension('fzf_writer')" }
 	use {'hrsh7th/nvim-compe'}
 	use {'RishabhRD/popfix'}
 	use {'RishabhRD/nvim-lsputils'}
@@ -99,13 +121,20 @@ require('packer').startup(function()
 	use {'rust-lang/rust.vim'}
 
 	--Notes
-	use {'vimwiki/vimwiki', 
+	use {'vimwiki/vimwiki',
 		config = [[vim.cmd("let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]")]] --there's got to be a better way to set vim.g.var to a dictionary
 	}
-	
+
 	-- Helpers
 	use {'tpope/vim-eunuch'}
-	use {'tpope/vim-commentary'}
+	use {'tpope/vim-commentary', config = vim.api.nvim_exec([[
+		augroup commentary_c_cpp_php
+			autocmd!
+			autocmd FileType c setlocal commentstring=//%s
+			autocmd FileType cpp setlocal commentstring=//%s
+			autocmd FileType php setlocal commentstring=//%s
+		augroup END
+	]], false)}
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}

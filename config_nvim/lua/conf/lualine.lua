@@ -1,3 +1,5 @@
+--Todo: fork lualine and integrate this into the plugin
+-- new setup options: expand_relative, auto_shorten_winwidth, auto_shorten_filenamelen, omit_prefix_list
 local filename_options = {
 	expand_relative = true,
 	shorten = false,
@@ -55,34 +57,10 @@ local function smart_filename(options)
     return data
 end
 
-local smart_filename_lualine = function()
+local conf_lualine = {}
+conf_lualine.smart_filename = function()
 	return smart_filename(filename_options)
 end
 
-
-require('lualine').setup{
-	options = { theme = 'molokai', icons_enabled = false},
-	extensions = { 'fzf' , 'fugitive', 'nerdtree'},
-	sections = {
-		lualine_a = { {'mode', upper = true} },
-		lualine_b = { {'branch', icon = ''} },
-		lualine_c = { 
-					  {smart_filename_lualine, color = {fg = '#F0F0F0', gui = 'bold'}},
-					  {'diagnostics', sources = {'nvim_lsp'}}
-					},
-		lualine_x = {'location'},
-		lualine_y = {},
-		lualine_z = {'progress'},
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { {smart_filename_lualine, color = {fg = '#000000', bg= '#808080'} } },
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {},
-	},
-}
-
--- return {smart_filename = filename}
+return conf_lualine
 -- return {smart_filename = filename, init = function(options) return filename(options) end}
