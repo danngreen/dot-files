@@ -97,20 +97,15 @@ Fzf_wiki_conf = {
 nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
 
 --Just here for backup:
-nnoremap('<F2>' ,'<cmd>Buffers<CR>')
+nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
 nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
 nnoremap ('<leader>v<F15>', '<cmd>lua LS("~/dot-files")<CR>')
 nnoremap ('<leader>p<F15>', '<cmd>lua LS("~/.local/share/nvim/")<CR>')
 
 -- Grep Files
 nnoremap('<F4>', ':Rg<CR>')
-vnoremap('<F4>', ':<C-u>Rg <C-r><C-w><CR>')
-nnoremap('<F16>', ':Rg <C-r><C-w><CR>')
-vnoremap('<F16>', ':<C-u>Rg <C-r><C-w><CR>')
-nnoremap('<F5>', '<cmd>lua require\'finders\'.find_stuff()<CR>')
-nnoremap('<F17>', '<cmd>lua require\'finders\'.find_word()<CR>')
--- nnoremap('<leader><F5>', '<cmd>lua require\'finders\'.find_stuff_all_files()<CR>')
--- nnoremap('<leader><F17>', '<cmd>lua require\'finders\'.find_word_all_files()<CR>') --broken?
+nnoremap('<F16>', ':lua require\'finders\'.fzf_files({terms="<C-R><C-W>"})<CR>')
+vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files({terms="<C-R><C-W>"})<CR>')
 
 nnoremap('<F8>', ':FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
