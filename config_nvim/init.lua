@@ -36,8 +36,7 @@ vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment
 vim.o.shortmess = vim.o.shortmess.."c"	-- Avoid showing message extra message when using completion
 vim.o.wildmenu =  true
 vim.o.wildignore = vim.o.wildignore.."tags,tags.*,build/*"
--- let &path.=".,,**"
--- setlocal path=.,**
+vim.o.path = ".,,**"
 
 -- Key mappings
 local map = vim.api.nvim_set_keymap
@@ -50,7 +49,6 @@ vim.g.mapleader = ','
 vim.g.localmapleader = ','
 nnoremap('<space>', '<cmd>noh<CR>')
 nnoremap('Y', 'y$')
-nnoremap('<leader>WW', '<cmd>VimwikiIndex<CR>')
 nnoremap('<leader>w', ':BufferClose<CR>') --w/o barbar it's ':bp <BAR> bd #<CR>'
 nnoremap('<M-w>', ':BufferClose<CR>')
 nnoremap('<leader>1', '<cmd>BufferGoto 1<CR>')
@@ -66,8 +64,9 @@ nnoremap('<M-Tab>', '<cmd>BufferNext<CR>')
 nnoremap('<S-Tab>', '<cmd>BufferPrevious<CR>')
 nnoremap('<M-<>', '<cmd>BufferMovePrevious<CR>')
 nnoremap('<M->>', '<cmd>BufferMoveNext<CR>')
-noremap('<M-h>' ,'<cmd>Alternate<CR>')
-nnoremap('<leader>h', '<C-w>v:Alternate<CR>')
+-- noremap('<M-h>' ,'<cmd>Alternate<CR>')
+-- nnoremap('<leader>h', '<C-w>v:Alternate<CR>')
+nnoremap('<leader>cd', ':cd %:p:h<CR>:pwd<CR>')
 
 -- Searching/Replacing in current buffer
 -- Replace all occurances of word under cursor or visual selection (r = ask for conf., R = don't)
@@ -79,13 +78,15 @@ vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
 nnoremap('<F2>' ,'<cmd>Buffers<CR>') --FZF buffers
-nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers{}<CR>')
+nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
 nnoremap('<F3>' ,'<cmd>Files<CR>') --FZF find files
 nnoremap('<leader><F3>', '<cmd>lua require\'finders\'.find_file()<CR>')
 nnoremap('<leader><F15>', '<cmd>lua require\'finders\'.find_all_files()<CR>')
 nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/dot-files/vim/")<CR>')
 nnoremap ('<leader>n<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.config/nvim/")<CR>')
 nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.local/share/nvim/")<CR>')
+nnoremap ('<leader>WW',
+	'<cmd>lua require\'finders\'.find_files_in_dir("~/Sync/wiki/", {layout_strategy=\'center\', results_height=10, width=0.4})<CR>')
 _G.LS = require'finders'.LS
 nnoremap ('<leader>v<F15>', '<cmd>lua LS("~/dot-files")<CR>')
 nnoremap ('<leader>p<F15>', '<cmd>lua LS("~/.local/share/nvim/")<CR>')
@@ -110,14 +111,12 @@ noremap('<F23>', ':Dispatch! ctags -R .<CR>')
 noremap('<F12>', ':NERDTreeToggle<CR>')
 
 -- Commonly used files
-nnoremap('<leader>cd', ':cd %:p:h<CR>:pwd<CR>')
 nnoremap('<leader>vv', ':edit ~/.config/nvim/init.lua<CR>')
 nnoremap('<leader>va', ':edit ~/.config/nvim/lua/conf/lsp.lua<CR>')
 nnoremap('<leader>vcc', ':edit ~/Library/Preferences/clangd/config.yaml<CR>')
 
--- Copy/paste
+-- Copy to clipboard
 vnoremap('<M-c>', '"+y')
-vnoremap('<M-x>', '"+d')
 
 -- Building
 nnoremap('<leader>m', ':wa<CR>:Make<CR>')

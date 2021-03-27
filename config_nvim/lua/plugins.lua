@@ -23,7 +23,7 @@ require('packer').startup(function()
 	use {'scrooloose/nerdtree', opt = true, cmd = {'NERDTreeToggle' }}
 	use {'junegunn/fzf.vim',
 		requires = {'junegunn/fzf'},
-		rtp = '/usr/local/opt/fzf', 
+		rtp = '/usr/local/opt/fzf',
 		config = "vim.cmd(\"let g:fzf_preview_window = ['right:50%:nohidden', '?']\")"
 	}
 	-- use {'ton/vim-alternate',
@@ -81,7 +81,7 @@ require('packer').startup(function()
 	use {'nvim-lua/telescope.nvim', config = function()
 		require'telescope'.setup{
 			extensions = {
-				fzf_writer = {
+				fzy_native = {
 					override_generic_sorter = true,
 					override_file_sorter = true,
 				}
@@ -119,11 +119,6 @@ require('packer').startup(function()
 
 	use {'m-pilia/vim-ccls'}
 	use {'rust-lang/rust.vim'}
-
-	--Notes
-	use {'vimwiki/vimwiki',
-		config = [[vim.cmd("let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]")]] --there's got to be a better way to set vim.g.var to a dictionary
-	}
 
 	-- Helpers
 	use {'tpope/vim-eunuch'}

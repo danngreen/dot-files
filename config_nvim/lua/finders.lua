@@ -80,14 +80,17 @@ local function append_table(a, b)
 	return c
 end
 
+local small_center_layout_conf = {
+	layout_strategy = "center",
+	results_height = 12,
+	width = 0.4,
+	preview = 0.9
+}
+
 local M = {
-	buffers = function()
-		telescope.buffers({
-			layout_strategy = "center",
-			results_height = 12,
-			width = 0.4,
-			preview = 0.9
-		})
+	buffers = function(conf)
+		local _conf = conf or small_center_layout_conf
+		telescope.buffers(_conf)
 	end,
 	find_stuff = function()
 		telescope.live_grep({vimgrep_arguments = grep_cmd})
@@ -98,10 +101,10 @@ local M = {
 	find_word = function()
 		telescope.grep_string({vimgrep_arguments = grep_cmd})
 		end,
-	find_stuff_all_files = function()
+	find_stuff_all_files = function() --doesn't work?
 		telescope.live_grep({vimgrep_arguments = grep_all_files_cmd})
 		end,
-	find_word_all_files = function()
+	find_word_all_files = function() -- doesn't work?
 		telescope.grep_string({vimgrep_arguments = grep_all_files_cmd})
 		end,
 	find_file = function()
@@ -111,19 +114,20 @@ local M = {
 		telescope.find_files({find_command = find_all_files_cmd})
 		end,
 
-	find_files_in_dir = function(path)
-		-- require'telescope'.extensions.fzf_writer.files{
-		telescope.find_files {
-			find_command = find_all_files_cmd,
+	find_files_in_dir = function(path, conf)
+		local _conf = conf or {
 			shorten_path = false,
-			cwd = path,
 			prompt = path,
 			height = 20,
 			layout_strategy = 'horizontal',
 			layout_options = { preview_width = 0.55 },
-			-- search_dirs = {"/dot-files/vim/", "~/.config/nvim/"}, -- doesn't work?
 		}
+		_conf.cwd = path
+		_conf.find_command = find_all_files_cmd
+		telescope.find_files(_conf)
 	end,
+
+		-- require'telescope'.extensions.fzf_writer.files{
 
 	LS = function(path)
 		local cmd = table.concat(find_all_files_cmd, " ")
