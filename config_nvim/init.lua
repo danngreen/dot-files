@@ -77,17 +77,28 @@ vnoremap('<leader>r', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
-nnoremap('<F2>' ,'<cmd>Buffers<CR>') --FZF buffers
+require'plenary.reload'.reload_module('finders') --Todo remove when not developting finders
+
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
-nnoremap('<F3>' ,'<cmd>Files<CR>') --FZF find files
-nnoremap('<leader><F3>', '<cmd>lua require\'finders\'.find_file()<CR>')
-nnoremap('<leader><F15>', '<cmd>lua require\'finders\'.find_all_files()<CR>')
-nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/dot-files/vim/")<CR>')
-nnoremap ('<leader>n<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.config/nvim/")<CR>')
-nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.find_files_in_dir("~/.local/share/nvim/")<CR>')
-nnoremap ('<leader>WW',
-	'<cmd>lua require\'finders\'.find_files_in_dir("~/Sync/wiki/", {layout_strategy=\'center\', results_height=10, width=0.4})<CR>')
-_G.LS = require'finders'.LS
+nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
+nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
+
+Fzf_conf_dirs = {
+	search_dirs = {"~/.local/share/nvim/", "~/.config/nvim/"},
+	cwd = "~", all = true
+}
+nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.fzf_filename(Fzf_conf_dirs)<CR>')
+nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dirs={"~/.config/nvim/"}})<CR>')
+
+Fzf_wiki_conf = {
+	search_dirs = {"~/Sync/wiki/"}, all = true,
+	layout_strategy = 'center', results_height = 10, width = 0.4
+}
+nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
+
+--Just here for backup:
+nnoremap('<F2>' ,'<cmd>Buffers<CR>')
+nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
 nnoremap ('<leader>v<F15>', '<cmd>lua LS("~/dot-files")<CR>')
 nnoremap ('<leader>p<F15>', '<cmd>lua LS("~/.local/share/nvim/")<CR>')
 

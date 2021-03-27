@@ -159,8 +159,8 @@ local M = {
 	fzf_filename = function(opts)
 		opts = opts or {}
 		local search_dirs = opts.search_dirs
-
-		local cmd_args= find_normal_files_rg
+		local min_chars = opts.min_chars or 0
+		local cmd_args = find_normal_files_rg
 		if opts.all then
 			cmd_args = find_all_files_rg
 		end
@@ -169,20 +169,20 @@ local M = {
 		if search_dirs then
 			prompt_title = prompt_title.." in "
 			for k,v in pairs(search_dirs) do
-				prompt_title = prompt_title..search_dirs[k]..": "
+				prompt_title = prompt_title..v..": "
 				search_dirs[k] = vim.fn.expand(v)
 			end
-			for _,v in pairs(search_dirs) do
-			  table.insert(cmd_args, v)
+			if #search_dirs == 1 then
+				opts.cwd = opts.cwd or search_dirs[1]
 			end
 		end
 
-		local rg_args = vim.tbl_flatten{ cmd_args, {"--files"} }
+		local rg_args = vim.tbl_flatten{ cmd_args, {"--files"}, search_dirs }
 		table.remove(rg_args, 1)
 
 		local live_grepper = finders._new {
 			fn_command = function(_, prompt)
-				if #prompt < 2 then
+				if #prompt < min_chars then
 					return nil
 				end
 				return {
@@ -194,6 +194,7 @@ local M = {
 					args = {'--filter', prompt}
 				}
 			end,
+			--Todo: for k,v in pairs(opts.search_dirs) do filename = filename:gsub("^"..v, "["..k.."]/") end
 			entry_maker = make_entry.gen_from_file(opts),
 		}
 
@@ -204,9 +205,6 @@ local M = {
 			-- sorter = use_highlighter and sorters.highlighter_only(opts),
 		}):find()
 	end,
-
-	--
-		-- require'telescope'.extensions.fzf_writer.files{
 
 	LS = function(path)
 		local cmd = table.concat(find_all_files_cmd, " ")
