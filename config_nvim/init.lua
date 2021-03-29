@@ -133,7 +133,7 @@ monokai.highlight("TSTemplateArg", {fg = monokai.alternate_blue, bg = monokai.bg
 
 vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
 vim.o.termguicolors = true
-vim.g.vimsyn_embed = 'lP'
+--vim.g.vimsyn_embed = 'lP' --added by default in nightly
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
 vim.api.nvim_exec([[augroup textyankpost
 	autocmd!
@@ -187,7 +187,7 @@ hi! LspReferenceText guibg=#433536
 ]]
 
 -- Fix LSP floating windows being interpreted as markdown:
-vim.cmd[[
-hi markdownError none
-hi Error none
-]]
+-- vim.cmd[[
+-- hi markdownError none
+-- hi Error none
+-- ]]
