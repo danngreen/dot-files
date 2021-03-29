@@ -175,15 +175,15 @@ require'conf.lsp'
 nnoremap('<leader>q', '<cmd>lua require\'telescope.builtin\'.quickfix{}<CR>')
 
 vim.cmd[[
-hi ErrorMsg guifg=#F92622 guibg=#232526 gui=none
-hi WarningMsg guifg=#FD971F guibg=#232526 gui=none
-hi InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
-hi HintMsg guifg=#A6E22E guibg=#232526 gui=none 
-hi link LspDiagnosticsVirtualTextError ErrorMsg
-hi link LspDiagnosticsVirtualTextWarning WarningMsg
-hi link LspDiagnosticsVirtualTextInformation InfoMsg
-hi link LspDiagnosticsVirtualTextHint HintMsg
-hi LspReferenceText guibg=#433536
+hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
+hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
+hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
+hi! HintMsg guifg=#A6E22E guibg=#232526 gui=none 
+hi! link LspDiagnosticsVirtualTextError ErrorMsg
+hi! link LspDiagnosticsVirtualTextWarning WarningMsg
+hi! link LspDiagnosticsVirtualTextInformation InfoMsg
+hi! link LspDiagnosticsVirtualTextHint HintMsg
+hi! LspReferenceText guibg=#433536
 ]]
 
 -- Fix LSP floating windows being interpreted as markdown:
