@@ -70,7 +70,6 @@ nnoremap('<leader>cd', ':cd %:p:h<CR>:pwd<CR>')
 
 -- Searching/Replacing in current buffer
 -- Replace all occurances of word under cursor or visual selection (r = ask for conf., R = don't)
-require'plenary.reload'.reload_module('finders')
 nnoremap('<leader>r', "*Nyiw:%s/\\<<C-r><C-w>\\>//gc<Left><Left><Left>")
 nnoremap('<leader>R', '*N:%s/\\<<C-r><C-w>\\>//g<Left><Left>')
 vnoremap('<leader>r', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left>')
@@ -104,8 +103,8 @@ nnoremap ('<leader>p<F15>', '<cmd>lua LS("~/.local/share/nvim/")<CR>')
 
 -- Grep Files
 nnoremap('<F4>', ':Rg<CR>')
-nnoremap('<F16>', ':lua require\'finders\'.fzf_files({terms="<C-R><C-W>"})<CR>')
-vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files({terms="<C-R><C-W>"})<CR>')
+nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
+vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
 nnoremap('<F8>', ':FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
@@ -171,6 +170,7 @@ augroup filetype_aucmds
 augroup END]], false)
 
 --LSP
+require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developting finders
 require'conf.lsp'
 nnoremap('<leader>q', '<cmd>lua require\'telescope.builtin\'.quickfix{}<CR>')
 
