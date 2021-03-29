@@ -1,8 +1,6 @@
 if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
 local compe = require'compe'
-local RishabhRD_codeAction = require'lsputil.codeAction'
-local RishabhRD_locations = require'lsputil.locations'
 local RishabhRD_symbols = require'lsputil.symbols'
 
 local conf_lsp = {}
@@ -12,10 +10,7 @@ conf_lsp.pretty_telescope = require'lsp_telescope'
 local useclangd = true
 local useccls = false
 
-
---
 -- Completion
---
 
 compe.setup {
 	enabled = true;
@@ -68,9 +63,8 @@ vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
 vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 
---
 -- Formatting
---
+
 FormatSetState = function(value)
     vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
 end
@@ -83,9 +77,7 @@ conf_lsp.lsp_format = function()
 	end
 end
 
---
 -- Diagnostics
---
 
 local virtual_text = {}
 virtual_text.show = true
@@ -99,10 +91,7 @@ virtual_text.toggle = function()
 end
 conf_lsp.virtual_text = virtual_text
 
-
---
 -- LSP Buffer key maps
---
 
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: "..client.name);
@@ -117,7 +106,6 @@ local on_attach_vim = function(client, bufnr)
 
 	--Refs/Defs
 	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
-	nnoremap_cmd('<leader>gr',	'lua vim.lsp.buf.references()')
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
 	nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
 
@@ -128,7 +116,6 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('gN', 			'lua vim.lsp.buf.outgoing_calls()')
 
 	--Symbols
-	nnoremap_cmd('<leader>gw',	'lua require\'telescope.builtin\'.lsp_workspace_symbols()')
 	nnoremap_cmd('gw',			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
 	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
@@ -175,60 +162,24 @@ local on_attach_vim = function(client, bufnr)
 
 	-- Todo: get this working (re-attach server/client)
 	-- buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>lua require(\'lspconfig\')["clangd"].manager.try_add()<CR>', opts)
-
 end
 
---
 -- Handlers
---
 
-vim.lsp.handlers['textDocument/codeAction'] = RishabhRD_codeAction.code_action_handler
-vim.lsp.handlers['textDocument/references'] = RishabhRD_locations.references_handler
--- vim.lsp.handlers['textDocument/definition'] = RishabhRD_locations.definition_handler
--- vim.lsp.handlers['textDocument/declaration'] = RishabhRD_locations.declaration_handler
--- vim.lsp.handlers['textDocument/typeDefinition'] = RishabhRD_locations.typeDefinition_handler
--- vim.lsp.handlers['textDocument/implementation'] = RishabhRD_locations.implementation_handler
-vim.lsp.handlers['textDocument/documentSymbol'] = RishabhRD_symbols.document_handler
+vim.lsp.handlers['textDocument/codeAction'] = function(opts) 
+	opts = opts or {}
+	opts.layout_strategy = 'center'
+	opts.results_height = 4
+	opts.width = 0.3
+	require'telescope.builtin'.lsp_code_actions(opts)
+end
+
+--Todo: how to get workspace/symbols working with telescope?
+--vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_workspace_symbols
 vim.lsp.handlers['workspace/symbol'] = RishabhRD_symbols.workspace_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = require'telescope.builtin'.lsp_document_symbols
 
-
-local border_chars = {
-	TOP_LEFT = '┌',
-	TOP_RIGHT = '┐',
-	MID_HORIZONTAL = '─',
-	MID_VERTICAL = '│',
-	BOTTOM_LEFT = '└',
-	BOTTOM_RIGHT = '┘',
-}
-vim.g.lsp_utils_location_opts = {
-	height = 24,
-	mode = 'editor',
-	preview = {
-		title = 'Location Preview',
-		border = true,
-		border_chars = border_chars
-	},
-	keymaps = {
-		n = {
-			['<C-n>'] = 'j',
-			['<C-p>'] = 'k',
-		}
-	}
-}
-vim.g.lsp_utils_symbols_opts = {
-	height = 24,
-	mode = 'editor',
-	preview = {
-		title = 'Symbols Preview',
-		border = true,
-		border_chars = border_chars
-	},
-	prompt = {},
-}
-
---
 -- Clangd
---
 
 if (useclangd) then
 
@@ -238,11 +189,9 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
 	vim.lsp.buf_request(bufnr, 'textDocument/switchSourceHeader', params, function(err, _, result)
 		if err then error(tostring(err)) end
 		if not result then print ("Corresponding file can’t be determined") return end
-		-- print("Switching to "..vim.uri_from_fname(result))
 		vim.api.nvim_command(splitcmd..' '..vim.uri_to_fname(result))
 	end)
 end
--- nvim_lspconfig.clangd.switch_source_header_splitcmd = switch_source_header_splitcmd
 
 nvim_lspconfig.clangd.setup {
 	cmd = {
@@ -274,7 +223,7 @@ nvim_lspconfig.clangd.setup {
         if client.config.flags then
           client.config.flags.allow_incremental_sync = true
         end
-    end;
+    end,
 	flags = {allow_incremental_sync = true},
 
 	init_options = { clangdFileStatus = false, },
@@ -295,10 +244,8 @@ nvim_lspconfig.clangd.setup {
 };
 end --Clangd
 
---
 -- ccls
---
---
+
 if (useccls) then
 
 nvim_lspconfig.ccls.setup( {
@@ -318,11 +265,9 @@ nvim_lspconfig.ccls.setup( {
 	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
 	on_attach = on_attach_vim,
 })
-
 end
 
-
--- lua
+-- Lua
 
 nvim_lspconfig.sumneko_lua.setup {
 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
@@ -375,30 +320,22 @@ nvim_lspconfig.tsserver.setup {
 
 nvim_lspconfig.cmake.setup {}
 
-
---
 -- General key maps
---
 
 --Force stop
 vim.api.nvim_set_keymap('n', '<leader>lss','<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>', {noremap=true})
 --Show debug info
 vim.api.nvim_set_keymap('n', '<leader>lsI','<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>', {noremap=true})
--- nnoremap <leader>lsI :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 --Show log
 vim.api.nvim_set_keymap('n', '<leader>lsL','<cmd>lua vim.api.nvim_command("e "..vim.lsp.get_log_path())<CR>', {noremap=true})
--- nnoremap <leader>lsL :lua vim.api.nvim_command("e "..vim.lsp.get_log_path())<CR>
 --Show completion characters
 vim.api.nvim_set_keymap('n', '<leader>lsC','<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))<CR>', {noremap=true})
--- nnoremap <leader>lsC :lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))
 --Show current symbol type (useful for completion chain list)
 vim.api.nvim_set_keymap('n', '<leader>lsc','<cmd>echo synIDattr(synID(line(\'.\'), col(\'.\'), 1), "name")<CR>', {noremap=true})
--- nnoremap <leader>lsc :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 
 
---
 -- scratch pad
---
+
 function _G.hover(_name)
   local name = _name or 'clangd'
   local clients = vim.tbl_filter(function(c) return c.name == name end,  vim.lsp.get_active_clients())
