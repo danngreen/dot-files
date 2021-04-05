@@ -47,6 +47,7 @@ local vnoremap = function(k, c) map('v', k, c, {noremap =true}) end
 
 vim.g.mapleader = ','
 vim.g.localmapleader = ','
+nnoremap('<space>s', '<cmd>:w<CR>')
 nnoremap('<space>', '<cmd>noh<CR>')
 nnoremap('Y', 'y$')
 nnoremap('<leader>w', ':BufferClose<CR>') --w/o barbar it's ':bp <BAR> bd #<CR>'
