@@ -29,6 +29,7 @@ vim.o.inccommand = 'nosplit'
 vim.o.listchars = "eol:⏎,tab:| ,trail:*,nbsp:⎵,space:."
 vim.o.cmdheight = 1
 vim.o.updatetime = 300
+vim.o.timeoutlen = 600
 vim.wo.signcolumn = 'yes'
 vim.o.formatoptions = vim.o.formatoptions.."n"  --Format lists
 vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
