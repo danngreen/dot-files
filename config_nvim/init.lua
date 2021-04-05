@@ -1,15 +1,6 @@
 require'plugins'
 
-vim.api.nvim_exec([[
-  augroup init_dot_lua
-    autocmd!
-    autocmd BufWritePost ~/.config/nvim/init.lua luafile %
-  augroup end
-]], false)
-
 --Options
-vim.o.exrc = true
-vim.o.secure = true
 vim.o.makeprg = 'make -j16'
 vim.o.encoding = 'UTF-8' -- Do we need this?
 vim.o.showmode = false
@@ -76,8 +67,7 @@ vnoremap('<leader>r', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
-require'plenary.reload'.reload_module('finders') --Todo remove when not developting finders
-
+-- require'plenary.reload'.reload_module('finders') --Todo remove when not developting finders
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
 nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
@@ -95,7 +85,7 @@ Fzf_wiki_conf = {
 }
 nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
 
---Just here for backup:
+--Just here for when telescope gets buggy (and for opening multiple files):
 nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
 nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
 nnoremap ('<leader>v<F15>', '<cmd>lua LS("~/dot-files")<CR>')
@@ -133,7 +123,6 @@ monokai.highlight("TSTemplateArg", {fg = monokai.alternate_blue, bg = monokai.bg
 
 vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
 vim.o.termguicolors = true
---vim.g.vimsyn_embed = 'lP' --added by default in nightly
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
 vim.api.nvim_exec([[augroup textyankpost
 	autocmd!
@@ -170,7 +159,7 @@ augroup filetype_aucmds
 augroup END]], false)
 
 --LSP
-require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developting finders
+-- require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developting finders
 require'conf.lsp'
 nnoremap('<leader>q', '<cmd>lua require\'telescope.builtin\'.quickfix{}<CR>')
 
@@ -186,8 +175,19 @@ hi! link LspDiagnosticsVirtualTextHint HintMsg
 hi! LspReferenceText guibg=#433536
 ]]
 
--- Fix LSP floating windows being interpreted as markdown:
--- vim.cmd[[
--- hi markdownError none
--- hi Error none
--- ]]
+vim.api.nvim_exec([[
+  augroup init_dot_lua
+    autocmd!
+    autocmd BufWritePost ~/.config/nvim/init.lua luafile %
+  augroup end
+]], false)
+
+--Instead of .nvimrc, we have this... for each and every directory (how convenient!!!)
+vim.api.nvim_exec([[
+  augroup nvimrc
+    autocmd!
+    autocmd DirChanged ~/4ms/stm32/meta-module/H7 source .nvimrc
+    autocmd DirChanged ~/4ms/stm32/meta-module/vcv source .nvimrc
+  augroup end
+]], false)
+
