@@ -298,14 +298,26 @@ nvim_lspconfig.rust_analyzer.setup {
 	root_dir = nvim_lspconfig.util.root_pattern("Cargo.toml"),
 	settings = {
 		["rust-analyzer"] = {
-			cargo = {
-				target = "thumbv7m-none-eabi"
-			},
-			checkOnSave = {
-				all_targets = false
-			}
+			-- cargo = {
+			-- 	target = "thumbv7m-none-eabi"
+			-- },
+			-- checkOnSave = {
+			-- 	all_targets = false
+			-- }
 		}
-	}
+	},
+    capabilities = (function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {
+          'documentation',
+          'detail',
+          'additionalTextEdits',
+        }
+      }
+      return capabilities
+    end)()
 }
 
 -- tsserver/javascript
