@@ -130,7 +130,7 @@ vim.api.nvim_exec([[augroup textyankpost
 	autocmd!
 	au TextYankPost * lua vim.highlight.on_yank {on_visual = true}
 	augroup end]], false)
-require'conf.lualine'
+--require'conf.lualine'
 vim.cmd[[
 hi BufferCurrent guifg=#080808 guibg=#e6db74
 hi BufferCurrentIndex guifg=#080808 guibg=#e6db74
@@ -175,6 +175,7 @@ hi! link LspDiagnosticsVirtualTextWarning WarningMsg
 hi! link LspDiagnosticsVirtualTextInformation InfoMsg
 hi! link LspDiagnosticsVirtualTextHint HintMsg
 hi! LspReferenceText guibg=#433536
+hi! TelescopeMatching guifg=red
 ]]
 
 vim.api.nvim_exec([[

@@ -55,7 +55,6 @@ require('packer').startup(function()
 			sections = {
 				lualine_a = { {'mode', upper = false} },
 				lualine_b = { {'branch', icon = '', color = {bg = '#AAAAAA'} } },
-				-- lualine_c = { {require'conf.lualine'.smart_filename, color = {fg = '#F0F0F0', gui = 'bold'}},
 				lualine_c = { {'filename', shorten = true, full_path = true, color = {fg = '#F0F0F0', gui = 'bold'}},
 							  {'diagnostics', sources = {'nvim_lsp'}, color_error = '#FF0000', color_warn = '#FFFF00', color_info='#999999'}
 							},
@@ -66,7 +65,6 @@ require('packer').startup(function()
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
-				-- lualine_c = { {require'conf.lualine'.smart_filename, color = {fg = '#000000', bg= '#808080'} } },
 				lualine_c = { {'filename', shorten = true, full_path = true, color = {fg = '#000000', bg= '#808080'} } },
 				lualine_x = {},
 				lualine_y = {},
@@ -89,7 +87,7 @@ require('packer').startup(function()
 				}
 			},
 			defaults = {
-				mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
+				--mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
 				file_sorter = require'telescope.sorters'.get_fzy_sorter,
 				generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
 				set_env = { ['COLORTERM'] = 'truecolor' },
