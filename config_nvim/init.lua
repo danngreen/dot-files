@@ -109,6 +109,7 @@ noremap('<F12>', ':NERDTreeToggle<CR>')
 
 -- Commonly used files
 nnoremap('<leader>vv', ':edit ~/.config/nvim/init.lua<CR>')
+nnoremap('<leader>vp', ':edit ~/.config/nvim/lua/plugins.lua<CR>')
 nnoremap('<leader>va', ':edit ~/.config/nvim/lua/conf/lsp.lua<CR>')
 nnoremap('<leader>vcc', ':edit ~/Library/Preferences/clangd/config.yaml<CR>')
 
