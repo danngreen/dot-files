@@ -74,22 +74,23 @@ require('packer').startup(function()
 	use {'nvim-lua/plenary.nvim'}
 	use {'nvim-lua/telescope.nvim', config = function()
 		require'telescope'.setup{
+			file_sorter = require('telescope.sorters').get_fzy_sorter,
 			extensions = {
 				fzy_native = {
-					override_generic_sorter = true,
+					override_generic_sorter = false,
 					override_file_sorter = true,
 				}
 			},
 			defaults = {
 				--mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
 				file_sorter = require'telescope.sorters'.get_fzy_sorter,
-				generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+				-- generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
 				set_env = { ['COLORTERM'] = 'truecolor' },
 			}
 		}
 		end
 	}
-	use {'nvim-telescope/telescope-fzy-native.nvim', config = "require'telescope'.load_extension('fzy_native')" }
+	use {'nvim-telescope/telescope-fzy-native.nvim', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzy_native')" }
 	use {'nvim-telescope/telescope-fzf-writer.nvim', config = "require'telescope'.load_extension('fzf_writer')" }
 	use {'hrsh7th/nvim-compe'}
 	use {'RishabhRD/popfix'}
