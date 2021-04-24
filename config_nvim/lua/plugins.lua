@@ -76,22 +76,29 @@ require('packer').startup(function()
 		require'telescope'.setup{
 			file_sorter = require('telescope.sorters').get_fzy_sorter,
 			extensions = {
-				fzy_native = {
-					override_generic_sorter = false,
-					override_file_sorter = true,
+				-- fzy_native = {
+				-- 	override_generic_sorter = false,
+				-- 	override_file_sorter = true,
+				-- },
+				fzf = {
+				  override_generic_sorter = false, -- override the generic sorter
+				  override_file_sorter = true,     -- override the file sorter
+				  case_mode = "smart_case",        -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
 				}
 			},
 			defaults = {
 				--mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
-				file_sorter = require'telescope.sorters'.get_fzy_sorter,
+				-- file_sorter = require'telescope.sorters'.get_fzy_sorter,
 				-- generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
 				set_env = { ['COLORTERM'] = 'truecolor' },
 			}
 		}
 		end
 	}
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 	use {'nvim-telescope/telescope-fzy-native.nvim', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzy_native')" }
 	use {'nvim-telescope/telescope-fzf-writer.nvim', config = "require'telescope'.load_extension('fzf_writer')" }
+
 	use {'hrsh7th/nvim-compe'}
 	use {'RishabhRD/popfix'}
 	use {'RishabhRD/nvim-lsputils'}
@@ -128,4 +135,11 @@ require('packer').startup(function()
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
+	use {'gennaro-tedesco/nvim-peekup', config = function()
+		require'nvim-peekup'.on_keystroke = {
+			delay = '50ms',
+			autoclose = true,
+			paste_reg = '"',
+		} end
+	}
 end)
