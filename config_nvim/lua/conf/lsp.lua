@@ -197,7 +197,7 @@ nvim_lspconfig.clangd.setup {
 	cmd = {
 		"/Users/dann/bin/clangd_12.0.0-rc2/bin/clangd",
 		"--background-index",
-		"--log=verbose",
+		-- "--log=verbose",
 		"-j=32",
 		"--cross-file-rename",
 		"--fallback-style=LLVM",
@@ -219,12 +219,13 @@ nvim_lspconfig.clangd.setup {
 
 	--Are both of these actually needed?
 	on_init = function(client)
-        client.config.flags = {}
-        if client.config.flags then
+        -- client.config.flags = {}
+        -- if client.config.flags then
           client.config.flags.allow_incremental_sync = true
-        end
+          client.config.flags.debounce_text_changes = 300
+        -- end
     end,
-	flags = {allow_incremental_sync = true},
+	-- flags = {allow_incremental_sync = true, debounce_text_changes = 100},
 
 	init_options = { clangdFileStatus = false, },
 	commands = {
