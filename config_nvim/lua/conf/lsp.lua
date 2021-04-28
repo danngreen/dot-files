@@ -13,29 +13,29 @@ local useccls = false
 -- Completion
 
 compe.setup {
-	enabled = true;
-	debug = false;
-	min_length = 2;
-	preselect = 'disable'; -- 'enable' || 'disable' || 'always';
-	-- throttle_time = 80; --what is this? Something to do with preventing flickering?
-	source_timeout = 500; --what is this?
-	incomplete_delay = 400; --what is this?
-	allow_prefix_unmatch = true; --when false, only matches with the same first char will be shown
+	enabled = true,
+	debug = false,
+	min_length = 2,
+	preselect = 'disable', -- 'enable' || 'disable' || 'always';
+	-- throttle_time = 80, --what is this? Something to do with preventing flickering?
+	source_timeout = 500, --what is this?
+	incomplete_delay = 400, --what is this?
+	allow_prefix_unmatch = true, --when false, only matches with the same first char will be shown
 
-	max_abbr_width = 100;
-	max_kind_width = 100;
-	max_menu_width = 100;
-	documentation = true;
+	max_abbr_width = 100,
+	max_kind_width = 100,
+	max_menu_width = 100,
+	documentation = true,
 
 	source = {
-		path = true;
-		buffer = true;
-		calc = true;
-		vsnip = false;
-		nvim_lsp = true;
-		nvim_lua = true;
-		tags = false;
-		treesitter = false;
+		path = true,
+		buffer = true,
+		calc = true,
+		vsnip = false,
+		nvim_lsp = true,
+		nvim_lua = true,
+		tags = false,
+		treesitter = false,
 	};
 }
 
@@ -219,12 +219,13 @@ nvim_lspconfig.clangd.setup {
 
 	--Are both of these actually needed?
 	on_init = function(client)
-        client.config.flags = {}
-        if client.config.flags then
+        -- client.config.flags = {}
+        -- if client.config.flags then
           client.config.flags.allow_incremental_sync = true
-        end
+          client.config.flags.debounce_text_changes = 100
+        -- end
     end,
-	flags = {allow_incremental_sync = true},
+	-- flags = {allow_incremental_sync = true},
 
 	init_options = { clangdFileStatus = false, },
 	commands = {
@@ -295,7 +296,19 @@ nvim_lspconfig.rust_analyzer.setup {
 	on_attach = on_attach_vim,
 	cmd = {"/usr/local/bin/rust-analyzer"},
 	filetypes = {"rust"},
-	root_dir = nvim_lspconfig.util.root_pattern("Cargo.toml"),
+	-- root_dir = nvim_lspconfig.util.root_pattern("Cargo.toml"),
+	root_dir = function(fname)
+      local cargo_metadata = vim.fn.system("cargo metadata --no-deps --format-version 1")
+      local cargo_root = nil
+      if vim.v.shell_error == 0 then
+        cargo_root = vim.fn.json_decode(cargo_metadata)["workspace_root"]
+      end
+      return cargo_root or
+        nvim_lspconfig.util.find_git_ancestor(fname) or
+        nvim_lspconfig.util.root_pattern("rust-project.json")(fname) or
+        nvim_lspconfig.util.root_pattern("Cargo.toml")(fname)
+    end,
+
 	settings = {
 		["rust-analyzer"] = {
 			-- cargo = {
