@@ -127,4 +127,5 @@ require('packer').startup(function()
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
+	use {'michaelb/sniprun', run = 'bash install.sh 1'}
 end)
