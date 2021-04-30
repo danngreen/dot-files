@@ -135,6 +135,7 @@ require('packer').startup(function()
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
+	use {'michaelb/sniprun', run = 'bash install.sh 1'}
 	use {'gennaro-tedesco/nvim-peekup', config = function()
 		require'nvim-peekup'.on_keystroke = {
 			delay = '50ms',
