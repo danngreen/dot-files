@@ -103,6 +103,7 @@ nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {""}})<Le
 
 nnoremap('<F8>', ':FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
+noremap('<F20>', '<cmd>FloatermNew --width=0.3 --height=0.7 --position=topright<CR>')
 noremap('<F9>', ':set list!<CR>')
 noremap('<F10>', ':Cope<CR>')
 noremap('<F22>', ':ccl<CR>')
