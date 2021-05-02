@@ -157,57 +157,6 @@ local M = {
 		fzf_general({"--files"}, opts)
 	end,
 
-	fzf_filename_old = function(opts)
-		opts = opts or {}
-		local search_dirs = opts.search_dirs
-		local min_chars = opts.min_chars or 0
-		local cmd_args = find_normal_files_rg
-		if opts.all then
-			cmd_args = find_all_files_rg
-		end
-
-		local prompt_title = "Fzf filenames"
-		if search_dirs then
-			prompt_title = prompt_title.." in "
-			for k,v in pairs(search_dirs) do
-				prompt_title = prompt_title..v..": "
-				search_dirs[k] = vim.fn.expand(v)
-			end
-			if #search_dirs == 1 then
-				opts.cwd = opts.cwd or search_dirs[1]
-			end
-		else
-			search_dirs = {"."}
-		end
-
-		local rg_args = vim.tbl_flatten{ cmd_args, {"--files"}, search_dirs }
-		table.remove(rg_args, 1)
-
-		local fzf_finder = finders._new {
-			fn_command = function(_, prompt)
-				if #prompt < min_chars then
-					return nil
-				end
-				return {
-					writer = Job:new {
-						command = "rg",
-						args = rg_args
-					},
-					command = 'fzf',
-					args = {'--filter', prompt}
-				}
-			end,
-			--Todo: for k,v in pairs(opts.search_dirs) do filename = filename:gsub("^"..v, "["..k.."]/") end
-			entry_maker = make_entry.gen_from_file(opts),
-		}
-
-		pickers.new(opts, {
-			prompt_title = prompt_title,
-			finder = fzf_finder,
-			previewer = ts_conf.grep_previewer(opts),
-			sorter = use_highlighter and sorters.highlighter_only(opts),
-		}):find()
-	end,
 
 	LS = function(path)
 		local cmd = table.concat(find_all_files_cmd, " ")

@@ -74,12 +74,7 @@ require('packer').startup(function()
 	use {'nvim-lua/plenary.nvim'}
 	use {'nvim-lua/telescope.nvim', config = function()
 		require'telescope'.setup{
-			file_sorter = require('telescope.sorters').get_fzy_sorter,
 			extensions = {
-				-- fzy_native = {
-				-- 	override_generic_sorter = false,
-				-- 	override_file_sorter = true,
-				-- },
 				fzf = {
 				  override_generic_sorter = false, -- override the generic sorter
 				  override_file_sorter = true,     -- override the file sorter
@@ -96,8 +91,6 @@ require('packer').startup(function()
 		end
 	}
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
-	use {'nvim-telescope/telescope-fzy-native.nvim', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzy_native')" }
-	use {'nvim-telescope/telescope-fzf-writer.nvim', config = "require'telescope'.load_extension('fzf_writer')" }
 
 	use {'hrsh7th/nvim-compe'}
 	use {'RishabhRD/popfix'}
@@ -121,6 +114,8 @@ require('packer').startup(function()
 
 	use {'m-pilia/vim-ccls'}
 	use {'rust-lang/rust.vim'}
+	use {'michaelb/sniprun', run = 'bash install.sh 1'}
+	use {'iamcco/markdown-preview.nvim', run = 'call mkdp#util#install()'}
 
 	-- Helpers
 	use {'tpope/vim-eunuch'}
@@ -135,7 +130,6 @@ require('packer').startup(function()
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
-	use {'michaelb/sniprun', run = 'bash install.sh 1'}
 	use {'gennaro-tedesco/nvim-peekup', config = function()
 		require'nvim-peekup'.on_keystroke = {
 			delay = '50ms',

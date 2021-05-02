@@ -98,6 +98,9 @@ nnoremap('<F4>', ':Rg<CR>')
 nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
+-- Find in Dir
+nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {""}})<Left><Left><Left><Left>')
+
 nnoremap('<F8>', ':FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
 noremap('<F9>', ':set list!<CR>')
