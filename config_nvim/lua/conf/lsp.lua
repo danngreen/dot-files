@@ -116,7 +116,8 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('gN', 			'lua vim.lsp.buf.outgoing_calls()')
 
 	--Symbols
-	nnoremap_cmd('gw',			'lua vim.lsp.buf.workspace_symbol()')
+	nnoremap_cmd('gw', 			'Telescope lsp_dynamic_workspace_symbols')
+	-- nnoremap_cmd('gw', 			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
 	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
 	nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
@@ -174,9 +175,7 @@ vim.lsp.handlers['textDocument/codeAction'] = function(opts)
 	require'telescope.builtin'.lsp_code_actions(opts)
 end
 
---Todo: how to get workspace/symbols working with telescope?
---vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_workspace_symbols
-vim.lsp.handlers['workspace/symbol'] = RishabhRD_symbols.workspace_handler
+vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_dynamic_workspace_symbols
 vim.lsp.handlers['textDocument/documentSymbol'] = require'telescope.builtin'.lsp_document_symbols
 
 -- Clangd
