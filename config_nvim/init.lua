@@ -98,8 +98,8 @@ nnoremap('<F4>', ':Rg<CR>')
 nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
--- Find in Dir
-nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {""}})<Left><Left><Left><Left>')
+-- Greb in Dir
+nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 
 nnoremap('<F8>', ':FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
@@ -121,7 +121,7 @@ nnoremap('<leader>vcc', ':edit ~/Library/Preferences/clangd/config.yaml<CR>')
 vnoremap('<M-c>', '"+y')
 
 -- Building
-nnoremap('<leader>m', ':wa<CR>:Make<CR>')
+nnoremap('<leader>m', ':wa<CR>:Make!<CR>')
 
 -- Display - highlights
 vim.cmd[[colorscheme monokai]]
@@ -163,6 +163,7 @@ augroup filetype_aucmds
 	autocmd!
 	autocmd BufNewFile,BufRead *.lib set syntax=none
 	autocmd BufNewFile,BufRead .clangd set syntax=yaml
+	autocmd FileType qf set nobuflisted
 augroup END]], false)
 
 --LSP
