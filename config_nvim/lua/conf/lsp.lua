@@ -1,7 +1,7 @@
 if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
 local compe = require'compe'
-local RishabhRD_symbols = require'lsputil.symbols'
+-- local RishabhRD_symbols = require'lsputil.symbols'
 
 local conf_lsp = {}
 require('plenary.reload').reload_module("lsp_telescope")
@@ -167,7 +167,7 @@ end
 
 -- Handlers
 
-vim.lsp.handlers['textDocument/codeAction'] = function(opts) 
+vim.lsp.handlers['textDocument/codeAction'] = function(opts)
 	opts = opts or {}
 	opts.layout_strategy = 'center'
 	opts.results_height = 4
@@ -270,24 +270,31 @@ end
 -- Lua
 
 nvim_lspconfig.sumneko_lua.setup {
+	require'conf.lua-lsp',
 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
-	settings = {
-		Lua = {
-			runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },
-			completion = { keywordSnippet = "Disable", },
-			diagnostics = { enable = true, globals = {
-				"vim", "describe", "it", "before_each", "after_each" },
-			},
-			workspace = {
-				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-				}
-			},
-		}
-	},
+
 	on_attach = on_attach_vim
 }
+
+-- local old_sumneko_lua_setup = {
+-- 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
+-- 	settings = {
+-- 		Lua = {
+-- 			runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },
+-- 			completion = { keywordSnippet = "Disable", },
+-- 			diagnostics = { enable = true, globals = {
+-- 				"vim", "describe", "it", "before_each", "after_each" },
+-- 			},
+-- 			workspace = {
+-- 				library = {
+-- 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+-- 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+-- 				}
+-- 			},
+-- 		}
+-- 	},
+-- 	on_attach = on_attach_vim
+-- }
 
 -- rust
 
