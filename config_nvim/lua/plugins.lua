@@ -29,19 +29,19 @@ require('packer').startup(function()
 
 	----Looking good
 	use {'tanvirtin/nvim-monokai'}
-	use {'romgrk/barbar.nvim', --can't we do config in plugin's native lua?
-		config = function() vim.cmd[[
-			let bufferline = get(g:, 'bufferline', {})
-			let bufferline.animation = v:false
-			let bufferline.auto_hide = v:true
-			let bufferline.icons = 'numbers'
-			let bufferline.icon_separator_active = '⎜'
-			let bufferline.icon_separator_inactive = '⎢'
-			let bufferline.icon_close_tab = '✖︎ '
-			let bufferline.icon_close_tab_modified = '◻︎'
-			let bufferline.maximum_padding = 2
-		]]
-	end }
+	-- use {'romgrk/barbar.nvim', --can't we do config in plugin's native lua?
+	-- 	config = function() vim.cmd[[
+	-- 		let bufferline = get(g:, 'bufferline', {})
+	-- 		let bufferline.animation = v:false
+	-- 		let bufferline.auto_hide = v:true
+	-- 		let bufferline.icons = 'numbers'
+	-- 		let bufferline.icon_separator_active = '⎜'
+	-- 		let bufferline.icon_separator_inactive = '⎢'
+	-- 		let bufferline.icon_close_tab = '✖︎ '
+	-- 		let bufferline.icon_close_tab_modified = '◻︎'
+	-- 		let bufferline.maximum_padding = 2
+	-- 	]]
+	-- end }
 	use {'danngreen/lualine.nvim', config = function() --forked from hoob3rt/lualine.nvim
 		require('lualine').setup{
 			options = { theme = 'molokai', icons_enabled = false},
@@ -119,22 +119,30 @@ require('packer').startup(function()
 
 	-- Helpers
 	use {'tpope/vim-eunuch'}
-	use {'tpope/vim-commentary', config = vim.api.nvim_exec([[
+	use {'tpope/vim-commentary', config = vim.cmd[[
 		augroup commentary_c_cpp_php
 			autocmd!
 			autocmd FileType c setlocal commentstring=//%s
 			autocmd FileType cpp setlocal commentstring=//%s
 			autocmd FileType php setlocal commentstring=//%s
 		augroup END
-	]], false)}
+	]]}
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
-	use {'gennaro-tedesco/nvim-peekup', config = function()
-		require'nvim-peekup'.on_keystroke = {
-			delay = '50ms',
-			autoclose = true,
-			paste_reg = '"',
-		} end
-	}
+	-- use {'gennaro-tedesco/nvim-peekup', config = function()
+	-- 	require'nvim-peekup'.on_keystroke = {
+	-- 		delay = '50ms',
+	-- 		autoclose = true,
+	-- 		paste_reg = '"',
+	-- 	} end
+	-- }
+	use {'chmanie/termdebugx.nvim', config = function() vim.cmd[[
+		let termdebugger = "arm-none-eabi-gdb-py"
+		let g:termdebug_useFloatingHover = 0
+		let g:termdebug_wide = 140
+		let g:termdebug_disasm_window = 15
+		let g:termdebugger_program = "minicom -D /dev/cu.usbmodem*"
+	]] end}
 end)
+
