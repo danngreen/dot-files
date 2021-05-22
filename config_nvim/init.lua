@@ -26,6 +26,7 @@ vim.o.formatoptions = vim.o.formatoptions.."n"  --Format lists
 vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
 vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
 vim.o.shortmess = vim.o.shortmess.."c"	-- Avoid showing message extra message when using completion
+vim.api.nvim_command('set shortmess-=F') -- Allows messages to echo while processing filetypes
 vim.o.wildmenu =  true
 vim.o.wildignore = vim.o.wildignore.."tags,tags.*,build/*"
 vim.o.path = ".,,**"
@@ -197,8 +198,7 @@ vim.api.nvim_exec([[
 vim.api.nvim_exec([[
   augroup nvimrc
     autocmd!
-    autocmd DirChanged ~/4ms/stm32/meta-module/H7 source .nvimrc
+    autocmd DirChanged ~/4ms/stm32/meta-module/firmware source .nvimrc
     autocmd DirChanged ~/4ms/stm32/meta-module/vcv source .nvimrc
   augroup end
 ]], false)
-
