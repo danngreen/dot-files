@@ -29,19 +29,6 @@ require('packer').startup(function()
 
 	----Looking good
 	use {'tanvirtin/nvim-monokai'}
-	-- use {'romgrk/barbar.nvim', --can't we do config in plugin's native lua?
-	-- 	config = function() vim.cmd[[
-	-- 		let bufferline = get(g:, 'bufferline', {})
-	-- 		let bufferline.animation = v:false
-	-- 		let bufferline.auto_hide = v:true
-	-- 		let bufferline.icons = 'numbers'
-	-- 		let bufferline.icon_separator_active = '⎜'
-	-- 		let bufferline.icon_separator_inactive = '⎢'
-	-- 		let bufferline.icon_close_tab = '✖︎ '
-	-- 		let bufferline.icon_close_tab_modified = '◻︎'
-	-- 		let bufferline.maximum_padding = 2
-	-- 	]]
-	-- end }
 	use {'danngreen/lualine.nvim', config = function() --forked from hoob3rt/lualine.nvim
 		require('lualine').setup{
 			options = { theme = 'molokai', icons_enabled = false},
@@ -82,9 +69,7 @@ require('packer').startup(function()
 				}
 			},
 			defaults = {
-				--mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
-				-- file_sorter = require'telescope.sorters'.get_fzy_sorter,
-				-- generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+				mappings = { i = {["<esc>"] = require'telescope.actions'.close } },
 				set_env = { ['COLORTERM'] = 'truecolor' },
 			}
 		}
@@ -93,8 +78,8 @@ require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
 	use {'hrsh7th/nvim-compe'}
-	use {'RishabhRD/popfix'}
-	use {'RishabhRD/nvim-lsputils'}
+	-- use {'RishabhRD/popfix'}
+	-- use {'RishabhRD/nvim-lsputils'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
@@ -104,12 +89,35 @@ require('packer').startup(function()
 					  ["template_arg"] = "TSTemplateArg",
 					},
 				},
-				incremental_selection = false,
-				indent = false
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "gnn",
+						node_incremental = "grn",
+						scope_incremental = "grc",
+						node_decremental = "grm",
+					},
+				},
+				indent = false,
+				refactor = {
+					highlight_definitions = { enable = true },
+					highlight_current_scope = { enable = false },
+					smart_rename = { enable = true, keymaps = { smart_rename = "grr" } },
+					navigation = { enable = true,
+						keymaps = {
+							goto_definition_lsp_fallback = "gd",
+							list_definitions = "gD",
+							list_definitions_toc = "gO",
+							goto_next_usage = "<a-*>",
+							goto_previous_usage = "<a-#>",
+						},
+					},
+				},
 			}
 		end
 	}
 	use {'nvim-treesitter/playground'}
+	use {'nvim-treesitter/nvim-treesitter-refactor'}
 	use {'majutsushi/tagbar', config = "vim.g.tagbar_file_size_limit = 100000" }
 
 	use {'m-pilia/vim-ccls'}

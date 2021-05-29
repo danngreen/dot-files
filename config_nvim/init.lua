@@ -45,21 +45,8 @@ nnoremap('<space>', '<cmd>noh<CR>')
 nnoremap('Y', 'y$')
 nnoremap('<leader>w', ':bp <BAR> bd #<CR>')
 nnoremap('<M-w>', ':bp <BAR> bd #<CR>')
--- nnoremap('<leader>1', '<cmd>BufferGoto 1<CR>')
--- nnoremap('<leader>2', '<cmd>BufferGoto 2<CR>')
--- nnoremap('<leader>3', '<cmd>BufferGoto 3<CR>')
--- nnoremap('<leader>4', '<cmd>BufferGoto 4<CR>')
--- nnoremap('<leader>5', '<cmd>BufferGoto 5<CR>')
--- nnoremap('<leader>6', '<cmd>BufferGoto 6<CR>')
--- nnoremap('<leader>7', '<cmd>BufferGoto 7<CR>')
--- nnoremap('<leader>8', '<cmd>BufferGoto 8<CR>')
--- nnoremap('<leader>9', '<cmd>BufferGoto 9<CR>')
 nnoremap('<M-Tab>', '<cmd>:bn<CR>')
 nnoremap('<S-Tab>', '<cmd>:bp<CR>')
--- nnoremap('<M-<>', '<cmd>BufferMovePrevious<CR>')
--- nnoremap('<M->>', '<cmd>BufferMoveNext<CR>')
--- noremap('<M-h>' ,'<cmd>Alternate<CR>')
--- nnoremap('<leader>h', '<C-w>v:Alternate<CR>')
 nnoremap('<leader>cd', ':cd %:p:h<CR>:pwd<CR>')
 
 -- Searching/Replacing in current buffer
@@ -70,7 +57,7 @@ vnoremap('<leader>r', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
--- require'plenary.reload'.reload_module('finders') --Todo remove when not developting finders
+-- require'plenary.reload'.reload_module('finders') --Todo remove when not developing finders
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
 nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
@@ -99,7 +86,7 @@ nnoremap('<F4>', ':Rg<CR>')
 nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
--- Greb in Dir
+-- Grep in Dir
 nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 
 nnoremap('<F8>', '<cmd>FloatermToggle<CR>')
