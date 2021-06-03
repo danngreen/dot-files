@@ -78,8 +78,7 @@ require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
 	use {'hrsh7th/nvim-compe'}
-	-- use {'RishabhRD/popfix'}
-	-- use {'RishabhRD/nvim-lsputils'}
+	use {'ray-x/lsp_signature.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},

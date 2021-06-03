@@ -39,6 +39,21 @@ compe.setup {
 	};
 }
 
+local lsp_signature_config = {
+	bind = true,
+	doc_lines = 10,
+	floating_window = true,
+	hint_enable = true,
+	hint_prefix = "^",
+	hint_scheme = "String",
+	use_lspsaga = false,
+	hi_parameter = "TSUnderlined",
+	max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down to view the hiding contents
+	max_width = 120, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+	handler_opts = { border = "single" },   -- double, single, shadow, none
+}
+
+
 local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 local check_back_space = function()
     local col = vim.fn.col('.') - 1
@@ -140,6 +155,9 @@ local on_attach_vim = function(client, bufnr)
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
 
+	--Signature help
+	require'lsp_signature'.on_attach(lsp_signature_config)
+
 	--Highlight current word
 	if client.resolved_capabilities.document_highlight then
 		vim.api.nvim_exec([[
@@ -161,8 +179,6 @@ local on_attach_vim = function(client, bufnr)
 		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
     end
 
-	-- Todo: get this working (re-attach server/client)
-	-- buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>lua require(\'lspconfig\')["clangd"].manager.try_add()<CR>', opts)
 end
 
 -- Handlers
