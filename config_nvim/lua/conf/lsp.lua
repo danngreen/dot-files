@@ -25,7 +25,7 @@ compe.setup {
 	max_abbr_width = 100,
 	max_kind_width = 100,
 	max_menu_width = 100,
-	documentation = true,
+	documentation = false,
 
 	source = {
 		path = true,
@@ -39,18 +39,35 @@ compe.setup {
 	};
 }
 
-local lsp_signature_config = {
-	bind = true,
-	doc_lines = 10,
-	floating_window = true,
-	hint_enable = true,
-	hint_prefix = "^",
-	hint_scheme = "String",
-	use_lspsaga = false,
-	hi_parameter = "TSUnderlined",
-	max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down to view the hiding contents
-	max_width = 120, -- max_width of signature floating_window, line will be wrapped if exceed max_width
-	handler_opts = { border = "single" },   -- double, single, shadow, none
+local lspsaga_config = {
+	use_saga_diagnostic_sign = false,
+-- error_sign = '',
+-- warn_sign = '',
+-- hint_sign = '',
+-- infor_sign = '',
+-- dianostic_header_icon = '   ',
+	code_action_icon = ' ',
+	code_action_prompt = {
+	  enable = true,
+	  sign = true,
+	  sign_priority = 20,
+	  virtual_text = true,
+	},
+	finder_definition_icon = '',
+	finder_reference_icon = '',
+	max_preview_lines = 70,
+	finder_action_keys = {
+	  open = 'o', vsplit = 's',split = 'i',quit = {'q', '<ESC>'},scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
+	},
+	code_action_keys = {
+	  quit = 'q',exec = '<CR>'
+	},
+	rename_action_keys = {
+	  quit = '<ESC>',exec = '<CR>'  -- quit can be a table
+	},
+	definition_preview_icon = '☼',
+	border_style = "single", -- "single" "double" "round" "plus"
+	rename_prompt_prefix = '➤',
 }
 
 
@@ -115,14 +132,22 @@ local on_attach_vim = function(client, bufnr)
 	local nnoremap_cmd = function(k, c) vim.api.nvim_buf_set_keymap(bufnr, 'n', k, '<cmd>'..c..'<CR>', {noremap = true, silent = true}) end
 
 	--Symbol info (hover/signature)
-	nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
-	nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
-	inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	nnoremap_cmd('K', 			'Lspsaga hover_doc')
+	nnoremap_cmd('<C-f>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(1)')
+	nnoremap_cmd('<C-b>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(-1)')
+	nnoremap_cmd('<C-k>',		'Lspsaga signature_help')
+	inoremap_cmd('<C-k>',		'Lspsaga signature_help')
+
+	-- nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
+	-- nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 
 	--Refs/Defs
-	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
+	nnoremap_cmd('gr', 			'Lspsaga lsp_finder')
+	nnoremap_cmd('gD', 			'Lspsaga preview_definition')
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
-	nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
+	-- nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
+	-- nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
 
 	-- if client.resolved_capabilities.type_definition then
 	nnoremap_cmd('gi', 			'lua vim.lsp.buf.type_definition()') --not supported by clangd, but works in ccls
@@ -134,8 +159,11 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('gw', 			'Telescope lsp_dynamic_workspace_symbols')
 	-- nnoremap_cmd('gw', 			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
-	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
-	nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
+
+	nnoremap_cmd('<leader>ff', 	'Lspsaga code_action')
+	nnoremap_cmd('<leader>rn', 	'Lspsaga rename')
+	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
+	-- nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
 
 	--Switch header (replaced with Alternate File)
 	nnoremap_cmd('<M-h>',		'ClangdSwitchSourceHeader')
@@ -152,11 +180,11 @@ local on_attach_vim = function(client, bufnr)
 	-- Toggle virtual text diagnostics
 	nnoremap_cmd('<leader>fc', 'lua require\'conf.lsp\'.virtual_text.toggle()')
 
+	--LSPsaga
+	require'lspsaga'.init_lsp_saga(lspsaga_config)
+
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
-
-	--Signature help
-	require'lsp_signature'.on_attach(lsp_signature_config)
 
 	--Highlight current word
 	if client.resolved_capabilities.document_highlight then
@@ -210,20 +238,22 @@ end
 
 nvim_lspconfig.clangd.setup {
 	cmd = {
-		"/Users/dann/bin/clangd_12.0.0-rc2/bin/clangd",
+		"/usr/local/opt/llvm/bin/clangd",
 		"--background-index",
 		"--log=verbose",
 		"-j=32",
 		"--cross-file-rename",
 		"--fallback-style=LLVM",
-		-- "--clang-tidy",
+		"--clang-tidy",
 		-- "--suggest-missing-includes",
 		-- "--all-scopes-completion",
 		"--completion-style=bundled",
 		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/*/bin/*/arm-none-eabi-g*",
-		"--query-driver=/usr/bin/g*",
+		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/*/bin/arm-none-eabi-*",
+		"--query-driver=/usr/local/Caskroom/gcc-arm-embedded/*/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
+		"--query-driver=/Users/dann/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+		"--query-driver=/usr/bin/g*",
 		"--pch-storage=memory",
 		"--enable-config"
 	},
@@ -291,26 +321,6 @@ nvim_lspconfig.sumneko_lua.setup {
 
 	on_attach = on_attach_vim
 }
-
--- local old_sumneko_lua_setup = {
--- 	cmd = {"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server", "-E", "/Users/dann/bin/lua-language-server/main.lua"},
--- 	settings = {
--- 		Lua = {
--- 			runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },
--- 			completion = { keywordSnippet = "Disable", },
--- 			diagnostics = { enable = true, globals = {
--- 				"vim", "describe", "it", "before_each", "after_each" },
--- 			},
--- 			workspace = {
--- 				library = {
--- 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
--- 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
--- 				}
--- 			},
--- 		}
--- 	},
--- 	on_attach = on_attach_vim
--- }
 
 -- rust
 
