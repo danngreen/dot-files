@@ -46,7 +46,7 @@ local lspsaga_config = {
 -- hint_sign = '',
 -- infor_sign = '',
 -- dianostic_header_icon = '   ',
-	code_action_icon = ' ',
+	code_action_icon = '! ',
 	code_action_prompt = {
 	  enable = true,
 	  sign = true,
@@ -57,10 +57,10 @@ local lspsaga_config = {
 	finder_reference_icon = '',
 	max_preview_lines = 70,
 	finder_action_keys = {
-	  open = 'o', vsplit = 's',split = 'i',quit = {'q', '<ESC>'},scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
+	  open = '<CR>', vsplit = 's',split = 'i',quit = {'q', '<ESC>'},scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
 	},
 	code_action_keys = {
-	  quit = 'q',exec = '<CR>'
+	  quit = {'q', '<ESC>'} ,exec = '<CR>'
 	},
 	rename_action_keys = {
 	  quit = '<ESC>',exec = '<CR>'  -- quit can be a table
@@ -143,10 +143,10 @@ local on_attach_vim = function(client, bufnr)
 	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 
 	--Refs/Defs
-	nnoremap_cmd('gr', 			'Lspsaga lsp_finder')
+	nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
 	nnoremap_cmd('gD', 			'Lspsaga preview_definition')
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
-	-- nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
+	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
 	-- nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
 
 	-- if client.resolved_capabilities.type_definition then
