@@ -71,7 +71,7 @@ nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dir
 
 Fzf_wiki_conf = {
 	search_dirs = {"~/Sync/wiki/"}, all = true,
-	layout_strategy = 'center', results_height = 10, width = 0.4
+	layout_strategy = 'center', layout_config = {height = 10, width = 0.4}
 }
 nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
 

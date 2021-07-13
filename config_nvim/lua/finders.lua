@@ -63,8 +63,7 @@ local find_all_files_rg = {
 
 local small_center_layout_conf = {
 	layout_strategy = "center",
-	results_height = 12,
-	width = 0.4,
+	layout_config = {height = 12, width = 0.4},
 	preview = 0.9
 }
 
