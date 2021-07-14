@@ -71,7 +71,7 @@ nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dir
 
 Fzf_wiki_conf = {
 	search_dirs = {"~/Sync/wiki/"}, all = true,
-	layout_strategy = 'center', results_height = 10, width = 0.4
+	layout_strategy = 'center', layout_config = {height = 10, width = 0.4}
 }
 nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
 
@@ -106,8 +106,18 @@ tnoremap('<F20>o', '<cmd>FloatermUpdate --position=topright --width=0.5 --height
 tnoremap('<F20>O', '<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>')
 
 noremap('<F9>', ':set list!<CR>')
-noremap('<F10>', ':Cope<CR>')
-noremap('<F22>', ':ccl<CR>')
+
+vim.cmd[[
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        Cope | ccl | vertical botright cope 120
+    else
+        cclose
+    endif
+endfunction
+]]
+noremap('<F10>', ':call ToggleQuickFix()<CR>')
+
 noremap('<F11>', ':TagbarToggle<CR>')
 noremap('<F23>', ':Dispatch! ctags -R .<CR>')
 noremap('<F12>', ':NERDTreeToggle<CR>')

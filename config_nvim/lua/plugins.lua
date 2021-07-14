@@ -78,7 +78,8 @@ require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
 	use {'hrsh7th/nvim-compe'}
-	use {'ray-x/lsp_signature.nvim'}
+	 use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
+	-- use {'glepnir/lspsaga.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
@@ -101,12 +102,12 @@ require('packer').startup(function()
 				refactor = {
 					highlight_definitions = { enable = true },
 					highlight_current_scope = { enable = false },
-					smart_rename = { enable = true, keymaps = { smart_rename = "grr" } },
+					smart_rename = { enable = true, keymaps = { smart_rename = "<leader>rN" } },
 					navigation = { enable = true,
 						keymaps = {
 							goto_definition_lsp_fallback = "gd",
-							list_definitions = "gD",
-							list_definitions_toc = "gO",
+							list_definitions = "gE",
+							list_definitions_toc = "g0",
 							goto_next_usage = "<a-*>",
 							goto_previous_usage = "<a-#>",
 						},
