@@ -78,8 +78,8 @@ require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
 	use {'hrsh7th/nvim-compe'}
-	 use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
-	-- use {'glepnir/lspsaga.nvim'}
+	use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
+	--use {'glepnir/lspsaga.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
@@ -145,6 +145,10 @@ require('packer').startup(function()
 	-- 		paste_reg = '"',
 	-- 	} end
 	-- }
+	use { 'lewis6991/gitsigns.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+		config = function() require('gitsigns').setup() end
+	}
 	use {'chmanie/termdebugx.nvim', config = function() vim.cmd[[
 		let termdebugger = "arm-none-eabi-gdb-py"
 		let g:termdebug_useFloatingHover = 0
