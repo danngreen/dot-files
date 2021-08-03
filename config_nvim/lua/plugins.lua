@@ -78,7 +78,7 @@ require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
 	use {'hrsh7th/nvim-compe'}
-	 use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
+	use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
 	-- use {'glepnir/lspsaga.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
@@ -127,17 +127,24 @@ require('packer').startup(function()
 
 	-- Helpers
 	use {'tpope/vim-eunuch'}
-	use {'tpope/vim-commentary', config = vim.cmd[[
+	use {'tpope/vim-commentary', config = function() vim.cmd[[
 		augroup commentary_c_cpp_php
 			autocmd!
 			autocmd FileType c setlocal commentstring=//%s
 			autocmd FileType cpp setlocal commentstring=//%s
 			autocmd FileType php setlocal commentstring=//%s
 		augroup END
-	]]}
+	]] end}
 	use {'tpope/vim-dispatch'}
 	use {'tpope/vim-fugitive'}
 	use {'voldikss/vim-floaterm'}
+
+	use {'nixprime/cpsm', run = 'PY3=ON install.sh'}
+	use {'romgrk/fzy-lua-native', run = 'make'}
+	use {'gelguy/wilder.nvim', config = function() 
+		vim.cmd[[source ~/.config/nvim/vim/wilder_conf.vim]]
+	end}
+
 	-- use {'gennaro-tedesco/nvim-peekup', config = function()
 	-- 	require'nvim-peekup'.on_keystroke = {
 	-- 		delay = '50ms',
