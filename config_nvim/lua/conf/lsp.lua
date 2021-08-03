@@ -41,11 +41,6 @@ compe.setup {
 
 local lspsaga_config = {
 	use_saga_diagnostic_sign = false,
--- error_sign = '',
--- warn_sign = '',
--- hint_sign = '',
--- infor_sign = '',
--- dianostic_header_icon = '   ',
 	code_action_icon = '! ',
 	code_action_prompt = {
 	  enable = true,
@@ -63,7 +58,7 @@ local lspsaga_config = {
 	  quit = {'q', '<ESC>'} ,exec = '<CR>'
 	},
 	rename_action_keys = {
-	  quit = '<ESC>',exec = '<CR>'  -- quit can be a table
+	  quit = '<ESC>',exec = '<CR>' 
 	},
 	definition_preview_icon = '☼',
 	border_style = "single", -- "single" "double" "round" "plus"
@@ -245,14 +240,12 @@ nvim_lspconfig.clangd.setup {
 		"--cross-file-rename",
 		"--fallback-style=LLVM",
 		"--clang-tidy",
-		-- "--suggest-missing-includes",
 		-- "--all-scopes-completion",
 		"--completion-style=bundled",
 		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-		"--query-driver=/usr/local/Cellar/arm-none-eabi-gcc/*/bin/arm-none-eabi-*",
-		"--query-driver=/usr/local/Caskroom/gcc-arm-embedded/*/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 		"--query-driver=/Users/dann/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+		"--query-driver=/Users/design/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 		"--query-driver=/usr/bin/g*",
 		"--pch-storage=memory",
 		"--enable-config"
