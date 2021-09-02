@@ -48,9 +48,11 @@ let s:highlighters = [
 call wilder#set_option('renderer', wilder#renderer_mux({
       \ ':': wilder#popupmenu_renderer({
       \   'highlighter': s:highlighters,
+	  \   'apply_incsearch_fix': 0,
       \ }),
       \ '/': wilder#wildmenu_renderer({
       \   'highlighter': s:highlighters,
+	  \   'apply_incsearch_fix': 0,
       \ }),
       \ }))
 
