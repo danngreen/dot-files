@@ -3,6 +3,7 @@ if [ -d "/usr/local/opt/make/libexec/gnubin" ] ; then
     export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 fi
 
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"

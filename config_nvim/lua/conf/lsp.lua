@@ -278,7 +278,7 @@ nvim_lspconfig.clangd.setup {
 		"--pch-storage=memory",
 		"--enable-config"
 	},
-	filetypes = {"c", "cpp", "objc", "objcpp"},
+	filetypes = {"c", "cpp"},
 	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
 	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
@@ -397,6 +397,25 @@ nvim_lspconfig.tsserver.setup {
 -- cmake
 
 nvim_lspconfig.cmake.setup {}
+
+-- html
+
+nvim_lspconfig.html.setup{
+	cmd = { "/usr/local/bin/html-languageserver", "--stdio" },
+    filetypes = { "html" },
+    init_options = {
+      configurationSection = { "html", "css", "javascript" },
+      embeddedLanguages = {
+        css = true,
+        javascript = true
+      }
+    },
+	root_dir = nvim_lspconfig.util.root_pattern(".git"),
+    settings = {}
+}
+
+--
+--
 
 -- General key maps
 
