@@ -59,7 +59,7 @@ require('packer').startup(function()
 	use {'neovim/nvim-lspconfig'}
 	use {'nvim-lua/popup.nvim'}
 	use {'nvim-lua/plenary.nvim'}
-	use {'nvim-lua/telescope.nvim', config = function()
+	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f" ,config = function()
 		require'telescope'.setup{
 			extensions = {
 				fzf = {
