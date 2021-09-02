@@ -23,6 +23,8 @@ fp-info-cache
 *.bak
 *.kicad_pcb-bak
 *.sch-bak
+*.kicad_prl
+*-backups
 _autosave*
 
 # ctags, cscope, clangd, ccls
