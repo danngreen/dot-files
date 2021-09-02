@@ -1,6 +1,6 @@
 if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
-local compe = require'compe'
+-- local compe = require'compe'
 -- local RishabhRD_symbols = require'lsputil.symbols'
 
 local conf_lsp = {}
@@ -11,33 +11,61 @@ local useclangd = true
 local useccls = false
 
 -- Completion
-
-compe.setup {
-	enabled = true,
-	debug = false,
-	min_length = 2,
-	preselect = 'disable', -- 'enable' || 'disable' || 'always';
-	-- throttle_time = 80, --what is this? Something to do with preventing flickering?
-	source_timeout = 500, --what is this?
-	incomplete_delay = 400, --what is this?
-	allow_prefix_unmatch = true, --when false, only matches with the same first char will be shown
-
-	max_abbr_width = 100,
-	max_kind_width = 100,
-	max_menu_width = 100,
-	documentation = false,
-
-	source = {
-		path = true,
-		buffer = true,
-		calc = true,
-		vsnip = false,
-		nvim_lsp = true,
-		nvim_lua = true,
-		tags = false,
-		treesitter = false,
-	};
+local cmp=require'cmp'
+cmp.setup{
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = {
+      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+	  ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+	  ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      })
+    },
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'nvim_lua' },
+      { name = 'buffer' },
+      { name = 'path' },
+      { name = 'calc' },
+    }
 }
+
+-- compe.setup {
+-- 	enabled = true,
+-- 	debug = false,
+-- 	min_length = 2,
+-- 	preselect = 'disable', -- 'enable' || 'disable' || 'always';
+-- 	-- throttle_time = 80, --what is this? Something to do with preventing flickering?
+-- 	source_timeout = 500, --what is this?
+-- 	incomplete_delay = 400, --what is this?
+-- 	allow_prefix_unmatch = true, --when false, only matches with the same first char will be shown
+
+-- 	max_abbr_width = 100,
+-- 	max_kind_width = 100,
+-- 	max_menu_width = 100,
+-- 	documentation = false,
+
+-- 	source = {
+-- 		path = true,
+-- 		buffer = true,
+-- 		calc = true,
+-- 		vsnip = false,
+-- 		nvim_lsp = true,
+-- 		nvim_lua = true,
+-- 		tags = false,
+-- 		treesitter = false,
+-- 	};
+-- }
 
 local lspsaga_config = {
 	use_saga_diagnostic_sign = false,
@@ -74,21 +102,21 @@ local check_back_space = function()
     end
 end
 
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then return t "<C-n>"
-  elseif check_back_space() then return t "<Tab>"
-  else return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then return t "<C-p>"
-  else return t "<S-Tab>"
-  end
-end
-vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+-- _G.tab_complete = function()
+--   if vim.fn.pumvisible() == 1 then return t "<C-n>"
+--   elseif check_back_space() then return t "<Tab>"
+--   else return vim.fn['compe#complete']()
+--   end
+-- end
+-- _G.s_tab_complete = function()
+--   if vim.fn.pumvisible() == 1 then return t "<C-p>"
+--   else return t "<S-Tab>"
+--   end
+-- end
+-- vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+-- vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+-- vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+-- vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 
 -- Formatting
 
@@ -253,7 +281,7 @@ nvim_lspconfig.clangd.setup {
 	filetypes = {"c", "cpp", "objc", "objcpp"},
 	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
-	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
+	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
 
 	--Are both of these actually needed?
 	on_init = function(client)
