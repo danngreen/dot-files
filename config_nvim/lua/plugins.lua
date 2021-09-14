@@ -60,7 +60,11 @@ require('packer').startup(function()
 	use {'kabouzeid/nvim-lspinstall', config = function() require'lspinstall'.setup() end}
 	use {'nvim-lua/popup.nvim'}
 	use {'nvim-lua/plenary.nvim'}
-	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f" ,config = function()
+	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f", --works
+	-- use {'nvim-lua/telescope.nvim', commit="b47bb8df1eef6431a1321a05f9c5eef95d4602bb", --slow
+	-- use {'nvim-lua/telescope.nvim', commit="4f91ffcbab427503b1e3ebfb02e47400d6eb561a", --crashes
+	-- use {'nvim-lua/telescope.nvim',
+		config = function()
 		require'telescope'.setup{
 			extensions = {
 				fzf = {
@@ -143,9 +147,9 @@ require('packer').startup(function()
 
 	use {'nixprime/cpsm', run = 'PY3=ON install.sh'}
 	use {'romgrk/fzy-lua-native', run = 'make'}
-	use {'gelguy/wilder.nvim', config = function() 
-		vim.cmd[[source ~/.config/nvim/vim/wilder_conf.vim]]
-	end}
+	-- use {'gelguy/wilder.nvim', config = function() 
+	-- 	vim.cmd[[source ~/.config/nvim/vim/wilder_conf.vim]]
+	-- end}
 
 	-- use {'gennaro-tedesco/nvim-peekup', config = function()
 	-- 	require'nvim-peekup'.on_keystroke = {
