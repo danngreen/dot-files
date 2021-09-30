@@ -37,35 +37,11 @@ cmp.setup{
       { name = 'buffer' },
       { name = 'path' },
       { name = 'calc' },
-    }
+    },
+	documentation = {cmp.DocumentationConfig}
+}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
--- compe.setup {
--- 	enabled = true,
--- 	debug = false,
--- 	min_length = 2,
--- 	preselect = 'disable', -- 'enable' || 'disable' || 'always';
--- 	-- throttle_time = 80, --what is this? Something to do with preventing flickering?
--- 	source_timeout = 500, --what is this?
--- 	incomplete_delay = 400, --what is this?
--- 	allow_prefix_unmatch = true, --when false, only matches with the same first char will be shown
-
--- 	max_abbr_width = 100,
--- 	max_kind_width = 100,
--- 	max_menu_width = 100,
--- 	documentation = false,
-
--- 	source = {
--- 		path = true,
--- 		buffer = true,
--- 		calc = true,
--- 		vsnip = false,
--- 		nvim_lsp = true,
--- 		nvim_lua = true,
--- 		tags = false,
--- 		treesitter = false,
--- 	};
--- }
 
 local lspsaga_config = {
 	use_saga_diagnostic_sign = false,
@@ -86,7 +62,7 @@ local lspsaga_config = {
 	  quit = {'q', '<ESC>'} ,exec = '<CR>'
 	},
 	rename_action_keys = {
-	  quit = '<ESC>',exec = '<CR>' 
+	  quit = '<ESC>',exec = '<CR>'
 	},
 	definition_preview_icon = '☼',
 	border_style = "single", -- "single" "double" "round" "plus"
@@ -101,22 +77,6 @@ local check_back_space = function()
     else return false
     end
 end
-
--- _G.tab_complete = function()
---   if vim.fn.pumvisible() == 1 then return t "<C-n>"
---   elseif check_back_space() then return t "<Tab>"
---   else return vim.fn['compe#complete']()
---   end
--- end
--- _G.s_tab_complete = function()
---   if vim.fn.pumvisible() == 1 then return t "<C-p>"
---   else return t "<S-Tab>"
---   end
--- end
--- vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
--- vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
--- vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
--- vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 
 -- Formatting
 
