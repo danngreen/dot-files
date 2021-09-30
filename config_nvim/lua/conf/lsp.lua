@@ -281,7 +281,8 @@ nvim_lspconfig.clangd.setup {
 	filetypes = {"c", "cpp", "objc", "objcpp"},
 	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
-	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
+	capabilities = capabilities,
+	-- capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
 
 	--Are both of these actually needed?
 	on_init = function(client)
