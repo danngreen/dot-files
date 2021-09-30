@@ -1,3 +1,8 @@
+--highlight of code_action virtual text is white
+--C-k isn't super nice
+--ClangdSwitchHeader doesn't work
+--LspSaga CodeAction positions better than Telescope code_actions(get_curson())
+
 require'plugins'
 
 --Options
