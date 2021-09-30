@@ -155,15 +155,15 @@ local on_attach_vim = function(client, bufnr)
 	local nnoremap_cmd = function(k, c) vim.api.nvim_buf_set_keymap(bufnr, 'n', k, '<cmd>'..c..'<CR>', {noremap = true, silent = true}) end
 
 	--Symbol info (hover/signature)
-	nnoremap_cmd('K', 			'Lspsaga hover_doc')
-	nnoremap_cmd('<C-f>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(1)')
-	nnoremap_cmd('<C-b>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(-1)')
-	nnoremap_cmd('<C-k>',		'Lspsaga signature_help')
-	inoremap_cmd('<C-k>',		'Lspsaga signature_help')
+	-- nnoremap_cmd('K', 			'Lspsaga hover_doc')
+	-- nnoremap_cmd('<C-f>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(1)')
+	-- nnoremap_cmd('<C-b>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(-1)')
+	-- nnoremap_cmd('<C-k>',		'Lspsaga signature_help')
+	-- inoremap_cmd('<C-k>',		'Lspsaga signature_help')
 
-	-- nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
-	-- nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
-	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
+	nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 
 	--Refs/Defs
 	nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
