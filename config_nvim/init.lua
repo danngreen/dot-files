@@ -138,6 +138,8 @@ nnoremap('<leader>m', ':wa<CR>:Make!<CR>')
 vim.cmd[[colorscheme monokai]]
 local monokai = require'monokai'
 monokai.highlight("TSTemplateArg", {fg = monokai.alternate_blue, bg = monokai.bg})
+vim.cmd[[hi Search guibg=#94FFF9]]
+vim.cmd[[hi IncSearch guibg=#D6B000]]
 
 vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
 vim.o.termguicolors = true
