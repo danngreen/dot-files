@@ -81,7 +81,7 @@ require('packer').startup(function()
 	use {'hrsh7th/nvim-cmp', requires = {"hrsh7th/vim-vsnip", "hrsh7th/cmp-buffer","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path", "hrsh7th/cmp-path"}}
 	-- use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
 	-- use {'glepnir/lspsaga.nvim'}
-	use {'tami5/lspsaga.nvim'}
+	-- use {'tami5/lspsaga.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
