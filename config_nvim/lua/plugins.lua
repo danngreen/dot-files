@@ -79,8 +79,9 @@ require('packer').startup(function()
 
 	--use {'hrsh7th/nvim-compe'}
 	use {'hrsh7th/nvim-cmp', requires = {"hrsh7th/vim-vsnip", "hrsh7th/cmp-buffer","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path", "hrsh7th/cmp-path"}}
-	use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
+	-- use {'jasonrhansen/lspsaga.nvim', branch='finder-preview-fixes'}
 	-- use {'glepnir/lspsaga.nvim'}
+	use {'tami5/lspsaga.nvim'}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{
 				ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
@@ -123,7 +124,7 @@ require('packer').startup(function()
 
 	use {'m-pilia/vim-ccls'}
 	use {'rust-lang/rust.vim'}
-	use {'michaelb/sniprun', run = 'bash install.sh 1'}
+	-- use {'michaelb/sniprun', run = 'bash install.sh 0'}
 	use {'iamcco/markdown-preview.nvim', run = 'call mkdp#util#install()'}
 
 	-- Helpers
@@ -142,9 +143,9 @@ require('packer').startup(function()
 
 	use {'nixprime/cpsm', run = 'PY3=ON install.sh'}
 	use {'romgrk/fzy-lua-native', run = 'make'}
-	use {'gelguy/wilder.nvim', config = function() 
-		vim.cmd[[source ~/.config/nvim/vim/wilder_conf.vim]]
-	end}
+	-- use {'gelguy/wilder.nvim', config = function() 
+	-- 	vim.cmd[[source ~/.config/nvim/vim/wilder_conf.vim]]
+	-- end}
 
 	-- use {'gennaro-tedesco/nvim-peekup', config = function()
 	-- 	require'nvim-peekup'.on_keystroke = {
