@@ -49,3 +49,4 @@ __pycache__
 
 debug_log.txt
 .nvimrc
+.gdb_history

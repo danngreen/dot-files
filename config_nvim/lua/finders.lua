@@ -130,6 +130,38 @@ local fzf_general = function(extra_rg_args, opts)
 	}):find()
 end
 
+local minimal_search = function(opts)
+	opts = opts or {}
+	local rg_args = {"--files"}
+	local prompt_title = "Searching Filename"
+	local entry_mk = make_entry.gen_from_file(opts)
+	local min_chars = 2
+
+	local live_grepper = finders._new {
+		entry_maker = entry_mk,
+		fn_command = function(_, prompt)
+			if #prompt < min_chars then
+				return nil
+			end
+			return {
+				writer = Job:new {
+					command = "rg",
+					args = rg_args
+				},
+				command = 'fzf',
+				args = {'--filter', prompt}
+			}
+		end,
+	}
+
+	pickers.new(opts, {
+		prompt_title = prompt_title,
+		finder = live_grepper,
+		previewer = ts_conf.grep_previewer(opts),
+		sorter = use_highlighter and sorters.highlighter_only(opts),
+	}):find()
+end
+
 
 local M = {
 	--Buffers
@@ -160,7 +192,9 @@ local M = {
 	LS = function(path)
 		local cmd = table.concat(find_all_files_cmd, " ")
 		vim.cmd([[call fzf#run(fzf#wrap({'source': "]]..cmd..[[", 'dir': ']]..path..[['}, 0))]])
-	end
+	end,
+
+	minimal_search = minimal_search
 }
 
 _G.LS = M.LS

@@ -38,10 +38,10 @@ vim.o.path = ".,,**"
 
 -- Key mappings
 local map = vim.api.nvim_set_keymap
-local noremap = function(k, c) map('', k, c, {noremap =true}) end
-local nnoremap = function(k, c) map('n', k, c, {noremap =true}) end
-local tnoremap = function(k, c) map('t', k, c, {noremap =true}) end
-local vnoremap = function(k, c) map('v', k, c, {noremap =true}) end
+local noremap = function(k, c) map('', k, c, {noremap=true, silent=true}) end
+local nnoremap = function(k, c) map('n', k, c, {noremap=true}) end
+local tnoremap = function(k, c) map('t', k, c, {noremap=true}) end
+local vnoremap = function(k, c) map('v', k, c, {noremap=true}) end
 
 vim.g.mapleader = ','
 vim.g.localmapleader = ','

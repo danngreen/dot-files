@@ -57,9 +57,14 @@ require('packer').startup(function()
 
 	-- Navigating code
 	use {'neovim/nvim-lspconfig'}
+	use {'kabouzeid/nvim-lspinstall', config = function() require'lspinstall'.setup() end}
 	use {'nvim-lua/popup.nvim'}
 	use {'nvim-lua/plenary.nvim'}
-	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f" ,config = function()
+	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f", --works
+	-- use {'nvim-lua/telescope.nvim', commit="b47bb8df1eef6431a1321a05f9c5eef95d4602bb", --slow
+	-- use {'nvim-lua/telescope.nvim', commit="4f91ffcbab427503b1e3ebfb02e47400d6eb561a", --crashes
+	-- use {'nvim-lua/telescope.nvim',
+		config = function()
 		require'telescope'.setup{
 			extensions = {
 				fzf = {
@@ -158,12 +163,50 @@ require('packer').startup(function()
 		requires = { 'nvim-lua/plenary.nvim' },
 		config = function() require('gitsigns').setup() end
 	}
-	use {'chmanie/termdebugx.nvim', config = function() vim.cmd[[
-		let termdebugger = "arm-none-eabi-gdb-py"
-		let g:termdebug_useFloatingHover = 0
-		let g:termdebug_wide = 140
-		let g:termdebug_disasm_window = 15
-		let g:termdebugger_program = "minicom -D /dev/cu.usbmodem*"
-	]] end}
+
+	-- Debugging
+	use {'mfussenegger/nvim-dap', config = function()
+		local dap = require('dap')
+		dap.adapters.cppdbg = {
+			type = 'server',
+			-- command = '/Users/design/4ms/stm32/nvim-dap-cpptools-osx/extension/debugAdapters/OpenDebugAD7',
+			host = '127.0.0.1',
+			port = 3333
+		}
+		dap.configurations.cpp = {
+		-- {
+		-- 	name = "Launch file",
+		-- 	type = "cppdbg",
+		-- 	request = "launch",
+		-- 	program = function()
+		-- 	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+		-- 	end,
+		-- 	cwd = '${workspaceFolder}',
+		-- 	stopOnEntry = true,
+		-- },
+		{
+			name = 'Attach to gdbserver :3333',
+			type = 'cppdbg',
+			request = 'launch',
+			MIMode = 'gdb',
+			miDebuggerServerAddress = 'localhost:3333',
+			miDebuggerPath = '/Users/design/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gdb-py',
+			cwd = '${workspaceFolder}',
+			program = function()
+				return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/main.elf', 'file')
+			end,
+		},
+		}
+	end}
+
+	--use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+	-- use {'chmanie/termdebugx.nvim', config = function() vim.cmd[[
+	-- 	let termdebugger = "arm-none-eabi-gdb-py"
+	-- 	let g:termdebug_useFloatingHover = 0
+	-- 	let g:termdebug_wide = 140
+	-- 	let g:termdebug_disasm_window = 15
+	-- 	let g:termdebugger_program = "minicom -D /dev/cu.usbmodem*"
+	-- ]] end}
+
 end)
 
