@@ -43,33 +43,6 @@ cmp.setup{
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local lspsaga_config = {
-	use_saga_diagnostic_sign = false,
-	code_action_icon = '! ',
-	code_action_prompt = {
-	  enable = true,
-	  sign = true,
-	  sign_priority = 20,
-	  virtual_text = true,
-	},
-	finder_definition_icon = '',
-	finder_reference_icon = '',
-	max_preview_lines = 70,
-	finder_action_keys = {
-	  open = '<CR>', vsplit = 's',split = 'i',quit = {'q', '<ESC>'},scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
-	},
-	code_action_keys = {
-	  quit = {'q', '<ESC>'} ,exec = '<CR>'
-	},
-	rename_action_keys = {
-	  quit = '<ESC>',exec = '<CR>'
-	},
-	definition_preview_icon = '☼',
-	border_style = "single", -- "single" "double" "round" "plus"
-	rename_prompt_prefix = '➤',
-}
-
-
 local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 local check_back_space = function()
     local col = vim.fn.col('.') - 1
@@ -126,8 +99,8 @@ local on_attach_vim = function(client, bufnr)
 	inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 
 	--Refs/Defs
-	nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
-	nnoremap_cmd('gD', 			'Lspsaga preview_definition')
+	-- nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
+	-- nnoremap_cmd('gD', 			'Lspsaga preview_definition')
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
 	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
 	-- nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
@@ -143,10 +116,10 @@ local on_attach_vim = function(client, bufnr)
 	-- nnoremap_cmd('gw', 			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
 
-	nnoremap_cmd('<leader>ff', 	'Lspsaga code_action')
-	nnoremap_cmd('<leader>rn', 	'Lspsaga rename')
-	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
-	-- nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
+	-- nnoremap_cmd('<leader>ff', 	'Lspsaga code_action')
+	-- nnoremap_cmd('<leader>rn', 	'Lspsaga rename')
+	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
+	nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
 
 	--Switch header (replaced with Alternate File)
 	nnoremap_cmd('<M-h>',		'ClangdSwitchSourceHeader')
@@ -164,7 +137,7 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('<leader>fc', 'lua require\'conf.lsp\'.virtual_text.toggle()')
 
 	--LSPsaga
-	require'lspsaga'.init_lsp_saga(lspsaga_config)
+	-- require'lspsaga'.init_lsp_saga(lspsaga_config)
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
@@ -197,9 +170,8 @@ end
 vim.lsp.handlers['textDocument/codeAction'] = function(opts)
 	opts = opts or {}
 	opts.layout_strategy = 'center'
-	opts.results_height = 4
-	opts.width = 0.3
-	require'telescope.builtin'.lsp_code_actions(opts)
+	opts.layout_config = {height = 4, width = 0.3}
+	require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_dropdown({ winblend = 10 }))
 end
 
 vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_dynamic_workspace_symbols
