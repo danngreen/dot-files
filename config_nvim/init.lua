@@ -66,28 +66,31 @@ vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
 nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
+-- nnoremap('<F3>', '<cmd>lua require\'telescope.builtin\'.find_files()<CR>')
+-- nnoremap('<F15>', '<cmd>lua require\'telescope.builtin\'.find_files({no_ignore=true, hidden=true, follow=true})<CR>')
 
 Fzf_conf_dirs = {
 	search_dirs = {"~/.local/share/nvim/", "~/.config/nvim/"},
 	cwd = "~", all = true
 }
-nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.fzf_filename(Fzf_conf_dirs)<CR>')
-nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dirs={"~/.config/nvim/"}})<CR>')
+--Plugin dir
+nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename(Fzf_conf_dirs)<CR>')
+--my nvim conf dir
+nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dirs={"~/.config/nvim/"}})<CR>')
 
 Fzf_wiki_conf = {
 	search_dirs = {"~/Sync/wiki/"}, all = true,
-	layout_strategy = 'center', layout_config = {height = 10, width = 0.4}
+	layout_strategy = 'center', layout_config = {height = 15, width = 0.4}
 }
 nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
 
 --Just here for when telescope gets buggy (and for opening multiple files):
 nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
 nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
-nnoremap ('<leader>v<F15>', '<cmd>lua LS("~/dot-files")<CR>')
-nnoremap ('<leader>p<F15>', '<cmd>lua LS("~/.local/share/nvim/")<CR>')
 
 -- Grep Files
 nnoremap('<F4>', ':Rg<CR>')
+nnoremap('<leader><F4>', ':lua require\'finders\'.fzf_files(vim.fn.input("Search for: "),{})<CR>')
 nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
@@ -202,6 +205,7 @@ hi! link LspDiagnosticsVirtualTextInformation InfoMsg
 hi! link LspDiagnosticsVirtualTextHint HintMsg
 hi! LspReferenceText guibg=#433536
 hi! TelescopeMatching guifg=red
+hi! TelescopePromptBorder guifg=cyan
 ]]
 
 vim.api.nvim_exec([[

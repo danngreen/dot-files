@@ -60,18 +60,19 @@ require('packer').startup(function()
 	use {'kabouzeid/nvim-lspinstall', config = function() require'lspinstall'.setup() end}
 	use {'nvim-lua/popup.nvim'}
 	use {'nvim-lua/plenary.nvim'}
-	use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f", --works
+	-- use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f", --works
 	-- use {'nvim-lua/telescope.nvim', commit="b47bb8df1eef6431a1321a05f9c5eef95d4602bb", --slow
 	-- use {'nvim-lua/telescope.nvim', commit="4f91ffcbab427503b1e3ebfb02e47400d6eb561a", --crashes
-	-- use {'nvim-lua/telescope.nvim',
+	use {'nvim-lua/telescope.nvim',
 		config = function()
-		require'telescope'.setup{
-			extensions = {
-				fzf = {
-				  override_generic_sorter = false, -- override the generic sorter
-				  override_file_sorter = true,     -- override the file sorter
-				  case_mode = "smart_case",        -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
-				}
+			require'telescope'.setup{
+				extensions = {
+					fzf = {
+					  fuzzy = true,
+					  override_generic_sorter = true, -- override the generic sorter
+					  override_file_sorter = true,     -- override the file sorter
+					  case_mode = "smart_case",        -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
+					}
 			},
 			defaults = {
 				mappings = { i = {["<esc>"] = require'telescope.actions'.close } },

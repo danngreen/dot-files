@@ -73,7 +73,6 @@ local small_center_layout_conf = {
 local fzf_general = function(extra_rg_args, opts)
 	opts = opts or {}
 	local search_dirs = opts.search_dirs
-	local min_chars = opts.min_chars or 0
 	local cmd_args = find_normal_files_rg
 	if opts.all then
 		cmd_args = find_all_files_rg
@@ -93,72 +92,22 @@ local fzf_general = function(extra_rg_args, opts)
 		search_dirs = {"."}
 	end
 
-	local rg_args = vim.tbl_flatten{ cmd_args, extra_rg_args, search_dirs}
-	table.remove(rg_args, 1)
+	local find_command = vim.tbl_flatten{ cmd_args, extra_rg_args, search_dirs}
 
-	local entry_mk
+	-- local entry_mk
 	if extra_rg_args[1] == '--files' then
 		prompt_title = "Searching Filename"
-		entry_mk = make_entry.gen_from_file(opts)
+		opts.entry_maker = make_entry.gen_from_file(opts)
 	else
 		prompt_title = "Searching within files"
-		entry_mk = make_entry.gen_from_vimgrep(opts)
+		opts.entry_maker = make_entry.gen_from_vimgrep(opts)
 	end
 
-	local live_grepper = finders._new {
-		entry_maker = entry_mk,
-		fn_command = function(_, prompt)
-			if #prompt < min_chars then
-				return nil
-			end
-			return {
-				writer = Job:new {
-					command = "rg",
-					args = rg_args
-				},
-				command = 'fzf',
-				args = {'--filter', prompt}
-			}
-		end,
-	}
-
 	pickers.new(opts, {
 		prompt_title = prompt_title,
-		finder = live_grepper,
+		finder = finders.new_oneshot_job(find_command, opts),
 		previewer = ts_conf.grep_previewer(opts),
-		sorter = use_highlighter and sorters.highlighter_only(opts),
-	}):find()
-end
-
-local minimal_search = function(opts)
-	opts = opts or {}
-	local rg_args = {"--files"}
-	local prompt_title = "Searching Filename"
-	local entry_mk = make_entry.gen_from_file(opts)
-	local min_chars = 2
-
-	local live_grepper = finders._new {
-		entry_maker = entry_mk,
-		fn_command = function(_, prompt)
-			if #prompt < min_chars then
-				return nil
-			end
-			return {
-				writer = Job:new {
-					command = "rg",
-					args = rg_args
-				},
-				command = 'fzf',
-				args = {'--filter', prompt}
-			}
-		end,
-	}
-
-	pickers.new(opts, {
-		prompt_title = prompt_title,
-		finder = live_grepper,
-		previewer = ts_conf.grep_previewer(opts),
-		sorter = use_highlighter and sorters.highlighter_only(opts),
+		sorter = ts_conf.file_sorter(opts)
 	}):find()
 end
 
@@ -193,8 +142,6 @@ local M = {
 		local cmd = table.concat(find_all_files_cmd, " ")
 		vim.cmd([[call fzf#run(fzf#wrap({'source': "]]..cmd..[[", 'dir': ']]..path..[['}, 0))]])
 	end,
-
-	minimal_search = minimal_search
 }
 
 _G.LS = M.LS
