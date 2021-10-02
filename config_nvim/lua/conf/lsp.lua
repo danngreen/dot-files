@@ -114,10 +114,8 @@ local on_attach_vim = function(client, bufnr)
 	-- nnoremap_cmd('gw', 			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
 
-	-- nnoremap_cmd('<leader>ff', 	'Lspsaga code_action')
-	-- nnoremap_cmd('<leader>rn', 	'Lspsaga rename')
 	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
-	nnoremap_cmd('<leader>rn', 	'lua vim.lsp.buf.rename()')
+	nnoremap_cmd('<leader>rn', 'lua Rename.rename()')
 
 	--Switch header (replaced with Alternate File)
 	nnoremap_cmd('<M-h>',		'ClangdSwitchSourceHeader')
@@ -173,6 +171,48 @@ end
 
 vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_dynamic_workspace_symbols
 vim.lsp.handlers['textDocument/documentSymbol'] = require'telescope.builtin'.lsp_document_symbols
+
+-- From https://www.reddit.com/r/neovim/comments/nsfv7h/rename_in_floating_window_with_neovim_lsp/
+local function dorename(win)
+  local new_name = vim.trim(vim.fn.getline('.'))
+  vim.api.nvim_win_close(win, true)
+  vim.lsp.buf.rename(new_name)
+end
+
+local function rename()
+  local opts = {
+    relative = 'cursor',
+    row = 1,
+    col = 0,
+    width = 30,
+    height = 1,
+    style = 'minimal',
+    border = 'single'
+  }
+  local cword = vim.fn.expand('<cword>')
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, opts)
+  local fmt =  '<cmd>lua Rename.dorename(%d)<CR>'
+  local cancel = '<cmd>lua vim.api.nvim_win_close(%d, true)<CR>'
+
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cword})
+  vim.api.nvim_buf_set_keymap(buf, 'i', '<CR>', string.format(fmt, win), {silent=true})
+  vim.api.nvim_buf_set_keymap(buf, 'n', '<CR>', string.format(fmt, win), {silent=true})
+  vim.api.nvim_buf_set_keymap(buf, 'n', '<ESC>', string.format(cancel, win), {silent=true})
+end
+_G.Rename = {
+   rename = rename,
+   dorename = dorename
+}
+
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+   vim.lsp.handlers.hover, { border = "single" }
+ )
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+   vim.lsp.handlers.signature_help, { border = "single" }
+ )
 
 -- Clangd
 
