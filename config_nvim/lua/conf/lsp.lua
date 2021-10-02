@@ -1,7 +1,5 @@
 if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
--- local compe = require'compe'
--- local RishabhRD_symbols = require'lsputil.symbols'
 
 local conf_lsp = {}
 require('plenary.reload').reload_module("lsp_telescope")
@@ -169,9 +167,8 @@ end
 
 vim.lsp.handlers['textDocument/codeAction'] = function(opts)
 	opts = opts or {}
-	opts.layout_strategy = 'center'
-	opts.layout_config = {height = 4, width = 0.3}
-	require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_dropdown({ winblend = 10 }))
+	opts.layout_config = {height = 7, width=0.3}
+	require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor(opts))
 end
 
 vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_dynamic_workspace_symbols

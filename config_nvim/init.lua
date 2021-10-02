@@ -1,7 +1,10 @@
---highlight of code_action virtual text is white
+--highlights are not applied right... startup sequence? e.g.:
+	--highlight of code_action virtual text is white sometimes
+	--TelescopePromptBorder is not cyan
+
 --C-k isn't super nice
 --ClangdSwitchHeader doesn't work
---LspSaga CodeAction positions better than Telescope code_actions(get_curson())
+--Telescope code_actions(get_curson()) doesn't position under the line (it covers the line)
 
 require'plugins'
 
@@ -190,7 +193,6 @@ augroup END]], false)
 --LSP
 -- require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developting finders
 require'conf.lsp'
-nnoremap('<leader>q', '<cmd>lua require\'telescope.builtin\'.quickfix{}<CR>')
 
 vim.cmd[[
 hi diffAdded guibg=#447744 
