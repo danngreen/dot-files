@@ -2,7 +2,7 @@ if (vim == nil) then vim = {}; end
 local nvim_lspconfig = require'lspconfig'
 
 local conf_lsp = {}
-require('plenary.reload').reload_module("lsp_telescope")
+-- require('plenary.reload').reload_module("lsp_telescope")
 conf_lsp.pretty_telescope = require'lsp_telescope'
 
 local useclangd = true
@@ -89,12 +89,6 @@ local on_attach_vim = function(client, bufnr)
 	local nnoremap_cmd = function(k, c) vim.api.nvim_buf_set_keymap(bufnr, 'n', k, '<cmd>'..c..'<CR>', {noremap = true, silent = true}) end
 
 	--Symbol info (hover/signature)
-	-- nnoremap_cmd('K', 			'Lspsaga hover_doc')
-	-- nnoremap_cmd('<C-f>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(1)')
-	-- nnoremap_cmd('<C-b>', 		'lua require\'lspsaga.action\'.smart_scroll_with_saga(-1)')
-	-- nnoremap_cmd('<C-k>',		'Lspsaga signature_help')
-	-- inoremap_cmd('<C-k>',		'Lspsaga signature_help')
-
 	nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
 	-- nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
@@ -109,9 +103,8 @@ local on_attach_vim = function(client, bufnr)
     }, bufnr)
 
 	--Refs/Defs
-	-- nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
-	-- nnoremap_cmd('gD', 			'Lspsaga preview_definition')
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
+	nnoremap_cmd('gr',			'lua require\'telescope.builtin\'.lsp_references()')
 	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
 	-- nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
 
@@ -143,9 +136,6 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('<leader>fC', 'lua vim.lsp.diagnostic.clear(0)')
 	-- Toggle virtual text diagnostics
 	nnoremap_cmd('<leader>fc', 'lua require\'conf.lsp\'.virtual_text.toggle()')
-
-	--LSPsaga
-	-- require'lspsaga'.init_lsp_saga(lspsaga_config)
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"

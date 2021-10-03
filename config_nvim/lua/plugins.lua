@@ -1,4 +1,5 @@
 -- Install packer
+
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
@@ -15,6 +16,8 @@ vim.api.nvim_exec([[
 
 vim.g.python3_host_prog = '/usr/local/bin/python3'
 
+-- Load plugins
+
 local use = require('packer').use
 require('packer').startup(function()
 	use {'wbthomason/packer.nvim', opt = true}
@@ -27,9 +30,13 @@ require('packer').startup(function()
 		config = "vim.cmd(\"let g:fzf_preview_window = ['right:50%:nohidden', '?']\")"
 	}
 
-	----Looking good
-	use {'tanvirtin/nvim-monokai'}
-	use {'danngreen/lualine.nvim', config = function() --forked from hoob3rt/lualine.nvim
+	--Looking good
+	use {'danngreen/monokai.nvim', config = function() --fork that's not async (because that means we have to integrate all highlights into monokai's syntax
+		require'monokai'.setup {}
+		require'custom-hi'
+	end}
+
+	use {'hoob3rt/lualine.nvim', config = function()
 		require('lualine').setup{
 			options = { theme = 'molokai', icons_enabled = false},
 			extensions = { 'fzf' , 'fugitive', 'nerdtree'},
@@ -63,7 +70,7 @@ require('packer').startup(function()
 	-- use {'nvim-lua/telescope.nvim', commit="d6d28dbe324de9826a579155076873888169ba0f", --works
 	-- use {'nvim-lua/telescope.nvim', commit="b47bb8df1eef6431a1321a05f9c5eef95d4602bb", --slow
 	-- use {'nvim-lua/telescope.nvim', commit="4f91ffcbab427503b1e3ebfb02e47400d6eb561a", --crashes
-	use {'nvim-lua/telescope.nvim',
+	use {'nvim-lua/telescope.nvim', --after='monokai.nvim',
 		config = function()
 			require'telescope'.setup{
 				extensions = {

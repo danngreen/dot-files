@@ -1,10 +1,5 @@
---highlights are not applied right... startup sequence? e.g.:
-	--highlight of code_action virtual text is white sometimes
-	--TelescopePromptBorder is not cyan
-
---C-k isn't super nice
---ClangdSwitchHeader doesn't work
---Telescope code_actions(get_curson()) doesn't position under the line (it covers the line)
+--F5 dirname must be an abs path?
+--fork lualine and apply my minwinwidth changes
 
 require'plugins'
 
@@ -69,8 +64,6 @@ vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
 nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
--- nnoremap('<F3>', '<cmd>lua require\'telescope.builtin\'.find_files()<CR>')
--- nnoremap('<F15>', '<cmd>lua require\'telescope.builtin\'.find_files({no_ignore=true, hidden=true, follow=true})<CR>')
 
 Fzf_conf_dirs = {
 	search_dirs = {"~/.local/share/nvim/", "~/.config/nvim/"},
@@ -98,7 +91,7 @@ nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
 
 -- Grep in Dir
-nnoremap('<F5>', ':lua require\'finders\'.fzf_files("", {search_dirs = {vim.fn.input("Dir: ")}})<CR>')
+nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 
 nnoremap('<F8>', '<cmd>FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
@@ -145,13 +138,7 @@ vnoremap('<M-c>', '"+y')
 -- Building
 nnoremap('<leader>m', ':wa<CR>:Make!<CR>')
 
--- Display - highlights
-vim.cmd[[colorscheme monokai]]
-local monokai = require'monokai'
-monokai.highlight("TSTemplateArg", {fg = monokai.alternate_blue, bg = monokai.bg})
-vim.cmd[[hi Search guibg=#94FFF9]]
-vim.cmd[[hi IncSearch guibg=#D6B000]]
-
+-- Display
 vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
 vim.o.termguicolors = true
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
@@ -159,27 +146,6 @@ vim.api.nvim_exec([[augroup textyankpost
 	autocmd!
 	au TextYankPost * lua vim.highlight.on_yank {on_visual = true}
 	augroup end]], false)
---require'conf.lualine'
-vim.cmd[[
-hi BufferCurrent guifg=#080808 guibg=#e6db74
-hi BufferCurrentIndex guifg=#080808 guibg=#e6db74
-hi BufferCurrentSign guifg=grey guibg=#e6db74
-hi BufferCurrentMod guifg=#080808 guibg=#e6db74
-hi BufferCurrentTarget guifg=red guibg=#e6db74
-hi BufferVisible guifg=#080808 guibg=#808080
-hi BufferVisibleIndex guifg=#080808 guibg=#808080
-hi BufferVisibleSign guifg=#080808 guibg=#808080
-hi BufferVisibleMod guifg=#080808 guibg=#808080
-hi BufferVisibleTarget guifg=red guibg=#808080
-hi BufferInactive guifg=grey guibg=#080808
-hi BufferInactiveIndex guifg=grey guibg=#080808
-hi BufferInactiveSign guifg=grey guibg=#080808
-hi BufferInactiveMod guifg=grey guibg=#080808
-hi BufferInactiveTarget guifg=red guibg=#080808
-hi BufferTabpageFill guibg=#080808
-hi Visual guibg=#803D3D
-hi MatchParen term=bold cterm=bold gui=bold,underline guibg=#446644 guifg=red
-]]
 
 --Filetypes
 vim.api.nvim_exec([[
@@ -191,24 +157,8 @@ augroup filetype_aucmds
 augroup END]], false)
 
 --LSP
--- require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developting finders
+-- require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developing
 require'conf.lsp'
-
-vim.cmd[[
-hi diffAdded guibg=#447744 
-hi diffRemoved guibg=#774444
-hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
-hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
-hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
-hi! HintMsg guifg=#A6E22E guibg=#232526 gui=none 
-hi! link LspDiagnosticsVirtualTextError ErrorMsg
-hi! link LspDiagnosticsVirtualTextWarning WarningMsg
-hi! link LspDiagnosticsVirtualTextInformation InfoMsg
-hi! link LspDiagnosticsVirtualTextHint HintMsg
-hi! LspReferenceText guibg=#433536
-hi! TelescopeMatching guifg=red
-hi! TelescopePromptBorder guifg=cyan
-]]
 
 vim.api.nvim_exec([[
   augroup init_dot_lua
