@@ -1,4 +1,4 @@
--- Install packer
+--- Install packer
 
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -154,11 +154,11 @@ require('packer').startup(function()
 	use {'voldikss/vim-floaterm'}
 
 	use {'nixprime/cpsm', run = 'PY3=ON install.sh'}
-	use {'romgrk/fzy-lua-native', run = 'make'}
-	use { 'lewis6991/gitsigns.nvim',
-		requires = { 'nvim-lua/plenary.nvim' },
-		config = function() require('gitsigns').setup() end
-	}
+	-- use {'romgrk/fzy-lua-native', run = 'make'}
+	-- use { 'lewis6991/gitsigns.nvim',
+	-- 	requires = { 'nvim-lua/plenary.nvim' },
+	-- 	config = function() require('gitsigns').setup() end
+	-- }
 
 	-- Debugging
 	use {'mfussenegger/nvim-dap', config = function()
