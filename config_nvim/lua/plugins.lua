@@ -85,7 +85,8 @@ require('packer').startup(function()
 	}
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 
-	use {'hrsh7th/nvim-cmp', 
+	use {'ray-x/lsp_signature.nvim'}
+	use {'hrsh7th/nvim-cmp',
 		requires = { "hrsh7th/vim-vsnip", "hrsh7th/cmp-buffer","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path", "hrsh7th/cmp-path"}}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'nvim-treesitter.configs'.setup{

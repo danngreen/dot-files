@@ -36,7 +36,10 @@ cmp.setup{
       { name = 'path' },
       { name = 'calc' },
     },
-	documentation = {cmp.DocumentationConfig}
+	documentation = {
+		maxwidth=80,
+		maxheight=100,
+	}
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -93,8 +96,17 @@ local on_attach_vim = function(client, bufnr)
 	-- inoremap_cmd('<C-k>',		'Lspsaga signature_help')
 
 	nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
-	nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
-	inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	-- nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+
+	require"lsp_signature".on_attach({
+      bind = true,
+	  floating_window = true,
+	  floating_window_above_cur_line = true,
+      handler_opts = { border = "single" },
+      toggle_key = '<C-k>',
+	  hint_enable = false,
+    }, bufnr)
 
 	--Refs/Defs
 	-- nnoremap_cmd('gR', 			'Lspsaga lsp_finder')
