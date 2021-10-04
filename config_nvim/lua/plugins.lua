@@ -155,10 +155,10 @@ require('packer').startup(function()
 
 	use {'nixprime/cpsm', run = 'PY3=ON install.sh'}
 	-- use {'romgrk/fzy-lua-native', run = 'make'}
-	-- use { 'lewis6991/gitsigns.nvim',
-	-- 	requires = { 'nvim-lua/plenary.nvim' },
-	-- 	config = function() require('gitsigns').setup() end
-	-- }
+	use { 'lewis6991/gitsigns.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+		config = function() require('gitsigns').setup() end
+	}
 
 	-- Debugging
 	use {'mfussenegger/nvim-dap', config = function()
