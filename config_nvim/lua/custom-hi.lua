@@ -39,4 +39,3 @@ hi! link DiagnosticsVirtualTextHint HintMsg
 hi LspSignatureActiveParameter guifg=red
 hi! LspReferenceText guibg=#433536
 ]]
-print("Loaded custom-hi.lua colors")
