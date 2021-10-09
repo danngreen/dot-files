@@ -62,7 +62,8 @@ vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 -- Find Files (by file name)
 -- require'plenary.reload'.reload_module('finders') --Todo remove when not developing finders
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
-nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
+nnoremap('<F3>', '<cmd>lua require\'fzf-lua\'.files()<CR>')
+--nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
 
 Fzf_conf_dirs = {
