@@ -85,14 +85,22 @@ nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)
 nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
 nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
 
--- Grep Files
-nnoremap('<F4>', ':Rg<CR>')
-nnoremap('<leader><F4>', ':lua require\'finders\'.fzf_files(vim.fn.input("Search for: "),{})<CR>')
-nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
-vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
+-- F4: Find in contents of files
+-- S-F4 or F4 in visual mode: initial filter for find word under cursor or selected word
+-- leader F4: prompt for initial filter
+-- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
+-- F5: Find in a dir (prompt)
+nnoremap('<F4>', ':lua require\'fzf-lua\'.grep({search=""})<CR>')
+nnoremap('<F16>', ':lua require\'fzf-lua\'.grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap('<F4>', ':<C-u>lua require\'fzf-lua\'.grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+nnoremap('<leader><F4>', ':lua require\'fzf-lua\'.grep()<CR>')
+nnoremap('<leader><F16>', ':lua require\'fzf-lua\'.live_grep()<CR>')
+nnoremap('<leader><leader><F16>', ':lua require\'fzf-lua\'.live_grep_resume()<CR>')
 
 -- Grep in Dir
-nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
+--nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
+nnoremap('<F5>', ':lua require\'fzf-lua\'.grep({search="", cwd = vim.fn.input(\"Dir: \")})<CR>')
+nnoremap('<F17>', ':lua require\'fzf-lua\'.live_grep({cwd = vim.fn.input(\"Dir: \")})<CR>')
 
 nnoremap('<F8>', '<cmd>FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
@@ -109,6 +117,8 @@ tnoremap('<F20>L', '<cmd>FloatermUpdate --position=right --width=0.25 --height=1
 tnoremap('<F20>o', '<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>')
 --Tiny float terms:
 tnoremap('<F20>O', '<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>')
+--Fullscreen
+tnoremap('<F20><F20>', '<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>')
 
 noremap('<F9>', ':set list!<CR>')
 
