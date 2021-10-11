@@ -66,20 +66,21 @@ nnoremap('<F3>', '<cmd>lua require\'fzf-lua\'.files()<CR>')
 --nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
 
-Fzf_conf_dirs = {
-	search_dirs = {"~/.local/share/nvim/", "~/.config/nvim/"},
-	cwd = "~", all = true
+Plugin_dir_conf = { cwd = "~/.local/share/nvim/", all = true }
+Nvim_conf_dir_conf = { cwd = "~/.config/nvim/", all = true }
+Wiki_conf = {
+	cwd = "~/Sync/wiki/",
+	winopts = {win_height = 0.4, win_width=0.2, fullscreen = false},
+	preview_opts = 'hidden'
 }
 --Plugin dir
-nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename(Fzf_conf_dirs)<CR>')
+nnoremap ('<leader>p<F3>', '<cmd>lua require\'fzf-lua\'.files(Plugin_dir_conf)<CR>')
+nnoremap ('<leader>p<F4>', '<cmd>lua require\'fzf-lua\'.grep(Plugin_dir_conf)<CR>')
 --my nvim conf dir
-nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dirs={"~/.config/nvim/"}})<CR>')
-
-Fzf_wiki_conf = {
-	search_dirs = {"~/Sync/wiki/"}, all = true,
-	layout_strategy = 'center', layout_config = {height = 15, width = 0.4}
-}
-nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
+nnoremap ('<leader>v<F3>', '<cmd>lua require\'fzf-lua\'.files(Nvim_conf_dir_conf)<CR>')
+nnoremap ('<leader>v<F4>', '<cmd>lua require\'fzf-lua\'.grep(Nvim_conf_dir_conf)<CR>')
+--wiki dir
+nnoremap ('<leader>WW', '<cmd>lua require\'fzf-lua\'.files(Wiki_conf)<CR>')
 
 --Just here for when telescope gets buggy (and for opening multiple files):
 nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
