@@ -33,9 +33,49 @@ require('packer').startup(function()
 	use { 'ibhagwan/fzf-lua',
 		requires = {'vijaymarupudi/nvim-fzf' }, --, 'kyazdani42/nvim-web-devicons' } -- optional for icons
 		config = function()
-			-- local actions = require "fzf-lua.actions"
+			local monokaicolor = function(name)
+				local hex = require'monokai'.classic[name]
+				return hex:gsub("#(%x%x)(%x%x)(%x%x)", "0x%1,0x%2,0x%3")
+			end
 			require'fzf-lua'.setup {
-			  fzf_bin = 'sk',
+				fzf_bin = 'sk',
+				winopts = {
+				  fullscreen = true,
+				},
+				fzf_opts = {
+					['--layout'] = 'default', --vs. 'reverse'
+				},
+				fzf_colors = {
+					["fg"] = {"fg", "Normal"},
+				 	["bg"] = { "bg", "Normal" },
+					["hl"] = { "fg", "Keyword"}, --"matched"
+					["matched_bg"] = {"bg", "Normal"},
+					["fg+"] = { "fg", "Pmenu" }, --"fg of current line"
+					["bg+"] = { "fg", "LineNr" }, --"bg of current line"
+					["hl+"] = { "fg", "Keyword" }, --"current_match"
+					["current_match_bg"] = {"fg", "LineNr"},
+					--query
+					--query_bg
+					["info"] = { "fg", "PreProc" },
+					["prompt"] = { "fg", "Conditional" },
+					["pointer"] = { "fg", "Exception" },
+					["marker"] = { "fg", "Keyword" },
+					["spinner"] = { "fg", "Label" },
+					["header"] = { "fg", "Comment" },
+					["gutter"] = { "bg", "Normal" },
+				},
+				grep = {
+				--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
+				rg_opts="--hidden --column --line-number --no-heading " ..
+						"--color=always --smart-case " ..
+				 		"--colors 'path:fg:"..monokaicolor("aqua").."' "..
+				 		"--colors 'path:style:bold' "..
+				 		"--colors 'match:style:underline' "..
+						"-g '!{.git,node_modules}/*' ",
+					prompt            = 'Rg❯ ',
+					input_prompt      = 'Grep For❯ ',
+					actions           = { ["ctrl-q"] = false },
+				},
 			}
 		end,
 	}
@@ -46,14 +86,14 @@ require('packer').startup(function()
 		require'custom-hi'
 	end}
 
-	use {'hoob3rt/lualine.nvim', config = function()
+	use {'danngreen/lualine.nvim', config = function()
 		require('lualine').setup{
 			options = { theme = 'molokai', icons_enabled = false},
 			extensions = { 'fzf' , 'fugitive', 'nerdtree'},
 			sections = {
 				lualine_a = { {'mode', upper = false} },
 				lualine_b = { {'branch', icon = '', color = {bg = '#AAAAAA'} } },
-				lualine_c = { {'filename', shorten = true, full_path = true, max_filename_length = 100, narrow_window_size = 84, color = {fg = '#F0F0F0', gui = 'bold'}},
+				lualine_c = { {'filename', path=1, shorten = true, full_path = true, max_filename_length = 100, narrow_window_size = 84, color = {fg = '#F0F0F0', gui = 'bold'}},
 							  {'diagnostics', sources = {'nvim_lsp'}, color_error = '#FF0000', color_warn = '#FFFF00', color_info='#999999'}
 							},
 				lualine_x = {'location'},
@@ -63,7 +103,7 @@ require('packer').startup(function()
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = { {'filename', shorten = true, full_path = true, max_filename_length = 100, narrow_window_size = 84, color = {fg = '#000000', bg= '#808080'} } },
+				lualine_c = { {'filename', path=1, shorten = true, full_path = true, max_filename_length = 100, narrow_window_size = 84, color = {fg = '#000000', bg= '#808080'} } },
 				lualine_x = {},
 				lualine_y = {},
 				lualine_z = {},

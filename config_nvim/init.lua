@@ -62,36 +62,46 @@ vnoremap('<leader>R', 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 -- Find Files (by file name)
 -- require'plenary.reload'.reload_module('finders') --Todo remove when not developing finders
 nnoremap('<leader><space>' ,'<cmd>lua require\'finders\'.buffers()<CR>')
-nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
+nnoremap('<F3>', '<cmd>lua require\'fzf-lua\'.files()<CR>')
+--nnoremap('<F3>', '<cmd>lua require\'finders\'.fzf_filename()<CR>')
 nnoremap('<F15>', '<cmd>lua require\'finders\'.fzf_filename({all=true})<CR>')
 
-Fzf_conf_dirs = {
-	search_dirs = {"~/.local/share/nvim/", "~/.config/nvim/"},
-	cwd = "~", all = true
+Plugin_dir_conf = { cwd = "~/.local/share/nvim/", all = true }
+Nvim_conf_dir_conf = { cwd = "~/.config/nvim/", all = true }
+Wiki_conf = {
+	cwd = "~/Sync/wiki/",
+	winopts = {win_height = 0.4, win_width=0.2, fullscreen = false},
+	preview_opts = 'hidden'
 }
 --Plugin dir
-nnoremap ('<leader>p<F3>', '<cmd>lua require\'finders\'.fzf_filename(Fzf_conf_dirs)<CR>')
+nnoremap ('<leader>p<F3>', '<cmd>lua require\'fzf-lua\'.files(Plugin_dir_conf)<CR>')
+nnoremap ('<leader>p<F4>', '<cmd>lua require\'fzf-lua\'.grep(Plugin_dir_conf)<CR>')
 --my nvim conf dir
-nnoremap ('<leader>v<F3>', '<cmd>lua require\'finders\'.fzf_filename({search_dirs={"~/.config/nvim/"}})<CR>')
-
-Fzf_wiki_conf = {
-	search_dirs = {"~/Sync/wiki/"}, all = true,
-	layout_strategy = 'center', layout_config = {height = 15, width = 0.4}
-}
-nnoremap ('<leader>WW', '<cmd>lua require\'finders\'.fzf_filename(Fzf_wiki_conf)<CR>')
+nnoremap ('<leader>v<F3>', '<cmd>lua require\'fzf-lua\'.files(Nvim_conf_dir_conf)<CR>')
+nnoremap ('<leader>v<F4>', '<cmd>lua require\'fzf-lua\'.grep(Nvim_conf_dir_conf)<CR>')
+--wiki dir
+nnoremap ('<leader>WW', '<cmd>lua require\'fzf-lua\'.files(Wiki_conf)<CR>')
 
 --Just here for when telescope gets buggy (and for opening multiple files):
 nnoremap('<leader><F2>' ,'<cmd>Buffers<CR>')
 nnoremap('<leader><F3>' ,'<cmd>Files<CR>')
 
--- Grep Files
-nnoremap('<F4>', ':Rg<CR>')
-nnoremap('<leader><F4>', ':lua require\'finders\'.fzf_files(vim.fn.input("Search for: "),{})<CR>')
-nnoremap('<F16>', ':lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
-vnoremap('<F4>', ':<C-u>lua require\'finders\'.fzf_files("<C-R><C-W>",{})<CR>')
+-- F4: Find in contents of files
+-- S-F4 or F4 in visual mode: initial filter for find word under cursor or selected word
+-- leader F4: prompt for initial filter
+-- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
+-- F5: Find in a dir (prompt)
+nnoremap('<F4>', ':lua require\'fzf-lua\'.grep({search=""})<CR>')
+nnoremap('<F16>', ':lua require\'fzf-lua\'.grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap('<F4>', ':<C-u>lua require\'fzf-lua\'.grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+nnoremap('<leader><F4>', ':lua require\'fzf-lua\'.grep()<CR>')
+nnoremap('<leader><F16>', ':lua require\'fzf-lua\'.live_grep()<CR>')
+nnoremap('<leader><leader><F16>', ':lua require\'fzf-lua\'.live_grep_resume()<CR>')
 
 -- Grep in Dir
-nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
+--nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
+nnoremap('<F5>', ':lua require\'fzf-lua\'.grep({search="", cwd = vim.fn.input(\"Dir: \")})<CR>')
+nnoremap('<F17>', ':lua require\'fzf-lua\'.live_grep({cwd = vim.fn.input(\"Dir: \")})<CR>')
 
 nnoremap('<F8>', '<cmd>FloatermToggle<CR>')
 tnoremap('<F8>', '<C-\\><C-n>:FloatermToggle<CR>')
@@ -108,6 +118,8 @@ tnoremap('<F20>L', '<cmd>FloatermUpdate --position=right --width=0.25 --height=1
 tnoremap('<F20>o', '<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>')
 --Tiny float terms:
 tnoremap('<F20>O', '<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>')
+--Fullscreen
+tnoremap('<F20><F20>', '<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>')
 
 noremap('<F9>', ':set list!<CR>')
 
