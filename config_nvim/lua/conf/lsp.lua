@@ -95,7 +95,9 @@ local on_attach_vim = function(client, bufnr)
 
 	require"lsp_signature".on_attach({
       bind = true,
-	  floating_window = true,
+	  fix_pos = true,
+	  always_trigger = false,
+	  floating_window = false,
 	  floating_window_above_cur_line = true,
       handler_opts = { border = "single" },
       toggle_key = '<C-k>',
