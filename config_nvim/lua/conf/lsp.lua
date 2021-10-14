@@ -44,13 +44,13 @@ cmp.setup{
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then return true
-    else return false
-    end
-end
+-- local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
+-- local check_back_space = function()
+--     local col = vim.fn.col('.') - 1
+--     if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then return true
+--     else return false
+--     end
+-- end
 
 -- Formatting
 
@@ -260,15 +260,10 @@ nvim_lspconfig.clangd.setup {
 	capabilities = capabilities,
 	-- capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
 
-	--Are both of these actually needed?
 	on_init = function(client)
-        -- client.config.flags = {}
-        -- if client.config.flags then
           client.config.flags.allow_incremental_sync = true
           client.config.flags.debounce_text_changes = 100
-        -- end
     end,
-	-- flags = {allow_incremental_sync = true},
 
 	init_options = { clangdFileStatus = false, },
 	commands = {
