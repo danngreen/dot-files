@@ -239,7 +239,7 @@ nvim_lspconfig.clangd.setup {
 	cmd = {
 		"/usr/local/opt/llvm/bin/clangd",
 		"--background-index",
-		"--log=verbose",
+		--"--log=verbose",
 		"-j=32",
 		"--cross-file-rename",
 		"--fallback-style=LLVM",
