@@ -345,9 +345,9 @@ nvim_lspconfig.rust_analyzer.setup {
 		}
 	},
     capabilities = (function()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
+      local rust_capabilities = capabilities --vim.lsp.protocol.make_client_capabilities()
+      rust_capabilities.textDocument.completion.completionItem.snippetSupport = true
+      rust_capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = {
           'documentation',
           'detail',
