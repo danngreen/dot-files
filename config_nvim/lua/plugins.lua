@@ -40,7 +40,7 @@ require('packer').startup(function()
 			require'fzf-lua'.setup {
 				fzf_bin = 'sk',
 				winopts = {
-				  fullscreen = true,
+				  fullscreen = false,
 				},
 				fzf_opts = {
 					['--layout'] = 'default', --vs. 'reverse'

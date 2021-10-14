@@ -1,5 +1,4 @@
 --F5 dirname must be an abs path?
---fork lualine and apply my minwinwidth changes
 
 require'plugins'
 
