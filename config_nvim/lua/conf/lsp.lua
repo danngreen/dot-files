@@ -106,9 +106,9 @@ local on_attach_vim = function(client, bufnr)
 
 	--Refs/Defs
 	nnoremap_cmd('gd', 			'lua vim.lsp.buf.definition()')
-	nnoremap_cmd('gr',			'lua require\'telescope.builtin\'.lsp_references()')
+	-- nnoremap_cmd('gr',			'lua require\'telescope.builtin\'.lsp_references()')
 	nnoremap_cmd('gr',			'lua require\'conf.lsp\'.pretty_telescope.pretty_refs()')
-	-- nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
+	nnoremap_cmd('gD', 	 		'lua vim.lsp.buf.declaration()')
 
 	-- if client.resolved_capabilities.type_definition then
 	nnoremap_cmd('gi', 			'lua vim.lsp.buf.type_definition()') --not supported by clangd, but works in ccls
