@@ -39,10 +39,11 @@ vim.o.wildmenu =  true
 vim.o.wildignore = vim.o.wildignore.."tags,tags.*,build/*"
 vim.o.path = ".,,**"
 
+-- Key Mappings
 require"keys"
 
 -- Display
-vim.o.guifont = "Roboto_Mono_Light_for_Powerline:h13"
+vim.o.guifont = "Roboto_Mono_Light_Nerd_Font_Complete_Mono:h13"
 vim.o.termguicolors = true
 vim.o.guicursor="n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
 vim.api.nvim_exec([[augroup textyankpost
@@ -60,7 +61,7 @@ augroup filetype_aucmds
 augroup END]], false)
 
 --LSP
--- require'plenary.reload'.reload_module('conf.lsp') --Todo remove when not developing
+-- require'plenary.reload'.reload_module('conf.lsp')
 require'conf.lsp'
 
 vim.api.nvim_exec([[
