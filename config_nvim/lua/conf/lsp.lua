@@ -90,8 +90,8 @@ local on_attach_vim = function(client, bufnr)
 
 	--Symbol info (hover/signature)
 	nnoremap_cmd('K', 			'lua vim.lsp.buf.hover()')
-	-- nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
-	-- inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	nnoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
+	inoremap_cmd('<C-k>', 		'lua vim.lsp.buf.signature_help()')
 
 	require"lsp_signature".on_attach({
       bind = true,
@@ -100,7 +100,7 @@ local on_attach_vim = function(client, bufnr)
 	  floating_window = false,
 	  floating_window_above_cur_line = true,
       handler_opts = { border = "single" },
-      toggle_key = '<C-k>',
+      --toggle_key = '<C-k>',
 	  hint_enable = false,
     }, bufnr)
 
