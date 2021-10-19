@@ -121,7 +121,9 @@ local on_attach_vim = function(client, bufnr)
 	-- nnoremap_cmd('gw', 			'lua vim.lsp.buf.workspace_symbol()')
 	nnoremap_cmd('g0', 			'lua vim.lsp.buf.document_symbol()')
 
-	nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()')
+	nnoremap_cmd('<leader>ff', 	"lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor())")
+	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()') --Doesn't work? See comment in handlers below
+
 	nnoremap_cmd('<leader>rn', 'lua Rename.rename()')
 
 	--Switch header (replaced with Alternate File)
@@ -167,11 +169,12 @@ end
 
 -- Handlers
 
-vim.lsp.handlers['textDocument/codeAction'] = function(opts)
-	opts = opts or {}
-	opts.layout_config = {height = 7, width=0.3}
-	require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor(opts))
-end
+-- Why doesn't setting the codeAction handler not work anymore? Even if telescope opts are empty, it has no effect
+-- vim.lsp.handlers['textDocument/codeAction'] = function(opts)
+	--opts = opts or {}
+	--opts.layout_config = {height = 7, width=0.3}
+	-- require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor(opts))
+--end
 
 vim.lsp.handlers['workspace/symbol'] = require'telescope.builtin'.lsp_dynamic_workspace_symbols
 vim.lsp.handlers['textDocument/documentSymbol'] = require'telescope.builtin'.lsp_document_symbols
