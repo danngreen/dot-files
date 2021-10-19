@@ -251,7 +251,7 @@ nvim_lspconfig.clangd.setup {
 		"--clang-tidy",
 		-- "--all-scopes-completion",
 		"--completion-style=bundled",
-		"--query-driver=/Users/dann/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+		"--query-driver=**/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 		"--query-driver=/Users/dann/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 		"--query-driver=/Users/design/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
