@@ -34,16 +34,16 @@ _M.config = function()
 			["gutter"] = { "bg", "Normal" },
 		},
 		files = {
-			cmd = "rg --files --follow -g!lib/u-boot/*",
+			cmd = "rg --files --follow -g'!lib/u-boot/*'",
 		},
 		grep = {
 		--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
-		rg_opts="--hidden --column --line-number --no-heading " ..
-				"--color=always --smart-case " ..
-				"--colors 'path:fg:"..monokaicolor("aqua").."' "..
-				"--colors 'path:style:bold' "..
-				"--colors 'match:style:underline' "..
-				"-g '!{.git,node_modules}/*' ",
+			rg_opts="--hidden --column --line-number --no-heading " ..
+					"--color=always --smart-case " ..
+					"--colors 'path:fg:"..monokaicolor("aqua").."' "..
+					"--colors 'path:style:bold' "..
+					"--colors 'match:style:underline' "..
+					"-g '!{.git,node_modules}/*' ",
 			prompt            = 'Rg❯ ',
 			input_prompt      = 'Grep For❯ ',
 			actions           = { ["ctrl-q"] = false },
@@ -52,17 +52,17 @@ _M.config = function()
 end
 
 _M.find_all_files_cmd = [[rg --files --follow --no-ignore --hidden 
-	-g!.ccls-cache 
-	-g!.cache 
-	-g!**/.git 
-	-g!**/.undodir 
-	-g!tags* 
-	-g!cscope* 
-	-g!*.dmp 
-	-g!*.hex 
-	-g!*.bin 
-	-g!.DS_Store 
-	-g!*.o 
-	-g!*.d
+	-g'!.ccls-cache'
+	-g'!.cache'
+	-g'!**/.git' 
+	-g'!**/.undodir'
+	-g'!tags*'
+	-g'!cscope*'
+	-g'!*.dmp'
+	-g'!*.hex'
+	-g'!*.bin'
+	-g'!.DS_Store'
+	-g'!*.o'
+	-g'!*.d'
 ]]
 return _M

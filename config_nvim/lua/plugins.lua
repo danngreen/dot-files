@@ -23,9 +23,9 @@ require('packer').startup(function()
 		rtp = '/usr/local/opt/fzf',
 		config = "vim.cmd(\"let g:fzf_preview_window = ['right:50%:nohidden', '?']\")"
 	}
-	use { 'ibhagwan/fzf-lua',
-		requires = {'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' }, -- optional for icons
-		config = require'fzf-lua-conf'.config(),
+	use {'ibhagwan/fzf-lua',
+		requires = {'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons'},
+		config = function() require'fzf-lua-conf'.config() end,
 	}
 	use {'danngreen/monokai.nvim', config = function()
 		--monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
