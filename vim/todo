@@ -1,7 +1,0 @@
-[ ] Fork lualine to provide config options for min/max sizes to auto-shorten the filename? 
-	Or just stick with my custom function, and figure out highlighting...?
-
-[ ] Clangd stops sometimes... no errors in log, lsp log just stops. Find an nvim log??
-
-[ ] Get multiple lsp servers running: ccls only for its hierarchy custom commands, clangd for all else
-

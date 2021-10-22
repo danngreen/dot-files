@@ -1,4 +1,5 @@
 --F5 dirname must be an abs path?
+--formatoptions gets cleared/reset by some plugin?
 
 require'plugins'
 
@@ -25,13 +26,16 @@ vim.o.updatetime = 300
 vim.o.timeoutlen = 600
 vim.wo.signcolumn = 'yes'
 vim.o.formatoptions = vim.o.formatoptions.."n"  --Format lists
-vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
-vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
+-- vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
+-- vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
 
-vim.go.formatoptions = vim.go.formatoptions.."n"  --Format lists
-vim.go.formatoptions = vim.go.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
-vim.go.formatoptions = vim.go.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
-vim.cmd[[set formatoptions-=o]]
+-- vim.go.formatoptions = vim.go.formatoptions.."n"  --Format lists
+-- vim.go.formatoptions = vim.go.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
+-- vim.go.formatoptions = vim.go.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
+vim.opt.formatoptions:remove "r"	 -- Don't insert comment leader after pressing <Enter>
+vim.opt.formatoptions:remove "o"	 -- Don't insert comment leader after pressing o or O
+-- vim.cmd[[set formatoptions-=o]]
+-- vim.cmd[[set formatoptions-=r]]
 
 vim.o.shortmess = vim.o.shortmess.."c"	-- Avoid showing message extra message when using completion
 vim.api.nvim_command('set shortmess-=F') -- Allows messages to echo while processing filetypes

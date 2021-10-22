@@ -1,7 +1,5 @@
 https://dmitryfrank.com/articles/shell_shortcuts
 
-https://github.com/ctrlpvim/ctrlp.vim
-
 #git hook to update ctags anytime we commit, pull, etc.
 https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
 

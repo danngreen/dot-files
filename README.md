@@ -19,22 +19,33 @@ ln -s dot-files/gitignore-global .gitignore-global
 ln -s dot-files/zshrc .zshrc
 ```
 
-Then it will use `stow` to symlink the vim directory
+Then it will use `stow` to symlink the vim directory to ~/.vim and the nvim dir to ~/.config/nvim
 
 ```
 cd dot-files
 stow vim
+stow -v --target=$HOME/.config/nvim config_nvim
 ```
 
 If the file exists, it will give an error and not overwrite it.
 
-Use plug.vim to install plugins:
+Make sure to install plugins from nvim the first time you run it
+
+vim:
 
 ```
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-nvim
+vim
 :PlugInstall
 ```
+
+nvim:
+```
+nvim
+:PackerCompile
+:PackerUpdate
+```
+
 
 Tell git to use the global excludes file like this:
 
