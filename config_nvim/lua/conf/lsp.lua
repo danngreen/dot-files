@@ -9,36 +9,154 @@ local useclangd = true
 local useccls = false
 
 -- Completion
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+
 local cmp=require'cmp'
 cmp.setup{
     snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    mapping = {
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-	  ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-	  ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false, --Esc = merge selection with existing, CR = insert selection
-      })
+       expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body)
+		-- require'luasnip'.lsp_expand(args.body)
+	    	local line_num, col = unpack(vim.api.nvim_win_get_cursor(0))
+		    local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
+			-- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
+			local indent = string.match(line_text, '^%s*')
+			local replace = vim.split(args.body, '\n', true)
+			-- print(vim.inspect(replace)) = { "lv_color_make(${1:uint8_t r}, ${2:uint8_t g}, ${3:uint8_t b})" }
+			local surround = string.match(line_text, '%S.*') or ''
+			-- local surround = line_text
+			-- print(vim.inspect(surround)) -- [text before cursor] [text after cursor]
+			local surround_end = surround:sub(col)
+			-- print(vim.inspect(surround_end)) --[text after cursor]
+
+			replace[1] = surround:sub(1, col - 1)..replace[1]
+			-- print(vim.inspect(replace)) --not correct: mostly the text before the cursor + inserted text + mangled like it's trying to be "smart" about what to replace
+			replace[#replace] = replace[#replace]..(#surround_end > 1 and ' ' or '')..surround_end
+			-- print(vim.inspect(replace)) -- [text after cursor is appended]
+
+			for i, line in ipairs(replace) do
+				line = line:gsub("%b()","(")
+				replace[i] = indent..line
+			end
+			vim.api.nvim_buf_set_lines(0, line_num-1, line_num, true, replace)
+			vim.api.nvim_win_set_cursor(0, {line_num, col + replace[#replace]:len()})
+       end,
+     },
+	mapping = {
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+
+	    --All these behave the same. WTF does ConfirmBehavior and select do?
+        ["<C-y>"] = cmp.mapping.confirm{
+	  	  behavior = cmp.ConfirmBehavior.Insert,
+	  	  select = true
+	    },
+        ["<C-u>"] = cmp.mapping.confirm{
+	  	  behavior = cmp.ConfirmBehavior.Insert,
+	  	  select = false
+	    },
+        ['<CR>'] = cmp.mapping.confirm{ --this works with vsnip
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = false,
+        },
+        ['<Esc>'] = cmp.mapping.confirm{
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = false,
+        },
+        ['<C-q>'] = cmp.mapping.confirm{
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        },
+
+		['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+
+	  --vsnip "Super tab"
+		["<Tab>"] = cmp.mapping(function(fallback)
+		  if cmp.visible() then
+			cmp.select_next_item()
+		  elseif vim.fn["vsnip#available"]() == 1 then
+			feedkey("<Plug>(vsnip-expand-or-jump)", "")
+		  elseif has_words_before() then
+			cmp.complete()
+		  else
+			fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+		  end
+		end, { "i", "s" }),
+
+		["<S-Tab>"] = cmp.mapping(function()
+		  if cmp.visible() then
+			cmp.select_prev_item()
+		  elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+			feedkey("<Plug>(vsnip-jump-prev)", "")
+		  end
+		end, { "i", "s" }),
+
+	-- "No snippet engine"
+    -- ['<C-Space>'] = cmp.mapping.confirm {
+    --   behavior = cmp.ConfirmBehavior.Insert,
+    --   select = true,
+    -- },
+
+    -- ['<Tab>'] = function(fallback)
+    --   if not cmp.select_next_item() then
+    --     if vim.bo.buftype ~= 'prompt' and has_words_before() then
+    --       cmp.complete()
+    --     else
+    --       fallback()
+    --     end
+    --   end
+    -- end,
+
+    -- ['<S-Tab>'] = function(fallback)
+    --   if not cmp.select_prev_item() then
+    --     if vim.bo.buftype ~= 'prompt' and has_words_before() then
+    --       cmp.complete()
+    --     else
+    --       fallback()
+    --     end
+    --   end
+    -- end,
+
+      ["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
+      ["<C-e>"] = cmp.mapping.close(),
+
+	  --Luasnip
+	  -- ['<Tab>'] = cmp.mapping(function(fallback)
+			-- if cmp.visible() then cmp.select_next_item()
+			-- elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
+			-- elseif has_words_before() then cmp.complete()
+			-- else fallback() end
+		-- end, {"i", "s"}),
+	  -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+		    -- if cmp.visible() then cmp.select_prev_item()
+			-- elseif luasnip.jumpable(-1) then luasnip.jump(-1)
+			-- else fallback() end
+		-- end, {"i", "s"}),
     },
     sources = {
-      { name = 'nvim_lsp' },
+      { name = 'nvim_lsp'},
       { name = 'nvim_lua' },
-      { name = 'buffer' },
+      { name = 'buffer', keyword_length = 5 },
       { name = 'path' },
       { name = 'calc' },
     },
 	documentation = {
 		maxwidth=80,
 		maxheight=100,
+	},
+	experimental = {
+		--native_menu = false, --fails
+		-- ghost_text = true,
 	}
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -68,17 +186,13 @@ end
 
 -- Diagnostics
 
-local virtual_text = {}
-virtual_text.show = true
-virtual_text.toggle = function()
-    virtual_text.show = not virtual_text.show
-    vim.lsp.diagnostic.display(
-        vim.lsp.diagnostic.get(0, 1),
-        0, 1,
-        {virtual_text = virtual_text.show}
-    )
+local toggle_diags_virtual_text = {}
+toggle_diags_virtual_text.show = true
+toggle_diags_virtual_text.toggle = function()
+    toggle_diags_virtual_text.show = not toggle_diags_virtual_text.show
+	vim.diagnostic.config({toggle_diags_virtual_text = toggle_diags_virtual_text.show})
 end
-conf_lsp.virtual_text = virtual_text
+conf_lsp.virtual_text = toggle_diags_virtual_text
 
 -- LSP Buffer key maps
 
@@ -131,15 +245,14 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd('<leader>h', 	'ClangdSwitchSourceHeaderVSplit')
 
 	--Diagnostics
-	nnoremap_cmd('<leader>e', 	'lua vim.lsp.diagnostic.show_line_diagnostics()')
-	nnoremap_cmd('<leader>f[', 	'lua vim.lsp.diagnostic.goto_next()')
-	nnoremap_cmd('<leader>f]', 	'lua vim.lsp.diagnostic.goto_prev()')
-	nnoremap_cmd('<leader>fp', 	'lua vim.lsp.diagnostic.set_loclist()')
-
-	-- Temporarily disable diagnostics (virt text, signs, etc)
-	nnoremap_cmd('<leader>fC', 'lua vim.lsp.diagnostic.clear(0)')
-	-- Toggle virtual text diagnostics
-	nnoremap_cmd('<leader>fc', 'lua require\'conf.lsp\'.virtual_text.toggle()')
+	nnoremap_cmd('<leader>e', 'lua vim.diagnostic.open_float(0, {scope="line"})')
+	nnoremap_cmd('<leader>E', 'lua vim.diagnostic.open_float(0, {scope="buffer"})')
+	nnoremap_cmd('<leader>f]', 'lua vim.diagnostic.goto_next()')
+	nnoremap_cmd('<leader>f[', 'lua vim.diagnostic.goto_prev()')
+	nnoremap_cmd('<leader>fp', 'lua vim.diagnostic.setloclist()')
+	nnoremap_cmd('<leader>fP', 'lua vim.diagnostic.setqflist()')
+	nnoremap_cmd('<leader>fC', 'lua vim.diagnostic.disable(0)')
+	nnoremap_cmd('<leader>fc', 'lua require\'conf.lsp\'.toggle_diags_virtual_text.toggle()')
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
@@ -262,8 +375,13 @@ nvim_lspconfig.clangd.setup {
 	filetypes = {"c", "cpp"},
 	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json" ),
 	on_attach = on_attach_vim,
-	capabilities = capabilities,
+	 capabilities = capabilities,
 	-- capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
+    -- capabilities = (function()
+    --   local clangd_capabilities = capabilities
+    --   clangd_capabilities.textDocument.completion.completionItem.snippetSupport = false
+    --   return capabilities
+    -- end)(),
 
 	on_init = function(client)
           client.config.flags.allow_incremental_sync = true
@@ -304,6 +422,7 @@ nvim_lspconfig.ccls.setup( {
 			onChange = 0,
 			onSave = 100
 		},
+
 		index = { threads = 16 }
 	},
 	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
