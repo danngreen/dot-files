@@ -41,8 +41,12 @@ require('packer').startup(function()
 	use {'nvim-lua/telescope.nvim', config = function() require'telescope_conf'.config() end}
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', after = 'telescope.nvim', config = "require'telescope'.load_extension('fzf')" }
 	use {'ray-x/lsp_signature.nvim'}
-	use {'hrsh7th/nvim-cmp',
-		requires = { "hrsh7th/vim-vsnip", "hrsh7th/cmp-buffer","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path", "hrsh7th/cmp-path"}}
+	use {'hrsh7th/nvim-cmp', requires = {
+			"hrsh7th/vim-vsnip",
+			--'L3MON4D3/LuaSnip'
+			--"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-nvim-lua", "hrsh7th/cmp-buffer","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path"}
+	}
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
 		config = function() require'treesitter_conf'.config() end}
 	use {'nvim-treesitter/playground'}
