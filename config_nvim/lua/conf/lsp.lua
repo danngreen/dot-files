@@ -22,31 +22,31 @@ local cmp=require'cmp'
 cmp.setup{
     snippet = {
        expand = function(args)
-        -- vim.fn["vsnip#anonymous"](args.body)
-		-- require'luasnip'.lsp_expand(args.body)
-	    	local line_num, col = unpack(vim.api.nvim_win_get_cursor(0))
-		    local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
-			-- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
-			local indent = string.match(line_text, '^%s*')
-			local replace = vim.split(args.body, '\n', true)
-			-- print(vim.inspect(replace)) = { "lv_color_make(${1:uint8_t r}, ${2:uint8_t g}, ${3:uint8_t b})" }
-			local surround = string.match(line_text, '%S.*') or ''
-			-- local surround = line_text
-			-- print(vim.inspect(surround)) -- [text before cursor] [text after cursor]
-			local surround_end = surround:sub(col)
-			-- print(vim.inspect(surround_end)) --[text after cursor]
+        vim.fn["vsnip#anonymous"](args.body)
+		-- This disables snippets:
+	    	-- local line_num, col = unpack(vim.api.nvim_win_get_cursor(0))
+		    -- local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
+			-- -- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
+			-- local indent = string.match(line_text, '^%s*')
+			-- local replace = vim.split(args.body, '\n', true)
+			-- -- print(vim.inspect(replace)) = { "lv_color_make(${1:uint8_t r}, ${2:uint8_t g}, ${3:uint8_t b})" }
+			-- local surround = string.match(line_text, '%S.*') or ''
+			-- -- local surround = line_text
+			-- -- print(vim.inspect(surround)) -- [text before cursor] [text after cursor]
+			-- local surround_end = surround:sub(col)
+			-- -- print(vim.inspect(surround_end)) --[text after cursor]
 
-			replace[1] = surround:sub(1, col - 1)..replace[1]
-			-- print(vim.inspect(replace)) --not correct: mostly the text before the cursor + inserted text + mangled like it's trying to be "smart" about what to replace
-			replace[#replace] = replace[#replace]..(#surround_end > 1 and ' ' or '')..surround_end
-			-- print(vim.inspect(replace)) -- [text after cursor is appended]
+			-- replace[1] = surround:sub(1, col - 1)..replace[1]
+			-- -- print(vim.inspect(replace)) --not correct: mostly the text before the cursor + inserted text + mangled like it's trying to be "smart" about what to replace
+			-- replace[#replace] = replace[#replace]..(#surround_end > 1 and ' ' or '')..surround_end
+			-- -- print(vim.inspect(replace)) -- [text after cursor is appended]
 
-			for i, line in ipairs(replace) do
-				line = line:gsub("%b()","(")
-				replace[i] = indent..line
-			end
-			vim.api.nvim_buf_set_lines(0, line_num-1, line_num, true, replace)
-			vim.api.nvim_win_set_cursor(0, {line_num, col + replace[#replace]:len()})
+			-- for i, line in ipairs(replace) do
+				-- line = line:gsub("%b()","(")
+				-- replace[i] = indent..line
+			-- end
+			-- vim.api.nvim_buf_set_lines(0, line_num-1, line_num, true, replace)
+			-- vim.api.nvim_win_set_cursor(0, {line_num, col + replace[#replace]:len()})
        end,
      },
 	mapping = {
