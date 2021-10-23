@@ -12,8 +12,8 @@ nnoremap('<space>', '<cmd>noh<CR>')
 nnoremap('Y', 'y$')
 nnoremap('<leader>w', ':bp <BAR> bd #<CR>')
 nnoremap('<M-w>', ':bp <BAR> bd #<CR>')
-nnoremap('<M-Tab>', '<cmd>:bn<CR>')
-nnoremap('<S-Tab>', '<cmd>:bp<CR>')
+nnoremap('<M-Tab>', '<cmd>:bp<CR>')
+nnoremap('<M-S-Tab>', '<cmd>:bn<CR>')
 nnoremap('<leader>cd', ':cd %:p:h<CR>:pwd<CR>')
 
 -- Searching/Replacing in current buffer
