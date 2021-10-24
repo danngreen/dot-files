@@ -53,6 +53,10 @@ cmp.setup{
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
 
+		["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
+		["<C-w>"] = cmp.mapping.close(), --closes menu, leaves whatever text was selected in menu
+		["<C-e>"] = cmp.mapping.abort(), --do not change the text, close and abort
+
 	    --All these behave the same. WTF does ConfirmBehavior and select do?
         ["<C-y>"] = cmp.mapping.confirm{
 	  	  behavior = cmp.ConfirmBehavior.Insert,
@@ -74,6 +78,7 @@ cmp.setup{
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
+		-----
 
 		['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -127,9 +132,6 @@ cmp.setup{
     --   end
     -- end,
 
-      ["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
-      ["<C-e>"] = cmp.mapping.close(),
-
 	  --Luasnip
 	  -- ['<Tab>'] = cmp.mapping(function(fallback)
 			-- if cmp.visible() then cmp.select_next_item()
@@ -155,7 +157,7 @@ cmp.setup{
 		maxheight=100,
 	},
 	experimental = {
-		--native_menu = false, --fails
+		native_menu = false, --fails
 		-- ghost_text = true,
 	}
 }
