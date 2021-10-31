@@ -21,7 +21,8 @@ nnoremap("Y", "y$")
 nnoremap("<leader>w", ":bp <BAR> bd #<CR>")
 nnoremap("<M-w>", ":bp <BAR> bd #<CR>")
 nnoremap("<M-Tab>", "<cmd>:bp<CR>")
-nnoremap("<M-S-Tab>", "<cmd>:bn<CR>")
+nnoremap("<S-Tab>", "<cmd>:bn<CR>")
+nnoremap("<leader><Tab>", "<cmd>:bn<CR>")
 nnoremap("<leader>cd", ":cd %:p:h<CR>:pwd<CR>")
 
 -- Searching/Replacing in current buffer
@@ -71,6 +72,7 @@ nnoremap("<leader><leader><F16>", ':lua require"fzf-lua".live_grep_resume()<CR>'
 -- Grep in Dir
 --nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
+nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<F17>", ':lua require"fzf-lua".live_grep({cwd = vim.fn.input("Dir: ")})<CR>')
 
 nnoremap("<F8>", "<cmd>FloatermToggle<CR>")
@@ -110,7 +112,7 @@ noremap("<F12>", ":NERDTreeToggle<CR>")
 
 -- Commonly used files
 nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
-nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/conf/lsp.lua<CR>")
+nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
 nnoremap("<leader>vp", ":edit ~/.config/nvim/lua/plugins.lua<CR>")
 nnoremap("<leader>vcc", ":edit ~/Library/Preferences/clangd/config.yaml<CR>")
 
