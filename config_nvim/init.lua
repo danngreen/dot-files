@@ -73,14 +73,16 @@ augroup END]],
 )
 
 --LSP
--- require'plenary.reload'.reload_module('conf.lsp')
-require "conf.lsp"
+-- require'plenary.reload'.reload_module('lsp-conf')
+require "lsp-conf"
+require "cmp-conf"
 
 vim.api.nvim_exec(
 	[[
   augroup init_dot_lua
     autocmd!
     autocmd BufWritePost ~/.config/nvim/init.lua luafile %
+    autocmd BufWritePost ~/.config/nvim/keys.lua luafile %
   augroup end
 ]],
 	false
