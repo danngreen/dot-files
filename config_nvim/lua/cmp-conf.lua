@@ -1,10 +1,13 @@
+local settings = {}
+settings.use_snippets = true
+
 local feedkey = function(key, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
 local disable_snippets = function(argsbody)
 	-- This disables snippets:
-	local line_num, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local line_num, col = table.unpack(vim.api.nvim_win_get_cursor(0))
 	local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
 				-- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
 	local indent = string.match(line_text, "^%s*")
@@ -33,8 +36,11 @@ local cmp = require "cmp"
 cmp.setup {
 	snippet = {
 		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
-			--disable_snippets(args.body)
+			if (settings.use_snippets) then
+				vim.fn["vsnip#anonymous"](args.body)
+			else
+				disable_snippets(args.body)
+			end
 		end
 	},
 	mapping = {
@@ -97,6 +103,20 @@ cmp.setup {
 	},
 	experimental = {}
 }
+
+cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+-- Use cmdline & path source for ':'.
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources(
+		{ { name = 'path' } },
+		{ { name = 'cmdline' } }
+    )
+  })
 
 -- Missing documentation for nvim-cmp "ConfirmBehavior" and "select" options:
 --

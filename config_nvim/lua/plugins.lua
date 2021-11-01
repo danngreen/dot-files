@@ -81,8 +81,8 @@ require("packer").startup(
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-calc",
-				--"lukas-reineke/cmp-rg",
 				"uga-rosa/cmp-dictionary",
+				"hrsh7th/cmp-cmdline"
 			}
 		}
 		use {
