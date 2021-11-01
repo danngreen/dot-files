@@ -49,7 +49,8 @@ vim.o.path = ".,,**"
 require "keys"
 
 -- Display
-vim.o.guifont = "Roboto_Mono_Light_Nerd_Font_Complete_Mono:h13"
+-- vim.o.guifont = "Roboto_Mono_Light_Nerd_Font_Complete_Mono:h13"
+vim.o.guifont = "Inconsolata_Regular_Nerd_Font_Complete_Mono:h13"
 vim.o.termguicolors = true
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
 vim.api.nvim_exec(
