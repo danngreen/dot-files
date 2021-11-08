@@ -17,14 +17,18 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git colored-man-pages colorize pip python brew osx fd)
+plugins=(git colored-man-pages colorize pip python brew macos fd zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 unsetopt share_history
 
 export EDITOR='nvim'
+ZVM_VI_EDITOR=nvim
 
-autoload -U zmv
+autoload -U zmv 
+PROMPT='%{$fg[cyan]%}%c %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
+RPROMPT=\$(git_prompt_info)
+
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
 source ~/.iterm2_shell_integration.zsh
@@ -35,4 +39,4 @@ alias startidf='. $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
 alias g=git
 
-alias luamake=/Users/design/src/lua-language-server/3rd/luamake/luamake
+alias luamake=$HOME/bin/lua-language-server/3rd/luamake/luamake
