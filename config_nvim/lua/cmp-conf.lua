@@ -110,13 +110,16 @@ cmp.setup.cmdline('/', {
     }
   })
 
--- Use cmdline & path source for ':'.
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources(
-		{ { name = 'path' } },
-		{ { name = 'cmdline' } }
-    )
-  })
+cmp.setup.cmdline(':', {
+completion = {
+  autocomplete = { false }
+  -- autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged, }
+},
+sources = cmp.config.sources(
+	{ { name = 'path' } },
+	{ { name = 'cmdline' } }
+)
+})
 
 -- Missing documentation for nvim-cmp "ConfirmBehavior" and "select" options:
 --
