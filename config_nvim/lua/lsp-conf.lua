@@ -349,11 +349,17 @@ nvim_lspconfig.tsserver.setup {
 
 -- cmake
 
-nvim_lspconfig.cmake.setup {}
+nvim_lspconfig.cmake.setup {
+	on_attach = on_attach_vim
+}
+nvim_lspconfig.pyright.setup {
+	on_attach = on_attach_vim
+}
 
 -- html
 
 nvim_lspconfig.html.setup {
+	on_attach = on_attach_vim,
 	cmd = {"/usr/local/bin/html-languageserver", "--stdio"},
 	filetypes = {"html"},
 	init_options = {
