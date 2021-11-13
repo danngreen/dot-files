@@ -12,13 +12,13 @@ bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 
 
-# bindkey '\e.' insert-last-word
-# bindkey "^[a" beginning-of-line
-# bindkey "^[e" end-of-line
+bindkey '\e.' insert-last-word
+bindkey "^[a" beginning-of-line
+bindkey "^[e" end-of-line
 # bindkey -e
 
 # bindkey "\e\e[D" backward-word # alt + <-
 # bindkey "\e\e[C" forward-word # alt + ->
 
-# bindkey "^[OA" up-line-or-history
-# bindkey "^[OB" down-line-or-history
+bindkey "^[OA" up-line-or-history
+bindkey "^[OB" down-line-or-history
