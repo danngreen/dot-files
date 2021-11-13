@@ -106,17 +106,16 @@ cmp.setup {
 
 cmp.setup.cmdline("/", {sources = {{name = "buffer"}}})
 
---cmp.setup.cmdline(
---	":",
---	{
---		completion = {autocomplete = {false}},
---		sources = cmp.config.sources({
---			{name = "cmdline"},
---			{name = 'path'},
---			--{name = 'fuzzy_path'},
---		})
---	}
---)
+-- cmp.setup.cmdline(':', {
+-- completion = {
+--   autocomplete = { false }
+--   -- autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged, }
+-- },
+-- sources = cmp.config.sources(
+-- 	{ { name = 'path' } },
+-- 	{ { name = 'cmdline' } }
+-- )
+-- })
 
 -- Missing documentation for nvim-cmp "ConfirmBehavior" and "select" options:
 --

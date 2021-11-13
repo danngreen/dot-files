@@ -19,6 +19,10 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 plugins=(git colored-man-pages colorize pip python brew macos fd zsh-autosuggestions zsh-vi-mode)
 
+function zvm_config() {
+	ZVM_KEYTIMEOUT=0.2
+}
+
 source $ZSH/oh-my-zsh.sh
 unsetopt share_history
 
@@ -30,6 +34,7 @@ PROMPT='%{$fg[cyan]%}%c %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_c
 RPROMPT=\$(git_prompt_info)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#888888,bg=#404040,underline'
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths

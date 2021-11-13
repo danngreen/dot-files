@@ -32,13 +32,13 @@ end
 
 -- Diagnostics
 
-local toggle_diags_virtual_text = {}
-toggle_diags_virtual_text.show = true
-toggle_diags_virtual_text.toggle = function()
-	toggle_diags_virtual_text.show = not toggle_diags_virtual_text.show
-	vim.diagnostic.config({toggle_diags_virtual_text = toggle_diags_virtual_text.show})
+local virt_text = {}
+virt_text.show = true
+virt_text.toggle = function()
+	virt_text.show = not virt_text.show
+	vim.diagnostic.config({virtual_text = virt_text.show})
 end
-conf_lsp.virtual_text = toggle_diags_virtual_text
+conf_lsp.virt_text = virt_text
 
 -- LSP Buffer key maps
 
@@ -105,7 +105,7 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd("<leader>fp", "lua vim.diagnostic.setloclist()")
 	nnoremap_cmd("<leader>fP", "lua vim.diagnostic.setqflist()")
 	nnoremap_cmd("<leader>fC", "lua vim.diagnostic.disable(0)")
-	nnoremap_cmd("<leader>fc", "lua require'lsp-conf'.toggle_diags_virtual_text.toggle()")
+	nnoremap_cmd("<leader>fc", "lua require'lsp-conf'.virt_text.toggle()")
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
@@ -348,11 +348,12 @@ nvim_lspconfig.tsserver.setup {
 }
 
 -- cmake
-
 nvim_lspconfig.cmake.setup {
 	on_attach = on_attach_vim
 }
-nvim_lspconfig.pyright.setup {
+
+-- python
+nvim_lspconfig.pyright.setup{
 	on_attach = on_attach_vim
 }
 
