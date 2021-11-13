@@ -9,20 +9,20 @@ local disable_snippets = function(argsbody)
 	-- This disables snippets:
 	local line_num, col = table.unpack(vim.api.nvim_win_get_cursor(0))
 	local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
-				-- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
+	-- print(vim.inspect(line_text)) -- the line, as-is with indentation, but with the contigious block of non-whitespace characters before the cursor removed
 	local indent = string.match(line_text, "^%s*")
 	local replace = vim.split(argsbody, "\n", true)
-				-- print(vim.inspect(replace)) = { "lv_color_make(${1:uint8_t r}, ${2:uint8_t g}, ${3:uint8_t b})" }
+	-- print(vim.inspect(replace)) = { "lv_color_make(${1:uint8_t r}, ${2:uint8_t g}, ${3:uint8_t b})" }
 	local surround = string.match(line_text, "%S.*") or ""
 	-- local surround = line_text
-				-- print(vim.inspect(surround)) -- [text before cursor] [text after cursor]
+	-- print(vim.inspect(surround)) -- [text before cursor] [text after cursor]
 	local surround_end = surround:sub(col)
-				-- print(vim.inspect(surround_end)) --[text after cursor]
+	-- print(vim.inspect(surround_end)) --[text after cursor]
 
 	replace[1] = surround:sub(1, col - 1) .. replace[1]
-				-- print(vim.inspect(replace)) --not correct: mostly the text before the cursor + inserted text + mangled like it's trying to be "smart" about what to replace
+	-- print(vim.inspect(replace)) --not correct: mostly the text before the cursor + inserted text + mangled like it's trying to be "smart" about what to replace
 	replace[#replace] = replace[#replace] .. (#surround_end > 1 and " " or "") .. surround_end
-				-- print(vim.inspect(replace)) -- [text after cursor is appended]
+	-- print(vim.inspect(replace)) -- [text after cursor is appended]
 
 	for i, line in ipairs(replace) do
 		line = line:gsub("%b()", "(")
@@ -61,7 +61,6 @@ cmp.setup {
 		["<C-p>"] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}),
 		["<Down>"] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
 		["<Up>"] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}),
-
 		--vsnip "Super tab" from nvim-cmp wiki:
 		["<Tab>"] = cmp.mapping(
 			function(fallback)
@@ -91,10 +90,11 @@ cmp.setup {
 	sources = {
 		{name = "nvim_lsp"},
 		{name = "nvim_lua"},
+		--{name = 'fuzzy_path'},
 		{name = "path"},
 		{name = "calc"},
 		{name = "buffer", keyword_length = 5},
-		{name = "dictionary", keyword_length = 2},
+		{name = "dictionary", keyword_length = 2}
 		--{name = "rg"},
 	},
 	documentation = {
@@ -104,42 +104,39 @@ cmp.setup {
 	experimental = {}
 }
 
-cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
+cmp.setup.cmdline("/", {sources = {{name = "buffer"}}})
 
-cmp.setup.cmdline(':', {
-completion = {
-  autocomplete = { false }
-  -- autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged, }
-},
-sources = cmp.config.sources(
-	{ { name = 'path' } },
-	{ { name = 'cmdline' } }
-)
-})
+--cmp.setup.cmdline(
+--	":",
+--	{
+--		completion = {autocomplete = {false}},
+--		sources = cmp.config.sources({
+--			{name = "cmdline"},
+--			{name = 'path'},
+--			--{name = 'fuzzy_path'},
+--		})
+--	}
+--)
 
 -- Missing documentation for nvim-cmp "ConfirmBehavior" and "select" options:
 --
-		-- ConfirmBehavior: what to do if cursor is in middle of a word that already partially matches:
-		-- Insert: Just insert the selected word, ignore the surroundings
-		-- Replace: Replace the current surrounding word with the selection
-		--
-		-- Example:
-		-- bool exit_updater = false;
-		--          |_________________cursor is here (between _ and u)
-		--
-		-- User starts completion by hitting c-space
-		-- User selects "exit_app" from the cmp menu
-		-- ConfirmBehavior.Insert: result will be:
-		-- 		bool exit_appupdater = false;
-		--
-		-- ConfirmBehavior.Replace: result will be:
-		-- 		bool exit_app = false;
-		--
-		-- select: whether or not to the automatically select the first entry if the user hasn't
-		-- 		entered the cmp menu. (That is, if you just type and dont hit C-n or C-p or Down or Up)
-		-- true: select the first entry automatically
-		-- false: do not select the entry, just close the cmp menu
+-- ConfirmBehavior: what to do if cursor is in middle of a word that already partially matches:
+-- Insert: Just insert the selected word, ignore the surroundings
+-- Replace: Replace the current surrounding word with the selection
+--
+-- Example:
+-- bool exit_updater = false;
+--          |_________________cursor is here (between _ and u)
+--
+-- User starts completion by hitting c-space
+-- User selects "exit_app" from the cmp menu
+-- ConfirmBehavior.Insert: result will be:
+-- 		bool exit_appupdater = false;
+--
+-- ConfirmBehavior.Replace: result will be:
+-- 		bool exit_app = false;
+--
+-- select: whether or not to the automatically select the first entry if the user hasn't
+-- 		entered the cmp menu. (That is, if you just type and dont hit C-n or C-p or Down or Up)
+-- true: select the first entry automatically
+-- false: do not select the entry, just close the cmp menu

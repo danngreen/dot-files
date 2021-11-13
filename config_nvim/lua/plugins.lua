@@ -82,7 +82,9 @@ require("packer").startup(
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-calc",
 				"uga-rosa/cmp-dictionary",
-				"hrsh7th/cmp-cmdline"
+				"hrsh7th/cmp-cmdline",
+				-- 'tzachar/fuzzy.nvim',
+				-- 'tzachar/cmp-fuzzy-path',
 			}
 		}
 		use {
@@ -100,7 +102,8 @@ require("packer").startup(
 		use {
 			"lukas-reineke/format.nvim",
 			config = function()
-				require "format".setup { --npm i -g lua-fmt
+				require "format".setup {
+					--npm i -g lua-fmt
 					lua = {{cmd = {"luafmt -l 120 --use-tabs -i 4 -w replace"}}},
 					vim = {
 						{
