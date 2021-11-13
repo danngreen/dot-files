@@ -17,7 +17,7 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git colored-man-pages colorize pip python brew macos fd zsh-vi-mode)
+plugins=(git colored-man-pages colorize pip python brew macos fd zsh-vi-mode zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 unsetopt share_history
@@ -28,6 +28,8 @@ ZVM_VI_EDITOR=nvim
 autoload -U zmv 
 PROMPT='%{$fg[cyan]%}%c %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
 RPROMPT=\$(git_prompt_info)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#888888,bg=#404040,underline'
+
 
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
