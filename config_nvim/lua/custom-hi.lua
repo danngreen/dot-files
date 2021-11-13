@@ -38,4 +38,6 @@ hi! link DiagnosticsVirtualTextInformation InfoMsg
 hi! link DiagnosticsVirtualTextHint HintMsg
 hi LspSignatureActiveParameter guifg=red
 hi! LspReferenceText guibg=#433536
+
+hi Pmenu guibg=#434546 
 ]]
