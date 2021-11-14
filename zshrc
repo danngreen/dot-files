@@ -17,11 +17,11 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git colored-man-pages colorize pip python brew macos fd zsh-autosuggestions zsh-vi-mode)
+plugins=(git colored-man-pages colorize pip python brew macos fd zsh-autosuggestions zsh-syntax-highlighting vi-mode) 
 
-function zvm_config() {
-	ZVM_KEYTIMEOUT=0.2
-}
+KEYTIMEOUT=5
+VI_MODE_SET_CURSOR=true
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
 source $ZSH/oh-my-zsh.sh
 unsetopt share_history
@@ -30,8 +30,10 @@ export EDITOR='nvim'
 ZVM_VI_EDITOR=nvim
 
 autoload -U zmv 
-PROMPT='%{$fg[cyan]%}%c %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
-RPROMPT=\$(git_prompt_info)
+setopt prompt_subst
+PROMPT='%{$fg[cyan]%}%2~ %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
+RPROMPT='$(vi_mode_prompt_info) $(git_prompt_info)'
+
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#888888,bg=#404040,underline'
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
