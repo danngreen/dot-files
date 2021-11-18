@@ -1,13 +1,19 @@
 ### dot-files
 
-Requires zsh
+Requires zsh or fish
+Lots of config for neovim
 
 To install:
 
 ```
 cd ~
 git clone --recursive https://github.com/danngreen/dot-files.git dot-files
-source dot-files/install
+
+#For zsh:
+source dot-files/install.zsh
+
+#For fish:
+source dot-files/install.fish
 ```
 
 The install script will symlink the following files into your home dir, adding a dot before the name:
@@ -23,21 +29,12 @@ Then it will use `stow` to symlink the vim directory to ~/.vim and the nvim dir 
 
 ```
 cd dot-files
-stow vim
 stow -v --target=$HOME/.config/nvim config_nvim
 ```
 
 If the file exists, it will give an error and not overwrite it.
 
 Make sure to install plugins from nvim the first time you run it
-
-vim:
-
-```
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim
-:PlugInstall
-```
 
 nvim:
 ```
