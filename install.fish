@@ -1,11 +1,23 @@
+echo "Run these commands manually to install fish and chsh to it:"
+echo "  macOS: "
+echo " 		brew install fish"
+echo " 		sudo bash -c 'echo /usr/local/bin/fish >> /etc/shells'"
+echo " 		chsh -s /usr/local/bin/fish"
+echo ""
+echo "  ubuntu: "
+echo " 		sudo apt install fish"
+echo "  	chsh -s /usr/bin/fish"
+echo ""
+
 cd $HOME
 for dotfile in {ctags,fzf.zsh,gitignore-global}
   ln -s "dot-files/$dotfile" "$HOME/.$dotfile"
 end
+
 cd dot-files
 mkdir -p $HOME/.config/nvim
 stow -v --target=$HOME/.config/nvim config_nvim
+
 mkdir -p $HOME/.config/fish
 stow -v --target=$HOME/.config/fish config_fish
-mkdir -p $HOME/.config/omf
-stow -v --target=$HOME/.config/omf config_omf
+
