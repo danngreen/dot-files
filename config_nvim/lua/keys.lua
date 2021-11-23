@@ -66,7 +66,7 @@ nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search="
 nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
-nnoremap("<leader><F16>", ':lua require"fzf-lua".live_grep()<CR>')
+nnoremap("<leader><F16>", ':lua require"fzf-lua".live_grep_native({fzf_cli_args="--nth 2.."})<CR>')
 nnoremap("<leader><leader><F16>", ':lua require"fzf-lua".live_grep_resume()<CR>')
 
 -- Grep in Dir
