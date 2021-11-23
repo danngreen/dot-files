@@ -38,11 +38,12 @@ _M.config = function()
 		},
 		grep = {
 			--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
-			rg_opts = "--hidden --column --line-number --no-heading " ..
-				"--color=always --smart-case " ..
-					"--colors 'path:fg:" ..
-						monokaicolor("aqua") ..
-							"' " .. "--colors 'path:style:bold' " .. "--colors 'match:style:underline' " .. "-g '!{.git,node_modules}/*' ",
+			rg_opts = 	"--hidden --column --line-number --no-heading --sort-files " ..
+						"--color=always --smart-case " ..
+						"--colors 'path:fg:" .. monokaicolor("aqua") .. "' " .. 
+						"--colors 'path:style:bold' " .. 
+						"--colors 'match:style:underline' " .. 
+						"-g '!{.git,node_modules}/*' ",
 			prompt = "Rg❯ ",
 			input_prompt = "Grep For❯ ",
 			actions = {["ctrl-q"] = false}
