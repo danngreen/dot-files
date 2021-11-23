@@ -17,7 +17,7 @@ fish_add_path $HOME/bin
 fish_add_path /usr/local/bin
 fish_add_path $HOME/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin
 fish_add_path $HOME/.local/bin
-fish_add_path /usr/local/opt/llvm/bin
+#fish_add_path /usr/local/opt/llvm/bin
 
 set -x IDF_PATH $HOME/4ms/esp/esp-idf_4.0.1
 
