@@ -68,3 +68,4 @@ end
 
 bind '$' bind_dollar
 bind '!' bind_bang
+bind -k nul -M insert accept-autosuggestion
