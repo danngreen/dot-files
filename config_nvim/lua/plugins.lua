@@ -50,15 +50,31 @@ require("packer").startup(
 			end
 		}
 		use {"vim-scripts/hexHighlight.vim"}
+		--
+		-- LSP
+		--
 		use {"neovim/nvim-lspconfig"}
-		use {
-			"kabouzeid/nvim-lspinstall",
-			config = function()
-				require "lspinstall".setup()
-			end
-		}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
+		use {"ray-x/lsp_signature.nvim"}
+		use {"m-pilia/vim-ccls"}
+		use {"rust-lang/rust.vim"}
+		use {
+			"hrsh7th/nvim-cmp",
+			requires = {
+				"hrsh7th/vim-vsnip",
+				"hrsh7th/cmp-nvim-lua",
+				"hrsh7th/cmp-buffer",
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-calc",
+				"uga-rosa/cmp-dictionary",
+				"hrsh7th/cmp-cmdline",
+			}
+		}
+		--
+		-- Telescope
+		--
 		use {
 			"nvim-lua/telescope.nvim",
 			config = function()
@@ -71,22 +87,9 @@ require("packer").startup(
 			after = "telescope.nvim",
 			config = "require'telescope'.load_extension('fzf')"
 		}
-		use {"ray-x/lsp_signature.nvim"}
-		use {
-			"hrsh7th/nvim-cmp",
-			requires = {
-				"hrsh7th/vim-vsnip",
-				"hrsh7th/cmp-nvim-lua",
-				"hrsh7th/cmp-buffer",
-				"hrsh7th/cmp-nvim-lsp",
-				"hrsh7th/cmp-path",
-				"hrsh7th/cmp-calc",
-				"uga-rosa/cmp-dictionary",
-				"hrsh7th/cmp-cmdline",
-				-- 'tzachar/fuzzy.nvim',
-				-- 'tzachar/cmp-fuzzy-path',
-			}
-		}
+		--
+		-- Treesitter
+		--
 		use {
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
@@ -94,11 +97,11 @@ require("packer").startup(
 				require "treesitter_conf".config()
 			end
 		}
+		use {"nvim-treesitter/nvim-treesitter-textobjects"}
 		use {"nvim-treesitter/playground"}
 		use {"nvim-treesitter/nvim-treesitter-refactor"}
+
 		use {"majutsushi/tagbar", config = "vim.g.tagbar_file_size_limit = 400000"}
-		use {"m-pilia/vim-ccls"}
-		use {"rust-lang/rust.vim"}
 		use {
 			"lukas-reineke/format.nvim",
 			config = function()

@@ -32,7 +32,31 @@ _M.config = function()
 					goto_previous_usage = "<a-#>"
 				}
 			}
-		}
+		},
+		textobjects = {
+			select = {
+			  enable = true,
+
+			  -- Automatically jump forward to textobj, similar to targets.vim
+			  lookahead = true,
+
+			  keymaps = {
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = "@class.inner",
+				},
+			},
+			swap = {
+			  enable = true,
+			  swap_next = {
+				  ["<leader>a"] = "@parameter.inner",
+			  },
+			  swap_previous = {
+				  ["<leader>A"] = "@parameter.inner",
+			  },
+			},
+		},
 	}
 end
 
