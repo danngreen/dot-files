@@ -188,30 +188,28 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 
 if (useclangd) then
 	local function switch_source_header_splitcmd(bufnr, splitcmd)
-		bufnr = nvim_lspconfig.util.validate_bufnr(bufnr)
+		bufnr = require'lspconfig'.util.validate_bufnr(bufnr)
+		local clangd_client = require'lspconfig'.util.get_active_client_by_name(bufnr, 'clangd')
 		local params = {uri = vim.uri_from_bufnr(bufnr)}
-		vim.lsp.buf_request(
-			bufnr,
-			"textDocument/switchSourceHeader",
-			params,
-			nvim_lspconfig.util.compat_handler(
-				function(err, result)
-					if err then
-						error(tostring(err))
-					end
-					if not result then
-						print("Corresponding file can’t be determined")
-						return
-					end
-					vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
+		if clangd_client then
+			clangd_client.request("textDocument/switchSourceHeader", params, function(err, result)
+				if err then
+					error(tostring(err))
 				end
-			)
-		)
+				if not result then
+					print("Corresponding file can’t be determined")
+					return
+				end
+				vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
+			end, bufnr)
+		else
+			print 'textDocument/switchSourceHeader is not supported by the clangd server active on the current buffer'
+		end
 	end
 
 	nvim_lspconfig.clangd.setup {
 		cmd = {
-			"/usr/local/opt/llvm/bin/clangd",
+			"clangd",
 			"--background-index",
 			--"--log=verbose",
 			"-j=32",
@@ -220,7 +218,7 @@ if (useclangd) then
 			"--clang-tidy",
 			-- "--all-scopes-completion",
 			"--header-insertion=iwyu",
-			"--header-insertion-decorators", -- just in case somebody tries to turn it on
+			"--header-insertion-decorators",
 			"--completion-style=bundled",
 			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
@@ -234,12 +232,6 @@ if (useclangd) then
 		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json"),
 		on_attach = on_attach_vim,
 		capabilities = capabilities,
-		-- capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
-		-- capabilities = (function()
-		--   local clangd_capabilities = capabilities
-		--   clangd_capabilities.textDocument.completion.completionItem.snippetSupport = false
-		--   return capabilities
-		-- end)(),
 
 		on_init = function(client)
 			client.config.flags.allow_incremental_sync = true
