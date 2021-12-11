@@ -17,7 +17,7 @@ _M.config = function()
 					narrow_window_size = 84,
 					color = {fg = "#F0F0F0", gui = "bold"}
 				},
-				{"diagnostics", sources = {"nvim_lsp"}, color_error = "#FF0000", color_warn = "#FFFF00", color_info = "#999999"}
+				{"diagnostics", sources = {"nvim_diagnostic"}, color_error = "#FF0000", color_warn = "#FFFF00", color_info = "#999999"}
 			},
 			lualine_x = {"location"},
 			lualine_y = {},
