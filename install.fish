@@ -26,3 +26,14 @@ stow -v --target=$HOME/.config/nvim config_nvim
 mkdir -p $HOME/.config/fish
 stow -v --target=$HOME/.config/fish config_fish
 
+echo "Instsall fisher"
+echo "and fish plugins:"
+echo "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
+echo "fisher install oh-my-fish/plugin-pj"
+echo "fisher install oh-my-fish/plugin-bang-bang"
+echo "fisher install edc/bass"
+echo "fisher install Markcial/upto"
+echo "fisher install jorgebucaran/hydro"
+
+
+
