@@ -98,8 +98,8 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd("<leader>h", "ClangdSwitchSourceHeaderVSplit")
 
 	--Diagnostics
-	nnoremap_cmd("<leader>e", 'lua vim.diagnostic.open_float(0, {scope="line"})')
-	nnoremap_cmd("<leader>E", 'lua vim.diagnostic.open_float(0, {scope="buffer"})')
+	nnoremap_cmd("<leader>e", 'lua vim.diagnostic.open_float({scope="line"})')
+	nnoremap_cmd("<leader>E", 'lua vim.diagnostic.open_float({scope="buffer"})')
 	nnoremap_cmd("<leader>f]", "lua vim.diagnostic.goto_next()")
 	nnoremap_cmd("<leader>f[", "lua vim.diagnostic.goto_prev()")
 	nnoremap_cmd("<leader>fp", "lua vim.diagnostic.setloclist()")
