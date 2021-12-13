@@ -7,7 +7,7 @@ end
 
 _M.config = function()
 	require "fzf-lua".setup {
-		fzf_bin = "sk",
+		--fzf_bin = "/usr/local/bin/fzf",
 		winopts = {
 			fullscreen = false
 		},
@@ -18,11 +18,11 @@ _M.config = function()
 			["fg"] = {"fg", "Normal"},
 			["bg"] = {"bg", "Normal"},
 			["hl"] = {"fg", "Keyword"}, --"matched"
-			["matched_bg"] = {"bg", "Normal"},
+			--["matched_bg"] = {"bg", "Normal"}, -- sk only
 			["fg+"] = {"fg", "Pmenu"}, --"fg of current line"
 			["bg+"] = {"fg", "LineNr"}, --"bg of current line"
 			["hl+"] = {"fg", "Keyword"}, --"current_match"
-			["current_match_bg"] = {"fg", "LineNr"},
+			--["current_match_bg"] = {"fg", "LineNr"}, --sk only
 			--query
 			--query_bg
 			["info"] = {"fg", "PreProc"},
@@ -40,9 +40,9 @@ _M.config = function()
 			--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
 			rg_opts = 	"--hidden --column --line-number --no-heading --sort-files " ..
 						"--color=always --smart-case " ..
-						"--colors 'path:fg:" .. monokaicolor("aqua") .. "' " .. 
-						"--colors 'path:style:bold' " .. 
-						"--colors 'match:style:underline' " .. 
+						"--colors 'path:fg:" .. monokaicolor("aqua") .. "' " ..
+						"--colors 'path:style:bold' " ..
+						"--colors 'match:style:underline' " ..
 						"-g '!{.git,node_modules}/*' ",
 			prompt = "Rg❯ ",
 			input_prompt = "Grep For❯ ",

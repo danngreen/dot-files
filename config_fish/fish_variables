@@ -1,19 +1,24 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export LSCOLORS:gxfxbEaEBxxEhEhBaDaCaD
+SETUVAR --export PROJECT_PATHS:/Users/design/4ms/stm32\x1e/Users/design/4ms/kicad\x2dpcb\x1e/Users/design/4ms/esp\x1e/Users/design/4ms/vcv
 SETUVAR __fish_initialized:3100
-SETUVAR _fisher_Markcial_2F_upto_files:/Users/dann/\x2econfig/fish/functions/upto\x2efish\x1e/Users/dann/\x2econfig/fish/completions/upto\x2efish
+SETUVAR _fisher_Markcial_2F_upto_files:/Users/design/\x2econfig/fish/functions/upto\x2efish\x1e/Users/design/\x2econfig/fish/completions/upto\x2efish
 SETUVAR _fisher_PatrickF1_2F_fzf_2E_fish_files:/Users/dann/\x2econfig/fish/functions/_fzf_configure_bindings_help\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_extract_var_info\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_preview_file\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_report_file_type\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_search_directory\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_search_git_log\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_search_git_status\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_search_history\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_search_variables\x2efish\x1e/Users/dann/\x2econfig/fish/functions/_fzf_wrapper\x2efish\x1e/Users/dann/\x2econfig/fish/functions/fzf_configure_bindings\x2efish\x1e/Users/dann/\x2econfig/fish/conf\x2ed/fzf\x2efish\x1e/Users/dann/\x2econfig/fish/completions/fzf_configure_bindings\x2efish
-SETUVAR _fisher_edc_2F_bass_files:/Users/dann/\x2econfig/fish/functions/__bass\x2epy\x1e/Users/dann/\x2econfig/fish/functions/bass\x2efish
-SETUVAR _fisher_jorgebucaran_2F_fisher_files:/Users/dann/\x2econfig/fish/functions/fisher\x2efish\x1e/Users/dann/\x2econfig/fish/completions/fisher\x2efish
-SETUVAR _fisher_jorgebucaran_2F_hydro_files:/Users/dann/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e/Users/dann/\x2econfig/fish/functions/fish_prompt\x2efish\x1e/Users/dann/\x2econfig/fish/functions/fish_title\x2efish\x1e/Users/dann/\x2econfig/fish/conf\x2ed/hydro\x2efish
-SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_bang_2D_bang_files:/Users/dann/\x2econfig/fish/functions/__history_previous_command\x2efish\x1e/Users/dann/\x2econfig/fish/functions/__history_previous_command_arguments\x2efish\x1e/Users/dann/\x2econfig/fish/conf\x2ed/plugin\x2dbang\x2dbang\x2efish
-SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_pj_files:/Users/dann/\x2econfig/fish/functions/pj\x2efish\x1e/Users/dann/\x2econfig/fish/completions/pj\x2efish
+SETUVAR _fisher_edc_2F_bass_files:/Users/design/\x2econfig/fish/functions/__bass\x2epy\x1e/Users/design/\x2econfig/fish/functions/bass\x2efish
+SETUVAR _fisher_jorgebucaran_2F_fisher_files:/Users/design/\x2econfig/fish/functions/fisher\x2efish\x1e/Users/design/\x2econfig/fish/completions/fisher\x2efish
+SETUVAR _fisher_jorgebucaran_2F_hydro_files:/Users/design/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e/Users/design/\x2econfig/fish/functions/fish_prompt\x2efish\x1e/Users/design/\x2econfig/fish/functions/fish_title\x2efish\x1e/Users/design/\x2econfig/fish/conf\x2ed/hydro\x2efish
+SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_bang_2D_bang_files:/Users/design/\x2econfig/fish/functions/__history_previous_command\x2efish\x1e/Users/design/\x2econfig/fish/functions/__history_previous_command_arguments\x2efish\x1e/Users/design/\x2econfig/fish/conf\x2ed/plugin\x2dbang\x2dbang\x2efish
+SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_pj_files:/Users/design/\x2econfig/fish/functions/pj\x2efish\x1e/Users/design/\x2econfig/fish/completions/pj\x2efish
 SETUVAR _fisher_patrickf1_2F_colored__man__pages_2E_fish_files:/Users/dann/\x2econfig/fish/functions/cless\x2efish\x1e/Users/dann/\x2econfig/fish/functions/man\x2efish
-SETUVAR _fisher_plugins:PatrickF1/fzf\x2efish\x1ejorgebucaran/fisher\x1eedc/bass\x1eMarkcial/upto\x1eoh\x2dmy\x2dfish/plugin\x2dpj\x1epatrickf1/colored_man_pages\x2efish\x1eoh\x2dmy\x2dfish/plugin\x2dbang\x2dbang\x1ejoelwanner/theme\x2dboxfish\x1ejorgebucaran/hydro
+SETUVAR _fisher_plugins:PatrickF1/fzf\x2efish\x1epatrickf1/colored_man_pages\x2efish\x1ejoelwanner/theme\x2dboxfish\x1ejorgebucaran/fisher\x1ejorgebucaran/hydro\x1eMarkcial/upto\x1eoh\x2dmy\x2dfish/plugin\x2dbang\x2dbang\x1eedc/bass\x1eoh\x2dmy\x2dfish/plugin\x2dpj
 SETUVAR _hydro_git_12137:nightly\x20
 SETUVAR _hydro_git_19493:v2022\x2e01\x2drc3\u2022\x20
 SETUVAR _hydro_git_3081:idf\x2d4\x2e3\x2e1\u2022\x20\u21911\x20
+SETUVAR _hydro_git_32666:rest_example\u2022\x20\u21913\x20
+SETUVAR _hydro_git_35502:rest_example\u2022\x20\u21913\x20
+SETUVAR _hydro_git_9280:master\u2022\x20
+SETUVAR _hydro_git_99333:p5\x20
 SETUVAR fish_color_autosuggestion:707A8C
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:5CCFE6
@@ -37,10 +42,10 @@ SETUVAR fish_color_selection:\x2d\x2dbackground\x1e444466
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
 SETUVAR fish_color_valid_path:\x2d\x2dbold
-SETUVAR fish_key_bindings:fish_vi_key_bindings
+SETUVAR fish_key_bindings:fish_default_key_bindings
 SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2ditalics
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_prompt_pwd_dir_length:2
-SETUVAR fish_user_paths:/Users/dann/\x2ecargo/bin\x1e/opt/homebrew/opt/curl/bin\x1e/opt/homebrew/opt/libtool/libexec/gnubin\x1e/opt/homebrew/opt/gnu\x2dsed/libexec/gnubin\x1e/opt/homebrew/opt/make/libexec/gnubin\x1e/Users/dann/4ms/stm32/gcc\x2darm\x2dnone\x2deabi\x2d10\x2d2021\x2dq1\x2dupdate/bin\x1e/opt/homebrew/bin\x1e/Users/dann/\x2eespressif/tools/xtensa\x2desp32\x2delf/esp\x2d2019r2\x2d8\x2e2\x2e0/xtensa\x2desp32\x2delf/bin\x1e/usr/local/bin\x1e/Users/dann/bin\x1e/Users/dann/Library/Python/3\x2e8/bin\x1e/Users/dann/Library/Python/3\x2e9/bin\x1e/usr/local/opt/gnu\x2dsed/libexec/gnubin\x1e/usr/local/opt/make/libexec/gnubin
+SETUVAR fish_user_paths:/Users/design/4ms/stm32/gcc\x2darm\x2dnone\x2deabi\x2d10\x2e3\x2d2021\x2e07/bin\x1e/Users/design/\x2ecargo/bin\x1e/Users/design/\x2elocal/bin\x1e/Users/design/bin\x1e/Users/design/Library/Python/3\x2e9/bin\x1e/Users/dann/\x2ecargo/bin\x1e/opt/homebrew/opt/curl/bin\x1e/opt/homebrew/opt/libtool/libexec/gnubin\x1e/opt/homebrew/opt/gnu\x2dsed/libexec/gnubin\x1e/opt/homebrew/opt/make/libexec/gnubin\x1e/Users/dann/4ms/stm32/gcc\x2darm\x2dnone\x2deabi\x2d10\x2d2021\x2dq1\x2dupdate/bin\x1e/opt/homebrew/bin\x1e/Users/dann/\x2eespressif/tools/xtensa\x2desp32\x2delf/esp\x2d2019r2\x2d8\x2e2\x2e0/xtensa\x2desp32\x2delf/bin\x1e/usr/local/bin\x1e/Users/dann/bin\x1e/Users/dann/Library/Python/3\x2e8/bin\x1e/Users/dann/Library/Python/3\x2e9/bin\x1e/usr/local/opt/gnu\x2dsed/libexec/gnubin\x1e/usr/local/opt/make/libexec/gnubin
