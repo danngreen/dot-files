@@ -2,6 +2,7 @@
 --formatoptions gets cleared/reset by some plugin?
 
 require "plugins"
+local vim = vim --one warning here instead of a gazillion warnings everywhere
 
 --Options
 vim.o.makeprg = "make -j16"
@@ -28,12 +29,6 @@ vim.o.updatetime = 300
 vim.o.timeoutlen = 600
 vim.wo.signcolumn = "yes"
 vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
--- vim.o.formatoptions = vim.o.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
--- vim.o.formatoptions = vim.o.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
-
--- vim.go.formatoptions = vim.go.formatoptions.."n"  --Format lists
--- vim.go.formatoptions = vim.go.formatoptions:gsub("r", "")	 -- Don't insert comment leader after pressing <Enter>
--- vim.go.formatoptions = vim.go.formatoptions:gsub("o", "")	 -- Don't insert comment leader after pressing o or O
 vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
 vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
 -- vim.cmd[[set formatoptions-=o]]
@@ -89,14 +84,4 @@ vim.api.nvim_exec(
 	false
 )
 
---Instead of .nvimrc, we have this... for each and every directory (how convenient!!!)
-vim.api.nvim_exec(
-	[[
-  augroup nvimrc
-    autocmd!
-    autocmd DirChanged ~/4ms/stm32/meta-module/firmware source .nvimrc
-    autocmd DirChanged ~/4ms/stm32/meta-module/vcv source .nvimrc
-  augroup end
-]],
-	false
-)
+vim.cmd[[set exrc]]
