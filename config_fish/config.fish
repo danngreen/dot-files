@@ -26,9 +26,10 @@ fish_add_path $BREW_PREFIX/opt/curl/bin
 set -gx IDF_PATH $HOME/4ms/esp/esp-idf-4.3.1
 
 set -gx RACK_DIR $HOME/4ms/vcv/Rack
-set -gx METAMODULE_ARTWORK_DIR $HOME/4ms/stm32/meta-module/vcv/res
+set -gx METAMODULE_ARTWORK_DIR $HOME/4ms/stm32/meta-module/vcv/res/modules
 set -gx METAMODULE_INFO_DIR $HOME/4ms/stm32/meta-module/shared/CoreModules/info
 set -gx METAMODULE_PNG_DIR $HOME/4ms/stm32/meta-module/firmware/src/pages/images
+set -gx METAMODULE_COREMODULE_DIR $HOME/4ms/stm32/meta-module/shared/CoreModules
 
 
 function showpath
@@ -49,6 +50,8 @@ function removepath
         echo "$argv[1] not found in PATH: $PATH"
     end
 end
+
+set fish_greeting
 
 # C-space = accept autosuggestion
 bind -k nul -M insert accept-autosuggestion
