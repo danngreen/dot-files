@@ -353,7 +353,7 @@ nvim_lspconfig.pyright.setup{
 
 nvim_lspconfig.html.setup {
 	on_attach = on_attach_vim,
-	cmd = {"/usr/local/bin/html-languageserver", "--stdio"},
+	cmd = {"html-languageserver", "--stdio"},
 	filetypes = {"html"},
 	init_options = {
 		configurationSection = {"html", "css", "javascript"},
