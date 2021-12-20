@@ -78,8 +78,8 @@ local on_attach_vim = function(client, bufnr)
 	nnoremap_cmd("gD", "lua vim.lsp.buf.declaration()")
 
 	-- if client.resolved_capabilities.type_definition then
-	nnoremap_cmd("gi", "lua vim.lsp.buf.type_definition()") --not supported by clangd, but works in ccls
-	nnoremap_cmd("gI", "lua vim.lsp.buf.implementation()") --not supported by clangd...
+	nnoremap_cmd("gi", "lua vim.lsp.buf.type_definition()")
+	nnoremap_cmd("gI", "lua vim.lsp.buf.implementation()")
 	nnoremap_cmd("gn", "lua vim.lsp.buf.incoming_calls()")
 	nnoremap_cmd("gN", "lua vim.lsp.buf.outgoing_calls()")
 
@@ -213,18 +213,18 @@ if (useclangd) then
 			"--background-index",
 			--"--log=verbose",
 			"-j=32",
-			"--cross-file-rename",
+			--"--cross-file-rename", --not used in clangd 13
 			"--fallback-style=LLVM",
 			"--clang-tidy",
 			-- "--all-scopes-completion",
 			"--header-insertion=iwyu",
 			"--header-insertion-decorators",
 			"--completion-style=bundled",
-			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
+			"--query-driver=/Users/**/.espressif/tools/xtensa-esp32-elf/**/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/esp-2021r1-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/**/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
-			"--query-driver=/Users/dann/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+			"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 			"--query-driver=/Users/design/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--pch-storage=memory",
