@@ -221,11 +221,8 @@ if (useclangd) then
 			"--header-insertion-decorators",
 			"--completion-style=bundled",
 			"--query-driver=/Users/**/.espressif/tools/xtensa-esp32-elf/**/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/esp-2021r1-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
-			"--query-driver=**/.espressif/tools/xtensa-esp32-elf/**/xtensa-esp32-elf/bin/xtensa-esp32-elf-*",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 			"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
-			"--query-driver=/Users/design/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--pch-storage=memory",
 			"--enable-config"
