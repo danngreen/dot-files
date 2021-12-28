@@ -4,6 +4,8 @@
 require "plugins"
 local vim = vim --one warning here instead of a gazillion warnings everywhere
 
+local vim = vim
+
 --Options
 vim.o.makeprg = "make -j16"
 vim.o.encoding = "UTF-8" -- Do we need this?
@@ -28,11 +30,6 @@ vim.o.cmdheight = 1
 vim.o.updatetime = 300
 vim.o.timeoutlen = 600
 vim.wo.signcolumn = "yes"
-vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
-vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
-vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
--- vim.cmd[[set formatoptions-=o]]
--- vim.cmd[[set formatoptions-=r]]
 
 vim.o.shortmess = vim.o.shortmess .. "c" -- Avoid showing message extra message when using completion
 vim.api.nvim_command("set shortmess-=F") -- Allows messages to echo while processing filetypes
@@ -44,7 +41,6 @@ vim.o.path = ".,,**"
 require "keys"
 
 -- Display
--- vim.o.guifont = "Roboto_Mono_Light_Nerd_Font_Complete_Mono:h13"
 vim.o.guifont = "Inconsolata_Regular_Nerd_Font_Complete_Mono:h13"
 vim.o.termguicolors = true
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait1-blinkon150-blinkoff50"
@@ -85,3 +81,8 @@ vim.api.nvim_exec(
 )
 
 vim.cmd[[set exrc]]
+
+--Set these last, some plugin overrides them. TODO: which one?
+vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
+vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
+vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
