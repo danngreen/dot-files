@@ -21,6 +21,7 @@ fish_add_path $BREW_PREFIX/bin
 fish_add_path $BREW_PREFIX/opt/make/libexec/gnubin
 fish_add_path $BREW_PREFIX/opt/gnu-sed/libexec/gnubin
 fish_add_path $BREW_PREFIX/opt/libtool/libexec/gnubin
+fish_add_path $BREW_PREFIX/opt/llvm/bin
 fish_add_path $BREW_PREFIX/opt/curl/bin
 
 set -gx IDF_PATH $HOME/4ms/esp/esp-idf-4.3.1
