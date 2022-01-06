@@ -211,7 +211,7 @@ if (useclangd) then
 		cmd = {
 			"clangd",
 			"--background-index",
-			"--log=verbose",
+			--"--log=verbose",
 			"-j=32",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
@@ -297,7 +297,7 @@ nvim_lspconfig.sumneko_lua.setup {
 
 nvim_lspconfig.rust_analyzer.setup {
 	on_attach = on_attach_vim,
-	cmd = {"/usr/local/bin/rust-analyzer"},
+	cmd = {"rust-analyzer"},
 	filetypes = {"rust"},
 	-- root_dir = nvim_lspconfig.util.root_pattern("Cargo.toml"),
 	root_dir = function(fname)
