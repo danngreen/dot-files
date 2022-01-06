@@ -93,8 +93,8 @@ cmp.setup {
 		--{name = 'fuzzy_path'},
 		{name = "path"},
 		{name = "calc"},
-		{name = "buffer", keyword_length = 3, max_entries=10},
-		{name = "dictionary", keyword_length = 2, max_entries=10}
+		{name = "buffer", keyword_length = 3, max_item_count=10},
+		{name = "dictionary", keyword_length = 5, max_item_count=10}
 		--{name = "rg"},
 	},
 	documentation = {
@@ -110,7 +110,7 @@ require("cmp_dictionary").setup({
     dic = {
         ["*"] = "/usr/share/dict/words",
     },
-    exact = 2,
+    exact = 3,
     async = false,
     capacity = 5,
     debug = false,
