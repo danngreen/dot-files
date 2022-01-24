@@ -33,6 +33,14 @@ _M.config = function()
 			["header"] = {"fg", "Comment"},
 			["gutter"] = {"bg", "Normal"}
 		},
+		previewers = {
+			git_diff = {
+				-- cmd_deleted     = "git diff --color HEAD --",
+				-- cmd_modified    = "git diff --color HEAD",
+				-- cmd_untracked   = "git diff --color --no-index /dev/null",
+				pager = "delta",
+			},
+		},
 		files = {
 			cmd = "rg --files --follow -g'!lib/u-boot/*'"
 		},

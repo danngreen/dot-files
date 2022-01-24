@@ -55,17 +55,17 @@ local on_attach_vim = function(client, bufnr)
 	--Symbol info (hover/signature)
 	nnoremap_cmd("K", "lua vim.lsp.buf.hover()")
 	nnoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
-	inoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
+	--inoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
 
 	require "lsp_signature".on_attach(
 		{
 			bind = true,
 			fix_pos = true,
 			always_trigger = false,
-			floating_window = false,
+			floating_window = true,
 			floating_window_above_cur_line = true,
-			handler_opts = {border = "single"},
-			--toggle_key = '<C-k>',
+			handler_opts = {border = "rounded"},
+			toggle_key = '<C-k>', --in insert mode
 			hint_enable = false
 		},
 		bufnr
@@ -221,6 +221,7 @@ if (useclangd) then
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 			"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
+			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--pch-storage=memory",
 			"--enable-config"
 		},

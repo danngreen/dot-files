@@ -12,6 +12,7 @@ SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_pj_files:/Users/dann/\x2econfig/fi
 SETUVAR _fisher_patrickf1_2F_colored__man__pages_2E_fish_files:/Users/dann/\x2econfig/fish/functions/cless\x2efish\x1e/Users/dann/\x2econfig/fish/functions/man\x2efish
 SETUVAR _fisher_plugins:PatrickF1/fzf\x2efish\x1ejorgebucaran/fisher\x1eedc/bass\x1eMarkcial/upto\x1eoh\x2dmy\x2dfish/plugin\x2dpj\x1epatrickf1/colored_man_pages\x2efish\x1eoh\x2dmy\x2dfish/plugin\x2dbang\x2dbang\x1ejoelwanner/theme\x2dboxfish\x1ejorgebucaran/hydro
 SETUVAR _hydro_git_12137:nightly\x20
+SETUVAR _hydro_git_1486:master\x20\u21939\x20
 SETUVAR _hydro_git_19493:v2022\x2e01\x2drc3\u2022\x20
 SETUVAR _hydro_git_3081:idf\x2d4\x2e3\x2e1\u2022\x20\u21911\x20
 SETUVAR fish_color_autosuggestion:707A8C
