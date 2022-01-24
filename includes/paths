@@ -1,26 +1,34 @@
 # vim: set filetype=zsh:
-if [ -d "/usr/local/opt/make/libexec/gnubin" ] ; then
-    export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
-fi
-
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export PATH="$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
-export PATH="$HOME/Library/Python/3.8/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin:$PATH"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:/usr/local/opt/llvm/bin"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-export IDF_PATH=~/4ms/esp/esp-idf_4.0.1
+BREW_PREFIX=`brew --prefix`
+export $PATH="$BREW_PREFIX/bin:$PATH"
+export $PATH="$BREW_PREFIX/opt/make/libexec/gnubin:$PATH"
+export $PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+export $PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
+export $PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
+export $PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
+
+# Are these needed? We don't use them in fish
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+# export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+# export PATH="$HOME/Library/Python/3.8/bin:$PATH"
+# export PATH="$HOME/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin:$PATH"
+
+export IDF_PATH=~/4ms/esp/esp-idf-4.3.1
 
 export PYTHONPATH=$PYTHONPATH:'.'
+export RACK_DIR=$HOME/4ms/vcv/Rack
+set METAMODULE_BASE_DIR $HOME/4ms/stm32/meta-module
+
+export METAMODULE_ARTWORK_DIR=$METAMODULE_BASE_DIR/vcv/res/modules
+export METAMODULE_INFO_DIR=$METAMODULE_BASE_DIR/shared/CoreModules/info
+export METAMODULE_PNG_DIR=$METAMODULE_BASE_DIR/firmware/src/pages/images
+export METAMODULE_COREMODULE_DIR=$METAMODULE_BASE_DIR/shared/CoreModules
+export METAMODULE_VCV_DIR=$METAMODULE_BASE_DIR/vcv
 
 export ARM_NONE_EABI_PATH=$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi
-
-export RACK_DIR=$HOME/4ms/vcv/Rack
-export METAMODULE_ARTWORK_DIR=$HOME/4ms/stm32/meta-module/vcv/res
-export METAMODULE_INFO_DIR=$HOME/4ms/stm32/meta-module/shared/CoreModules/info
-export METAMODULE_PNG_DIR=$HOME/4ms/stm32/meta-module/firmware/src/pages/images
+export PATH="$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
