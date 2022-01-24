@@ -5,12 +5,12 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 BREW_PREFIX=`brew --prefix`
-export $PATH="$BREW_PREFIX/bin:$PATH"
-export $PATH="$BREW_PREFIX/opt/make/libexec/gnubin:$PATH"
-export $PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
-export $PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
-export $PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
-export $PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
+export PATH="$BREW_PREFIX/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/make/libexec/gnubin:$PATH"
+export PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
+export PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
 
 # Are these needed? We don't use them in fish
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -30,5 +30,7 @@ export METAMODULE_PNG_DIR=$METAMODULE_BASE_DIR/firmware/src/pages/images
 export METAMODULE_COREMODULE_DIR=$METAMODULE_BASE_DIR/shared/CoreModules
 export METAMODULE_VCV_DIR=$METAMODULE_BASE_DIR/vcv
 
-export ARM_NONE_EABI_PATH=$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi
-export PATH="$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
+source ~/.config/zsh/paths.local
+# paths.local contains (for work iMac):
+# export ARM_NONE_EABI_PATH=$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi
+# export PATH="$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
