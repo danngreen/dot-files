@@ -147,6 +147,9 @@ require("packer").startup(
 		}
 
 		-- Debugging
+		use {'simrat39/rust-tools.nvim', config = function()
+			require('rust-tools').setup({})
+		end}
 		use {
 			"mfussenegger/nvim-dap",
 			config = function()
