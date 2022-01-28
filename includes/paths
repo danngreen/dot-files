@@ -22,8 +22,8 @@ export IDF_PATH=~/4ms/esp/esp-idf-4.3.1
 
 export PYTHONPATH=$PYTHONPATH:'.'
 export RACK_DIR=$HOME/4ms/vcv/Rack
-set METAMODULE_BASE_DIR $HOME/4ms/stm32/meta-module
 
+METAMODULE_BASE_DIR=$HOME/4ms/stm32/meta-module
 export METAMODULE_ARTWORK_DIR=$METAMODULE_BASE_DIR/vcv/res/modules
 export METAMODULE_INFO_DIR=$METAMODULE_BASE_DIR/shared/CoreModules/info
 export METAMODULE_PNG_DIR=$METAMODULE_BASE_DIR/firmware/src/pages/images
