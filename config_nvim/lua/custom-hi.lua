@@ -24,6 +24,8 @@ hi! TelescopePromptBorder guifg=cyan
 
 hi diffAdded guibg=#447744 
 hi diffRemoved guibg=#774444
+hi DiffChange guibg=#282840
+hi DiffText guibg=#27406b
 hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
 hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
 hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
