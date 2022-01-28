@@ -56,7 +56,7 @@ require("packer").startup(
 		use {"neovim/nvim-lspconfig"}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
-		use {"ray-x/lsp_signature.nvim"}
+		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
 		use {"m-pilia/vim-ccls"}
 		use {"rust-lang/rust.vim"}
 		use {
