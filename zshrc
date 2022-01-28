@@ -34,7 +34,7 @@ RPROMPT='$(git_prompt_info)'
 
 source ~/dot-files/includes/keys
 source ~/dot-files/includes/paths
-source ~/.iterm2_shell_integration.zsh
+#source ~/.iterm2_shell_integration.zsh
 
 # Autosuggest:
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#888888,bg=#404040,bold'
