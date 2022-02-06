@@ -57,4 +57,5 @@ alias vi=nvim
 alias startidf='. $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
 alias g=git
+alias pip=pip3
 alias luamake=$HOME/bin/lua-language-server/3rd/luamake/luamake

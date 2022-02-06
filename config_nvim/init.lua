@@ -82,7 +82,11 @@ vim.api.nvim_exec(
 
 vim.cmd[[set exrc]]
 
+-- TODO: put this in after/
 --Set these last, some plugin overrides them. TODO: which one?
 vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
 vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
 vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
+
+
+require('dap-setup')
