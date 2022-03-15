@@ -9,7 +9,10 @@ _M.config = function()
 	require "fzf-lua".setup {
 		--fzf_bin = "/usr/local/bin/fzf",
 		winopts = {
-			fullscreen = false
+			fullscreen = false,
+			preview = {
+				layout = 'vertical'
+			},
 		},
 		fzf_opts = {
 			["--layout"] = "default" --vs. 'reverse'
