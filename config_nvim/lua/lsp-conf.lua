@@ -18,17 +18,17 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Formatting
 
-FormatSetState = function(value)
-	vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
-end
+-- FormatSetState = function(value)
+-- 	vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
+-- end
 
-conf_lsp.lsp_format = function()
-	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
-		vim.lsp.buf.formatting_sync(nil, 300)
-	-- Can pass options to the formatter:
-	-- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
-	end
-end
+-- conf_lsp.lsp_format = function()
+-- 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
+-- 		vim.lsp.buf.formatting_sync(nil, 300)
+-- 	-- Can pass options to the formatter:
+-- 	-- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
+-- 	end
+-- end
 
 -- Diagnostics
 
@@ -45,9 +45,9 @@ conf_lsp.virt_text = virt_text
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
 
-	local inoremap_cmd = function(k, c)
-		vim.api.nvim_buf_set_keymap(bufnr, "i", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
-	end
+	-- local inoremap_cmd = function(k, c)
+	-- 	vim.api.nvim_buf_set_keymap(bufnr, "i", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
+	-- end
 	local nnoremap_cmd = function(k, c)
 		vim.api.nvim_buf_set_keymap(bufnr, "n", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
 	end
@@ -128,8 +128,8 @@ local on_attach_vim = function(client, bufnr)
 		vim.cmd [[autocmd! * <buffer>]]
 		vim.cmd [[autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format() ]]
 		vim.cmd [[augroup END]]
-		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
-		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
+		-- vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
+		-- vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
 	end
 end
 
