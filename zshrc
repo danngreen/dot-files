@@ -17,7 +17,8 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git colored-man-pages colorize pip python brew macos fd pj zsh-syntax-highlighting zsh-autosuggestions) #vi-mode) 
+plugins=(git colored-man-pages colorize pip python brew macos fd pj zsh-syntax-highlighting) 
+#disabled: zsh-autosuggestions vi-mode
 
 KEYTIMEOUT=5
 # VI_MODE_SET_CURSOR=true
