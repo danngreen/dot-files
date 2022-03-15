@@ -13,8 +13,8 @@ local vnoremap = function(k, c)
 	map("v", k, c, {noremap = true})
 end
 
-vim.g.mapleader = ","
-vim.g.localmapleader = ","
+vim.g.mapleader = " "
+vim.g.localmapleader = " "
 nnoremap("<space>s", "<cmd>:w<CR>")
 nnoremap("<space>", "<cmd>noh<CR>")
 nnoremap("Y", "y$")
@@ -73,7 +73,7 @@ nnoremap("<leader><leader><F16>", ':lua require"fzf-lua".live_grep_resume()<CR>'
 --nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
-nnoremap("<F17>", ':lua require"fzf-lua".live_grep({cwd = vim.fn.input("Dir: ")})<CR>')
+nnoremap("<F17>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
 
 nnoremap("<F8>", "<cmd>FloatermToggle<CR>")
 tnoremap("<F8>", "<C-\\><C-n>:FloatermToggle<CR>")
