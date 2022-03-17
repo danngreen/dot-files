@@ -227,25 +227,107 @@ if (useclangd) then
 		init_options = {clangdFileStatus = false},
 		commands = {
 			ClangdSwitchSourceHeader = {
-				function()
-					switch_source_header_splitcmd(0, "edit")
-				end,
+				function() switch_source_header_splitcmd(0, "edit") end,
 				description = "Open source/header in a new vsplit"
 			},
 			ClangdSwitchSourceHeaderVSplit = {
-				function()
-					switch_source_header_splitcmd(0, "vsplit")
-				end,
+				function() switch_source_header_splitcmd(0, "vsplit") end,
 				description = "Open source/header in a new vsplit"
 			},
 			ClangdSwitchSourceHeaderSplit = {
-				function()
-					switch_source_header_splitcmd(0, "split")
-				end,
+				function() switch_source_header_splitcmd(0, "split") end,
 				description = "Open source/header in a new split"
 			}
 		}
 	}
+
+	--require("clangd_extensions").setup {
+    --server = {
+        ---- options to pass to nvim-lspconfig
+        ---- i.e. the arguments to require("lspconfig").clangd.setup({})
+	--	cmd = {
+	--		"/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
+	--		--"clangd",
+	--		"--background-index",
+	--		"--log=verbose",
+	--		"-j=32",
+	--		"--fallback-style=LLVM",
+	--		"--clang-tidy",
+	--		"--header-insertion=iwyu",
+	--		"--header-insertion-decorators",
+	--		"--completion-style=bundled",
+	--		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
+	--		"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+	--		"--query-driver=/usr/bin/g*",
+	--		"--query-driver=/usr/local/opt/llvm/bin/clang*",
+	--		"--pch-storage=memory",
+	--		"--enable-config"
+	--	},
+	--	filetypes = {"c", "cpp"},
+	--	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json"),
+	--	on_attach = on_attach_vim,
+	--	capabilities = capabilities,
+
+	--	on_init = function(client)
+	--		client.config.flags.allow_incremental_sync = true
+	--		client.config.flags.debounce_text_changes = 100
+	--	end,
+	--	init_options = {clangdFileStatus = false},
+	--	commands = {
+	--		ClangdSwitchSourceHeader = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "edit")
+	--			end,
+	--			description = "Open source/header in a new vsplit"
+	--		},
+	--		ClangdSwitchSourceHeaderVSplit = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "vsplit")
+	--			end,
+	--			description = "Open source/header in a new vsplit"
+	--		},
+	--		ClangdSwitchSourceHeaderSplit = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "split")
+	--			end,
+	--			description = "Open source/header in a new split"
+	--		}
+	--	}
+    --},
+    --extensions = {
+        --autoSetHints = true,
+        ---- Whether to show hover actions inside the hover window
+        ---- This overrides the default hover handler
+        --hover_with_actions = true,
+        --inlay_hints = {
+            --only_current_line = true,
+            ---- Event which triggers a refresh of the inlay hints.
+            ---- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
+            ---- not that this may cause  higher CPU usage.
+            ---- This option is only respected when only_current_line and
+            ---- autoSetHints both are true.
+            --only_current_line_autocmd = "CursorMoved,CursorHold",
+            ---- wheter to show parameter hints with the inlay hints or not
+            --show_parameter_hints = true,
+            ---- whether to show variable name before type hints with the inlay hints or not
+            --show_variable_name = true,
+            ---- prefix for parameter hints
+            --parameter_hints_prefix = "<- ",
+            ---- prefix for all the other hints (type, chaining)
+            --other_hints_prefix = "=> ",
+            ---- whether to align to the length of the longest line in the file
+            --max_len_align = true,
+            ---- padding from the left if max_len_align is true
+            --max_len_align_padding = 1,
+            ---- whether to align to the extreme right or not
+            --right_align = false,
+            ---- padding from the right if right_align is true
+            --right_align_padding = 7,
+            ---- The color of the hints
+            --highlight = "DiagnosticHint",
+        --},
+    --}
+--}
 end --Clangd
 
 -- ccls
