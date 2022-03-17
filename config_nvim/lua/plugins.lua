@@ -144,6 +144,10 @@ require("packer").startup(
 				require("gitsigns").setup()
 			end
 		}
+		use {'mbbill/undotree', config = function()
+			vim.cmd([[set undodir=$HOME/.cache/nvim/undotree]])
+			vim.cmd([[set undofile]])
+		end}
 
 		-- Debugging
 		use {'simrat39/rust-tools.nvim', config = function()
