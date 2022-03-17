@@ -13,8 +13,8 @@ local vnoremap = function(k, c)
 	map("v", k, c, {noremap = true})
 end
 
-vim.g.mapleader = " "
-vim.g.localmapleader = " "
+vim.g.mapleader = ","
+vim.g.localmapleader = ","
 nnoremap("<space>s", "<cmd>:w<CR>")
 nnoremap("<space>", "<cmd>noh<CR>")
 nnoremap("Y", "y$")
