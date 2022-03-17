@@ -96,17 +96,6 @@ local on_attach_vim = function(client, bufnr)
 	--Formatting
 	require "lsp-format".on_attach(client)
 
-	-- if client.resolved_capabilities.document_formatting then
-	-- 	vim.api.nvim_exec([[
-	-- 		augroup Format
-	-- 		autocmd! * <buffer>
-	-- 		autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format()
-	-- 		augroup END
-	-- 		command! FormatDisable lua FormatSetState(true)
-	-- 		command! FormatEnable lua FormatSetState(false)
-	-- 	]], false )
-	-- end
-
 	-- require "lsp_signature".on_attach(
 	-- 	{
 	-- 		bind = true,
@@ -120,7 +109,6 @@ local on_attach_vim = function(client, bufnr)
 	-- 	},
 	-- 	bufnr
 	-- )
-
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
