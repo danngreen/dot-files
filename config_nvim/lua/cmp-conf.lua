@@ -90,6 +90,7 @@ cmp.setup {
 	sources = {
 		{name = "nvim_lsp"},
 		{name = "nvim_lua"},
+		{ name = "nvim_lsp_signature_help" },
 		--{name = 'fuzzy_path'},
 		{name = "path"},
 		{name = "calc"},
@@ -111,9 +112,9 @@ require("cmp_dictionary").setup({
         ["*"] = "/usr/share/dict/words",
     },
     exact = 3,
-    async = false,
-    capacity = 5,
-    debug = false,
+    -- async = false,
+    -- capacity = 5,
+    -- debug = false,
 })
 
 
