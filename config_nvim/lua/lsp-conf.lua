@@ -45,81 +45,52 @@ conf_lsp.virt_text = virt_text
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
 
-	local inoremap_cmd = function(k, c)
-		vim.api.nvim_buf_set_keymap(bufnr, "i", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
-	end
-	local nnoremap_cmd = function(k, c)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
-	end
-
 	--Symbol info (hover/signature)
-	nnoremap_cmd("K", "lua vim.lsp.buf.hover()")
-	nnoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
-	--inoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
-
-	require "lsp_signature".on_attach(
-		{
-			bind = true,
-			fix_pos = true,
-			always_trigger = false,
-			floating_window = true,
-			floating_window_above_cur_line = true,
-			handler_opts = {border = "rounded"},
-			toggle_key = '<C-k>', --in insert mode
-			hint_enable = false
-		},
-		bufnr
-	)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
+	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {buffer=0})
 
 	--Refs/Defs
-	nnoremap_cmd("gd", "lua vim.lsp.buf.definition()")
-	nnoremap_cmd("gr", "lua require'lsp-conf'.pretty_telescope.pretty_refs()")
-	nnoremap_cmd("gD", "lua vim.lsp.buf.declaration()")
-
-	-- if client.resolved_capabilities.type_definition then
-	nnoremap_cmd("gi", "lua vim.lsp.buf.type_definition()")
-	nnoremap_cmd("gI", "lua vim.lsp.buf.implementation()")
-	nnoremap_cmd("gn", "lua vim.lsp.buf.incoming_calls()")
-	nnoremap_cmd("gN", "lua vim.lsp.buf.outgoing_calls()")
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
+	vim.keymap.set("n", "gr", require'lsp-conf'.pretty_telescope.pretty_refs, {buffer=0})
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {buffer=0})
+	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, {buffer=0})
+	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, {buffer=0})
+	vim.keymap.set("n", "gn", vim.lsp.buf.incoming_calls, {buffer=0})
+	vim.keymap.set("n", "gN", vim.lsp.buf.outgoing_calls, {buffer=0})
 
 	--Symbols
-	nnoremap_cmd("gw", "Telescope lsp_dynamic_workspace_symbols")
-	nnoremap_cmd("g0", "lua vim.lsp.buf.document_symbol()")
+	vim.keymap.set("n", "gw", "<cmd>Telescope lsp_dynamic_workspace_symbols", {buffer=0})
+	vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, {buffer=0})
 
-	nnoremap_cmd("<leader>ff", "lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor())")
+	vim.keymap.set("n", "<leader>ff", function() require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor()) end, {buffer=0})
 	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()') --Doesn't work? See comment in handlers below
 
-	nnoremap_cmd("<leader>rn", "lua Rename.rename()")
-
-	--Switch header (replaced with Alternate File)
-	nnoremap_cmd("<M-h>", "ClangdSwitchSourceHeader")
-	nnoremap_cmd("<leader>h", "ClangdSwitchSourceHeaderVSplit")
+	vim.keymap.set("n", "<leader>rn", Rename.rename, {buffer=0})
+	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", {buffer=0})
+	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", {buffer=0})
 
 	--Diagnostics
-	nnoremap_cmd("<leader>e", 'lua vim.diagnostic.open_float({scope="line"})')
-	nnoremap_cmd("<leader>E", 'lua vim.diagnostic.open_float({scope="buffer"})')
-	nnoremap_cmd("<leader>f]", "lua vim.diagnostic.goto_next()")
-	nnoremap_cmd("<leader>f[", "lua vim.diagnostic.goto_prev()")
-	nnoremap_cmd("<leader>fp", "lua vim.diagnostic.setloclist()")
-	nnoremap_cmd("<leader>fP", "lua vim.diagnostic.setqflist()")
-	nnoremap_cmd("<leader>fC", "lua vim.diagnostic.disable(0)")
-	nnoremap_cmd("<leader>fc", "lua require'lsp-conf'.virt_text.toggle()")
+	vim.keymap.set("n", "<leader>e",  function() vim.diagnostic.open_float({scope="line"}) end, {buffer=0})
+	vim.keymap.set("n", "<leader>E",  function() vim.diagnostic.open_float({scope="buffer"}) end, {buffer=0})
+	vim.keymap.set("n", "<leader>f]", vim.diagnostic.goto_next, {buffer=0})
+	vim.keymap.set("n", "<leader>f[", vim.diagnostic.goto_prev, {buffer=0})
+	vim.keymap.set("n", "<leader>fp", vim.diagnostic.setloclist, {buffer=0})
+	vim.keymap.set("n", "<leader>fP", vim.diagnostic.setqflist, {buffer=0})
+	vim.keymap.set("n", "<leader>fC", function() vim.diagnostic.disable(0) end, {buffer=0})
+	vim.keymap.set("n", "<leader>fc", require'lsp-conf'.virt_text.toggle, {buffer=0})
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
 
 	--Highlight current word
 	if client.resolved_capabilities.document_highlight then
-		vim.api.nvim_exec(
-			[[
+		vim.api.nvim_exec([[
 			augroup lsp_document_highlight
 				autocmd!
 				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
 				autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 			augroup END
-		]],
-			false
-		)
+		]], false)
 	end
 
 	--Formatting
@@ -135,6 +106,21 @@ local on_attach_vim = function(client, bufnr)
 	-- 		command! FormatEnable lua FormatSetState(false)
 	-- 	]], false )
 	-- end
+
+	-- require "lsp_signature".on_attach(
+	-- 	{
+	-- 		bind = true,
+	-- 		fix_pos = true,
+	-- 		always_trigger = false,
+	-- 		floating_window = true,
+	-- 		floating_window_above_cur_line = true,
+	-- 		handler_opts = {border = "rounded"},
+	-- 		toggle_key = '<C-k>', --in insert mode
+	-- 		hint_enable = false
+	-- 	},
+	-- 	bufnr
+	-- )
+
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
