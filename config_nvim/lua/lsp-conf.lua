@@ -198,10 +198,12 @@ if (useclangd) then
 	end
 
 	nvim_lspconfig.clangd.setup {
+		autostart=true,
 		cmd = {
+			-- "/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
 			"clangd",
 			"--background-index",
-			--"--log=verbose",
+			-- "--log=verbose",
 			"-j=32",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
@@ -216,7 +218,7 @@ if (useclangd) then
 			"--enable-config"
 		},
 		filetypes = {"c", "cpp"},
-		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json"),
+		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json", "build/compile_commands.json"),
 		on_attach = on_attach_vim,
 		capabilities = capabilities,
 
