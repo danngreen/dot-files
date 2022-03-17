@@ -102,10 +102,9 @@ require("packer").startup(
 		use {"nvim-treesitter/nvim-treesitter-refactor"}
 
 		use {"majutsushi/tagbar", config = "vim.g.tagbar_file_size_limit = 400000"}
-		use {
-			"lukas-reineke/format.nvim",
+		use {"lukas-reineke/format.nvim",
 			config = function()
-				require "format".setup {
+				require "lsp-format".setup {
 					--npm i -g lua-fmt
 					lua = {{cmd = {"luafmt -l 120 --use-tabs -i 4 -w replace"}}},
 					vim = {

@@ -18,17 +18,17 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Formatting
 
-FormatSetState = function(value)
-	vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
-end
+-- FormatSetState = function(value)
+-- 	vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
+-- end
 
-conf_lsp.lsp_format = function()
-	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
-		vim.lsp.buf.formatting_sync(nil, 300)
-	-- Can pass options to the formatter:
-	-- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
-	end
-end
+-- conf_lsp.lsp_format = function()
+-- 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
+-- 		vim.lsp.buf.formatting_sync(nil, 300)
+-- 	-- Can pass options to the formatter:
+-- 	-- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
+-- 	end
+-- end
 
 -- Diagnostics
 
@@ -123,14 +123,18 @@ local on_attach_vim = function(client, bufnr)
 	end
 
 	--Formatting
-	if client.resolved_capabilities.document_formatting then
-		vim.cmd [[augroup Format]]
-		vim.cmd [[autocmd! * <buffer>]]
-		vim.cmd [[autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format() ]]
-		vim.cmd [[augroup END]]
-		vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
-		vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
-	end
+	require "lsp-format".on_attach(client)
+
+	-- if client.resolved_capabilities.document_formatting then
+	-- 	vim.api.nvim_exec([[
+	-- 		augroup Format
+	-- 		autocmd! * <buffer>
+	-- 		autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format()
+	-- 		augroup END
+	-- 		command! FormatDisable lua FormatSetState(true)
+	-- 		command! FormatEnable lua FormatSetState(false)
+	-- 	]], false )
+	-- end
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
