@@ -56,8 +56,9 @@ require("packer").startup(
 		use {"neovim/nvim-lspconfig"}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
-		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
+		--use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
 		use {"m-pilia/vim-ccls"}
+		use {"p00f/clangd_extensions.nvim"}
 		use {"rust-lang/rust.vim"}
 		use {
 			"hrsh7th/nvim-cmp",
@@ -69,7 +70,8 @@ require("packer").startup(
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-calc",
 				"uga-rosa/cmp-dictionary",
-				"hrsh7th/cmp-cmdline",
+				-- "hrsh7th/cmp-cmdline",
+				"hrsh7th/cmp-nvim-lsp-signature-help",
 			}
 		}
 		--
@@ -102,8 +104,7 @@ require("packer").startup(
 		use {"nvim-treesitter/nvim-treesitter-refactor"}
 
 		use {"majutsushi/tagbar", config = "vim.g.tagbar_file_size_limit = 400000"}
-		use {
-			"lukas-reineke/format.nvim",
+		use {"lukas-reineke/format.nvim",
 			config = function()
 				require "lsp-format".setup {
 					--npm i -g lua-fmt
@@ -145,6 +146,10 @@ require("packer").startup(
 				require("gitsigns").setup()
 			end
 		}
+		use {'mbbill/undotree', config = function()
+			vim.cmd([[set undodir=$HOME/.cache/nvim/undotree]])
+			vim.cmd([[set undofile]])
+		end}
 
 		-- Debugging
 		use {'simrat39/rust-tools.nvim', config = function()

@@ -1,5 +1,7 @@
 _M = {}
 
+local fzf_history_dir = vim.fn.expand('~/.cache/fzf_history')
+
 local monokaicolor = function(name)
 	local hex = require "monokai".classic[name]
 	return hex:gsub("#(%x%x)(%x%x)(%x%x)", "0x%1,0x%2,0x%3")
@@ -11,11 +13,13 @@ _M.config = function()
 		winopts = {
 			fullscreen = false,
 			preview = {
-				layout = 'vertical'
-			},
+				layout = 'vertical',
+				vertical = 'up:50%',
+			}
 		},
 		fzf_opts = {
-			["--layout"] = "default" --vs. 'reverse'
+			["--layout"] = "default", --default vs. 'reverse'
+			["--history"] = fzf_history_dir,
 		},
 		fzf_colors = {
 			["fg"] = {"fg", "Normal"},

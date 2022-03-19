@@ -45,92 +45,70 @@ conf_lsp.virt_text = virt_text
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
 
-	-- local inoremap_cmd = function(k, c)
-	-- 	vim.api.nvim_buf_set_keymap(bufnr, "i", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
-	-- end
-	local nnoremap_cmd = function(k, c)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", k, "<cmd>" .. c .. "<CR>", {noremap = true, silent = true})
-	end
-
 	--Symbol info (hover/signature)
-	nnoremap_cmd("K", "lua vim.lsp.buf.hover()")
-	nnoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
-	--inoremap_cmd("<C-k>", "lua vim.lsp.buf.signature_help()")
-
-	require "lsp_signature".on_attach(
-		{
-			bind = true,
-			fix_pos = true,
-			always_trigger = false,
-			floating_window = true,
-			floating_window_above_cur_line = true,
-			handler_opts = {border = "rounded"},
-			toggle_key = '<C-k>', --in insert mode
-			hint_enable = false
-		},
-		bufnr
-	)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
+	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {buffer=0})
 
 	--Refs/Defs
-	nnoremap_cmd("gd", "lua vim.lsp.buf.definition()")
-	nnoremap_cmd("gr", "lua require'lsp-conf'.pretty_telescope.pretty_refs()")
-	nnoremap_cmd("gD", "lua vim.lsp.buf.declaration()")
-
-	-- if client.resolved_capabilities.type_definition then
-	nnoremap_cmd("gi", "lua vim.lsp.buf.type_definition()")
-	nnoremap_cmd("gI", "lua vim.lsp.buf.implementation()")
-	nnoremap_cmd("gn", "lua vim.lsp.buf.incoming_calls()")
-	nnoremap_cmd("gN", "lua vim.lsp.buf.outgoing_calls()")
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
+	vim.keymap.set("n", "gr", require'lsp-conf'.pretty_telescope.pretty_refs, {buffer=0})
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {buffer=0})
+	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, {buffer=0})
+	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, {buffer=0})
+	vim.keymap.set("n", "gn", vim.lsp.buf.incoming_calls, {buffer=0})
+	vim.keymap.set("n", "gN", vim.lsp.buf.outgoing_calls, {buffer=0})
 
 	--Symbols
-	nnoremap_cmd("gw", "Telescope lsp_dynamic_workspace_symbols")
-	nnoremap_cmd("g0", "lua vim.lsp.buf.document_symbol()")
+	vim.keymap.set("n", "gw", "<cmd>Telescope lsp_dynamic_workspace_symbols", {buffer=0})
+	vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, {buffer=0})
 
-	nnoremap_cmd("<leader>ff", "lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor())")
+	vim.keymap.set("n", "<leader>ff", function() require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor()) end, {buffer=0})
 	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()') --Doesn't work? See comment in handlers below
 
-	nnoremap_cmd("<leader>rn", "lua Rename.rename()")
-
-	--Switch header (replaced with Alternate File)
-	nnoremap_cmd("<M-h>", "ClangdSwitchSourceHeader")
-	nnoremap_cmd("<leader>h", "ClangdSwitchSourceHeaderVSplit")
+	vim.keymap.set("n", "<leader>rn", Rename.rename, {buffer=0})
+	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", {buffer=0})
+	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", {buffer=0})
 
 	--Diagnostics
-	nnoremap_cmd("<leader>e", 'lua vim.diagnostic.open_float({scope="line"})')
-	nnoremap_cmd("<leader>E", 'lua vim.diagnostic.open_float({scope="buffer"})')
-	nnoremap_cmd("<leader>f]", "lua vim.diagnostic.goto_next()")
-	nnoremap_cmd("<leader>f[", "lua vim.diagnostic.goto_prev()")
-	nnoremap_cmd("<leader>fp", "lua vim.diagnostic.setloclist()")
-	nnoremap_cmd("<leader>fP", "lua vim.diagnostic.setqflist()")
-	nnoremap_cmd("<leader>fC", "lua vim.diagnostic.disable(0)")
-	nnoremap_cmd("<leader>fc", "lua require'lsp-conf'.virt_text.toggle()")
+	vim.keymap.set("n", "<leader>e",  function() vim.diagnostic.open_float({scope="line"}) end, {buffer=0})
+	vim.keymap.set("n", "<leader>E",  function() vim.diagnostic.open_float({scope="buffer"}) end, {buffer=0})
+	vim.keymap.set("n", "<leader>f]", vim.diagnostic.goto_next, {buffer=0})
+	vim.keymap.set("n", "<leader>f[", vim.diagnostic.goto_prev, {buffer=0})
+	vim.keymap.set("n", "<leader>fp", vim.diagnostic.setloclist, {buffer=0})
+	vim.keymap.set("n", "<leader>fP", vim.diagnostic.setqflist, {buffer=0})
+	vim.keymap.set("n", "<leader>fC", function() vim.diagnostic.disable(0) end, {buffer=0})
+	vim.keymap.set("n", "<leader>fc", require'lsp-conf'.virt_text.toggle, {buffer=0})
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
 
 	--Highlight current word
 	if client.resolved_capabilities.document_highlight then
-		vim.api.nvim_exec(
-			[[
+		vim.api.nvim_exec([[
 			augroup lsp_document_highlight
 				autocmd!
 				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
 				autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 			augroup END
-		]],
-			false
-		)
+		]], false)
 	end
 
 	--Formatting
-	if client.resolved_capabilities.document_formatting then
-		vim.cmd [[augroup Format]]
-		vim.cmd [[autocmd! * <buffer>]]
-		vim.cmd [[autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format() ]]
-		vim.cmd [[augroup END]]
-		-- vim.cmd [[command! FormatDisable lua FormatSetState(true)]]
-		-- vim.cmd [[command! FormatEnable lua FormatSetState(false)]]
-	end
+	require "lsp-format".on_attach(client)
+
+	-- require "lsp_signature".on_attach(
+	-- 	{
+	-- 		bind = true,
+	-- 		fix_pos = true,
+	-- 		always_trigger = false,
+	-- 		floating_window = true,
+	-- 		floating_window_above_cur_line = true,
+	-- 		handler_opts = {border = "rounded"},
+	-- 		toggle_key = '<C-k>', --in insert mode
+	-- 		hint_enable = false
+	-- 	},
+	-- 	bufnr
+	-- )
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
@@ -208,10 +186,12 @@ if (useclangd) then
 	end
 
 	nvim_lspconfig.clangd.setup {
+		autostart=true,
 		cmd = {
+			-- "/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
 			"clangd",
 			"--background-index",
-			--"--log=verbose",
+			-- "--log=verbose",
 			"-j=32",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
@@ -226,7 +206,7 @@ if (useclangd) then
 			"--enable-config"
 		},
 		filetypes = {"c", "cpp"},
-		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json"),
+		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json", "build/compile_commands.json"),
 		on_attach = on_attach_vim,
 		capabilities = capabilities,
 
@@ -237,25 +217,107 @@ if (useclangd) then
 		init_options = {clangdFileStatus = false},
 		commands = {
 			ClangdSwitchSourceHeader = {
-				function()
-					switch_source_header_splitcmd(0, "edit")
-				end,
+				function() switch_source_header_splitcmd(0, "edit") end,
 				description = "Open source/header in a new vsplit"
 			},
 			ClangdSwitchSourceHeaderVSplit = {
-				function()
-					switch_source_header_splitcmd(0, "vsplit")
-				end,
+				function() switch_source_header_splitcmd(0, "vsplit") end,
 				description = "Open source/header in a new vsplit"
 			},
 			ClangdSwitchSourceHeaderSplit = {
-				function()
-					switch_source_header_splitcmd(0, "split")
-				end,
+				function() switch_source_header_splitcmd(0, "split") end,
 				description = "Open source/header in a new split"
 			}
 		}
 	}
+
+	--require("clangd_extensions").setup {
+    --server = {
+        ---- options to pass to nvim-lspconfig
+        ---- i.e. the arguments to require("lspconfig").clangd.setup({})
+	--	cmd = {
+	--		"/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
+	--		--"clangd",
+	--		"--background-index",
+	--		"--log=verbose",
+	--		"-j=32",
+	--		"--fallback-style=LLVM",
+	--		"--clang-tidy",
+	--		"--header-insertion=iwyu",
+	--		"--header-insertion-decorators",
+	--		"--completion-style=bundled",
+	--		"--query-driver=/usr/local/bin/arm-none-eabi-g*",
+	--		"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+	--		"--query-driver=/usr/bin/g*",
+	--		"--query-driver=/usr/local/opt/llvm/bin/clang*",
+	--		"--pch-storage=memory",
+	--		"--enable-config"
+	--	},
+	--	filetypes = {"c", "cpp"},
+	--	root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json"),
+	--	on_attach = on_attach_vim,
+	--	capabilities = capabilities,
+
+	--	on_init = function(client)
+	--		client.config.flags.allow_incremental_sync = true
+	--		client.config.flags.debounce_text_changes = 100
+	--	end,
+	--	init_options = {clangdFileStatus = false},
+	--	commands = {
+	--		ClangdSwitchSourceHeader = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "edit")
+	--			end,
+	--			description = "Open source/header in a new vsplit"
+	--		},
+	--		ClangdSwitchSourceHeaderVSplit = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "vsplit")
+	--			end,
+	--			description = "Open source/header in a new vsplit"
+	--		},
+	--		ClangdSwitchSourceHeaderSplit = {
+	--			function()
+	--				switch_source_header_splitcmd(0, "split")
+	--			end,
+	--			description = "Open source/header in a new split"
+	--		}
+	--	}
+    --},
+    --extensions = {
+        --autoSetHints = true,
+        ---- Whether to show hover actions inside the hover window
+        ---- This overrides the default hover handler
+        --hover_with_actions = true,
+        --inlay_hints = {
+            --only_current_line = true,
+            ---- Event which triggers a refresh of the inlay hints.
+            ---- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
+            ---- not that this may cause  higher CPU usage.
+            ---- This option is only respected when only_current_line and
+            ---- autoSetHints both are true.
+            --only_current_line_autocmd = "CursorMoved,CursorHold",
+            ---- wheter to show parameter hints with the inlay hints or not
+            --show_parameter_hints = true,
+            ---- whether to show variable name before type hints with the inlay hints or not
+            --show_variable_name = true,
+            ---- prefix for parameter hints
+            --parameter_hints_prefix = "<- ",
+            ---- prefix for all the other hints (type, chaining)
+            --other_hints_prefix = "=> ",
+            ---- whether to align to the length of the longest line in the file
+            --max_len_align = true,
+            ---- padding from the left if max_len_align is true
+            --max_len_align_padding = 1,
+            ---- whether to align to the extreme right or not
+            --right_align = false,
+            ---- padding from the right if right_align is true
+            --right_align_padding = 7,
+            ---- The color of the hints
+            --highlight = "DiagnosticHint",
+        --},
+    --}
+--}
 end --Clangd
 
 -- ccls

@@ -22,3 +22,18 @@ bindkey "^[e" end-of-line
 
 bindkey "^[OA" up-line-or-history
 bindkey "^[OB" down-line-or-history
+
+# Fix zsh autosuggestions keybind for arrow keys
+# Is this needed?
+# zle-line-init() {}
+#
+# Opt-Up/DownArrow: browse auto-suggestions from history
+bindkey '^[[1;3A' history-beginning-search-backward
+bindkey '^[[1;3B' history-beginning-search-forward
+
+
+#C-space: accept autosuggestion
+bindkey '^ ' autosuggest-accept
+
+#opt-RtArrow: accept partial
+bindkey '^[[1;3C' forward-char

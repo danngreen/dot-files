@@ -33,7 +33,8 @@ vnoremap("<leader>r", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap("<leader>R", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
-nnoremap("<leader><space>", '<cmd>lua require"fzf-lua".buffers({winopts={win_height=0.4}})<CR>')
+nnoremap("<leader><space>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.4, width=0.4, preview={layout="vertical", vertical="up:50%"}}})<CR>')
+nnoremap("<F2>", 			'<cmd>lua require"fzf-lua".buffers({winopts={height=0.4, width=0.4, preview={layout="vertical", vertical="up:50%"}}})<CR>')
 nnoremap("<F3>", '<cmd>lua require"fzf-lua".files()<CR>')
 nnoremap("<F15>", '<cmd>lua require"fzf-lua".files({cmd=require"fzf-lua-conf".find_all_files_cmd})<CR>')
 
@@ -110,9 +111,11 @@ noremap("<F11>", ":TagbarToggle<CR>")
 noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 noremap("<F12>", ":NERDTreeToggle<CR>")
 
+nnoremap("<leader><leader>", ":w<CR>")
 -- Commonly used files
 nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
 nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
+nnoremap("<leader>vk", ":edit ~/.config/nvim/lua/keys.lua<CR>")
 nnoremap("<leader>vp", ":edit ~/.config/nvim/lua/plugins.lua<CR>")
 nnoremap("<leader>vcc", ":edit ~/Library/Preferences/clangd/config.yaml<CR>")
 
