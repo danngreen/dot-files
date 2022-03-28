@@ -33,7 +33,7 @@ bindkey '^[[1;3B' history-beginning-search-forward
 
 
 #C-space: accept autosuggestion
-bindkey '^ ' autosuggest-accept
+# bindkey '^ ' autosuggest-accept
 
 #opt-RtArrow: accept partial
 bindkey '^[[1;3C' forward-char
