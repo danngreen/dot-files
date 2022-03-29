@@ -16,20 +16,6 @@ local useccls = false
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
--- Formatting
-
--- FormatSetState = function(value)
--- 	vim.g[string.format("format_disabled_%s", vim.bo.filetype)] = value
--- end
-
--- conf_lsp.lsp_format = function()
--- 	if not vim.g[string.format("format_disabled_%s", vim.bo.filetype)] then
--- 		vim.lsp.buf.formatting_sync(nil, 300)
--- 	-- Can pass options to the formatter:
--- 	-- vim.lsp.buf.formatting(vim.g[string.format("format_options_%s", vim.bo.filetype)] or {})
--- 	end
--- end
-
 -- Diagnostics
 
 local virt_text = {}
