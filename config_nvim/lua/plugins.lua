@@ -56,7 +56,7 @@ require("packer").startup(
 		use {"neovim/nvim-lspconfig"}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
-		--use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
+		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
 		use {"m-pilia/vim-ccls"}
 		use {"p00f/clangd_extensions.nvim"}
 		use {"rust-lang/rust.vim"}
@@ -71,7 +71,7 @@ require("packer").startup(
 				"hrsh7th/cmp-calc",
 				"uga-rosa/cmp-dictionary",
 				-- "hrsh7th/cmp-cmdline",
-				"hrsh7th/cmp-nvim-lsp-signature-help",
+				-- "hrsh7th/cmp-nvim-lsp-signature-help",
 			}
 		}
 		--

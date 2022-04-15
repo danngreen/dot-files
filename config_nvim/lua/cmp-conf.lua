@@ -88,21 +88,43 @@ cmp.setup {
 		)
 	},
 	sources = {
-		{name = "nvim_lsp"},
-		{name = "nvim_lua"},
-		{ name = "nvim_lsp_signature_help" },
+		{name = "nvim_lsp", priority = 9},
+		{name = "nvim_lua", priority = 8},
+		-- { name = "nvim_lsp_signature_help" },
+		{name = "buffer", priority = 7, keyword_length = 3, max_item_count=10},
+		{name = "dictionary", priority = 5, keyword_length = 5, keyword_pattern = [[\w\+]], max_item_count=4},
+		{name = "path", priority = 4},
 		--{name = 'fuzzy_path'},
-		{name = "path"},
-		{name = "calc"},
-		{name = "buffer", keyword_length = 3, max_item_count=10},
-		{name = "dictionary", keyword_length = 5, max_item_count=10}
+		{name = "calc", priority = 3},
 		--{name = "rg"},
 	},
-	documentation = {
-		maxwidth = 80,
-		maxheight = 100
+
+	sorting = {
+		priority_weight = 1.0,
+		comparators = {
+		  -- compare.score_offset, -- not good at all
+		  cmp.config.compare.locality,
+		  cmp.config.compare.recently_used,
+		  cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+		  cmp.config.compare.offset,
+		  cmp.config.compare.order,
+		  cmp.config.compare.scope,
+		  -- compare.sort_text,
+		  -- compare.exact,
+		  -- compare.kind,
+		  -- compare.length, -- useless
+		},
 	},
-	experimental = {}
+
+	window = {
+		documentation = {
+			border = {'╭', '─', '╮', '│', '╯', '─', '╰', '│'},
+		},
+		completion = {
+		  border = {'┌', '─', '┐', '│', '┘', '─', '└', '│'},
+		  winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
+		}
+	},
 }
 
 cmp.setup.cmdline("/", {sources = {{name = "buffer"}}})
