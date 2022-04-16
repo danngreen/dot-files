@@ -19,6 +19,8 @@ export PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
 export PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
 export PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
 
+export PATH="/Applications/Inkscape.app/Contents/MacOS:$PATH"
+
 # Are these needed? We don't use them in fish
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="$HOME/Library/Python/3.9/bin:$PATH"
