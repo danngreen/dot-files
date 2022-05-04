@@ -57,7 +57,17 @@ require("packer").startup(
 		use {"neovim/nvim-lspconfig"}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
-		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({}) end}
+		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({
+			-- bind = true,
+			-- fix_pos = true,
+			-- always_trigger = false,
+			-- floating_window = true,
+			-- floating_window_above_cur_line = false,
+			-- handler_opts = {border = "rounded"},
+			toggle_key = '<C-k>', --in insert mode
+			hint_enable = false,
+			-- transparency = true,
+		}) end}
 		use {"m-pilia/vim-ccls"}
 		use {"p00f/clangd_extensions.nvim"}
 		use {"rust-lang/rust.vim"}
