@@ -49,7 +49,8 @@ require("packer").startup(
 				require "lualine-conf".config()
 			end
 		}
-		use {"vim-scripts/hexHighlight.vim"}
+		-- use {"vim-scripts/hexHighlight.vim"}
+		use {"tpope/vim-surround"}
 		--
 		-- LSP
 		--
