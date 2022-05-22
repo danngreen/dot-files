@@ -48,8 +48,9 @@ local on_attach_vim = function(client, bufnr)
 	vim.keymap.set("n", "gw", "<cmd>Telescope lsp_dynamic_workspace_symbols", {buffer=0})
 	vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, {buffer=0})
 
-	vim.keymap.set("n", "<leader>ff", function() require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor()) end, {buffer=0})
-	-- nnoremap_cmd('<leader>ff', 	'lua vim.lsp.buf.code_action()') --Doesn't work? See comment in handlers below
+	vim.keymap.set("n", "<leader>ff",
+		function() require('fzf-lua').lsp_code_actions({winopts={height=8, width=80}}) end,
+		{buffer=0})
 
 	vim.keymap.set("n", "<leader>rn", Rename.rename, {buffer=0})
 	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", {buffer=0})
