@@ -5,7 +5,7 @@ local m = {}
 
 local function gen_diags_from_lsp_loclist(opts)
 	opts = opts or {}
-	opts.tail_path = telescope_utils.get_default(opts.tail_path, true)
+	opts.tail_path = vim.F.if_nil(opts.tail_path, true)
 
 	local displayer =
 		entry_display.create {
@@ -78,7 +78,7 @@ end
 
 m.gen_pretty_refs_from_quickfix = function(opts)
 	opts = opts or {}
-	opts.tail_path = telescope_utils.get_default(opts.tail_path, true)
+	opts.tail_path = vim.F.if_nil(opts.tail_path, true)
 
 	local displayer =
 		entry_display.create {
