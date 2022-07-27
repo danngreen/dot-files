@@ -70,7 +70,7 @@ local on_attach_vim = function(client, bufnr)
 	vim.o.completeopt = "menuone,noselect"
 
 	--Highlight current word
-	if client.resolved_capabilities.document_highlight then
+	if client.server_capabilities.document_highlight then
 		vim.api.nvim_exec([[
 			augroup lsp_document_highlight
 				autocmd!
