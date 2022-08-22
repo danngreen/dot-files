@@ -83,12 +83,6 @@ local on_attach_vim = function(client, bufnr)
 	--Formatting
 	require "lsp-format".on_attach(client)
 	--Formatting
-	-- if client.resolved_capabilities.document_formatting then
-	-- 	vim.cmd [[augroup Format]]
-	-- 	vim.cmd [[autocmd! * <buffer>]]
-	-- 	vim.cmd [[autocmd BufWritePre <buffer> lua require'lsp-conf'.lsp_format() ]]
-	-- 	vim.cmd [[augroup END]]
-	-- end
 
 	--require "lsp_signature".on_attach(
 	--	{

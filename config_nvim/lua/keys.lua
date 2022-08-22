@@ -16,7 +16,7 @@ end
 vim.g.mapleader = ","
 vim.g.localmapleader = ","
 nnoremap("<space>", "<cmd>noh<CR>")
-nnoremap("Y", "y$")
+-- nnoremap("Y", "y$")
 nnoremap("<leader>w", ":bp <BAR> bd #<CR>")
 nnoremap("<M-w>", ":bp <BAR> bd #<CR>")
 nnoremap("<M-Tab>", "<cmd>:bp<CR>")
@@ -69,13 +69,13 @@ nnoremap("<leader>WW", '<cmd>lua require"fzf-lua".files(Wiki_conf)<CR>')
 -- leader F4: prompt for initial filter
 -- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
 -- F5: Find in a dir (prompt)
-nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to hide filename
-nnoremap("<leader>$", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to hide filename
+nnoremap("<F4>",         ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
+nnoremap("<leader>4",    ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 
-nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
+nnoremap("<F16>",     ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to hide filename
 
-vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap("<F4>",      ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 
 -- nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
@@ -84,9 +84,9 @@ vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search
 
 -- Grep in Dir
 --nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
-nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
+nnoremap("<F5>",         ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
-nnoremap("<F17>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
+nnoremap("<F17>",        ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
 
 nnoremap("<F8>", "<cmd>FloatermToggle<CR>")
 tnoremap("<F8>", "<C-\\><C-n>:FloatermToggle<CR>")
