@@ -51,7 +51,15 @@ require("packer").startup(
 		}
 		-- use {"vim-scripts/hexHighlight.vim"}
 		-- use {"tpope/vim-surround"}
-		use {"machakann/vim-sandwich"}
+		-- use {"machakann/vim-sandwich"}
+		use({
+			"kylechui/nvim-surround",
+			config = function()
+				require("nvim-surround").setup({
+					-- Configuration here, or leave empty to use defaults
+				})
+			end
+		})
 		--
 		-- LSP
 		--
