@@ -77,7 +77,8 @@ require("packer").startup(
 			hint_enable = false,
 			-- transparency = true,
 		}) end}
-		use {"m-pilia/vim-ccls"}
+		-- use {"m-pilia/vim-ccls"}
+		use {"ranjithshegde/ccls.nvim"}
 		use {"p00f/clangd_extensions.nvim"}
 		use {"rust-lang/rust.vim"}
 		use {

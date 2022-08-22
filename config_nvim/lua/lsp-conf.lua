@@ -329,25 +329,93 @@ end --Clangd
 -- ccls
 
 if (useccls) then
-	nvim_lspconfig.ccls.setup(
-		{
-			cmd = {"/usr/local/bin/ccls"},
-			filetypes = {"c", "cpp", "objc", "objcpp"},
-			root_dir = nvim_lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
-			init_options = {
-				highlight = {lsRanges = true},
-				cache = {retainInMemory = 1},
-				diagnostics = {
-					onOpen = 0,
-					onChange = 0,
-					onSave = 100
-				},
-				index = {threads = 16}
+	require("ccls").setup({
+		win_config = {
+			-- Sidebar configuration
+			sidebar = {
+				size = 50,
+				position = "topleft",
+				split = "vnew",
+				width = 50,
+				height = 20,
 			},
-			capabilities = {textDocument = {completion = {completionItem = {snippetSupport = false}}}},
-			on_attach = on_attach_vim
-		}
-	)
+			-- floating window configuration. check :help nvim_open_win for options
+			float = {
+				style = "minimal",
+				relative = "cursor",
+				width = 50,
+				height = 20,
+				row = 0,
+				col = 0,
+				border = "rounded",
+			},
+		},
+		filetypes = {"c", "cpp"},
+		lsp = {
+			-- using lspconfig:
+			--lspconfig = {
+			--	filetypes = { "c", "cpp" },
+			--	cmd = {"/opt/homebrew/bin/ccls"},
+			--	root_dir = function(fname)
+			--		return require('lspconfig').util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
+			--			or require('lspconfig').util.find_git_ancestor(fname)
+			--	end,
+			--	init_options = { cache = {
+			--		directory = vim.fs.normalize("~/.cache/ccls")
+			--	} },
+			--	on_attach = on_attach_vim,
+			----capabilities = my_caps_table_or_func
+			--},
+
+			-- using vim.lsp.start:
+			server = {
+				name = "ccls",
+				cmd = {"/opt/homebrew/bin/ccls"},
+				args = {},
+				offset_encoding = "utf-32",
+				root_dir = vim.fs.dirname(
+					vim.fs.find({ "compile_commands.json", ".git" }, { upward = true })[1]
+				),
+				--on_attach = on_attach_vim,
+				--capabilites = your_table/func
+			},
+
+			--Don't conflict with clangd:
+			disable_capabilities = {
+				completionProvider = true,
+				documentFormattingProvider = true,
+				documentRangeFormattingProvider = true,
+				documentHighlightProvider = true,
+				documentSymbolProvider = true,
+				workspaceSymbolProvider = true,
+				renameProvider = true,
+				hoverProvider = true,
+				codeActionProvider = true,
+			},
+			disable_diagnostics = true,
+			disable_signature = true,
+		},
+	})
+
+	-- nvim_lspconfig.ccls.setup(
+	-- 	{
+	-- 		cmd = {"/usr/local/bin/ccls"},
+	-- 		filetypes = {"c", "cpp", "objc", "objcpp"},
+	-- 		root_dir = nvim_lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
+	-- 		init_options = {
+	-- 			highlight = {lsRanges = true},
+	-- 			cache = {retainInMemory = 1},
+	-- 			diagnostics = {
+	-- 				onOpen = 0,
+	-- 				onChange = 0,
+	-- 				onSave = 100
+	-- 			},
+	-- 			index = {threads = 16}
+	-- 		},
+	-- 		capabilities = {textDocument = {completion = {completionItem = {snippetSupport = false}}}},
+	-- 		on_attach = on_attach_vim
+	-- 	}
+	-- )
 end
 
 -- Lua
