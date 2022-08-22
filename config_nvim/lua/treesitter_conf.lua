@@ -1,7 +1,8 @@
 _M = {}
 _M.config = function()
 	require "nvim-treesitter.configs".setup {
-		ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php"},
+		ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php", "toml"},
+		auto_install = true,
 		highlight = {
 			enable = true,
 			custom_captures = {
