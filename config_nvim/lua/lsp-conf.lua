@@ -26,10 +26,26 @@ virt_text.toggle = function()
 end
 conf_lsp.virt_text = virt_text
 
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = true,
+    float = {
+        border = 'rounded',
+        source = 'always',
+        header = '',
+        prefix = '',
+    },
+})
+
 -- LSP Buffer key maps
 
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
+
+	vim.lsp.set_log_level("trace")
 
 	--Symbol info (hover/signature)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
