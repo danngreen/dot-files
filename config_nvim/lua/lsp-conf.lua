@@ -194,8 +194,8 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart=true,
 		cmd = {
-			-- "/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
-			"clangd",
+			-- "clangd",
+			"/Users/design/bin/clang+llvm-15.0.0-rc2-x86_64-apple-darwin/bin/clangd",
 			"--background-index",
 			-- "--log=verbose",
 			"-j=32",

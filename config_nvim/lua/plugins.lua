@@ -55,11 +55,10 @@ require("packer").startup(
 		use({
 			"kylechui/nvim-surround",
 			config = function()
-				require("nvim-surround").setup({
-					-- Configuration here, or leave empty to use defaults
-				})
+				require("nvim-surround").setup({})
 			end
 		})
+
 		--
 		-- LSP
 		--
@@ -120,7 +119,7 @@ require("packer").startup(
 				require "treesitter_conf".config()
 			end
 		}
-		use {"nvim-treesitter/nvim-treesitter-textobjects"}
+		use {"nvim-tesitter/nvim-treesitter-textobjects"}
 		use {"nvim-treesitter/playground"}
 		use {"nvim-treesitter/nvim-treesitter-refactor"}
 
