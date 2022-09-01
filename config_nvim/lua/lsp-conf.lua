@@ -8,7 +8,7 @@ local conf_lsp = {}
 conf_lsp.pretty_telescope = require "lsp_telescope"
 
 local useclangd = true
-local useccls = false
+local useccls = true
 
 
 -- Completion
@@ -372,15 +372,17 @@ if (useccls) then
 				name = "ccls",
 				cmd = {"/opt/homebrew/bin/ccls"},
 				args = {},
-				offset_encoding = "utf-32",
+				offset_encoding = "utf-8",
 				root_dir = vim.fs.dirname(
 					vim.fs.find({ "compile_commands.json", ".git" }, { upward = true })[1]
 				),
-				--on_attach = on_attach_vim,
+				on_attach = function()
+					vim.keymap.set("n", "gii", "<cmd>CclsMemberHierarchy float<CR>", {buffer=0})
+				end
 				--capabilites = your_table/func
 			},
 
-			--Don't conflict with clangd:
+			--Disalbe features so we don't conflict with clangd:
 			disable_capabilities = {
 				completionProvider = true,
 				documentFormattingProvider = true,
