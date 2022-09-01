@@ -18,7 +18,7 @@ vim.api.nvim_exec(
 vim.g.python3_host_prog = "/usr/local/bin/python3"
 
 local use = require("packer").use
-require("packer").startup(
+require("packer").startup({
 	function()
 		use {"wbthomason/packer.nvim", opt = true}
 		use {"scrooloose/nerdtree", opt = true, cmd = {"NERDTreeToggle"}}
@@ -220,5 +220,10 @@ require("packer").startup(
 		-- 	let g:termdebug_disasm_window = 15
 		-- 	let g:termdebugger_program = "minicom -D /dev/cu.usbmodem*"
 		-- ]] end}
-	end
-)
+	end,
+	config = {
+		display = {
+			open_fn = require('packer.util').float,
+		}
+	}
+})
