@@ -175,42 +175,51 @@ require("packer").startup({
 		use {'simrat39/rust-tools.nvim', config = function()
 			require('rust-tools').setup({})
 		end}
-		use {
-			"mfussenegger/nvim-dap",
-			config = function()
-				local dap = require("dap")
-				dap.adapters.cppdbg = {
-					type = "server",
-					-- command = '/Users/design/4ms/stm32/nvim-dap-cpptools-osx/extension/debugAdapters/OpenDebugAD7',
-					host = "127.0.0.1",
-					port = 3333
-				}
-				dap.configurations.cpp = {
-					-- {
-					-- 	name = "Launch file",
-					-- 	type = "cppdbg",
-					-- 	request = "launch",
-					-- 	program = function()
-					-- 	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-					-- 	end,
-					-- 	cwd = '${workspaceFolder}',
-					-- 	stopOnEntry = true,
-					-- },
-					{
-						name = "Attach to gdbserver :3333",
-						type = "cppdbg",
-						request = "launch",
-						MIMode = "gdb",
-						miDebuggerServerAddress = "localhost:3333",
-						miDebuggerPath = "/Users/design/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gdb-py",
-						cwd = "${workspaceFolder}",
-						program = function()
-							return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/main.elf", "file")
-						end
-					}
-				}
-			end
-		}
+
+		use {'puremourning/vimspector', config = function()
+			vim.cmd([[
+			let g:vimspector_sidebar_width = 85
+			let g:vimspector_bottombar_height = 15
+			let g:vimspector_terminal_maxwidth = 70
+			]])
+		end}
+
+		-- use {
+		-- 	"mfussenegger/nvim-dap",
+		-- 	config = function()
+		-- 		local dap = require("dap")
+		-- 		dap.adapters.cppdbg = {
+		-- 			type = "server",
+		-- 			-- command = '/Users/design/4ms/stm32/nvim-dap-cpptools-osx/extension/debugAdapters/OpenDebugAD7',
+		-- 			host = "127.0.0.1",
+		-- 			port = 3333
+		-- 		}
+		-- 		dap.configurations.cpp = {
+		-- 			-- {
+		-- 			-- 	name = "Launch file",
+		-- 			-- 	type = "cppdbg",
+		-- 			-- 	request = "launch",
+		-- 			-- 	program = function()
+		-- 			-- 	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+		-- 			-- 	end,
+		-- 			-- 	cwd = '${workspaceFolder}',
+		-- 			-- 	stopOnEntry = true,
+		-- 			-- },
+		-- 			{
+		-- 				name = "Attach to gdbserver :3333",
+		-- 				type = "cppdbg",
+		-- 				request = "launch",
+		-- 				MIMode = "gdb",
+		-- 				miDebuggerServerAddress = "localhost:3333",
+		-- 				miDebuggerPath = "/Users/design/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gdb-py",
+		-- 				cwd = "${workspaceFolder}",
+		-- 				program = function()
+		-- 					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/main.elf", "file")
+		-- 				end
+		-- 			}
+		-- 		}
+		-- 	end
+		-- }
 
 		--use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 		-- use {'chmanie/termdebugx.nvim', config = function() vim.cmd[[
