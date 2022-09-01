@@ -351,22 +351,8 @@ if (useccls) then
 			},
 		},
 		filetypes = {"c", "cpp"},
-		lsp = {
-			-- using lspconfig:
-			--lspconfig = {
-			--	filetypes = { "c", "cpp" },
-			--	cmd = {"/opt/homebrew/bin/ccls"},
-			--	root_dir = function(fname)
-			--		return require('lspconfig').util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
-			--			or require('lspconfig').util.find_git_ancestor(fname)
-			--	end,
-			--	init_options = { cache = {
-			--		directory = vim.fs.normalize("~/.cache/ccls")
-			--	} },
-			--	on_attach = on_attach_vim,
-			----capabilities = my_caps_table_or_func
-			--},
 
+		lsp = {
 			-- using vim.lsp.start:
 			server = {
 				name = "ccls",
@@ -401,7 +387,7 @@ if (useccls) then
 
 	-- nvim_lspconfig.ccls.setup(
 	-- 	{
-	-- 		cmd = {"/usr/local/bin/ccls"},
+	-- 		cmd = {"/opt/homebrew/bin/ccls"},
 	-- 		filetypes = {"c", "cpp", "objc", "objcpp"},
 	-- 		root_dir = nvim_lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
 	-- 		init_options = {
