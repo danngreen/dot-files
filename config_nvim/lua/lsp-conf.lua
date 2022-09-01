@@ -205,7 +205,7 @@ if (useclangd) then
 			"--header-insertion-decorators",
 			"--completion-style=bundled",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
-			"--query-driver=/Users/**/4ms/stm32/gcc-arm-none-eabi-*/bin/arm-none-eabi-*",
+			"--query-driver=/Users/**/4ms/stm32/*-arm-none-eabi-*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--pch-storage=memory",
