@@ -137,3 +137,15 @@ vnoremap("<M-c>", '"+y')
 
 -- Building
 nnoremap("<leader>m", ":wa<CR>:Make!<CR>")
+
+
+--- Debugging
+nnoremap("<leader>dl", "<cmd>call vimspector#Launch()<cr>")
+nnoremap("<leader>dr", "<cmd>call vimspector#Reset()<cr>")
+nnoremap("<leader>dn", "<cmd>call vimspector#StepInto()<cr>")
+nnoremap("<leader>ds", "<cmd>call vimspector#StepOver()<cr>")
+nnoremap("<leader>do", "<cmd>call vimspector#StepOut()<cr>")
+nnoremap("<leader>db", "<cmd>call vimspector#ToggleBreakpoint()<cr>")
+nnoremap("<leader>dw", "<cmd>call vimspector#AddWatch()<cr>")
+nnoremap("<leader>de", "<cmd>call vimspector#Evaluate()<cr>")
+
