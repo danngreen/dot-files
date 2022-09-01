@@ -140,6 +140,7 @@ require("packer").startup({
 			end
 		}
 		use {"khaveesh/vim-fish-syntax"}
+		use {"m42e/trace32-practice.vim"}
 
 		use {"iamcco/markdown-preview.nvim", run = "call mkdp#util#install()"}
 		use {"tpope/vim-eunuch"}
