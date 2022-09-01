@@ -32,9 +32,10 @@ vnoremap("<leader>r", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap("<leader>R", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
-nnoremap("<leader><space>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.4, width=0.4, preview={layout="vertical", vertical="up:50%"}}})<CR>')
-nnoremap("<leader>2", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.4, width=0.4, preview={layout="vertical", vertical="up:50%"}}})<CR>')
-nnoremap("<F2>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.4, width=0.4, preview={layout="vertical", vertical="up:50%"}}})<CR>')
+nnoremap("<leader><leader><space>", '<cmd>lua require"fzf-lua".resume({winopts={height=0.6, width=0.4, preview={vertical="up:25%"}}})<CR>')
+nnoremap("<leader><space>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
+nnoremap("<leader>2", 		'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
+nnoremap("<F2>", 			'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
 
 nnoremap("<F3>", '<cmd>lua require"fzf-lua".files()<CR>')
 nnoremap("<leader>3", '<cmd>lua require"fzf-lua".files()<CR>')
