@@ -49,9 +49,6 @@ require("packer").startup({
 				require "lualine-conf".config()
 			end
 		}
-		-- use {"vim-scripts/hexHighlight.vim"}
-		-- use {"tpope/vim-surround"}
-		-- use {"machakann/vim-sandwich"}
 		use({
 			"kylechui/nvim-surround",
 			config = function()
@@ -108,6 +105,14 @@ require("packer").startup({
 			run = "make",
 			after = "telescope.nvim",
 			config = "require'telescope'.load_extension('fzf')"
+		}
+		use { "ptethng/telescope-makefile",
+			requires = {"akinsho/toggleterm.nvim", tag = '*', config = function() require("toggleterm").setup() end},
+			after = "telescope.nvim",
+			config = function()
+				require'telescope'.load_extension('make')
+				require'telescope-makefile'.setup{ makefile_priority = { '.', 'build/' } }
+			end
 		}
 		--
 		-- Treesitter
