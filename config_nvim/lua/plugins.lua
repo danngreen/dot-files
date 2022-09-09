@@ -56,6 +56,8 @@ require("packer").startup({
 			end
 		})
 
+		use {'stevearc/dressing.nvim'}
+		use {'rcarriga/nvim-notify'}
 		--
 		-- LSP
 		--
@@ -180,6 +182,10 @@ require("packer").startup({
 		use {'simrat39/rust-tools.nvim', config = function()
 			require('rust-tools').setup({})
 		end}
+
+		use {
+			'krady21/compiler-explorer.nvim', requires = { 'nvim-lua/plenary.nvim' }
+		}
 
 		use {'puremourning/vimspector', config = function()
 			vim.cmd([[
