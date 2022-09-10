@@ -108,7 +108,8 @@ require("packer").startup({
 			after = "telescope.nvim",
 			config = "require'telescope'.load_extension('fzf')"
 		}
-		use { "ptethng/telescope-makefile",
+		use { --"ptethng/telescope-makefile",
+			"asteroidalaz/telescope-makefile",
 			requires = {"akinsho/toggleterm.nvim", tag = '*', config = function() require("toggleterm").setup() end},
 			after = "telescope.nvim",
 			config = function()
