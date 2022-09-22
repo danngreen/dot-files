@@ -185,8 +185,12 @@ require("packer").startup({
 		end}
 
 		use {
-			'krady21/compiler-explorer.nvim', requires = { 'nvim-lua/plenary.nvim' }
+			'krady21/compiler-explorer.nvim', requires = { 'nvim-lua/plenary.nvim' },
 		}
+		use {'p00f/godbolt.nvim', config = function()
+			require("godbolt").setup(require('godbolt-conf').config)
+		end}
+
 
 		use {'puremourning/vimspector', config = function()
 			vim.cmd([[
