@@ -2,7 +2,7 @@ _M = {}
 
 local disable_function = function(lang)
 	local buf_name = vim.fn.expand("%")
-	print(lang..": "..buf_name)
+	-- print(lang..": "..buf_name)
 	if (lang == "cpp" or lang == "c") and string.find(buf_name, "stm32mp157cxx_ca7.h") then --%-") then
 		return true
 	end
@@ -17,7 +17,6 @@ _M.config = function()
 			custom_captures = {
 				["template_arg"] = "TSTemplateArg"
 			},
-			disable = disable_function
 		},
 		incremental_selection = {
 			enable = true,
@@ -30,7 +29,10 @@ _M.config = function()
 		},
 		indent = false,
 		refactor = {
-			highlight_definitions = {enable = true},
+			highlight_definitions = {
+				enable = true,
+				disable = disable_function
+			},
 			highlight_current_scope = {enable = false},
 			smart_rename = {enable = true, keymaps = {smart_rename = "<leader>rN"}},
 			navigation = {
