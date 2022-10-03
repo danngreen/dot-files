@@ -4,8 +4,6 @@
 require "plugins"
 local vim = vim --one warning here instead of a gazillion warnings everywhere
 
-local vim = vim
-
 --Options
 vim.o.makeprg = "make -j16"
 vim.o.encoding = "UTF-8" -- Do we need this?
