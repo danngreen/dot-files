@@ -1,4 +1,13 @@
 _M = {}
+
+local disable_function = function(lang)
+	local buf_name = vim.fn.expand("%")
+	print(lang..": "..buf_name)
+	if (lang == "cpp" or lang == "c") and string.find(buf_name, "stm32mp157cxx_ca7.h") then --%-") then
+		return true
+	end
+end
+
 _M.config = function()
 	require "nvim-treesitter.configs".setup {
 		ensure_installed = {"cpp", "python", "rust", "regex", "javascript", "css", "bash", "c", "php", "toml"},
@@ -7,7 +16,8 @@ _M.config = function()
 			enable = true,
 			custom_captures = {
 				["template_arg"] = "TSTemplateArg"
-			}
+			},
+			disable = disable_function
 		},
 		incremental_selection = {
 			enable = true,
