@@ -46,7 +46,7 @@ require("packer").startup({
 		use {
 			"danngreen/lualine.nvim",
 			config = function()
-				require "lualine-conf".config()
+				require("lualine-conf").config()
 			end
 		}
 		use({
