@@ -57,7 +57,9 @@ require("packer").startup({
 		})
 
 		use {'stevearc/dressing.nvim'}
-		use {'rcarriga/nvim-notify'}
+		use {'rcarriga/nvim-notify',
+			config = function() require("notify").setup({render = "minimal", stages = "static"}) end
+		}
 		--
 		-- LSP
 		--
