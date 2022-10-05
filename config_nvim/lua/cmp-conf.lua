@@ -121,11 +121,12 @@ cmp.setup {
 }
 
 cmp.setup.cmdline("/", {
-	mapping = {
-		["<C-n>"] = cmp.mapping.select_next_item(),
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-	},
-    -- mapping = cmp.mapping.preset.cmdline(),
+	-- mapping = {
+	-- 	["<C-f>"] = cmp.mapping.select_next_item(),
+	-- 	["<C-n>"] = cmp.mapping.select_next_item(),
+	-- 	["<C-p>"] = cmp.mapping.select_prev_item(),
+	-- },
+    mapping = cmp.mapping.preset.cmdline(),
 	sources = {{name = "buffer"}}
 })
 

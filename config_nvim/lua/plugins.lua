@@ -60,6 +60,17 @@ require("packer").startup({
 		use {'rcarriga/nvim-notify',
 			config = function() require("notify").setup({render = "minimal", stages = "static"}) end
 		}
+
+		use {'folke/noice.nvim',
+		  event = "VimEnter",
+		  config = require("noice-conf").config,
+		  requires = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+			"hrsh7th/nvim-cmp",
+			}
+		}
+
 		--
 		-- LSP
 		--
