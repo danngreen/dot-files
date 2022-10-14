@@ -58,18 +58,21 @@ require("packer").startup({
 
 		use {'stevearc/dressing.nvim'}
 		use {'rcarriga/nvim-notify',
-			config = function() require("notify").setup({render = "minimal", stages = "static"}) end
+			config = function()
+				require("notify").setup({render = "minimal", stages = "static"})
+				vim.notify = require("notify")
+			end
 		}
 
-		use {'folke/noice.nvim',
-		  event = "VimEnter",
-		  config = require("noice-conf").config,
-		  requires = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-			"hrsh7th/nvim-cmp",
-			}
-		}
+		-- use {'folke/noice.nvim',
+		--   event = "VimEnter",
+		--   config = require("noice-conf").config,
+		--   requires = {
+		-- 	"MunifTanjim/nui.nvim",
+		-- 	"rcarriga/nvim-notify",
+		-- 	"hrsh7th/nvim-cmp",
+		-- 	}
+		-- }
 
 		--
 		-- LSP
@@ -160,7 +163,6 @@ require("packer").startup({
 			end
 		}
 		use {"khaveesh/vim-fish-syntax"}
-		use {"m42e/trace32-practice.vim"}
 
 		use {"iamcco/markdown-preview.nvim", run = "call mkdp#util#install()"}
 		use {"tpope/vim-eunuch"}
