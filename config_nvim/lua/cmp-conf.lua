@@ -120,14 +120,17 @@ cmp.setup {
 	},
 }
 
-cmp.setup.cmdline("/", {
-	-- mapping = {
-	-- 	["<C-f>"] = cmp.mapping.select_next_item(),
-	-- 	["<C-n>"] = cmp.mapping.select_next_item(),
-	-- 	["<C-p>"] = cmp.mapping.select_prev_item(),
-	-- },
+cmp.setup.cmdline({"/","?"}, {
     mapping = cmp.mapping.preset.cmdline(),
 	sources = {{name = "buffer"}}
+})
+
+cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources(
+		{{ name = 'path' }},
+		{{ name = 'cmdline' }}
+	)
 })
 
 require("cmp_dictionary").setup({
