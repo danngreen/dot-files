@@ -132,6 +132,7 @@ vim.lsp.handlers["workspace/symbol"] = require "telescope.builtin".lsp_dynamic_w
 vim.lsp.handlers["textDocument/documentSymbol"] = require "telescope.builtin".lsp_document_symbols
 
 -- From https://www.reddit.com/r/neovim/comments/nsfv7h/rename_in_floating_window_with_neovim_lsp/
+-- TODO: change to vim.ui.input
 local function dorename(win)
 	local new_name = vim.trim(vim.fn.getline("."))
 	vim.api.nvim_win_close(win, true)
@@ -487,8 +488,13 @@ nvim_lspconfig.html.setup {
 	settings = {}
 }
 
---
---
+-- System Verilog
+-- nvim_lspconfig.svls.setup({
+-- 	on_attach = on_attach_vim,
+-- })
+
+
+
 
 -- General key maps
 
