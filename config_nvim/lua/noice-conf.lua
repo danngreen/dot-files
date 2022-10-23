@@ -9,21 +9,21 @@ _M.config = function()
 	    routes = {
 			{
 			    filter = { event = "msg_show", kind = "search_count" },
-			    opts = { skip = true },
+			    opts = { skip = false },
 			},
 			{
 			    view = "split",
 			    filter = { event = "msg_show", min_height = 20 },
 			},
-			{
-				view = "notify",
-				filter = { event = "msg_show", find = "written" },
-				opts = { skip = true },
-			},
-			{
-				filter = { event = "msg_show", find = "lines" },
-				opts = { skip = true },
-			},
+			-- {
+			-- 	view = "notify",
+			-- 	filter = { event = "msg_show", find = "written" },
+			-- 	opts = { skip = true },
+			-- },
+			-- {
+			-- 	filter = { event = "msg_show", find = "lines" },
+			-- 	opts = { skip = true },
+			-- },
 	  },
 	})
 end

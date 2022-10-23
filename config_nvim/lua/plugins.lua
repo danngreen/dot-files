@@ -44,16 +44,14 @@ require("packer").startup({
 			end
 		}
 		use {
-			"danngreen/lualine.nvim",
-			config = function()
-				require("lualine-conf").config()
-			end
+			-- "danngreen/lualine.nvim",
+			"nvim-lualine/lualine.nvim",
+			config = function() require("lualine-conf").config() end,
+			after = { "noice.nvim" }
 		}
 		use({
 			"kylechui/nvim-surround",
-			config = function()
-				require("nvim-surround").setup({})
-			end
+			config = function() require("nvim-surround").setup({}) end
 		})
 
 		use {'stevearc/dressing.nvim'}
@@ -64,15 +62,14 @@ require("packer").startup({
 			end
 		}
 
-		-- use {'folke/noice.nvim',
-		--   event = "VimEnter",
-		--   config = require("noice-conf").config,
-		--   requires = {
-		-- 	"MunifTanjim/nui.nvim",
-		-- 	"rcarriga/nvim-notify",
-		-- 	"hrsh7th/nvim-cmp",
-		-- 	}
-		-- }
+		use {'folke/noice.nvim',
+		  event = "VimEnter",
+		  config = require("noice-conf").config,
+		  requires = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+			}
+		}
 
 		--
 		-- LSP

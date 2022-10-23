@@ -20,7 +20,8 @@ _M.config = function()
 				{"diagnostics", sources = {"nvim_diagnostic"}, color_error = "#FF0000", color_warn = "#FFFF00", color_info = "#999999"}
 			},
 			lualine_x = {"location"},
-			lualine_y = {},
+			lualine_y = {{require("noice").api.status.message.get_hl, cond = require("noice").api.status.message.has
+			}},
 			lualine_z = {"progress"}
 		},
 		inactive_sections = {
