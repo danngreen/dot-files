@@ -19,9 +19,9 @@ _M.config = function()
 		auto_install = true,
 		highlight = {
 			enable = true,
-			custom_captures = {
-				["template_arg"] = "TSTemplateArg"
-			},
+			-- custom_captures = {
+			-- 	["template_arg"] = "TSTemplateArg"
+			-- },
 		},
 		incremental_selection = {
 			enable = true,

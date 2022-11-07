@@ -14,7 +14,6 @@ local useccls = true
 -- Completion
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Diagnostics
@@ -196,11 +195,10 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart=true,
 		cmd = {
-			-- "clangd",
-			"/Users/design/bin/clang+llvm-15.0.0-rc2-x86_64-apple-darwin/bin/clangd",
+			"/Users/dann/bin/clang+llvm-15.0.0-rc2-x86_64-apple-darwin/bin/clangd",
 			"--background-index",
 			-- "--log=verbose",
-			"-j=32",
+			"-j=16",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
 			"--header-insertion=iwyu",
