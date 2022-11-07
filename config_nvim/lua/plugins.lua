@@ -36,9 +36,9 @@ require("packer").startup({
 			end
 		}
 		use {
-			"danngreen/monokai.nvim",
+			-- "danngreen/monokai.nvim", -- monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
+			"tanvirtin/monokai.nvim",
 			config = function()
-				--monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
 				require "monokai".setup {}
 				require "custom-hi"
 			end

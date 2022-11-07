@@ -42,4 +42,10 @@ hi LspSignatureActiveParameter guifg=red
 hi! LspReferenceText guibg=#433536
 
 hi Pmenu guibg=#434546 
+
+" hi @template_arg guifg=red guibg=yellow
+
+hi @namespace guifg=#ae81ff
+" cpp #pragma shows up green unless we do this:
+hi link @preproc @include
 ]]
