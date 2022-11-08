@@ -36,12 +36,18 @@ require("packer").startup({
 			end
 		}
 		use {
-			-- "danngreen/monokai.nvim", -- monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
-			"tanvirtin/monokai.nvim",
+			"danngreen/monokai.nvim", -- monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
+			-- "tanvirtin/monokai.nvim",
 			config = function()
 				require "monokai".setup {}
 				require "custom-hi"
 			end
+			-- "cpea2506/one_monokai.nvim",
+			-- config = function()
+			-- 	require("one_monokai").setup({
+			-- 	use_cmd = true,
+			-- 	colors = {bg="#26292C"},
+			-- })end
 		}
 		use {
 			"danngreen/lualine.nvim",
