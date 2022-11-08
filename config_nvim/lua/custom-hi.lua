@@ -42,4 +42,6 @@ hi LspSignatureActiveParameter guifg=red
 hi! LspReferenceText guibg=#433536
 
 hi Pmenu guibg=#434546 
+
+hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
 ]]
