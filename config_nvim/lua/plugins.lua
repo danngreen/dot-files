@@ -86,23 +86,22 @@ require("packer").startup({
 		use {"neovim/nvim-lspconfig"}
 		use {"nvim-lua/popup.nvim"}
 		use {"nvim-lua/plenary.nvim"}
-		use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({
-			-- bind = true,
-			-- fix_pos = true,
-			-- always_trigger = false,
-			-- floating_window = true,
-			-- floating_window_above_cur_line = false,
-			-- handler_opts = {border = "rounded"},
-			toggle_key = '<C-k>', --in insert mode
-			hint_enable = false,
-			-- transparency = true,
-		}) end}
+		-- use {"ray-x/lsp_signature.nvim", config = function() require('lsp_signature').setup({
+		-- 	-- bind = true,
+		-- 	-- fix_pos = true,
+		-- 	-- always_trigger = false,
+		-- 	-- floating_window = true,
+		-- 	-- floating_window_above_cur_line = false,
+		-- 	-- handler_opts = {border = "rounded"},
+		-- 	toggle_key = '<C-k>', --in insert mode
+		-- 	hint_enable = false,
+		-- 	-- transparency = true,
+		-- }) end}
 		-- use {"m-pilia/vim-ccls"}
 		use {"ranjithshegde/ccls.nvim"}
 		use {"p00f/clangd_extensions.nvim"}
 		use {"rust-lang/rust.vim"}
-		use {
-			"hrsh7th/nvim-cmp",
+		use {"hrsh7th/nvim-cmp",
 			requires = {
 				"hrsh7th/vim-vsnip",
 				"hrsh7th/cmp-nvim-lua",
@@ -112,7 +111,7 @@ require("packer").startup({
 				"hrsh7th/cmp-calc",
 				"uga-rosa/cmp-dictionary",
 				-- "hrsh7th/cmp-cmdline",
-				-- "hrsh7th/cmp-nvim-lsp-signature-help",
+				"hrsh7th/cmp-nvim-lsp-signature-help",
 			}
 		}
 		--

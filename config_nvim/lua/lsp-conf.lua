@@ -8,7 +8,7 @@ local conf_lsp = {}
 conf_lsp.pretty_telescope = require "lsp_telescope"
 
 local useclangd = true
-local useccls = true
+local useccls = false
 
 
 -- Completion
@@ -45,48 +45,58 @@ vim.diagnostic.config({
 local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
 
-	vim.lsp.set_log_level("trace")
+	local bufopt = {buffer=bufnr}
+	-- vim.lsp.set_log_level("trace")
 
 	--Symbol info (hover/signature)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
-	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {buffer=0})
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopt)
+	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopt)
+	vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, bufopt)
+	vim.keymap.set("i", "<M-k>", vim.lsp.buf.hover, bufopt)
+
+	--Symbol list
+	vim.keymap.set("n", "gw", "<cmd>Telescope lsp_dynamic_workspace_symbols", bufopt)
+	vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, bufopt)
 
 	--Refs/Defs
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
-	vim.keymap.set("n", "gr", require'lsp-conf'.pretty_telescope.pretty_refs, {buffer=0})
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {buffer=0})
-	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, {buffer=0})
-	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, {buffer=0})
-	vim.keymap.set("n", "gn", vim.lsp.buf.incoming_calls, {buffer=0})
-	vim.keymap.set("n", "gN", vim.lsp.buf.outgoing_calls, {buffer=0})
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopt)
+	vim.keymap.set("n", "gr", require'lsp-conf'.pretty_telescope.pretty_refs, bufopt)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopt)
+	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, bufopt)
+	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, bufopt)
+	vim.keymap.set("n", "gn", vim.lsp.buf.incoming_calls, bufopt)
+	vim.keymap.set("n", "gN", vim.lsp.buf.outgoing_calls, bufopt)
 
-	--Symbols
-	vim.keymap.set("n", "gw", "<cmd>Telescope lsp_dynamic_workspace_symbols", {buffer=0})
-	vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, {buffer=0})
 
-	vim.keymap.set("n", "<leader>ff",
-		function() require('fzf-lua').lsp_code_actions({winopts={height=8, width=80}}) end,
-		{buffer=0})
+	--Workspace
+	vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopt)
+	vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopt)
+	vim.keymap.set('n', '<leader>wl',
+		function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+		bufopt)
 
-	vim.keymap.set("n", "<leader>rn", Rename.rename, {buffer=0})
-	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", {buffer=0})
-	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", {buffer=0})
+	--Actions
+	vim.keymap.set("n", "<leader>ff", vim.lsp.buf.code_action, bufopt)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopt)
+	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
+	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
+	vim.keymap.set("n", "<leader><leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
 
 	--Diagnostics
-	vim.keymap.set("n", "<leader>e",  function() vim.diagnostic.open_float({scope="line"}) end, {buffer=0})
-	vim.keymap.set("n", "<leader>E",  function() vim.diagnostic.open_float({scope="buffer"}) end, {buffer=0})
-	vim.keymap.set("n", "<leader>fn", vim.diagnostic.goto_next, {buffer=0})
-	vim.keymap.set("n", "<leader>fp", vim.diagnostic.goto_prev, {buffer=0})
-	-- vim.keymap.set("n", "<leader>fp", vim.diagnostic.setloclist, {buffer=0})
-	-- vim.keymap.set("n", "<leader>fP", vim.diagnostic.setqflist, {buffer=0})
-	vim.keymap.set("n", "<leader>fC", function() vim.diagnostic.disable(0) end, {buffer=0})
-	vim.keymap.set("n", "<leader>fc", require'lsp-conf'.virt_text.toggle, {buffer=0})
+	vim.keymap.set("n", "<leader>e",  function() vim.diagnostic.open_float({scope="line"}) end, bufopt)
+	vim.keymap.set("n", "<leader>E",  function() vim.diagnostic.open_float({scope="buffer"}) end, bufopt)
+	vim.keymap.set("n", "<leader>fn", vim.diagnostic.goto_next, bufopt)
+	vim.keymap.set("n", "<leader>fp", vim.diagnostic.goto_prev, bufopt)
+	-- vim.keymap.set("n", "<leader>fp", vim.diagnostic.setloclist, bufopt)
+	vim.keymap.set("n", "<leader>fq", vim.diagnostic.setqflist, bufopt)
+	vim.keymap.set("n", "<leader>fC", function() vim.diagnostic.disable(0) end, bufopt)
+	vim.keymap.set("n", "<leader>fc", require'lsp-conf'.virt_text.toggle, bufopt)
 
 	--Completion keys
 	vim.o.completeopt = "menuone,noselect"
 
 	--Highlight current word
-	if client.server_capabilities.document_highlight then
+	if client.server_capabilities.documentHighlightProvider then --document_highlight then
 		vim.api.nvim_exec([[
 			augroup lsp_document_highlight
 				autocmd!
@@ -98,75 +108,15 @@ local on_attach_vim = function(client, bufnr)
 
 	--Formatting
 	require "lsp-format".on_attach(client)
-	--Formatting
-
-	--require "lsp_signature".on_attach(
-	--	{
-	--		bind = true,
-	--		fix_pos = true,
-	--		always_trigger = false,
-	--		floating_window = true,
-	--		floating_window_above_cur_line = false,
-	--		handler_opts = {border = "rounded"},
-	--		toggle_key = '<C-k>', --in insert mode
-	--		hint_enable = false,
-	--		transparency = true,
-	--		--doc_lines = 10,
-	--	},
-	--	bufnr
-	--)
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
 
 -- Handlers
 
--- Why doesn't setting the codeAction handler not work anymore? Even if telescope opts are empty, it has no effect
--- vim.lsp.handlers['textDocument/codeAction'] = function(opts)
---opts = opts or {}
---opts.layout_config = {height = 7, width=0.3}
--- require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor(opts))
---end
-
 vim.lsp.handlers["workspace/symbol"] = require "telescope.builtin".lsp_dynamic_workspace_symbols
 vim.lsp.handlers["textDocument/documentSymbol"] = require "telescope.builtin".lsp_document_symbols
-
--- From https://www.reddit.com/r/neovim/comments/nsfv7h/rename_in_floating_window_with_neovim_lsp/
--- TODO: change to vim.ui.input
-local function dorename(win)
-	local new_name = vim.trim(vim.fn.getline("."))
-	vim.api.nvim_win_close(win, true)
-	vim.lsp.buf.rename(new_name)
-end
-
-local function rename()
-	local opts = {
-		relative = "cursor",
-		row = 1,
-		col = 0,
-		width = 30,
-		height = 1,
-		style = "minimal",
-		border = "single"
-	}
-	local cword = vim.fn.expand("<cword>")
-	local buf = vim.api.nvim_create_buf(false, true)
-	local win = vim.api.nvim_open_win(buf, true, opts)
-	local fmt = "<cmd>lua Rename.dorename(%d)<CR>"
-	local cancel = "<cmd>lua vim.api.nvim_win_close(%d, true)<CR>"
-
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cword})
-	vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", string.format(fmt, win), {silent = true})
-	vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", string.format(fmt, win), {silent = true})
-	vim.api.nvim_buf_set_keymap(buf, "n", "<ESC>", string.format(cancel, win), {silent = true})
-end
-_G.Rename = {
-	rename = rename,
-	dorename = dorename
-}
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "single"})
-
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "single"})
 
 -- Clangd
