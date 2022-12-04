@@ -31,6 +31,7 @@ require("packer").startup({
 		use {
 			"ibhagwan/fzf-lua",
 			requires = {"vijaymarupudi/nvim-fzf", "kyazdani42/nvim-web-devicons"},
+			after = "monokai.nvim",
 			config = function()
 				require "fzf-lua-conf".config()
 			end
