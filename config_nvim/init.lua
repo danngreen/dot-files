@@ -28,12 +28,12 @@ vim.o.cmdheight = 1
 vim.o.updatetime = 300
 vim.o.timeoutlen = 600
 vim.wo.signcolumn = "yes"
-
-vim.o.shortmess = vim.o.shortmess .. "c" -- Avoid showing message extra message when using completion
-vim.api.nvim_command("set shortmess-=F") -- Allows messages to echo while processing filetypes
+vim.opt.shortmess:append("c") -- Avoid showing message extra message when using completion
+vim.opt.shortmess:remove("F")
 vim.o.wildmenu = true
-vim.o.wildignore = vim.o.wildignore .. "tags,tags.*,build/*"
+vim.opt.wildignore:append {"tags,tags.*,build/*"}
 vim.o.path = ".,,**"
+vim.opt.diffopt:append {"linematch:60"}
 
 -- Key Mappings
 require "keys"
