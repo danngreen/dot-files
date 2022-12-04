@@ -25,7 +25,8 @@ hi! TelescopePromptBorder guifg=cyan
 hi diffAdded guibg=#447744 
 hi diffRemoved guibg=#774444
 hi DiffChange guibg=#282840
-hi DiffText guibg=#27406b
+hi DiffText guibg=#2332dd
+
 hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
 hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
 hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
@@ -42,6 +43,6 @@ hi LspSignatureActiveParameter guifg=red
 hi! LspReferenceText guibg=#433536
 
 hi Pmenu guibg=#434546 
-
 hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
+
 ]]
