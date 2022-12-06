@@ -37,19 +37,12 @@ require("packer").startup({
 			end
 		}
 		use {
-			"danngreen/monokai.nvim", -- monokai fork that uses neovim 0.8 treesitter highlight groups and custom function
-			-- "tanvirtin/monokai.nvim",
+			"danngreen/monokai.nvim", -- fork of "tanvirtin/monokai.nvim" that uses neovim 0.8 treesitter highlight groups and custom hl function
 			config = function()
 				require "monokai".setup {
-					custom_hl = function(palette)
-						return {
-							["@type.builtin"] = { link = "@type", style = "italic" },
-							["@type.definition"] = { link = "@type", style = "bold" },
-							["@type.qualifier"] = { link = "@keyword" },
-						}
-					end,
+					custom_hl = require("custom-hi").config,
 				}
-				require "custom-hi"
+				require("custom-hi").do_hl()
 			end
 		}
 		use {
