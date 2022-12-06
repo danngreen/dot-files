@@ -37,18 +37,20 @@ require("packer").startup({
 			end
 		}
 		use {
-			"danngreen/monokai.nvim", -- monokai fork that's not async (so we don't have to integrate all highlights into monokai's syntax)
+			"danngreen/monokai.nvim", -- monokai fork that uses neovim 0.8 treesitter highlight groups and custom function
 			-- "tanvirtin/monokai.nvim",
 			config = function()
-				require "monokai".setup {}
+				require "monokai".setup {
+					custom_hl = function(palette)
+						return {
+							["@type.builtin"] = { link = "@type", style = "italic" },
+							["@type.definition"] = { link = "@type", style = "bold" },
+							["@type.qualifier"] = { link = "@keyword" },
+						}
+					end,
+				}
 				require "custom-hi"
 			end
-			-- "cpea2506/one_monokai.nvim",
-			-- config = function()
-			-- 	require("one_monokai").setup({
-			-- 	use_cmd = true,
-			-- 	colors = {bg="#26292C"},
-			-- })end
 		}
 		use {
 			"danngreen/lualine.nvim",
@@ -71,15 +73,15 @@ require("packer").startup({
 			end
 		}
 
-		-- use {'folke/noice.nvim',
-		--   event = "VimEnter",
-		--   config = require("noice-conf").config,
-		--   requires = {
-		-- 	"MunifTanjim/nui.nvim",
-		-- 	"rcarriga/nvim-notify",
-		-- 	"hrsh7th/nvim-cmp",
-		-- 	}
-		-- }
+		use {'folke/noice.nvim',
+		  event = "VimEnter",
+		  config = require("noice-conf").config,
+		  requires = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+			"hrsh7th/nvim-cmp",
+			}
+		}
 
 		--
 		-- LSP
