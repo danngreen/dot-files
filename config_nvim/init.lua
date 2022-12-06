@@ -28,12 +28,12 @@ vim.o.cmdheight = 1
 vim.o.updatetime = 300
 vim.o.timeoutlen = 600
 vim.wo.signcolumn = "yes"
-
-vim.o.shortmess = vim.o.shortmess .. "c" -- Avoid showing message extra message when using completion
-vim.api.nvim_command("set shortmess-=F") -- Allows messages to echo while processing filetypes
+vim.opt.shortmess:append("c") -- Avoid showing message extra message when using completion
+vim.opt.shortmess:remove("F")
 vim.o.wildmenu = true
-vim.o.wildignore = vim.o.wildignore .. "tags,tags.*,build/*"
+vim.opt.wildignore:append {"tags,tags.*,build/*"}
 vim.o.path = ".,,**"
+vim.opt.diffopt:append {"linematch:60"}
 
 vim.cmd[[set diffopt+=linematch:60]]
 
@@ -87,4 +87,8 @@ vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
 vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
 vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
 
-vim.api.nvim_exec([[let g:neovide_input_use_logo = v:true]], false)
+vim.on_key(function(char)
+  if vim.fn.mode() == "n" then
+    vim.opt.hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, vim.fn.keytrans(char))
+  end
+end, vim.api.nvim_create_namespace "auto_hlsearch")
