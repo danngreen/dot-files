@@ -35,6 +35,8 @@ vim.o.wildmenu = true
 vim.o.wildignore = vim.o.wildignore .. "tags,tags.*,build/*"
 vim.o.path = ".,,**"
 
+vim.cmd[[set diffopt+=linematch:60]]
+
 -- Key Mappings
 require "keys"
 
@@ -84,3 +86,5 @@ vim.cmd[[set exrc]]
 vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
 vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
 vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
+
+vim.api.nvim_exec([[let g:neovide_input_use_logo = v:true]], false)
