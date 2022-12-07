@@ -21,7 +21,18 @@ local use = require("packer").use
 require("packer").startup({
 	function()
 		use {"wbthomason/packer.nvim", opt = true}
-		use {"scrooloose/nerdtree", opt = true, cmd = {"NERDTreeToggle"}}
+		-- use {"scrooloose/nerdtree", opt = true, cmd = {"NERDTreeToggle"}}
+    use {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v2.x",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons",
+        "MunifTanjim/nui.nvim",
+      },
+      config = function () vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]]) end
+    }
+
 		use {
 			"junegunn/fzf.vim",
 			requires = {"junegunn/fzf"},

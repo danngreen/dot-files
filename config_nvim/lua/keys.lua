@@ -123,7 +123,8 @@ noremap("<F10>", ":call ToggleQuickFix()<CR>")
 
 noremap("<F11>", ":TagbarToggle<CR>")
 noremap("<F23>", ":Dispatch! ctags -R .<CR>")
-noremap("<F12>", ":NERDTreeToggle<CR>")
+-- noremap("<F12>", ":NERDTreeToggle<CR>")
+noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
 nnoremap("<leader><leader>", ":w<CR>")
 -- Commonly used files
