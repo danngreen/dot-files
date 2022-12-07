@@ -119,9 +119,9 @@ function! ToggleQuickFix()
     endif
 endfunction
 ]]
-noremap("<F10>", ":call ToggleQuickFix()<CR>")
 
-noremap("<F11>", ":TagbarToggle<CR>")
+noremap("<F10>", ":TagbarToggle<CR>")
+noremap("<F11>", ":call ToggleQuickFix()<CR>")
 noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 -- noremap("<F12>", ":NERDTreeToggle<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
