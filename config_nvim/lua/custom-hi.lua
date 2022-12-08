@@ -62,6 +62,7 @@ M.config = function(palette)
 		["@error"] = { link = "Error" },
 		["@storageclass"] = { fg = palette.pink },
 		["@todo"] = { bg = palette.purple },
+		["@preproc"] = { fg = palette.red },
 	}
 end
 
