@@ -48,6 +48,8 @@ M.do_hl = function()
 	hi Pmenu guibg=#434546 
 	hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
 	]]
+
+	-- vim.api.nvim_set_hl(0, "@property", { fg = require("monokai").classic.aqua, blend = 50 })
 end
 
 M.config = function(palette)
@@ -56,13 +58,16 @@ M.config = function(palette)
 		["@type.definition"] = { link = "@type", style = "bold" },
 		["@type.qualifier"] = { link = "@keyword" },
 		["@attribute"] = { link = "PreProc" },
-		["@boolean"] = { fg = palette.cyan },
+		["@boolean"] = { fg = palette.purple },
 		["@debug"] = { link = "Debug" },
 		["@define"] = { link = "Define" },
 		["@error"] = { link = "Error" },
 		["@storageclass"] = { fg = palette.pink },
 		["@todo"] = { bg = palette.purple },
 		["@preproc"] = { fg = palette.red },
+		["@function.builtin"] = { link = "@keyword" },
+		["@property"] = { fg = palette.yellow }, -- members
+		["@punctuation"] = { fg = palette.border },
 	}
 end
 
