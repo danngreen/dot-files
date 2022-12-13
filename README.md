@@ -25,7 +25,7 @@ ln -s dot-files/gitignore-global .gitignore-global
 ln -s dot-files/zshrc .zshrc
 ```
 
-Then it will use `stow` to symlink the vim directory to ~/.vim and the nvim dir to ~/.config/nvim
+Then it will use `stow` to symlink the nvim dir to ~/.config/nvim
 
 ```
 cd dot-files
