@@ -132,6 +132,7 @@ nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
 nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
 nnoremap("<leader>vk", ":edit ~/.config/nvim/lua/keys.lua<CR>")
 nnoremap("<leader>vp", ":edit ~/.config/nvim/lua/plugins.lua<CR>")
+nnoremap("<leader>vh", ":edit ~/.config/nvim/lua/custom-hi.lua<CR>")
 nnoremap("<leader>vcc", ":edit ~/Library/Preferences/clangd/config.yaml<CR>")
 
 -- Copy to clipboard
