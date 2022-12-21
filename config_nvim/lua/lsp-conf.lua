@@ -46,7 +46,7 @@ local on_attach_vim = function(client, bufnr)
 	print("LSP started: " .. client.name)
 
 	local bufopt = {buffer=bufnr}
-	-- vim.lsp.set_log_level("trace")
+	vim.lsp.set_log_level("ERROR")
 
 	--Symbol info (hover/signature)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopt)

@@ -15,7 +15,7 @@ vim.api.nvim_exec(
 	false
 )
 
-vim.g.python3_host_prog = "/usr/local/bin/python3"
+--vim.g.python3_host_prog = "/usr/local/bin/python3"
 
 local use = require("packer").use
 require("packer").startup({
@@ -121,6 +121,9 @@ require("packer").startup({
 				-- "hrsh7th/cmp-cmdline",
 				"hrsh7th/cmp-nvim-lsp-signature-help",
 			}
+		}
+		use {"williamboman/mason.nvim",
+			config = function() require("mason").setup() end
 		}
 		--
 		-- Telescope
