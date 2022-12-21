@@ -21,8 +21,6 @@ plugins=(git colored-man-pages colorize pip python brew macos fd pj zsh-syntax-h
 #disabled_plugins = (zsh-autosuggestions vi-mode) 
 
 KEYTIMEOUT=5
-# VI_MODE_SET_CURSOR=true
-# VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
 source $ZSH/oh-my-zsh.sh
 unsetopt share_history
@@ -58,14 +56,3 @@ alias vi=nvim
 alias startidf='. $IDF_PATH/export.sh'
 alias stm32prog=~/STM32Cube/STM32CubeProg/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI
 alias g=git
-alias luamake=$HOME/bin/lua-language-server/3rd/luamake/luamake
-
-# opam configuration
-# [[ ! -r /Users/dann/.opam/opam-init/init.zsh ]] || source /Users/dann/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-# eval $(opam env)
-# export KIRI_HOME="/Users/dann/.local/share/kiri"
-# export PATH=${KIRI_HOME}/submodules/KiCad-Diff/bin:${PATH}
-# export PATH=${KIRI_HOME}/bin:${PATH}
-
-# Created by `userpath` on 2022-08-31 04:56:39
-#export PATH="$PATH:/Users/dann/Library/Python/3.10/bin"
