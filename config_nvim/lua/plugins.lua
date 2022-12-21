@@ -50,8 +50,9 @@ require("packer").startup({
 		use {
 			"danngreen/monokai.nvim", -- fork of "tanvirtin/monokai.nvim" that uses neovim 0.8 treesitter highlight groups and custom hl function
 			config = function()
-				require "monokai".setup {
-					custom_hl = require("custom-hi").config,
+				require("monokai").setup {
+				    custom_hlgroups = require("custom-hi").groups,
+					-- custom_hl = require("custom-hi").config,
 				}
 				require("custom-hi").do_hl()
 			end
@@ -174,7 +175,7 @@ require("packer").startup({
 				}
 			end
 		}
-		use {"khaveesh/vim-fish-syntax"}
+		-- use {"khaveesh/vim-fish-syntax"}
 
 		use {"iamcco/markdown-preview.nvim", run = "call mkdp#util#install()"}
 		use {"tpope/vim-eunuch"}

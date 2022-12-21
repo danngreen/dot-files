@@ -49,11 +49,10 @@ M.do_hl = function()
 	hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
 	]]
 
-	-- vim.api.nvim_set_hl(0, "@property", { fg = require("monokai").classic.aqua, blend = 50 })
 end
 
-M.config = function(palette)
-	return {
+local palette = require("monokai").classic
+M.groups = {
 		["@type.builtin"] = { link = "@type", style = "italic" },
 		["@type.definition"] = { link = "@type", style = "bold" },
 		["@type.qualifier"] = { link = "@keyword" },
@@ -69,7 +68,6 @@ M.config = function(palette)
 		["@property"] = { fg = palette.yellow }, -- members
 		["@punctuation"] = { fg = palette.border },
 	}
-end
 
 return M
 

@@ -67,6 +67,7 @@
  "virtual"
  "concept"
  "requires"
+ "extern"
 ] @keyword
 
 ; Strings
