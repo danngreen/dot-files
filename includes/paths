@@ -29,10 +29,12 @@ export METAMODULE_COREMODULE_DIR=$METAMODULE_BASE_DIR/shared/CoreModules
 export METAMODULE_VCV_DIR=$METAMODULE_BASE_DIR/vcv
 
 source ~/.config/zsh/paths.local
+
 # paths.local contains:
 # export ARM_GCC_ROOT=$HOME/4ms/stm32/gcc-arm-none-eabi-10-2020-q4-major
 # export RACK_DIR=$HOME/4ms/vcv/Rack
 # export INKSCAPE_BIN_PATH=/Applications/Inkscape.app/Contents/MacOS/inkscape
+# export KICAD_CLI="/Applications/Kicad 6.99/KiCad.app/Contents/MacOS/kicad-cli"
 
 export ARM_NONE_EABI_PATH=$ARM_GCC_ROOT/bin/arm-none-eabi
 export PATH="$ARM_GCC_ROOT/bin:$PATH"
