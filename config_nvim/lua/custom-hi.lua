@@ -67,6 +67,13 @@ M.groups = {
 		["@function.builtin"] = { link = "@keyword" },
 		["@property"] = { fg = palette.yellow }, -- members
 		["@punctuation"] = { fg = palette.border },
+		["@constant"] = { fg = palette.purple },
+		["@constant.macro"] = { fg= palette.green },
+		["@function.call"] = { fg= palette.green },
+
+		--For sematic tokens:
+		["@macro"] = { fg = palette.green },
+    ["@enumMember"] = { fg = palette.purple, style = "italic" },
 	}
 
 return M
