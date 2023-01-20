@@ -141,6 +141,8 @@ vnoremap("<M-c>", '"+y')
 -- Building
 nnoremap("<leader>m", ":wa<CR>:Make!<CR>")
 
+nnoremap("<F7>", "<cmd>Git<CR>")
+nnoremap("<F19>", "<cmd>FloatermNew --height=1.0 --width=1.0 --autoclose=1 lazygit<CR>")
 
 --- Debugging
 nnoremap("<leader>dl", "<cmd>call vimspector#Launch()<cr>")
