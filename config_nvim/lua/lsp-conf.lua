@@ -360,11 +360,12 @@ end
 
 nvim_lspconfig.sumneko_lua.setup {
 	require "conf.lua-lsp",
-	cmd = {
-		"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server",
-		"-E",
-		"/Users/dann/bin/lua-language-server/main.lua"
-	},
+	-- use `brew install lua-language-server` instead of the below:
+	-- cmd = {
+	-- 	"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server",
+	-- 	"-E",
+	-- 	"/Users/dann/bin/lua-language-server/main.lua"
+	-- },
 	on_attach = on_attach_vim
 }
 
