@@ -1,13 +1,13 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -25,22 +25,16 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 			"MunifTanjim/nui.nvim",
 		},
-		config = function () vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]]) end
-	},
-	{
-		"junegunn/fzf.vim",
-		dependencies = {"junegunn/fzf"},
-		rtp = "/usr/local/opt/fzf",
-		config = function() vim.g.fzf_preview_window = "['right:50%:nohidden', '?']" end,
+		config = function() vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]]) end
 	},
 	{
 		"ibhagwan/fzf-lua",
-		dependencies = {"vijaymarupudi/nvim-fzf", "nvim-tree/nvim-web-devicons"},
+		dependencies = { "vijaymarupudi/nvim-fzf", "nvim-tree/nvim-web-devicons" },
 		config = function() require "fzf-lua-conf".config() end
 	},
 	{
 		"danngreen/monokai.nvim", -- fork of "tanvirtin/monokai.nvim" that uses neovim 0.8 treesitter highlight groups and custom hl function
-		dependencies = {"ibhagwan/fzf-lua"},
+		dependencies = { "ibhagwan/fzf-lua" },
 		config = function()
 			require("monokai").setup {
 				custom_hlgroups = require("custom-hi").groups,
@@ -61,9 +55,9 @@ require("lazy").setup({
 			require("nvim-surround").setup({})
 		end
 	},
-	{'rcarriga/nvim-notify',
+	{ 'rcarriga/nvim-notify',
 		config = function()
-			require("notify").setup({render = "minimal", stages = "static"})
+			require("notify").setup({ render = "minimal", stages = "static" })
 			vim.notify = require("notify")
 		end
 	},
@@ -119,7 +113,7 @@ require("lazy").setup({
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
-				config = function() require'telescope'.load_extension('fzf') end,
+				config = function() require 'telescope'.load_extension('fzf') end,
 			},
 		},
 	},
@@ -153,18 +147,18 @@ require("lazy").setup({
 
 	{
 		"lukas-reineke/format.nvim", config = function()
-			require "lsp-format".setup {
-				--npm i -g lua-fmt
-				lua = {{cmd = {"luafmt -l 120 --use-tabs -i 4 -w replace"}}},
-				vim = {
-					{
-						cmd = {"luafmt -w replace"},
-						start_pattern = "^lua << EOF$",
-						end_pattern = "^EOF$"
-					}
+		require "lsp-format".setup {
+			--npm i -g lua-fmt
+			lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
+			vim = {
+				{
+					cmd = { "luafmt -w replace" },
+					start_pattern = "^lua << EOF$",
+					end_pattern = "^EOF$"
 				}
 			}
-		end
+		}
+	end
 	},
 
 	{
@@ -191,34 +185,34 @@ require("lazy").setup({
 
 	{
 		"lewis6991/gitsigns.nvim",
-		dependencies = {"nvim-lua/plenary.nvim"},
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function() require("gitsigns").setup() end
 	},
 	{
 		'mbbill/undotree', config = function()
 		vim.cmd([[set undodir=$HOME/.cache/nvim/undotree]])
 		vim.cmd([[set undofile]])
-		end
+	end
 	},
 
 	-- Debugging
-	{'simrat39/rust-tools.nvim', config = function()
+	{ 'simrat39/rust-tools.nvim', config = function()
 		require('rust-tools').setup({})
-	end},
+	end },
 
-	{'krady21/compiler-explorer.nvim',
+	{ 'krady21/compiler-explorer.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
 	},
 
-	{'p00f/godbolt.nvim', config = function()
+	{ 'p00f/godbolt.nvim', config = function()
 		require("godbolt").setup(require('godbolt-conf').config)
-	end},
+	end },
 
-	{'puremourning/vimspector', config = function()
+	{ 'puremourning/vimspector', config = function()
 		vim.cmd([[
 		let g:vimspector_sidebar_width = 85
 		let g:vimspector_bottombar_height = 15
 		let g:vimspector_terminal_maxwidth = 70
 		]])
-	end},
+	end },
 })
