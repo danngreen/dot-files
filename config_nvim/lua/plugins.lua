@@ -30,30 +30,23 @@ require("lazy").setup({
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "vijaymarupudi/nvim-fzf", "nvim-tree/nvim-web-devicons" },
-		config = function() require "fzf-lua-conf".config() end
+		opts = require("fzf-lua-conf").config
 	},
 	{
-		"danngreen/monokai.nvim", -- fork of "tanvirtin/monokai.nvim" that uses neovim 0.8 treesitter highlight groups and custom hl function
+		"danngreen/monokai.nvim",
 		dependencies = { "ibhagwan/fzf-lua" },
 		config = function()
-			require("monokai").setup {
-				custom_hlgroups = require("custom-hi").groups,
-				-- custom_hl = require("custom-hi").config,
-			}
+			require("monokai").setup { custom_hlgroups = require("custom-hi").groups }
 			require("custom-hi").do_hl()
 		end
 	},
 	{
 		"danngreen/lualine.nvim",
-		config = function()
-			require("lualine-conf").config()
-		end
+		opts = require("lualine-conf").config,
 	},
 	{
 		"kylechui/nvim-surround",
-		config = function()
-			require("nvim-surround").setup({})
-		end
+		config = true,
 	},
 	{ 'rcarriga/nvim-notify',
 		config = function()
@@ -98,7 +91,7 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
-		config = function() require("mason").setup() end
+		config = true
 	},
 
 	--
