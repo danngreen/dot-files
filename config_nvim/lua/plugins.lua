@@ -56,15 +56,15 @@ require("lazy").setup({
 	},
 	"stevearc/dressing.nvim",
 
-	-- {'folke/noice.nvim',
-	--   event = "VimEnter",
-	--   config = function() require("noice-conf").config end,
-	--   dependencies = {
-	-- 	"MunifTanjim/nui.nvim",
-	-- 	"rcarriga/nvim-notify",
-	-- 	"hrsh7th/nvim-cmp",
-	-- 	}
-	-- },
+	{ 'folke/noice.nvim',
+		event = "VimEnter",
+		opts = require("noice-conf").config,
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+			"hrsh7th/nvim-cmp",
+		}
+	},
 
 	--
 	-- LSP
