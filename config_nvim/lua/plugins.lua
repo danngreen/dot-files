@@ -77,6 +77,7 @@ require("lazy").setup({
 	"rust-lang/rust.vim",
 	{
 		"hrsh7th/nvim-cmp",
+		opts = require("cmp-conf").config,
 		dependencies = {
 			"hrsh7th/vim-vsnip",
 			"hrsh7th/cmp-nvim-lua",
