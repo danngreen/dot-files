@@ -7,70 +7,68 @@ local monokaicolor = function(name)
 	return hex:gsub("#(%x%x)(%x%x)(%x%x)", "0x%1,0x%2,0x%3")
 end
 
-_M.config = function()
-	require "fzf-lua".setup {
-		--fzf_bin = "/usr/local/bin/fzf",
-		winopts = {
-			fullscreen = false,
-			preview = {
-				layout = 'vertical',
-				vertical = 'up:50%',
-			}
-		},
-		fzf_opts = {
-			["--layout"] = "default", --default vs. 'reverse'
-			["--history"] = fzf_history_dir,
-		},
-		fzf_colors = {
-			["fg"] = {"fg", "Normal"},
-			["bg"] = {"bg", "Normal"},
-			["hl"] = {"fg", "Keyword"}, --"matched"
-			--["matched_bg"] = {"bg", "Normal"}, -- sk only
-			["fg+"] = {"fg", "Pmenu"}, --"fg of current line"
-			["bg+"] = {"fg", "LineNr"}, --"bg of current line"
-			["hl+"] = {"fg", "Keyword"}, --"current_match"
-			--["current_match_bg"] = {"fg", "LineNr"}, --sk only
-			--query
-			--query_bg
-			["info"] = {"fg", "PreProc"},
-			["prompt"] = {"fg", "Conditional"},
-			["pointer"] = {"fg", "Exception"},
-			["marker"] = {"fg", "Keyword"},
-			["spinner"] = {"fg", "Label"},
-			["header"] = {"fg", "Comment"},
-			["gutter"] = {"bg", "Normal"}
-		},
-		previewers = {
-			git_diff = {
-				-- cmd_deleted     = "git diff --color HEAD --",
-				-- cmd_modified    = "git diff --color HEAD",
-				-- cmd_untracked   = "git diff --color --no-index /dev/null",
-				pager = "delta",
-			},
-		},
-		files = {
-			cmd = "rg --files --follow -g'!lib/u-boot/*'"
-		},
-		grep = {
-			--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
-			rg_opts = 	"--hidden --column --line-number --no-heading --sort-files " ..
-						"--color=always --smart-case " ..
-						"--colors 'path:fg:" .. monokaicolor("aqua") .. "' " ..
-						"--colors 'path:style:bold' " ..
-						"--colors 'match:style:underline' " ..
-						"-g '!{.git,node_modules}/*' ",
-			prompt = "Rg❯ ",
-			input_prompt = "Grep For❯ ",
-			actions = {["ctrl-q"] = false}
+local _M = {}
+
+_M.config = {
+	winopts = {
+		fullscreen = false,
+		preview = {
+			layout = 'vertical',
+			vertical = 'up:50%',
 		}
+	},
+	fzf_opts = {
+		["--layout"] = "default", --default vs. 'reverse'
+		["--history"] = fzf_history_dir,
+	},
+	fzf_colors = {
+		["fg"] = { "fg", "Normal" },
+		["bg"] = { "bg", "Normal" },
+		["hl"] = { "fg", "Keyword" }, --"matched"
+		["fg+"] = { "fg", "Pmenu" }, --"fg of current line"
+		["bg+"] = { "fg", "LineNr" }, --"bg of current line"
+		["hl+"] = { "fg", "Keyword" }, --"current_match"
+		--query
+		--query_bg
+		["info"] = { "fg", "PreProc" },
+		["prompt"] = { "fg", "Conditional" },
+		["pointer"] = { "fg", "Exception" },
+		["marker"] = { "fg", "Keyword" },
+		["spinner"] = { "fg", "Label" },
+		["header"] = { "fg", "Comment" },
+		["gutter"] = { "bg", "Normal" }
+	},
+	previewers = {
+		git_diff = {
+			-- cmd_deleted     = "git diff --color HEAD --",
+			-- cmd_modified    = "git diff --color HEAD",
+			-- cmd_untracked   = "git diff --color --no-index /dev/null",
+			pager = "delta",
+		},
+	},
+	files = {
+		cmd = "rg --files --follow -g'!lib/u-boot/*'"
+	},
+	grep = {
+		--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
+		rg_opts = "--hidden --column --line-number --no-heading --sort-files " ..
+		"--color=always --smart-case " ..
+		"--colors 'path:fg:" .. monokaicolor("aqua") .. "' " ..
+		"--colors 'path:style:bold' " ..
+		"--colors 'match:style:underline' " ..
+		"-g '!{.git,node_modules}/*' ",
+		prompt = "Rg❯ ",
+		input_prompt = "Grep For❯ ",
+		actions = { ["ctrl-q"] = false }
 	}
-end
+}
+--end
 
 _M.find_all_files_cmd =
-	[[rg --files --follow --no-ignore --hidden 
+[[rg --files --follow --no-ignore --hidden
 	-g'!.ccls-cache'
 	-g'!.cache'
-	-g'!**/.git' 
+	-g'!**/.git'
 	-g'!**/.undodir'
 	-g'!tags*'
 	-g'!cscope*'

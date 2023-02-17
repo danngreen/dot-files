@@ -145,8 +145,8 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart = true,
 		cmd = {
+			"clangd",
 			-- "/Users/dann/bin/clang+llvm-15.0.0-rc2-x86_64-apple-darwin/bin/clangd",
-			"/opt/homebrew/opt/llvm/bin/clangd",
 			"--background-index",
 			-- "--log=verbose",
 			"-j=16",
@@ -171,6 +171,7 @@ if (useclangd) then
 		on_init = function(client)
 			client.config.flags.allow_incremental_sync = true
 			client.config.flags.debounce_text_changes = 100
+			-- client.server_capabilities.semanticTokensProvider = nil
 		end,
 		init_options = { clangdFileStatus = false },
 		commands = {
@@ -361,7 +362,8 @@ end
 -- Lua
 
 nvim_lspconfig.sumneko_lua.setup {
-	-- require "conf.lua-lsp",
+	require "conf.lua-lsp",
+	-- use `brew install lua-language-server` instead of the below:
 	-- cmd = {
 	-- 	"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server",
 	-- 	"-E",
@@ -474,8 +476,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>lsC",
-	"<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))<CR>"
-	,
+	"<cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].server_capabilities.completionProvider.triggerCharacters))<CR>",
 	{ noremap = true }
 )
 --Show current symbol type (useful for completion chain list)
@@ -491,12 +492,12 @@ vim.api.nvim_set_keymap(
 function _G.hover(_name)
 	local name = _name or "clangd"
 	local clients =
-	vim.tbl_filter(
-		function(c)
-			return c.name == name
-		end,
-		vim.lsp.get_active_clients()
-	)
+		vim.tbl_filter(
+			function(c)
+				return c.name == name
+			end,
+			vim.lsp.get_active_clients()
+		)
 	local match, client = next(clients)
 	assert(match, "No active client found with name=" .. name)
 	client.request("textDocument/hover", vim.lsp.util.make_position_params())

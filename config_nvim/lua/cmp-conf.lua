@@ -1,3 +1,5 @@
+local _M = {}
+
 local settings = {}
 settings.use_snippets = true
 
@@ -22,11 +24,13 @@ local disable_snippets = function(argsbody)
 		replace[i] = indent .. line
 	end
 	vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, true, replace)
-	vim.api.nvim_win_set_cursor(0, {line_num, col + replace[#replace]:len()})
+	vim.api.nvim_win_set_cursor(0, { line_num, col + replace[#replace]:len() })
 end
 
 local cmp = require "cmp"
-cmp.setup {
+
+_M.config =
+{
 	snippet = {
 		expand = function(args)
 			if (settings.use_snippets) then
@@ -37,7 +41,7 @@ cmp.setup {
 		end
 	},
 	mapping = {
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-b>"] = cmp.mapping.scroll_docs( -4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
 		["<C-w>"] = cmp.mapping.close(), --closes menu, leaves whatever text was selected in menu
@@ -50,10 +54,10 @@ cmp.setup {
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = false -- cancels if you haven't selected anything
 		},
-		["<C-n>"] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}),
-		["<C-p>"] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}),
-		["<Down>"] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
-		["<Up>"] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}),
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 		--vsnip "Super tab" from nvim-cmp wiki:
 		["<Tab>"] = cmp.mapping(
 			function(fallback)
@@ -67,31 +71,30 @@ cmp.setup {
 					fallback()
 				end
 			end,
-			{"i", "s"}
+			{ "i", "s" }
 		),
 		["<S-Tab>"] = cmp.mapping(
 			function()
 				if cmp.visible() then
 					cmp.select_prev_item()
-				elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+				elseif vim.fn["vsnip#jumpable"]( -1) == 1 then
 					feedkey("<Plug>(vsnip-jump-prev)", "")
 				end
 			end,
-			{"i", "s"}
+			{ "i", "s" }
 		)
 	},
 	sources = {
-		{name = "nvim_lsp", priority = 9},
-		{name = "nvim_lua", priority = 8},
+		{ name = "nvim_lsp",   priority = 9 },
+		{ name = "nvim_lua",   priority = 8 },
 		-- { name = "nvim_lsp_signature_help" },
 		{name = "buffer", priority = 7, keyword_length = 3, max_item_count=10},
 		{name = "path", priority = 4},
 		--{name = 'fuzzy_path'},
-		{name = "calc", priority = 3},
+		{ name = "calc",       priority = 3 },
 		--{name = "rg"},
 		{name = "dictionary", priority = 0, keyword_length = 5, keyword_pattern = [[\w\+]], max_item_count=4},
 	},
-
 	sorting = {
 		priority_weight = 1.0,
 		comparators = {
@@ -108,39 +111,38 @@ cmp.setup {
 		  -- compare.kind,
 		},
 	},
-
 	window = {
 		documentation = {
-			border = {'╭', '─', '╮', '│', '╯', '─', '╰', '│'},
+			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
 		},
 		completion = {
-		  border = {'┌', '─', '┐', '│', '┘', '─', '└', '│'},
-		  winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
+			border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+			winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
 		}
 	},
 }
 
-cmp.setup.cmdline({"/","?"}, {
-    mapping = cmp.mapping.preset.cmdline(),
-	sources = {{name = "buffer"}}
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = { { name = "buffer" } }
 })
 
 cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
+	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources(
-		{{ name = 'path' }},
-		{{ name = 'cmdline' }}
+		{ { name = 'path' } },
+		{ { name = 'cmdline' } }
 	)
 })
 
 require("cmp_dictionary").setup({
-    dic = {
-        ["*"] = "/usr/share/dict/words",
-    },
-    exact = 3,
-    -- async = false,
-    -- capacity = 5,
-    -- debug = false,
+	dic = {
+		["*"] = "/usr/share/dict/words",
+	},
+	exact = 3,
+	-- async = false,
+	-- capacity = 5,
+	-- debug = false,
 })
 
 
@@ -177,3 +179,6 @@ require("cmp_dictionary").setup({
 -- 		entered the cmp menu. (That is, if you just type and dont hit C-n or C-p or Down or Up)
 -- true: select the first entry automatically
 -- false: do not select the entry, just close the cmp menu
+--
+--
+return _M

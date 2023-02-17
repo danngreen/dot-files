@@ -1,7 +1,7 @@
 local M = {}
 
 M.do_hl = function()
-	vim.cmd[[
+	vim.cmd [[
 	hi BufferCurrent guifg=#080808 guibg=#e6db74
 	hi BufferCurrentIndex guifg=#080808 guibg=#e6db74
 	hi BufferCurrentSign guifg=grey guibg=#e6db74
@@ -25,15 +25,15 @@ M.do_hl = function()
 	hi! TelescopeMatching guifg=red
 	hi! TelescopePromptBorder guifg=cyan
 
-	hi diffAdded guibg=#447744 
+	hi diffAdded guibg=#447744
 	hi diffRemoved guibg=#774444
 	hi DiffChange guibg=#282840
 	hi DiffText guibg=#2332dd
 
 	hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
 	hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
-	hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none 
-	hi! HintMsg guifg=#A6E22E guibg=#232526 gui=none 
+	hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none
+	hi! HintMsg guifg=#A6E22E guibg=#232526 gui=none
 	hi! link LspDiagnosticsVirtualTextError ErrorMsg
 	hi! link LspDiagnosticsVirtualTextWarning WarningMsg
 	hi! link LspDiagnosticsVirtualTextInformation InfoMsg
@@ -45,36 +45,33 @@ M.do_hl = function()
 	hi LspSignatureActiveParameter guifg=red
 	hi! LspReferenceText guibg=#433536
 
-	hi Pmenu guibg=#434546 
+	hi Pmenu guibg=#434546
 	hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
 	]]
-
 end
 
 local palette = require("monokai").classic
 M.groups = {
-		["@type.builtin"] = { link = "@type", style = "italic" },
-		["@type.definition"] = { link = "@type", style = "bold" },
-		["@type.qualifier"] = { link = "@keyword" },
-		["@attribute"] = { link = "PreProc" },
-		["@boolean"] = { fg = palette.purple },
-		["@debug"] = { link = "Debug" },
-		["@define"] = { link = "Define" },
-		["@error"] = { link = "Error" },
-		["@storageclass"] = { fg = palette.pink },
-		["@todo"] = { bg = palette.purple },
-		["@preproc"] = { fg = palette.red },
-		["@function.builtin"] = { link = "@keyword" },
-		["@property"] = { fg = palette.yellow }, -- members
-		["@punctuation"] = { fg = palette.border },
-		["@constant"] = { fg = palette.purple },
-		["@constant.macro"] = { fg= palette.green },
-		["@function.call"] = { fg= palette.green },
-
-		--For sematic tokens:
-		["@macro"] = { fg = palette.green },
-    ["@enumMember"] = { fg = palette.purple, style = "italic" },
-	}
+	["@type.builtin"] = { link = "@type", style = "italic" },
+	["@type.definition"] = { link = "@type", style = "bold" },
+	["@type.qualifier"] = { link = "@keyword" },
+	["@attribute"] = { link = "PreProc" },
+	["@boolean"] = { fg = palette.purple },
+	["@debug"] = { link = "Debug" },
+	["@define"] = { link = "Define" },
+	["@error"] = { link = "Error" },
+	["@storageclass"] = { fg = palette.pink },
+	["@todo"] = { bg = palette.purple },
+	["@preproc"] = { fg = palette.red },
+	["@function.builtin"] = { link = "@keyword" },
+	["@property"] = { fg = palette.yellow }, -- members
+	["@punctuation"] = { fg = palette.border },
+	["@constant"] = { fg = palette.purple },
+	["@constant.macro"] = { fg = palette.green },
+	["@function.call"] = { fg = palette.green },
+	--For sematic tokens:
+	["@macro"] = { fg = palette.green },
+	["@enumMember"] = { fg = palette.purple, style = "italic" },
+}
 
 return M
-
