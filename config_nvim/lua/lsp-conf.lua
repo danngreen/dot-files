@@ -304,7 +304,6 @@ if (useccls) then
 			},
 		},
 		filetypes = { "c", "cpp" },
-
 		lsp = {
 			-- using vim.lsp.start:
 			server = {
@@ -361,8 +360,8 @@ end
 
 -- Lua
 
-nvim_lspconfig.sumneko_lua.setup {
-	require "conf.lua-lsp",
+nvim_lspconfig.lua_ls.setup {
+	-- require "conf.lua-lsp",
 	-- use `brew install lua-language-server` instead of the below:
 	-- cmd = {
 	-- 	"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server",
