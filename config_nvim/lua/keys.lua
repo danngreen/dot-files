@@ -93,6 +93,8 @@ nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<F17>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
 
+nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --disposable lazygit<CR>")
+
 nnoremap("<F8>", "<cmd>FloatermToggle<CR>")
 tnoremap("<F8>", "<C-\\><C-n>:FloatermToggle<CR>")
 -- Half-screen float terms:

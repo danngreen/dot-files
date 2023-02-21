@@ -22,6 +22,7 @@ old/
 fp-info-cache
 *.bak
 *.kicad_pcb-bak
+*.kicad_sch-bak
 *.sch-bak
 *.kicad_prl
 *-backups

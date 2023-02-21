@@ -157,6 +157,7 @@ if (useclangd) then
 			"--completion-style=bundled",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 			"--query-driver=/Users/**/4ms/stm32/*-arm-none-eabi*/bin/arm-none-eabi-*",
+			"--query-driver=/Volumes/Studio/bin/*-arm-none-eabi*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--pch-storage=memory",
@@ -359,8 +360,8 @@ end
 
 -- Lua
 
-nvim_lspconfig.sumneko_lua.setup {
-	require "conf.lua-lsp",
+nvim_lspconfig.lua_ls.setup {
+	-- require "conf.lua-lsp",
 	-- use `brew install lua-language-server` instead of the below:
 	-- cmd = {
 	-- 	"/Users/dann/bin/lua-language-server/bin/macOS/lua-language-server",
