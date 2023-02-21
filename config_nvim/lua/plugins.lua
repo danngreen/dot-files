@@ -100,9 +100,7 @@ require("lazy").setup({
 	--
 	{
 		"nvim-lua/telescope.nvim",
-		config = function()
-			require("telescope_conf").config()
-		end,
+		config = function() require("telescope_conf").config() end, --TODO: use opts
 		dependencies = {
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
@@ -128,7 +126,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		config = function() require("treesitter_conf").config() end
+		config = function() require("treesitter_conf").config() end --TODO: use opts
 	},
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"nvim-treesitter/playground",
@@ -140,7 +138,7 @@ require("lazy").setup({
 	},
 
 	{
-		"lukas-reineke/format.nvim", config = function()
+		"lukas-reineke/format.nvim", config = function() --TODO: use opts
 		require "lsp-format".setup {
 			--npm i -g lua-fmt
 			lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
@@ -180,7 +178,7 @@ require("lazy").setup({
 	{
 		"lewis6991/gitsigns.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function() require("gitsigns").setup() end
+		config = true, --function() require("gitsigns").setup() end
 	},
 	{
 		'mbbill/undotree', config = function()
@@ -190,17 +188,17 @@ require("lazy").setup({
 	},
 
 	-- Debugging
-	{ 'simrat39/rust-tools.nvim', config = function()
-		require('rust-tools').setup({})
-	end },
+	{ 'simrat39/rust-tools.nvim', config = true },
+	--function() require('rust-tools').setup({}) end },
 
 	{ 'krady21/compiler-explorer.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
 	},
 
-	{ 'p00f/godbolt.nvim', config = function()
-		require("godbolt").setup(require('godbolt-conf').config)
-	end },
+	{ 'p00f/godbolt.nvim',
+		opts = require("godbolt-conf").config,
+		-- function() require("godbolt").setup(require('godbolt-conf').config) end
+	},
 
 	{ 'puremourning/vimspector', config = function()
 		vim.cmd([[
@@ -209,4 +207,5 @@ require("lazy").setup({
 		let g:vimspector_terminal_maxwidth = 70
 		]])
 	end },
+	{ 'fidian/hexmode' },
 })
