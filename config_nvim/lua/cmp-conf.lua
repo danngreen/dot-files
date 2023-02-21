@@ -114,6 +114,7 @@ _M.config =
 	window = {
 		documentation = {
 			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+			winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
 		},
 		completion = {
 			border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
