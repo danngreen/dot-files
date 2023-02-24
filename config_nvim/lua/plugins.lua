@@ -30,7 +30,8 @@ require("lazy").setup({
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "vijaymarupudi/nvim-fzf", "nvim-tree/nvim-web-devicons" },
-		opts = require("fzf-lua-conf").config
+		config = function() require("fzf-lua").setup(require("fzf-lua-conf").config) end,
+		--opts = require("fzf-lua-conf").config -- Circular dependencies: fzf-lua-conf requires monokai which isn't in search path yet
 	},
 	{
 		"danngreen/monokai.nvim",
@@ -75,9 +76,11 @@ require("lazy").setup({
 	"ranjithshegde/ccls.nvim",
 	"p00f/clangd_extensions.nvim",
 	"rust-lang/rust.vim",
+
 	{
 		"hrsh7th/nvim-cmp",
-		opts = require("cmp-conf").config,
+		--opts = require("cmp-conf").config, -- cmp-conf requires cmp which isn't in search path when Lazy calls opts the first time... how to fix this?
+		config = function() require("cmp").setup(require("cmp-conf").config) end,
 		dependencies = {
 			"hrsh7th/vim-vsnip",
 			"hrsh7th/cmp-nvim-lua",
