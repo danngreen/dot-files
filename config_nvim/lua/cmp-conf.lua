@@ -27,7 +27,7 @@ local disable_snippets = function(argsbody)
 	vim.api.nvim_win_set_cursor(0, { line_num, col + replace[#replace]:len() })
 end
 
-local cmp = require "cmp"
+local cmp = require("cmp")
 
 _M.config =
 {
@@ -88,27 +88,27 @@ _M.config =
 		{ name = "nvim_lsp",   priority = 9 },
 		{ name = "nvim_lua",   priority = 8 },
 		-- { name = "nvim_lsp_signature_help" },
-		{name = "buffer", priority = 7, keyword_length = 3, max_item_count=10},
-		{name = "path", priority = 4},
+		{ name = "buffer",     priority = 7, keyword_length = 3, max_item_count = 10 },
+		{ name = "path",       priority = 4 },
 		--{name = 'fuzzy_path'},
 		{ name = "calc",       priority = 3 },
 		--{name = "rg"},
-		{name = "dictionary", priority = 0, keyword_length = 5, keyword_pattern = [[\w\+]], max_item_count=4},
+		{ name = "dictionary", priority = 0, keyword_length = 5, keyword_pattern = [[\w\+]], max_item_count = 4 },
 	},
 	sorting = {
 		priority_weight = 1.0,
 		comparators = {
-		  -- compare.score_offset, -- not good at all
-		  cmp.config.compare.locality,
-		  cmp.config.compare.recently_used,
-		  cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
-		  cmp.config.compare.length,
-		  cmp.config.compare.offset,
-		  cmp.config.compare.order,
-		  cmp.config.compare.scope,
-		  -- compare.sort_text,
-		  -- compare.exact,
-		  -- compare.kind,
+			-- compare.score_offset, -- not good at all
+			cmp.config.compare.locality,
+			cmp.config.compare.recently_used,
+			cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+			cmp.config.compare.length,
+			cmp.config.compare.offset,
+			cmp.config.compare.order,
+			cmp.config.compare.scope,
+			-- compare.sort_text,
+			-- compare.exact,
+			-- compare.kind,
 		},
 	},
 	window = {
