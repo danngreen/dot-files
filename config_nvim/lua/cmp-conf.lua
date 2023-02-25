@@ -40,7 +40,7 @@ _M.config =
 			end
 		end
 	},
-	mapping = {
+	mapping = cmp.mapping.preset.insert({
 		["<C-b>"] = cmp.mapping.scroll_docs( -4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
@@ -58,7 +58,7 @@ _M.config =
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-		--vsnip "Super tab" from nvim-cmp wiki:
+
 		["<Tab>"] = cmp.mapping(
 			function(fallback)
 				if cmp.visible() then
@@ -83,7 +83,7 @@ _M.config =
 			end,
 			{ "i", "s" }
 		)
-	},
+	}),
 	sources = {
 		{ name = "nvim_lsp",   priority = 9 },
 		{ name = "nvim_lua",   priority = 8 },
@@ -129,7 +129,17 @@ cmp.setup.cmdline({ "/", "?" }, {
 })
 
 cmp.setup.cmdline(":", {
-	mapping = cmp.mapping.preset.cmdline(),
+	mapping = cmp.mapping.preset.cmdline({
+		['<Tab>'] = {
+			c = function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				else
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-z>', true, true, true), 'ni', true)
+				end
+			end
+		}
+	}),
 	sources = cmp.config.sources(
 		{ { name = 'path' } },
 		{ { name = 'cmdline' } }
