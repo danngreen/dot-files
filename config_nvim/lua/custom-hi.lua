@@ -47,8 +47,8 @@ M.do_hl = function()
 
 	hi Pmenu guibg=#434546
 	hi CurSearch ctermfg=0 ctermbg=11 guifg=#f8f8f0 guibg=#fd971f gui=bold
-	hi NormalFloat guibg=black
 	]]
+	-- hi NormalFloat guibg=black
 end
 
 local palette = require("monokai").classic
