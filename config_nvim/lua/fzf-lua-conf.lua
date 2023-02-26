@@ -17,6 +17,7 @@ local get_query = function(opts)
 	return query
 end
 
+local fzflua = require("fzf-lua")
 local utils = require("fzf-lua.utils")
 
 local create_keymap_header = function(keymaps)
@@ -28,8 +29,12 @@ local create_keymap_header = function(keymaps)
 			.. ([[<%s> to %s]]):format(utils.ansi_codes.yellow(keymap[1]), utils.ansi_codes.red(keymap[2]))
 	end
 	return header .. [["]]
-	--return { ["--header"] = header .. [["]] },
 end
+
+local create_keymap_header_inline = function(keymaps)
+	return { ["--header"] = create_keymap_header(keymaps) }
+end
+
 
 local _M = {}
 
@@ -80,23 +85,34 @@ _M.config = {
 			pager = "delta",
 		},
 	},
-	files = {
-		cmd = "rg --files --follow -g'!lib/u-boot/*'",
-		fzf_opts = { ["--header"] = create_keymap_header({ { switchkey, "OldFiles" } }) },
-		actions = create_switchkey_action(require("fzf-lua").oldfiles),
-		-- [switchkey] = function(_, opts)
-		-- 	require("fzf-lua").oldfiles({ fzf_opts = { ["--query"] = get_query(opts), }, })
-		-- end,
-		-- },
+	--TODO: F3 = open buffers => oldfiles => files => files(cmd=find_all_files_cmd) => buffers
+	buffers = {
+		prompt = "Buffers> ",
+		fzf_opts = create_keymap_header_inline({ { switchkey, "Old Files" }, }),
+		actions = create_switchkey_action(fzflua.oldfiles),
 	},
 	oldfiles = {
-		fzf_opts = { ["--header"] = create_keymap_header({ { switchkey, "Files" }, }), },
-		actions = create_switchkey_action(require("fzf-lua").files),
-		-- actions = {
-		-- 	[switchkey] = function(_, opts)
-		-- 		require("fzf-lua").files({ fzf_opts = { ["--query"] = get_query(opts), }, })
-		-- 	end,
-		-- },
+		prompt = "Old Files> ",
+		fzf_opts = create_keymap_header_inline({ { switchkey, "Files" }, }),
+		actions = create_switchkey_action(fzflua.files),
+	},
+	files = {
+		cmd = "rg --files --follow",
+		prompt = "Files> ",
+		fzf_opts = create_keymap_header_inline({ { switchkey, "All Files" } }),
+		actions = {
+			[switchkey] = function(_, opts)
+				fzflua.files({
+					cmd = _M.find_all_files_cmd,
+					prompt = "All Files> ",
+					fzf_opts = {
+						["--query"] = get_query(opts),
+						["--header"] = create_keymap_header({ switchkey, "Buffers" }),
+					},
+					actions = create_switchkey_action(fzflua.buffers),
+				})
+			end,
+		}
 	},
 	grep = {
 		--rg --colors [path,line,match,column]:[fg,bg,style]:[color|bold,nobold,underline,nounderline]
@@ -108,7 +124,12 @@ _M.config = {
 		"-g '!{.git,node_modules}/*' ",
 		prompt = "Rg❯ ",
 		input_prompt = "Grep For❯ ",
-		actions = { ["ctrl-q"] = false }
+		actions = {
+			["ctrl-q"] = false,
+			[switchkey] = function(_, opts)
+				fzflua.buffers({ fzf_opts = { ["--query"] = get_query(opts), }, })
+			end,
+		}
 	}
 }
 --end
