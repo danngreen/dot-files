@@ -71,8 +71,14 @@ M.groups = {
 	["@constant.macro"] = { fg = palette.green },
 	["@function.call"] = { fg = palette.green },
 	--For sematic tokens:
+	["@Macro"] = { fg = palette.green },
 	["@macro"] = { fg = palette.green },
 	["@enumMember"] = { fg = palette.purple, style = "italic" },
+	-- Semantic tokens
+	["@lsp.type.macro"] = { fg = palette.aqua },
+	["@lsp.type.namespace"] = { fg = palette.yellow },
+	["@lsp.type.typeParameter"] = { fg = palette.orange }, --template parameters
+	["@lsp.mod.constructorOrDestructor"] = { fg = palette.green },
 }
 
 return M
