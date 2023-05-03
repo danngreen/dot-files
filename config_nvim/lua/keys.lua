@@ -33,9 +33,9 @@ vnoremap("<leader>R", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
 nnoremap("<leader><leader><space>",
-	'<cmd>lua require"fzf-lua".resume({winopts={height=0.6, width=0.4, preview={vertical="up:25%"}}})<CR>')
+	'<cmd>lua require"fzf-lua".resume()<CR>')
 nnoremap("<leader><space>",
-	'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
+	'<cmd>lua require"fzf-lua".buffers()<CR>')
 nnoremap("<leader>2",
 	'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
 nnoremap("<F2>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
