@@ -85,7 +85,7 @@ _M.config =
 		)
 	}),
 	sources = {
-		{ name = "nvim_lsp",   priority = 9 },
+		{ name = "nvim_lsp",   priority = 20 },
 		{ name = "nvim_lua",   priority = 8 },
 		-- { name = "nvim_lsp_signature_help" },
 		{ name = "buffer",     priority = 7, keyword_length = 3, max_item_count = 10 },
@@ -102,13 +102,13 @@ _M.config =
 			cmp.config.compare.locality,
 			cmp.config.compare.recently_used,
 			cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+			cmp.config.compare.kind,
 			cmp.config.compare.length,
 			cmp.config.compare.offset,
 			cmp.config.compare.order,
 			cmp.config.compare.scope,
 			-- compare.sort_text,
 			-- compare.exact,
-			-- compare.kind,
 		},
 	},
 	window = {
