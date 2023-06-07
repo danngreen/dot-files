@@ -43,7 +43,7 @@ vim.diagnostic.config({
 -- LSP Buffer key maps
 
 local on_attach_vim = function(client, bufnr)
-	print("LSP started: " .. client.name)
+	-- print("LSP started: " .. client.name)
 
 	local bufopt = { buffer = bufnr }
 	vim.lsp.set_log_level("ERROR")
