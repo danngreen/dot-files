@@ -49,7 +49,8 @@ require("lazy").setup({
 		"kylechui/nvim-surround",
 		config = true,
 	},
-	{ 'rcarriga/nvim-notify',
+	{
+		'rcarriga/nvim-notify',
 		config = function()
 			require("notify").setup({ render = "minimal", stages = "static" })
 			vim.notify = require("notify")
@@ -103,6 +104,11 @@ require("lazy").setup({
 	{
 		"ray-x/lsp_signature.nvim"
 	},
+
+	{
+		'rmagatti/goto-preview',
+		config = function() require('goto-preview').setup { default_mappings = true } end
+	},
 	--
 	-- Telescope
 	--
@@ -146,19 +152,20 @@ require("lazy").setup({
 	},
 
 	{
-		"lukas-reineke/format.nvim", config = function() --TODO: use opts
-		require "lsp-format".setup {
-			--npm i -g lua-fmt
-			lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
-			vim = {
-				{
-					cmd = { "luafmt -w replace" },
-					start_pattern = "^lua << EOF$",
-					end_pattern = "^EOF$"
+		"lukas-reineke/format.nvim",
+		config = function() --TODO: use opts
+			require "lsp-format".setup {
+				--npm i -g lua-fmt
+				lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
+				vim = {
+					{
+						cmd = { "luafmt -w replace" },
+						start_pattern = "^lua << EOF$",
+						end_pattern = "^EOF$"
+					}
 				}
 			}
-		}
-	end
+		end
 	},
 
 	{
@@ -189,31 +196,37 @@ require("lazy").setup({
 		config = true, --function() require("gitsigns").setup() end
 	},
 	{
-		'mbbill/undotree', config = function()
-		vim.cmd([[set undodir=$HOME/.cache/nvim/undotree]])
-		vim.cmd([[set undofile]])
-	end
+		'mbbill/undotree',
+		config = function()
+			vim.cmd([[set undodir=$HOME/.cache/nvim/undotree]])
+			vim.cmd([[set undofile]])
+		end
 	},
 
 	-- Debugging
 	{ 'simrat39/rust-tools.nvim', config = true },
 	--function() require('rust-tools').setup({}) end },
 
-	{ 'krady21/compiler-explorer.nvim',
+	{
+		'krady21/compiler-explorer.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
 	},
 
-	{ 'p00f/godbolt.nvim',
+	{
+		'p00f/godbolt.nvim',
 		opts = require("godbolt-conf").config,
 		-- function() require("godbolt").setup(require('godbolt-conf').config) end
 	},
 
-	{ 'puremourning/vimspector', config = function()
-		vim.cmd([[
+	{
+		'puremourning/vimspector',
+		config = function()
+			vim.cmd([[
 		let g:vimspector_sidebar_width = 85
 		let g:vimspector_bottombar_height = 15
 		let g:vimspector_terminal_maxwidth = 70
 		]])
-	end },
+		end
+	},
 	{ 'fidian/hexmode' },
 })

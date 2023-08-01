@@ -145,10 +145,11 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart = true,
 		cmd = {
-			"clangd",
-			-- "/Users/dann/bin/clang+llvm-15.0.0-rc2-x86_64-apple-darwin/bin/clangd",
+			-- "clangd",
+			"/Users/dann/bin/clang+llvm-16.0.0-rc4-arm64-apple-darwin22.0/bin/clangd",
 			"--background-index",
-			-- "--log=verbose",
+			"--log=error",
+			"--pretty",
 			"-j=16",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
@@ -319,7 +320,6 @@ if (useccls) then
 				end
 				--capabilites = your_table/func
 			},
-
 			--Disalbe features so we don't conflict with clangd:
 			disable_capabilities = {
 				completionProvider = true,
@@ -510,9 +510,9 @@ function _G.footest()
 	-- vim.cmd [[vsplit]] -- new split
 	local lsp_response = vim.lsp.buf_request_sync(bufnr, method, params, 1000) -- call the LSP(s)
 	local result = {}
-	for _, client in pairs(lsp_response) do -- loop over all LSPs
-		for _, r in pairs(client.result) do -- loop over all results per LSP
-			table.insert(result, r) -- put them in a table
+	for _, client in pairs(lsp_response) do                                 -- loop over all LSPs
+		for _, r in pairs(client.result) do                                 -- loop over all results per LSP
+			table.insert(result, r)                                         -- put them in a table
 		end
 	end
 	print(vim.inspect(result))
