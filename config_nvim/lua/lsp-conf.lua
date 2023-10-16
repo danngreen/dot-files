@@ -165,7 +165,7 @@ if (useclangd) then
 			"--enable-config"
 		},
 		filetypes = { "c", "cpp" },
-		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json", "build/compile_commands.json"),
+		root_dir = nvim_lspconfig.util.root_pattern("build/compile_commands.json", "compile_commands.json"),
 		on_attach = on_attach_vim,
 		capabilities = capabilities,
 
