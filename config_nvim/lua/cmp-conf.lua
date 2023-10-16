@@ -82,7 +82,11 @@ _M.config =
 				end
 			end,
 			{ "i", "s" }
-		)
+		),
+		['<C-g>'] = function()
+			if cmp.visible_docs() then cmp.close_docs() else cmp.open_docs() end
+		end
+
 	}),
 	sources = {
 		{ name = "nvim_lsp",   priority = 20 },
