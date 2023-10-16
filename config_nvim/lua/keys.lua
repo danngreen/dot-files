@@ -132,6 +132,7 @@ noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
 nnoremap("<leader><leader>", ":w<CR>")
+nnoremap("<leader>nf", "<cmd>FormatDisable | w | FormatEnable<CR>")
 -- Commonly used files
 nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
 nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
