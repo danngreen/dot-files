@@ -415,7 +415,6 @@ nvim_lspconfig.tsserver.setup {
 
 -- cmake
 nvim_lspconfig.cmake.setup {
-	on_attach = on_attach_vim
 }
 
 -- python
