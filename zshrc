@@ -50,6 +50,10 @@ ZSH_HIGHLIGHT_STYLES[path]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=yellow
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
 
+runlazygit () { lazygit }   
+zle -N runlazygit
+bindkey "^[[18~" runlazygit 
+
 # pj: project jump
 PROJECT_PATHS=(~/4ms/stm32 ~/4ms/kicad ~/4ms/esp)
 
@@ -63,3 +67,4 @@ alias g=git
 #alias python=python3
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /Users/dann/bin/git-subrepo/.rc
