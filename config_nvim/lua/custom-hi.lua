@@ -30,10 +30,10 @@ M.do_hl = function()
 	hi DiffChange guibg=#282840
 	hi DiffText guibg=#2332dd
 
-	hi! ErrorMsg guifg=#F92622 guibg=#232526 gui=none
-	hi! WarningMsg guifg=#FD971F guibg=#232526 gui=none
-	hi! InfoMsg guifg=#E6DB74 guibg=#232526 gui=none
-	hi! HintMsg guifg=#A6E22E guibg=#232526 gui=none
+	hi! ErrorMsg guifg=#F92622 guibg=#333333 gui=none
+	hi! WarningMsg guifg=#FD971F guibg=#333333 gui=none
+	hi! InfoMsg guifg=#E6DB74 guibg=#333333 gui=none
+	hi! HintMsg guifg=#A6E22E guibg=#333333 gui=none
 	hi! link LspDiagnosticsVirtualTextError ErrorMsg
 	hi! link LspDiagnosticsVirtualTextWarning WarningMsg
 	hi! link LspDiagnosticsVirtualTextInformation InfoMsg
@@ -42,6 +42,12 @@ M.do_hl = function()
 	hi! link DiagnosticsVirtualTextWarning WarningMsg
 	hi! link DiagnosticsVirtualTextInformation InfoMsg
 	hi! link DiagnosticsVirtualTextHint HintMsg
+
+	hi! link DiagnosticsFloatingError ErrorMsg
+	hi! link DiagnosticsFloatingWarning WarningMsg
+	hi! link DiagnosticsFloatingHint HintMsg
+	hi! link DiagnosticsFloatingInformation InfoMsg
+
 	hi LspSignatureActiveParameter guifg=red
 	hi! LspReferenceText guibg=#433536
 
