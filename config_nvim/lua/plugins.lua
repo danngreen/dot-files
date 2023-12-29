@@ -94,10 +94,6 @@ require("lazy").setup({
 
 	{
 		"hrsh7th/nvim-cmp",
-		-- commit = "208d69f", --Feb 15, Not working
-		-- commit = "53f49c5", -- Feb 11 (1/2), not working
-		-- commit = "cfafe0a", --Feb 3 works
-		--opts = require("cmp-conf").config, -- cmp-conf requires cmp which isn't in search path when Lazy calls opts the first time... how to fix this?
 		config = function() require("cmp").setup(require("cmp-conf").config) end,
 		dependencies = {
 			"hrsh7th/vim-vsnip",
@@ -115,9 +111,21 @@ require("lazy").setup({
 		"williamboman/mason.nvim",
 		config = true
 	},
-	{
-		"ray-x/lsp_signature.nvim"
-	},
+	-- {
+	-- "ray-x/lsp_signature.nvim",
+	-- config = function()
+	-- 	require "lsp_signature".setup({
+	-- 		bind = true,
+	-- 		handler_opts = { border = "rounded" },
+	-- 		hint_enable = true,
+	-- 		hint_prefix = "",
+	-- 		hint_scheme = "String", --???
+	-- 		hint_inline = function() return 'eol' end,
+	-- 		always_trigger = false,
+	-- 		toggle_key = '<C-k>'
+	-- 	})
+	-- end
+	-- },
 
 	{
 		'rmagatti/goto-preview',
