@@ -156,9 +156,8 @@ if (useclangd) then
 		autostart = true,
 		cmd = {
 			"clangd",
-			-- "/Users/dann/bin/clang+llvm-16.0.0-rc4-arm64-apple-darwin22.0/bin/clangd",
 			"--background-index",
-			"--log=info",
+			-- "--log=trace",
 			"--pretty",
 			"-j=16",
 			"--fallback-style=LLVM",
@@ -169,13 +168,14 @@ if (useclangd) then
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
 			"--query-driver=/Users/**/4ms/stm32/*-arm-none-eabi*/bin/arm-none-eabi-*",
 			"--query-driver=/Volumes/Studio/bin/*-arm-none-eabi*/bin/arm-none-eabi-*",
+			"--query-driver=/Users/**/bin/*-arm-none-eabi*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--pch-storage=memory",
 			"--enable-config"
 		},
 		filetypes = { "c", "cpp" },
-		root_dir = nvim_lspconfig.util.root_pattern(".clangd", "compile_commands.json", "build/compile_commands.json"),
+		root_dir = nvim_lspconfig.util.root_pattern("build/compile_commands.json", "compile_commands.json"),
 		on_attach = on_attach_vim,
 		capabilities = capabilities,
 

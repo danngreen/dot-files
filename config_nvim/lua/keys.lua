@@ -34,12 +34,12 @@ vnoremap("<leader>r", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//gc<Left><Left><Left
 vnoremap("<leader>R", 'y:%s/\\V<C-R>=escape(@",\'/\\\')<CR>//g<Left><Left>')
 
 -- Find Files (by file name)
-nnoremap("<leader><leader><space>", '<cmd>lua require"fzf-lua".resume()<CR>')
+-- nnoremap("<leader><leader><space>", '<cmd>lua require"fzf-lua".resume()<CR>')
 -- nnoremap("<leader><space>", '<cmd>lua require"fzf-lua".buffers()<CR>')
 nnoremap("<leader><space>", '<cmd>BufferPick<CR>')
 nnoremap("<leader>2",
 	'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
-nnoremap("<F2>", '<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
+nnoremap("<F2>", '<cmd>lua require("fzf-lua").resume()<CR>')
 
 nnoremap("<F3>", '<cmd>lua require"fzf-lua".files()<CR>')
 nnoremap("<leader>3", '<cmd>lua require"fzf-lua".files()<CR>')
@@ -74,14 +74,14 @@ nnoremap("<leader>WW", '<cmd>lua require"fzf-lua".files(Wiki_conf)<CR>')
 -- leader F4: prompt for initial filter
 -- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
 -- F5: Find in a dir (prompt)
-nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
+nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>')      --use "--with-nth 2.." to not search filename
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 
 nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>$", ':lua require"fzf-lua".grep_cword()<CR>')
 
-vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>')      --({search="<C-R><C-W>"})<CR>')
 vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 
 -- nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
@@ -133,6 +133,7 @@ noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
 nnoremap("<leader><leader>", ":w<CR>")
+nnoremap("<leader>nf", "<cmd>FormatDisable | w | FormatEnable<CR>")
 -- Commonly used files
 nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
 nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
