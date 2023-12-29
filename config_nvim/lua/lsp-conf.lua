@@ -46,7 +46,7 @@ local on_attach_vim = function(client, bufnr)
 	-- print("LSP started: " .. client.name)
 
 	local bufopt = { buffer = bufnr }
-	vim.lsp.set_log_level("ERROR")
+	vim.lsp.set_log_level("WARN")
 
 	--Symbol info (hover/signature)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopt)
@@ -145,15 +145,15 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart = true,
 		cmd = {
-			-- "clangd",
-			"/Users/dann/bin/clang+llvm-16.0.0-rc4-arm64-apple-darwin22.0/bin/clangd",
+			"clangd",
+			-- "/Users/dann/bin/clang+llvm-16.0.0-rc4-arm64-apple-darwin22.0/bin/clangd",
 			"--background-index",
-			"--log=error",
+			"--log=info",
 			"--pretty",
 			"-j=16",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
-			"--header-insertion=iwyu",
+			-- "--header-insertion=iwyu",
 			"--header-insertion-decorators",
 			"--completion-style=bundled",
 			"--query-driver=/usr/local/bin/arm-none-eabi-g*",
@@ -415,7 +415,7 @@ nvim_lspconfig.tsserver.setup {
 
 -- cmake
 nvim_lspconfig.cmake.setup {
-	on_attach = on_attach_vim
+	--on_attach = on_attach_vim
 }
 
 -- python
