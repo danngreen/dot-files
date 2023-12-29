@@ -108,6 +108,16 @@ local on_attach_vim = function(client, bufnr)
 
 	--Formatting
 	require "lsp-format".on_attach(client)
+
+	--Signature
+	-- require 'lsp_signature'.on_attach({
+	-- 	bind = true,
+	-- 	handler_opts = { border = "rounded" },
+	-- 	hint_enable = false,
+	-- 	always_trigger = false,
+	-- 	toggle_key = '<C-k>',
+	-- 	toggle_key_flip_floatwin_setting = true
+	-- }, bufnr)
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
@@ -510,9 +520,9 @@ function _G.footest()
 	-- vim.cmd [[vsplit]] -- new split
 	local lsp_response = vim.lsp.buf_request_sync(bufnr, method, params, 1000) -- call the LSP(s)
 	local result = {}
-	for _, client in pairs(lsp_response) do                                 -- loop over all LSPs
-		for _, r in pairs(client.result) do                                 -- loop over all results per LSP
-			table.insert(result, r)                                         -- put them in a table
+	for _, client in pairs(lsp_response) do -- loop over all LSPs
+		for _, r in pairs(client.result) do -- loop over all results per LSP
+			table.insert(result, r) -- put them in a table
 		end
 	end
 	print(vim.inspect(result))
