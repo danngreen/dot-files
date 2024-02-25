@@ -43,10 +43,11 @@ M.do_hl = function()
 	hi! link DiagnosticsVirtualTextInformation InfoMsg
 	hi! link DiagnosticsVirtualTextHint HintMsg
 
-	hi! link DiagnosticsFloatingError ErrorMsg
-	hi! link DiagnosticsFloatingWarning WarningMsg
-	hi! link DiagnosticsFloatingHint HintMsg
-	hi! link DiagnosticsFloatingInformation InfoMsg
+	hi! link DiagnosticError ErrorMsg
+	hi! link DiagnosticFloatingError ErrorMsg
+	hi! link DiagnosticFloatingWarning WarningMsg
+	hi! link DiagnosticFloatingHint HintMsg
+	hi! link DiagnosticFloatingInformation InfoMsg
 
 	hi LspSignatureActiveParameter guifg=red
 	hi! LspReferenceText guibg=#433536
