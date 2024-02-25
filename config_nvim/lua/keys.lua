@@ -132,8 +132,11 @@ noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 -- noremap("<F12>", ":NERDTreeToggle<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
--- Gitsigns
-nnoremap("<leader>d", "<cmd>Gitsigns preview_hunk<CR>")
+-- Gitsigns: hunks
+nnoremap("<leader>dv", "<cmd>Gitsigns preview_hunk<CR>") --view
+nnoremap("<leader>dd", "<cmd>Gitsigns reset_hunk<CR>") --delete
+nnoremap("<leader>dp", "<cmd>Gitsigns prev_hunk<CR>") --prev
+nnoremap("<leader>dn", "<cmd>Gitsigns next_hunk<CR>") --next
 
 nnoremap("<leader><leader>", ":w<CR>")
 nnoremap("<leader>nf", "<cmd>FormatDisable | w | FormatEnable<CR>")
