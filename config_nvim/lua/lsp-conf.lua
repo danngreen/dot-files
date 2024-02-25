@@ -60,8 +60,15 @@ local on_attach_vim = function(client, bufnr)
 
 	--Refs/Defs
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopt)
-	vim.keymap.set("n", "gr", require 'lsp-conf'.pretty_telescope.pretty_refs, bufopt)
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopt)
+	vim.keymap.set("n", "gD",
+		"<cmd>lua require('fzf-lua').lsp_definitions({ jump_to_single_result = true, jump_to_single_result_action = require('fzf-lua.actions').file_vsplit })<CR>",
+		bufopt)
+	-- ,
+
+	vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references({ ignore_current_line = true })<CR>", bufopt)
+	-- vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", bufopt)
+	-- vim.keymap.set("n", "gr", require 'lsp-conf'.pretty_telescope.pretty_refs, bufopt)
+	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopt)
 	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, bufopt)
 	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, bufopt)
 	vim.keymap.set("n", "gn", vim.lsp.buf.incoming_calls, bufopt)
@@ -180,8 +187,8 @@ if (useclangd) then
 		capabilities = capabilities,
 
 		on_init = function(client)
-			client.config.flags.allow_incremental_sync = true
-			client.config.flags.debounce_text_changes = 100
+			client.config.allow_incremental_sync = true
+			client.config.debounce_text_changes = 100
 			-- client.server_capabilities.semanticTokensProvider = nil
 		end,
 		init_options = { clangdFileStatus = false },

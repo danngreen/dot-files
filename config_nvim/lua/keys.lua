@@ -74,14 +74,14 @@ nnoremap("<leader>WW", '<cmd>lua require"fzf-lua".files(Wiki_conf)<CR>')
 -- leader F4: prompt for initial filter
 -- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
 -- F5: Find in a dir (prompt)
-nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>')      --use "--with-nth 2.." to not search filename
+nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 
 nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>$", ':lua require"fzf-lua".grep_cword()<CR>')
 
-vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>')      --({search="<C-R><C-W>"})<CR>')
+vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 
 -- nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
@@ -132,6 +132,9 @@ noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 -- noremap("<F12>", ":NERDTreeToggle<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
+-- Gitsigns
+nnoremap("<leader>d", "<cmd>Gitsigns preview_hunk<CR>")
+
 nnoremap("<leader><leader>", ":w<CR>")
 nnoremap("<leader>nf", "<cmd>FormatDisable | w | FormatEnable<CR>")
 -- Commonly used files
@@ -152,11 +155,11 @@ nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --autoclose=1 lazygi
 nnoremap("<F19>", "<cmd>Git<CR>")
 
 --- Debugging
-nnoremap("<leader>dl", "<cmd>call vimspector#Launch()<cr>")
-nnoremap("<leader>dr", "<cmd>call vimspector#Reset()<cr>")
-nnoremap("<leader>dn", "<cmd>call vimspector#StepInto()<cr>")
-nnoremap("<leader>ds", "<cmd>call vimspector#StepOver()<cr>")
-nnoremap("<leader>do", "<cmd>call vimspector#StepOut()<cr>")
-nnoremap("<leader>db", "<cmd>call vimspector#ToggleBreakpoint()<cr>")
-nnoremap("<leader>dw", "<cmd>call vimspector#AddWatch()<cr>")
-nnoremap("<leader>de", "<cmd>call vimspector#Evaluate()<cr>")
+-- nnoremap("<leader>dl", "<cmd>call vimspector#Launch()<cr>")
+-- nnoremap("<leader>dr", "<cmd>call vimspector#Reset()<cr>")
+-- nnoremap("<leader>dn", "<cmd>call vimspector#StepInto()<cr>")
+-- nnoremap("<leader>ds", "<cmd>call vimspector#StepOver()<cr>")
+-- nnoremap("<leader>do", "<cmd>call vimspector#StepOut()<cr>")
+-- nnoremap("<leader>db", "<cmd>call vimspector#ToggleBreakpoint()<cr>")
+-- nnoremap("<leader>dw", "<cmd>call vimspector#AddWatch()<cr>")
+-- nnoremap("<leader>de", "<cmd>call vimspector#Evaluate()<cr>")
