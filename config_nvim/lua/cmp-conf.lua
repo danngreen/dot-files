@@ -154,7 +154,7 @@ require("cmp_dictionary").setup({
 	dic = {
 		["*"] = "/usr/share/dict/words",
 	},
-	exact = 3,
+	exact_length = 3,
 	-- async = false,
 	-- capacity = 5,
 	-- debug = false,

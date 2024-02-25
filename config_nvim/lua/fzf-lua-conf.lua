@@ -9,7 +9,8 @@ local monokaicolor = function(name)
 end
 
 local get_query = function(opts)
-	local query = opts.__resume_data.last_query
+	local config = require "fzf-lua.config"
+	local query = config.__resume_data.last_query
 	query = query and query:gsub(" ", "\\ ")
 	if not query or query == "" then
 		query = " "
@@ -21,14 +22,14 @@ local fzflua = require("fzf-lua")
 local utils = require("fzf-lua.utils")
 
 local create_keymap_header = function(keymaps)
-	local header = [["::]]
+	local header = [[::]]
 	for _, keymap in ipairs(keymaps) do
 		-- style from https://github.com/ibhagwan/fzf-lua/blob/main/lua/fzf-lua/core.lua#L609
 		header = header
 			.. " "
 			.. ([[<%s> to %s]]):format(utils.ansi_codes.yellow(keymap[1]), utils.ansi_codes.red(keymap[2]))
 	end
-	return header .. [["]]
+	return header .. [[]]
 end
 
 local create_keymap_header_inline = function(keymaps)
