@@ -178,6 +178,7 @@ if (useclangd) then
 			"--query-driver=/Users/**/bin/*-arm-none-eabi*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-gcc",
 			"--pch-storage=memory",
 			"--enable-config"
 		},
