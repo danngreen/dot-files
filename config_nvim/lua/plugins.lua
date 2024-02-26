@@ -58,7 +58,20 @@ require("lazy").setup({
 	},
 	"stevearc/dressing.nvim",
 
-	-- { 'folke/noice.nvim',
+	{
+		-- "idanarye/nvim-blunder",
+		"danngreen/nvim-blunder",
+		opts = {
+			formats = {},
+			-- win_cmd = "botright 120 vnew",
+			-- win_cmd = "FloatermNew --position=topright --width=120 --height=20",
+			win_cmd = "vim.api.nvim_open_win(0, true, {relative='win', row=3, col=3, width=120, height=40})",
+			commands_prefix = 'B',
+		},
+	},
+
+	-- {
+	-- 	'folke/noice.nvim',
 	-- 	event = "VimEnter",
 	-- 	opts = require("noice-conf").config,
 	-- 	dependencies = {
