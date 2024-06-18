@@ -84,8 +84,8 @@ vim.cmd [[set exrc]]
 
 --Set these last, some plugin overrides them. TODO: which one?
 vim.o.formatoptions = vim.o.formatoptions .. "n" --Format lists
-vim.opt.formatoptions:remove "r" -- Don't insert comment leader after pressing <Enter>
-vim.opt.formatoptions:remove "o" -- Don't insert comment leader after pressing o or O
+vim.opt.formatoptions:remove "r"                 -- Don't insert comment leader after pressing <Enter>
+vim.opt.formatoptions:remove "o"                 -- Don't insert comment leader after pressing o or O
 
 vim.on_key(function(char)
 	if vim.fn.mode() == "n" then

@@ -41,11 +41,11 @@ _M.config =
 		end
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<C-b>"] = cmp.mapping.scroll_docs( -4),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<c-space>"] = cmp.mapping.complete(), --starts completion immediately
-		["<C-w>"] = cmp.mapping.close(), --closes menu, leaves whatever text was selected in menu
-		["<C-e>"] = cmp.mapping.abort(), --do not change the text, close and abort
+		["<C-w>"] = cmp.mapping.close(),  --closes menu, leaves whatever text was selected in menu
+		["<C-e>"] = cmp.mapping.abort(),  --do not change the text, close and abort
 		["<C-y>"] = cmp.mapping.confirm {
 			behavior = cmp.ConfirmBehavior.Insert,
 			select = true -- selects the first option if you haven't "entered" the cmp menu
@@ -77,7 +77,7 @@ _M.config =
 			function()
 				if cmp.visible() then
 					cmp.select_prev_item()
-				elseif vim.fn["vsnip#jumpable"]( -1) == 1 then
+				elseif vim.fn["vsnip#jumpable"](-1) == 1 then
 					feedkey("<Plug>(vsnip-jump-prev)", "")
 				end
 			end,

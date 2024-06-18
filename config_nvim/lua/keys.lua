@@ -153,6 +153,7 @@ vnoremap("<M-c>", '"+y')
 
 -- Building
 nnoremap("<leader>m", ":wa<CR>:Make!<CR>")
+-- nnoremap("<leader>m", ":wa<CR>:Bmake<CR>")
 
 nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --autoclose=1 lazygit<CR>")
 nnoremap("<F19>", "<cmd>Git<CR>")
