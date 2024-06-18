@@ -64,7 +64,6 @@
  "try"
  "typename"
  "using"
- "virtual"
  "concept"
  "requires"
  "extern"
