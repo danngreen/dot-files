@@ -74,14 +74,14 @@ nnoremap("<leader>WW", '<cmd>lua require"fzf-lua".files(Wiki_conf)<CR>')
 -- leader F4: prompt for initial filter
 -- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
 -- F5: Find in a dir (prompt)
-nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
+nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>')      --use "--with-nth 2.." to not search filename
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 
 nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>$", ':lua require"fzf-lua".grep_cword()<CR>')
 
-vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>')      --({search="<C-R><C-W>"})<CR>')
 vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 
 -- nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
@@ -108,7 +108,11 @@ tnoremap("<F20>H", "<cmd>FloatermUpdate --position=left --width=0.25 --height=1.
 tnoremap("<F20>J", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.25<CR>")
 tnoremap("<F20>K", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.25<CR>")
 tnoremap("<F20>L", "<cmd>FloatermUpdate --position=right --width=0.25 --height=1.0<CR>")
-tnoremap("<F20>o", "<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>")
+tnoremap("<F20>0", "<cmd>FloatermUpdate --position=center --width=0.5 --height=0.5<CR>") --make this center
+tnoremap("<F20>b", "<cmd>FloatermUpdate --position=bottomright --width=0.5 --height=0.5<CR>")
+tnoremap("<F20>d", "<cmd>FloatermUpdate --position=bottomleft --width=0.5 --height=0.5<CR>")
+tnoremap("<F20>p", "<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>")
+tnoremap("<F20>q", "<cmd>FloatermUpdate --position=topleft --width=0.5 --height=0.5<CR>")
 --Tiny float terms:
 tnoremap("<F20>O", "<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>")
 --Fullscreen
@@ -138,8 +142,13 @@ nnoremap("<leader>dd", "<cmd>Gitsigns reset_hunk<CR>") --delete
 nnoremap("<leader>dp", "<cmd>Gitsigns prev_hunk<CR>") --prev
 nnoremap("<leader>dn", "<cmd>Gitsigns next_hunk<CR>") --next
 
+
+
+nnoremap("<C-@>", "<cmd>cprev<CR>")
+nnoremap("<C-1>", "<cmd>cnext<CR>")
 nnoremap("<leader><leader>", ":w<CR>")
-nnoremap("<leader>nf", "<cmd>FormatDisable | w | FormatEnable<CR>")
+nnoremap("<leader>nn", "<cmd>FormatDisable | w | FormatEnable<CR>")
+nnoremap("<leader>nf", "<cmd>lua print('Use <leader>nn to save without formatting')<CR>")
 -- Commonly used files
 nnoremap("<leader>vv", ":edit ~/.config/nvim/init.lua<CR>")
 nnoremap("<leader>vl", ":edit ~/.config/nvim/lua/lsp-conf.lua<CR>")
