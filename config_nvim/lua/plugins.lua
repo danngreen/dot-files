@@ -56,19 +56,30 @@ require("lazy").setup({
 			vim.notify = require("notify")
 		end
 	},
-	"stevearc/dressing.nvim",
-
 	{
-		-- "idanarye/nvim-blunder",
-		"danngreen/nvim-blunder",
-		opts = {
-			formats = {},
-			-- win_cmd = "botright 120 vnew",
-			-- win_cmd = "FloatermNew --position=topright --width=120 --height=20",
-			win_cmd = "vim.api.nvim_open_win(0, true, {relative='win', row=3, col=3, width=120, height=40})",
-			commands_prefix = 'B',
-		},
+		'lewis6991/whatthejump.nvim'
 	},
+	{
+		"stevearc/dressing.nvim",
+	},
+
+	-- {
+	-- 	-- "idanarye/nvim-blunder",
+	-- 	"danngreen/nvim-blunder",
+	-- 	opts = {
+	-- 		formats = {},
+	-- 		-- win_cmd = "botright 120 vnew",
+	-- 		-- win_cmd = "FloatermNew --position=topright --width=120 --height=20",
+	-- 		win_cmd = "vim.api.nvim_open_win(0, true, {relative='win', row=3, col=3, width=120, height=40})",
+	-- 		commands_prefix = 'B',
+	-- 	},
+	-- },
+
+	-- {
+	-- 	"chrisgrieser/nvim-early-retirement",
+	-- 	config = true,
+	-- 	event = "VeryLazy",
+	-- },
 
 	-- {
 	-- 	'folke/noice.nvim',
