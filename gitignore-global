@@ -6,8 +6,6 @@
 *.lss
 *.map
 *.out
-default/*
-dep/*
 
 # OSX
 .DS_Store
