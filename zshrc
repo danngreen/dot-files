@@ -67,4 +67,4 @@ alias g=git
 #alias python=python3
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source /Users/dann/bin/git-subrepo/.rc
+source ~/bin/git-subrepo/.rc
