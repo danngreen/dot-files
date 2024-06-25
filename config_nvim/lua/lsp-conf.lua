@@ -90,12 +90,14 @@ local on_attach_vim = function(client, bufnr)
 	vim.keymap.set("n", "<leader><leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
 
 	--Diagnostics
-	vim.keymap.set("n", "<leader>e", function() vim.diagnostic.open_float({ scope = "line" }) end, bufopt)
+	vim.keymap.set("n", "<leader>ee", function() vim.diagnostic.open_float({ scope = "line" }) end, bufopt)
 	vim.keymap.set("n", "<leader>E", function() vim.diagnostic.open_float({ scope = "buffer" }) end, bufopt)
-	vim.keymap.set("n", "<leader>fn", vim.diagnostic.goto_next, bufopt)
-	vim.keymap.set("n", "<leader>fp", vim.diagnostic.goto_prev, bufopt)
+	vim.keymap.set("n", "<leader>en", vim.diagnostic.goto_next, bufopt)
+	vim.keymap.set("n", "<leader>ep", vim.diagnostic.goto_prev, bufopt)
+	-- vim.keymap.set("n", "<C-#>", vim.diagnostic.goto_next, bufopt)
+	-- vim.keymap.set("n", "<C-$>", vim.diagnostic.goto_prev, bufopt)
 	-- vim.keymap.set("n", "<leader>fp", vim.diagnostic.setloclist, bufopt)
-	vim.keymap.set("n", "<leader>fq", vim.diagnostic.setqflist, bufopt)
+	vim.keymap.set("n", "<leader>eq", vim.diagnostic.setqflist, bufopt)
 	vim.keymap.set("n", "<leader>fC", function() vim.diagnostic.disable(0) end, bufopt)
 	vim.keymap.set("n", "<leader>fc", require 'lsp-conf'.virt_text.toggle, bufopt)
 
@@ -125,6 +127,8 @@ local on_attach_vim = function(client, bufnr)
 	-- 	toggle_key = '<C-k>',
 	-- 	toggle_key_flip_floatwin_setting = true
 	-- }, bufnr)
+	--
+	vim.wo.number = true
 end
 
 conf_lsp.on_attach_vim = on_attach_vim
@@ -163,6 +167,9 @@ if (useclangd) then
 		autostart = true,
 		cmd = {
 			"clangd",
+			-- "/Users/dann/bin/clangd_18.1.3/bin/clangd",
+			-- "/Users/dann/bin/clangd_17.0.3/bin/clangd",
+			-- "/Users/dann/bin/clangd_16.0.2/bin/clangd",
 			"--background-index",
 			-- "--log=trace",
 			"--pretty",
@@ -178,7 +185,7 @@ if (useclangd) then
 			"--query-driver=/Users/**/bin/*-arm-none-eabi*/bin/arm-none-eabi-*",
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
-			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-gcc",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-*",
 			"--pch-storage=memory",
 			"--enable-config"
 		},
@@ -528,9 +535,9 @@ function _G.footest()
 	-- vim.cmd [[vsplit]] -- new split
 	local lsp_response = vim.lsp.buf_request_sync(bufnr, method, params, 1000) -- call the LSP(s)
 	local result = {}
-	for _, client in pairs(lsp_response) do -- loop over all LSPs
-		for _, r in pairs(client.result) do -- loop over all results per LSP
-			table.insert(result, r) -- put them in a table
+	for _, client in pairs(lsp_response) do                                 -- loop over all LSPs
+		for _, r in pairs(client.result) do                                 -- loop over all results per LSP
+			table.insert(result, r)                                         -- put them in a table
 		end
 	end
 	print(vim.inspect(result))
