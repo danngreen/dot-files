@@ -1,15 +1,18 @@
 # vim: set filetype=zsh:
 export PATH="$HOME/bin:$PATH"
 
-BREW_PREFIX=`brew --prefix`
-if [ $BREW_PREFIX ]
+if command -v -- "brew" > /dev/null 2>&1
 then
-	export PATH="$BREW_PREFIX/bin:$PATH"
-	export PATH="$BREW_PREFIX/opt/make/libexec/gnubin:$PATH"
-	export PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
-	export PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
-	export PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
-	export PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
+	BREW_PREFIX=`brew --prefix`
+	if [ $BREW_PREFIX ]
+	then
+		export PATH="$BREW_PREFIX/bin:$PATH"
+		export PATH="$BREW_PREFIX/opt/make/libexec/gnubin:$PATH"
+		export PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+		export PATH="$BREW_PREFIX/opt/libtool/libexec/gnubin:$PATH"
+		export PATH="$BREW_PREFIX/opt/llvm/bin:$PATH"
+		export PATH="$BREW_PREFIX/opt/curl/bin:$PATH"
+	fi
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
