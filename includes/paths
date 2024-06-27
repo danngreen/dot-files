@@ -15,18 +15,7 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export PATH="/Applications/Inkscape.app/Contents/MacOS:$PATH"
-
-export IDF_PATH=~/4ms/esp/esp-idf-4.3.1
-
 export PYTHONPATH=$PYTHONPATH:'.'
-
-METAMODULE_BASE_DIR=$HOME/4ms/stm32/meta-module
-export METAMODULE_ARTWORK_DIR=$METAMODULE_BASE_DIR/vcv/res/modules
-export METAMODULE_INFO_DIR=$METAMODULE_BASE_DIR/shared/CoreModules/info
-export METAMODULE_PNG_DIR=$METAMODULE_BASE_DIR/firmware/src/pages/images
-export METAMODULE_COREMODULE_DIR=$METAMODULE_BASE_DIR/shared/CoreModules
-export METAMODULE_VCV_DIR=$METAMODULE_BASE_DIR/vcv
 
 source ~/.config/zsh/paths.local
 
@@ -35,6 +24,10 @@ source ~/.config/zsh/paths.local
 # export RACK_DIR=$HOME/4ms/vcv/Rack
 # export INKSCAPE_BIN_PATH=/Applications/Inkscape.app/Contents/MacOS/inkscape
 # export KICAD_CLI="/Applications/Kicad 6.99/KiCad.app/Contents/MacOS/kicad-cli"
+# export PATH="/Applications/Inkscape.app/Contents/MacOS:$PATH"
+# export PATH="/Applications/SEGGER/JLink_V784/JFlash.app/Contents/MacOS:$PATH"
+# export IDF_PATH=~/4ms/esp/esp-idf-4.3.1
+# export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX-6.9.1.app/Contents/Resources
 
 export ARM_NONE_EABI_PATH=$ARM_GCC_ROOT/bin/arm-none-eabi
 export PATH="$ARM_GCC_ROOT/bin:$PATH"
