@@ -259,15 +259,15 @@ require("lazy").setup({
 		-- function() require("godbolt").setup(require('godbolt-conf').config) end
 	},
 
-	{
-		'puremourning/vimspector',
-		config = function()
-			vim.cmd([[
-		let g:vimspector_sidebar_width = 85
-		let g:vimspector_bottombar_height = 15
-		let g:vimspector_terminal_maxwidth = 70
-		]])
-		end
-	},
+	-- {
+	-- 	'puremourning/vimspector',
+	-- 	config = function()
+	-- 		vim.cmd([[
+	-- 	let g:vimspector_sidebar_width = 85
+	-- 	let g:vimspector_bottombar_height = 15
+	-- 	let g:vimspector_terminal_maxwidth = 70
+	-- 	]])
+	-- 	end
+	-- },
 	{ 'fidian/hexmode' },
 })
