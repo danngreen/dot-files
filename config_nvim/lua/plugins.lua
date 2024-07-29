@@ -62,6 +62,15 @@ require("lazy").setup({
 	{
 		"stevearc/dressing.nvim",
 	},
+	{
+		'MeanderingProgrammer/markdown.nvim',
+		main = "render-markdown",
+		opts = {},
+		name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+		dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+	},
 
 	-- {
 	-- 	-- "idanarye/nvim-blunder",
@@ -137,22 +146,6 @@ require("lazy").setup({
 		"williamboman/mason.nvim",
 		config = true
 	},
-	-- {
-	-- "ray-x/lsp_signature.nvim",
-	-- config = function()
-	-- 	require "lsp_signature".setup({
-	-- 		bind = true,
-	-- 		handler_opts = { border = "rounded" },
-	-- 		hint_enable = true,
-	-- 		hint_prefix = "",
-	-- 		hint_scheme = "String", --???
-	-- 		hint_inline = function() return 'eol' end,
-	-- 		always_trigger = false,
-	-- 		toggle_key = '<C-k>'
-	-- 	})
-	-- end
-	-- },
-
 	{
 		'rmagatti/goto-preview',
 		config = function() require('goto-preview').setup { default_mappings = true } end
