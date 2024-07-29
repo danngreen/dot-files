@@ -4,8 +4,6 @@ end
 local nvim_lspconfig = require "lspconfig"
 
 local conf_lsp = {}
--- require('plenary.reload').reload_module("lsp_telescope")
-conf_lsp.pretty_telescope = require "lsp_telescope"
 
 local useclangd = true
 local useccls = false
@@ -67,7 +65,6 @@ local on_attach_vim = function(client, bufnr)
 
 	vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references({ ignore_current_line = true })<CR>", bufopt)
 	-- vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", bufopt)
-	-- vim.keymap.set("n", "gr", require 'lsp-conf'.pretty_telescope.pretty_refs, bufopt)
 	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopt)
 	vim.keymap.set("n", "gi", vim.lsp.buf.type_definition, bufopt)
 	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, bufopt)
@@ -135,8 +132,6 @@ conf_lsp.on_attach_vim = on_attach_vim
 
 -- Handlers
 
-vim.lsp.handlers["workspace/symbol"] = require "telescope.builtin".lsp_dynamic_workspace_symbols
-vim.lsp.handlers["textDocument/documentSymbol"] = require "telescope.builtin".lsp_document_symbols
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 

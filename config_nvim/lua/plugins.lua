@@ -153,17 +153,17 @@ require("lazy").setup({
 	--
 	-- Telescope
 	--
-	{
-		"nvim-lua/telescope.nvim",
-		config = function() require("telescope_conf").config() end, --TODO: use opts
-		dependencies = {
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "make",
-				config = function() require 'telescope'.load_extension('fzf') end,
-			},
-		},
-	},
+	-- {
+	-- 	"nvim-lua/telescope.nvim",
+	-- 	config = function() require("telescope_conf").config() end, --TODO: use opts
+	-- 	dependencies = {
+	-- 		{
+	-- 			"nvim-telescope/telescope-fzf-native.nvim",
+	-- 			build = "make",
+	-- 			config = function() require 'telescope'.load_extension('fzf') end,
+	-- 		},
+	-- 	},
+	-- },
 
 	-- { --"ptethng/telescope-makefile",
 	-- 	"asteroidalaz/telescope-makefile",
