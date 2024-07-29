@@ -85,6 +85,10 @@ _M.config = {
 			-- cmd_untracked   = "git diff --color --no-index /dev/null",
 			pager = "delta",
 		},
+		codeaction_native = {
+			diff_opts = { ctxlen = 3 },
+			pager = [[delta --width=$COLUMNS --hunk-header-style="omit" --file-style="omit"]],
+		},
 	},
 	--TODO: F3 = open buffers => oldfiles => files => files(cmd=find_all_files_cmd) => buffers
 	buffers = {
@@ -131,6 +135,14 @@ _M.config = {
 				fzflua.buffers({ fzf_opts = { ["--query"] = get_query(opts), }, })
 			end,
 		}
+	},
+	lsp = {
+		code_actions = {
+			prompt           = 'Code actions> ',
+			async_or_timeout = 5000,
+			previewer        = "codeaction_native",
+			winopts          = { height = 0.55, width = 0.30, },
+		},
 	}
 }
 --end
