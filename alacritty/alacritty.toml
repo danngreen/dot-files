@@ -1,0 +1,55 @@
+[[keyboard.bindings]]
+chars = "\u001Bw"
+key = "W"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bh"
+key = "H"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bc"
+key = "C"
+mods = "Alt"
+
+[font]
+builtin_box_drawing = false
+size = 13.0
+
+normal.family = "InconsolataLGC Nerd Font Mono"
+normal.style = "Medium"
+
+[mouse]
+hide_when_typing = true
+
+[window]
+startup_mode = "Maximized"
+
+[general]
+live_config_reload = true 
+
+[colors.normal]
+black = "#000000"
+red = "#b83019"
+green = "#51bf37"
+yellow = "#c6c43d"
+#blue = "#0c24bf"
+blue = "#4b60ea"
+magenta = "#b93ec1"
+cyan = "#53c2c5"
+white = "#c7c7c7"
+
+[colors.bright]
+black = "#676767"
+red = "#ef766d"
+green = "#8cf67a"
+yellow = "#fefb7e"
+blue = "#6a71f6"
+magenta = "#f07ef8"
+cyan = "#8ef9fd"
+white = "#feffff"
+
+[colors.primary]
+background = "#000000"
+foreground = "#c7c7c7"
