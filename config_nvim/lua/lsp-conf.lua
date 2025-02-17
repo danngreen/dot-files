@@ -427,7 +427,7 @@ nvim_lspconfig.rust_analyzer.setup {
 
 -- tsserver/javascript
 
-nvim_lspconfig.tsserver.setup {
+nvim_lspconfig.ts_ls.setup {
 	filetypes = { "javascript" },
 	root_dir = nvim_lspconfig.util.root_pattern(".git"),
 	on_attach = on_attach_vim
@@ -530,9 +530,9 @@ function _G.footest()
 	-- vim.cmd [[vsplit]] -- new split
 	local lsp_response = vim.lsp.buf_request_sync(bufnr, method, params, 1000) -- call the LSP(s)
 	local result = {}
-	for _, client in pairs(lsp_response) do                                 -- loop over all LSPs
-		for _, r in pairs(client.result) do                                 -- loop over all results per LSP
-			table.insert(result, r)                                         -- put them in a table
+	for _, client in pairs(lsp_response) do -- loop over all LSPs
+		for _, r in pairs(client.result) do -- loop over all results per LSP
+			table.insert(result, r) -- put them in a table
 		end
 	end
 	print(vim.inspect(result))
