@@ -18,7 +18,7 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git colored-man-pages colorize pip python brew macos fd pj zsh-syntax-highlighting)
+plugins=(git colored-man-pages colorize pip python brew macos pj zsh-syntax-highlighting)
 #disabled_plugins = (zsh-autosuggestions vi-mode zsh-fzf-history-search ) 
 #Installation:
 #git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
