@@ -15,6 +15,13 @@ end
 
 vim.g.mapleader = ","
 vim.g.localmapleader = ","
+
+
+-- lower-case u is hit accidentally too often, so make it do nothing
+-- Upper-case U does undo. No need for "undo entire line"
+nnoremap("U", "u")
+nnoremap("u", "")
+
 nnoremap("<space>", "<cmd>noh<CR>")
 
 -- Close and delete buffer
@@ -47,6 +54,7 @@ nnoremap("<leader>2",
 	'<cmd>lua require"fzf-lua".buffers({winopts={height=0.6, width=0.4, preview={hidden="hidden"}}})<CR>')
 nnoremap("<F2>", '<cmd>lua require("fzf-lua").resume()<CR>')
 
+nnoremap("", '<cmd>lua require"fzf-lua".files()<CR>') -- What is that? iTerm changes F3 into it
 nnoremap("<F3>", '<cmd>lua require"fzf-lua".files()<CR>')
 nnoremap("<leader>3", '<cmd>lua require"fzf-lua".files()<CR>')
 
@@ -75,12 +83,13 @@ nnoremap("<leader>WW", '<cmd>lua require"fzf-lua".files(Wiki_conf)<CR>')
 
 -- F4: Find in contents of files
 
--- F4: Find in contents of files
+-- F4: Find in contents of files (do not search filenames or paths)
+-- leader 4: Find in contents of files AND filenames/paths
 -- S-F4 or F4 in visual mode: initial filter for find word under cursor or selected word
 -- leader F4: prompt for initial filter
 -- leader S-F4: live grep (using skim). Toggle fzf syntax or regex (.*, etc) with ctrl-q
 -- F5: Find in a dir (prompt)
-nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
+nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>')      --use "--with-nth 2.." to not search filename
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 
@@ -95,6 +104,8 @@ vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search
 -- nnoremap("<leader><leader><F16>", ':lua require"fzf-lua".live_grep_resume()<CR>')
 
 -- Grep in Dir
+-- F5: Find in a dir (prompt)
+--nnoremap('<F5>', ':lua require\'finders\'.fzf_files("",{search_dirs = {vim.fn.input("Dir: ")}})<CR>')
 nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<S-F5>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
@@ -108,12 +119,6 @@ tnoremap("<S-F8>h", "<cmd>FloatermUpdate --position=left --width=0.5 --height=1.
 tnoremap("<S-F8>j", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.5<CR>")
 tnoremap("<S-F8>k", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.5<CR>")
 tnoremap("<S-F8>l", "<cmd>FloatermUpdate --position=right --width=0.5 --height=1.0<CR>")
-
-tnoremap("<F6>h", "<cmd>FloatermUpdate --position=left --width=0.5 --height=1.0<CR>")
-tnoremap("<F6>j", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.5<CR>")
-tnoremap("<F6>k", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.5<CR>")
-tnoremap("<F6>l", "<cmd>FloatermUpdate --position=right --width=0.5 --height=1.0<CR>")
-
 -- Quarter-screen float terms:
 tnoremap("<S-F8>H", "<cmd>FloatermUpdate --position=left --width=0.25 --height=1.0<CR>")
 tnoremap("<S-F8>J", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.25<CR>")
@@ -128,7 +133,6 @@ tnoremap("<S-F8>q", "<cmd>FloatermUpdate --position=topleft --width=0.5 --height
 tnoremap("<S-F8>O", "<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>")
 --Fullscreen
 tnoremap("<S-F8><S-F8>", "<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>")
-tnoremap("<F20><F20>", "<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>")
 
 noremap("<F9>", ":set list!<CR>")
 
@@ -144,15 +148,13 @@ endfunction
 
 noremap("<F10>", ":TagbarToggle<CR>")
 noremap("<F11>", ":call ToggleQuickFix()<CR>")
--- noremap("<F23>", ":Dispatch! ctags -R .<CR>")
--- noremap("<F12>", ":NERDTreeToggle<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
 -- Gitsigns: hunks
 nnoremap("<leader>dv", "<cmd>Gitsigns preview_hunk<CR>") --view
-nnoremap("<leader>dd", "<cmd>Gitsigns reset_hunk<CR>") --delete
-nnoremap("<leader>dp", "<cmd>Gitsigns prev_hunk<CR>") --prev
-nnoremap("<leader>dn", "<cmd>Gitsigns next_hunk<CR>") --next
+nnoremap("<leader>dd", "<cmd>Gitsigns reset_hunk<CR>")   --delete
+nnoremap("<leader>dp", "<cmd>Gitsigns prev_hunk<CR>")    --prev
+nnoremap("<leader>dn", "<cmd>Gitsigns next_hunk<CR>")    --next
 
 
 
@@ -174,7 +176,6 @@ vnoremap("<M-c>", '"+y')
 
 -- Building
 nnoremap("<leader>m", ":wa<CR>:Make!<CR>")
--- nnoremap("<leader>m", ":wa<CR>:Bmake<CR>")
 
 nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --autoclose=1 lazygit<CR>")
 nnoremap("<S-F7>", "<cmd>Git<CR>")
