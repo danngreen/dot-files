@@ -161,6 +161,7 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart = true,
 		cmd = {
+			-- "/Volumes/Studio/src/llvm-project/build/bin/clangd", -- 17.0.6
 			"clangd",
 			-- "/Users/dann/bin/clangd_18.1.3/bin/clangd",
 			-- "/Users/dann/bin/clangd_17.0.3/bin/clangd",
@@ -181,6 +182,9 @@ if (useclangd) then
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-*",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-gcc",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-g++",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-aarch64-none-elf/bin/aarch64-none-elf-*",
 			"--pch-storage=memory",
 			"--enable-config"
 		},

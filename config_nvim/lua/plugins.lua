@@ -210,10 +210,10 @@ require("lazy").setup({
 		end
 	},
 
-	{
-		"iamcco/markdown-preview.nvim",
-		build = "call mkdp#util#install()"
-	},
+	-- {
+	-- 	"iamcco/markdown-preview.nvim",
+	-- 	build = "call mkdp#util#install()"
+	-- },
 	{
 		"tpope/vim-commentary",
 		config = function()
@@ -231,7 +231,14 @@ require("lazy").setup({
 	"tpope/vim-dispatch",
 	"tpope/vim-fugitive",
 	"voldikss/vim-floaterm",
-
+	{
+		"rbong/vim-flog",
+		lazy = true,
+		cmd = { "Flog", "Flogsplit", "Floggit" },
+		dependencies = {
+			"tpope/vim-fugitive",
+		},
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
