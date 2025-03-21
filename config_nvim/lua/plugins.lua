@@ -117,6 +117,46 @@ require("lazy").setup({
 		},
 		-- version = '^1.0.0', -- optional: only update when a new 1.x version is released
 	},
+	{
+		'danngreen/gitgraph.nvim',
+		dependencies = { 'sindrets/diffview.nvim' },
+		opts = {
+			symbols = {
+				merge_commit = 'M',
+				commit = '*',
+				fallback_remote_icon = "■"
+			},
+			format = {
+				timestamp = '%d-%m-%Y %H:%M ',
+				fields = { 'timestamp', 'hash', 'author', 'message' },
+				fields2 = { 'tag', 'branch_name' },
+				remotes = {
+					{ server = "origin",   icon = "■", highlight = "WildMenu" },
+					{ server = "upstream", icon = "▤", highlight = "QuickFixLine" },
+					{ server = "",         icon = "○", highlight = "@todo" },
+				},
+			},
+			hooks = {
+				on_select_commit = function(commit)
+					vim.notify('DiffviewOpen ' .. commit.hash .. '^!')
+					vim.cmd(':DiffviewOpen ' .. commit.hash .. '^!')
+				end,
+				on_select_range_commit = function(from, to)
+					vim.notify('DiffviewOpen ' .. from.hash .. '~1..' .. to.hash)
+					vim.cmd(':DiffviewOpen ' .. from.hash .. '~1..' .. to.hash)
+				end,
+			},
+		},
+		keys = {
+			{
+				"<F6>",
+				function()
+					require('gitgraph').draw({}, { all = true, max_count = 5000 })
+				end,
+				desc = "GitGraph - Draw",
+			},
+		},
+	},
 
 	--
 	-- LSP
@@ -236,6 +276,14 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = true, --function() require("gitsigns").setup() end
+	},
+	{
+		"rbong/vim-flog",
+		lazy = true,
+		cmd = { "Flog", "Flogsplit", "Floggit" },
+		dependencies = {
+			"tpope/vim-fugitive",
+		},
 	},
 	{
 		'mbbill/undotree',
