@@ -119,6 +119,7 @@ require("lazy").setup({
 	},
 	{
 		'danngreen/gitgraph.nvim',
+		branch = 'experiment',
 		dependencies = { 'sindrets/diffview.nvim' },
 		opts = {
 			symbols = {
