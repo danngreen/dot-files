@@ -1,0 +1,32 @@
+gui:
+  splitDiff: auto
+  nerdFontsVersion: "3"
+  statusPanelView: allBranchesLog
+  authorColors:
+    'Dan Green': 'blue'
+  branchColorPatterns:
+    'main': '#11aaff'
+    'v2.0-*': '#ff5733'
+
+git:
+  branchLogCmd:      "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
+  allBranchesLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline --all'
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  log:
+    # one of date-order, author-date-order, topo-order or default.
+    # topo-order makes it easier to read the git log graph, but commits may not
+    # appear chronologically. See https://git-scm.com/docs/git-log#_commit_ordering
+    order: 'date-order'
+    # one of always, never, when-maximised
+    # this determines whether the git graph is rendered in the commits panel
+    showGraph: 'when-maximised'
+    # displays the whole git graph by default in the commits panel (equivalent to passing the `--all` argument to `git log`)
+    showWholeGraph: true
+  mainBranches:
+    - master
+    - main
+    - v2.0-dev
+os:
+  editPreset: 'nvim'
