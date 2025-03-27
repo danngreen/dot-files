@@ -50,7 +50,7 @@ nnoremap("<F2>", '<cmd>lua require("fzf-lua").resume()<CR>')
 nnoremap("<F3>", '<cmd>lua require"fzf-lua".files()<CR>')
 nnoremap("<leader>3", '<cmd>lua require"fzf-lua".files()<CR>')
 
-nnoremap("<F15>", '<cmd>lua require"fzf-lua".files({cmd=require"fzf-lua-conf".find_all_files_cmd})<CR>')
+nnoremap("<S-F3>", '<cmd>lua require"fzf-lua".files({cmd=require"fzf-lua-conf".find_all_files_cmd})<CR>')
 nnoremap("<leader>#", '<cmd>lua require"fzf-lua".files({cmd=require"fzf-lua-conf".find_all_files_cmd})<CR>')
 
 Plugin_dir_conf = { cwd = "~/.local/share/nvim/", all = true }
@@ -84,7 +84,7 @@ nnoremap("<F4>", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search="
 nnoremap("<leader>4", ':lua require"fzf-lua".grep({fzf_cli_args="--nth 2..", search=""})<CR>') --use "--with-nth 2.." to not search filename
 nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 
-nnoremap("<F16>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
+nnoremap("<S-F4>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>$", ':lua require"fzf-lua".grep_cword()<CR>')
 
 vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
@@ -97,30 +97,37 @@ vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search
 -- Grep in Dir
 nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
-nnoremap("<F17>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
+nnoremap("<S-F5>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
 
 nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --disposable lazygit<CR>")
 
 nnoremap("<F8>", "<cmd>FloatermToggle<CR>")
 tnoremap("<F8>", "<C-\\><C-n>:FloatermToggle<CR>")
 -- Half-screen float terms:
-tnoremap("<F20>h", "<cmd>FloatermUpdate --position=left --width=0.5 --height=1.0<CR>")
-tnoremap("<F20>j", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.5<CR>")
-tnoremap("<F20>k", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.5<CR>")
-tnoremap("<F20>l", "<cmd>FloatermUpdate --position=right --width=0.5 --height=1.0<CR>")
+tnoremap("<S-F8>h", "<cmd>FloatermUpdate --position=left --width=0.5 --height=1.0<CR>")
+tnoremap("<S-F8>j", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.5<CR>")
+tnoremap("<S-F8>k", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.5<CR>")
+tnoremap("<S-F8>l", "<cmd>FloatermUpdate --position=right --width=0.5 --height=1.0<CR>")
+
+tnoremap("<F6>h", "<cmd>FloatermUpdate --position=left --width=0.5 --height=1.0<CR>")
+tnoremap("<F6>j", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.5<CR>")
+tnoremap("<F6>k", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.5<CR>")
+tnoremap("<F6>l", "<cmd>FloatermUpdate --position=right --width=0.5 --height=1.0<CR>")
+
 -- Quarter-screen float terms:
-tnoremap("<F20>H", "<cmd>FloatermUpdate --position=left --width=0.25 --height=1.0<CR>")
-tnoremap("<F20>J", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.25<CR>")
-tnoremap("<F20>K", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.25<CR>")
-tnoremap("<F20>L", "<cmd>FloatermUpdate --position=right --width=0.25 --height=1.0<CR>")
-tnoremap("<F20>0", "<cmd>FloatermUpdate --position=center --width=0.5 --height=0.5<CR>") --make this center
-tnoremap("<F20>b", "<cmd>FloatermUpdate --position=bottomright --width=0.5 --height=0.5<CR>")
-tnoremap("<F20>d", "<cmd>FloatermUpdate --position=bottomleft --width=0.5 --height=0.5<CR>")
-tnoremap("<F20>p", "<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>")
-tnoremap("<F20>q", "<cmd>FloatermUpdate --position=topleft --width=0.5 --height=0.5<CR>")
+tnoremap("<S-F8>H", "<cmd>FloatermUpdate --position=left --width=0.25 --height=1.0<CR>")
+tnoremap("<S-F8>J", "<cmd>FloatermUpdate --position=bottom --width=1.0 --height=0.25<CR>")
+tnoremap("<S-F8>K", "<cmd>FloatermUpdate --position=top --width=1.0 --height=0.25<CR>")
+tnoremap("<S-F8>L", "<cmd>FloatermUpdate --position=right --width=0.25 --height=1.0<CR>")
+tnoremap("<S-F8>0", "<cmd>FloatermUpdate --position=center --width=0.5 --height=0.5<CR>") --make this center
+tnoremap("<S-F8>b", "<cmd>FloatermUpdate --position=bottomright --width=0.5 --height=0.5<CR>")
+tnoremap("<S-F8>d", "<cmd>FloatermUpdate --position=bottomleft --width=0.5 --height=0.5<CR>")
+tnoremap("<S-F8>p", "<cmd>FloatermUpdate --position=topright --width=0.5 --height=0.5<CR>")
+tnoremap("<S-F8>q", "<cmd>FloatermUpdate --position=topleft --width=0.5 --height=0.5<CR>")
 --Tiny float terms:
-tnoremap("<F20>O", "<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>")
+tnoremap("<S-F8>O", "<cmd>FloatermUpdate --position=topright --width=0.25 --height=0.25<CR>")
 --Fullscreen
+tnoremap("<S-F8><S-F8>", "<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>")
 tnoremap("<F20><F20>", "<cmd>FloatermUpdate --position=right --width=1.0 --height=1.0<CR>")
 
 noremap("<F9>", ":set list!<CR>")
@@ -137,7 +144,7 @@ endfunction
 
 noremap("<F10>", ":TagbarToggle<CR>")
 noremap("<F11>", ":call ToggleQuickFix()<CR>")
-noremap("<F23>", ":Dispatch! ctags -R .<CR>")
+-- noremap("<F23>", ":Dispatch! ctags -R .<CR>")
 -- noremap("<F12>", ":NERDTreeToggle<CR>")
 noremap("<F12>", "<cmd>Neotree toggle<CR>")
 
@@ -170,7 +177,7 @@ nnoremap("<leader>m", ":wa<CR>:Make!<CR>")
 -- nnoremap("<leader>m", ":wa<CR>:Bmake<CR>")
 
 nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --autoclose=1 lazygit<CR>")
-nnoremap("<F19>", "<cmd>Git<CR>")
+nnoremap("<S-F7>", "<cmd>Git<CR>")
 
 --- Debugging
 -- nnoremap("<leader>dl", "<cmd>call vimspector#Launch()<cr>")
