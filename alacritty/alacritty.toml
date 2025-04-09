@@ -1,3 +1,7 @@
+#Note on macos run this:
+# defaults write org.alacritty AppleFontSmoothing -int 0
+# and restart alacritty
+
 [[keyboard.bindings]]
 chars = "\u001Bw"
 key = "W"
@@ -14,20 +18,26 @@ key = "C"
 mods = "Alt"
 
 [font]
-builtin_box_drawing = false
+builtin_box_drawing = true
 size = 13.0
 
 normal.family = "InconsolataLGC Nerd Font Mono"
 normal.style = "Medium"
 
 [mouse]
-hide_when_typing = true
+hide_when_typing = false
 
 [window]
 startup_mode = "Maximized"
+option_as_alt = "OnlyLeft"
 
 [general]
 live_config_reload = true 
+
+[colors.cursor]
+text = "#FFFFFF"
+cursor = "#808080"
+
 
 [colors.normal]
 black = "#000000"
@@ -53,3 +63,8 @@ white = "#feffff"
 [colors.primary]
 background = "#000000"
 foreground = "#c7c7c7"
+
+[cursor]
+style.shape = "Beam"
+vi_mode_style.shape = "Block"
+
