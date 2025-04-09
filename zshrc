@@ -48,14 +48,14 @@ ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
 # See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md
 ZSH_HIGHLIGHT_STYLES[path]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=yellow
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 runlazygit () { lazygit }   
 zle -N runlazygit
 bindkey "^[[18~" runlazygit 
 
 # pj: project jump
-PROJECT_PATHS=(~/4ms/stm32 ~/4ms/kicad ~/4ms/esp)
+PROJECT_PATHS=(~/4ms/stm32 ~/4ms/kicad ~/4ms/esp /Volumes/Studio/a64)
 
 export EDITOR='nvim'
 ZVM_VI_EDITOR=nvim
