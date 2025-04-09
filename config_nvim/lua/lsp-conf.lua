@@ -83,8 +83,7 @@ local on_attach_vim = function(client, bufnr)
 	vim.keymap.set("n", "<leader>ff", vim.lsp.buf.code_action, bufopt)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopt)
 	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
-	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
-	vim.keymap.set("n", "<leader><leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
+	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
 
 	--Diagnostics
 	vim.keymap.set("n", "<leader>ee", function() vim.diagnostic.open_float({ scope = "line" }) end, bufopt)
