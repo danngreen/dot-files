@@ -19,8 +19,8 @@ vim.g.localmapleader = ","
 
 -- lower-case u is hit accidentally too often, so make it do nothing
 -- Upper-case U does undo. No need for "undo entire line"
-nnoremap("U", "u")
-nnoremap("u", "")
+-- nnoremap("U", "u")
+-- nnoremap("u", "")
 
 nnoremap("<space>", "<cmd>noh<CR>")
 
@@ -29,8 +29,8 @@ nnoremap("<leader>w", ":bp <BAR> bd #<CR>")
 nnoremap("<M-w>", ":bp <BAR> bd #<CR>")
 
 -- Next/Prev buffer
-nnoremap("<M-Tab>", "<cmd>BufferNext<CR>")
-nnoremap("<S-Tab>", "<cmd>BufferPrev<CR>")
+nnoremap("<S-Tab>", "<cmd>BufferNext<CR>")
+nnoremap("<M-Tab>", "<cmd>BufferPrev<CR>")
 
 -- Sort buffers
 nnoremap("<leader><Tab>", "<cmd>BufferOrderByBufferNumber<CR>")
@@ -96,7 +96,7 @@ nnoremap("<leader><F4>", ':lua require"fzf-lua".grep({search=""})<CR>')
 nnoremap("<S-F4>", ':lua require"fzf-lua".grep_cword()<CR>') --({search="<C-R><C-W>"})<CR>')
 nnoremap("<leader>$", ':lua require"fzf-lua".grep_cword()<CR>')
 
-vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
+vnoremap("<F4>", ':<C-u>lua require"fzf-lua".grep_visual()<CR>')      --({search="<C-R><C-W>"})<CR>')
 vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search="<C-R><C-W>"})<CR>')
 
 -- nnoremap("<leader><F4>", ':lua require"fzf-lua".grep()<CR>')
@@ -109,6 +109,8 @@ vnoremap("<leader>4", ':<C-u>lua require"fzf-lua".grep_visual()<CR>') --({search
 nnoremap("<F5>", ':lua require"fzf-lua".grep({search="", cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<leader><F5>", ':lua require"fzf-lua".files({cwd = vim.fn.input("Dir: ")})<CR>')
 nnoremap("<S-F5>", ':lua require"fzf-lua".grep_cword({cwd = vim.fn.input("Dir: ")})<CR>')
+
+nnoremap("<leader><F6>", "<cmd>Flog -all -max-count=2000<CR>")
 
 nnoremap("<F7>", "<cmd>FloatermNew --height=1.0 --width=1.0 --disposable lazygit<CR>")
 
@@ -159,7 +161,7 @@ nnoremap("<leader>dn", "<cmd>Gitsigns next_hunk<CR>")    --next
 
 
 nnoremap("<C-@>", "<cmd>cprev<CR>")
-nnoremap("<C-1>", "<cmd>cnext<CR>")
+nnoremap("<F1>", "<cmd>cnext<CR>")
 nnoremap("<leader><leader>", ":w<CR>")
 nnoremap("<leader>nn", "<cmd>FormatDisable | w | FormatEnable<CR>")
 nnoremap("<leader>nf", "<cmd>lua print('Use <leader>nn to save without formatting')<CR>")
