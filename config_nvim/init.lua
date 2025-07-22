@@ -34,6 +34,7 @@ vim.o.wildmenu = true
 vim.opt.wildignore:append { "tags,tags.*,build/*" }
 vim.o.path = ".,,**"
 vim.opt.diffopt:append { "linematch:60" }
+vim.o.cursorline = true
 
 vim.cmd [[set diffopt+=linematch:60]]
 
