@@ -196,6 +196,23 @@ require("lazy").setup({
 		'rmagatti/goto-preview',
 		config = function() require('goto-preview').setup { default_mappings = true } end
 	},
+	{
+		"sqwxl/playdate.nvim",
+		opts = {
+			playdate_sdk_path = "/Users/dann/Developer/PlaydateSDK",
+			playdate_luacats_path = "/Users/dann/playdate/playdate-luacats",
+			build = {
+				source_dir = "source",
+				output_dir = "build.pdx",
+				-- source_dir = "./",
+				-- output_dir = "builds",
+			},
+			server_settings = {
+				-- Server settings placed here will be merged into the defaults shown below.
+			}
+		}
+	},
+
 	--
 	-- Telescope
 	--
