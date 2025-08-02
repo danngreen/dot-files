@@ -272,10 +272,10 @@ require("lazy").setup({
 	--	end
 	--},
 
-	{
-		"iamcco/markdown-preview.nvim",
-		build = "call mkdp#util#install()"
-	},
+	-- {
+	-- 	"iamcco/markdown-preview.nvim",
+	-- 	build = "call mkdp#util#install()"
+	-- },
 	{
 		"tpope/vim-commentary",
 		config = function()
