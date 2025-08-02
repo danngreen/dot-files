@@ -255,22 +255,22 @@ require("lazy").setup({
 		config = function() vim.g.tagbar_file_size_limit = 400000 end,
 	},
 
-	{
-		"lukas-reineke/format.nvim",
-		config = function() --TODO: use opts
-			require "lsp-format".setup {
-				--npm i -g lua-fmt
-				lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
-				vim = {
-					{
-						cmd = { "luafmt -w replace" },
-						start_pattern = "^lua << EOF$",
-						end_pattern = "^EOF$"
-					}
-				}
-			}
-		end
-	},
+	--{
+	--	"lukas-reineke/format.nvim",
+	--	config = function() --TODO: use opts
+	--		require "lsp-format".setup {
+	--			--npm i -g lua-fmt
+	--			lua = { { cmd = { "luafmt -l 120 --use-tabs -i 4 -w replace" } } },
+	--			vim = {
+	--				{
+	--					cmd = { "luafmt -w replace" },
+	--					start_pattern = "^lua << EOF$",
+	--					end_pattern = "^EOF$"
+	--				}
+	--			}
+	--		}
+	--	end
+	--},
 
 	{
 		"iamcco/markdown-preview.nvim",
