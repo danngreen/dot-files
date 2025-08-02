@@ -53,3 +53,5 @@ debug_log.txt
 .gdb_history
 
 pyenv
+
+*.mmplugin
