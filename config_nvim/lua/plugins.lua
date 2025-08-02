@@ -56,9 +56,9 @@ require("lazy").setup({
 			vim.notify = require("notify")
 		end
 	},
-	{
-		'lewis6991/whatthejump.nvim'
-	},
+	-- {
+	-- 	'lewis6991/whatthejump.nvim'
+	-- },
 	{
 		"stevearc/dressing.nvim",
 	},
