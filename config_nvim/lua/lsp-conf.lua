@@ -166,9 +166,10 @@ if (useclangd) then
 			-- "/Users/dann/bin/clangd_17.0.3/bin/clangd",
 			-- "/Users/dann/bin/clangd_16.0.2/bin/clangd",
 			"--background-index",
-			-- "--log=trace",
+			-- "--log=error",
+			"--log=verbose",
 			"--pretty",
-			"-j=16",
+			"-j=1",
 			"--fallback-style=LLVM",
 			"--clang-tidy",
 			-- "--header-insertion=iwyu",
@@ -181,6 +182,10 @@ if (useclangd) then
 			"--query-driver=/usr/bin/g*",
 			"--query-driver=/usr/local/opt/llvm/bin/clang*",
 			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-*",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-aarch64-none-elf/bin/aarch64-none-elf-*",
+			"--query-driver=/Users/dann/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-*",
+			"--query-driver=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+			"--query-driver=/opt/homebrew/opt/llvm/bin/clang",
 			"--pch-storage=memory",
 			"--enable-config"
 		},
@@ -216,8 +221,8 @@ if (useclangd) then
 	---- options to pass to nvim-lspconfig
 	---- i.e. the arguments to require("lspconfig").clangd.setup({})
 	--	cmd = {
-	--		"/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
-	--		--"clangd",
+	-- "/Users/design/bin/clangd_snapshot_20220206/bin/clangd",
+	-- "clangd",
 	--		"--background-index",
 	--		"--log=verbose",
 	--		"-j=32",
