@@ -83,8 +83,7 @@ local on_attach_vim = function(client, bufnr)
 	vim.keymap.set("n", "<leader>ff", vim.lsp.buf.code_action, bufopt)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopt)
 	vim.keymap.set("n", "<M-h>", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
-	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeader<CR>", bufopt)
-	vim.keymap.set("n", "<leader><leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
+	vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeaderVSplit<CR>", bufopt)
 
 	--Diagnostics
 	vim.keymap.set("n", "<leader>ee", function() vim.diagnostic.open_float({ scope = "line" }) end, bufopt)
@@ -161,6 +160,7 @@ if (useclangd) then
 	nvim_lspconfig.clangd.setup {
 		autostart = true,
 		cmd = {
+			-- "/Volumes/Studio/src/llvm-project/build/bin/clangd", -- 17.0.6
 			"clangd",
 			-- "/Users/dann/bin/clangd_18.1.3/bin/clangd",
 			-- "/Users/dann/bin/clangd_17.0.3/bin/clangd",
@@ -186,6 +186,9 @@ if (useclangd) then
 			"--query-driver=/Users/dann/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-*",
 			"--query-driver=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
 			"--query-driver=/opt/homebrew/opt/llvm/bin/clang",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-gcc",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-g++",
+			"--query-driver=/Users/dann/bin/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-aarch64-none-elf/bin/aarch64-none-elf-*",
 			"--pch-storage=memory",
 			"--enable-config"
 		},

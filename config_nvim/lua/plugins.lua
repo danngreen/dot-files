@@ -74,7 +74,6 @@ require("lazy").setup({
 			},
 		},
 	},
-
 	-- {
 	-- 	-- "idanarye/nvim-blunder",
 	-- 	"danngreen/nvim-blunder",
@@ -293,7 +292,14 @@ require("lazy").setup({
 	"tpope/vim-dispatch",
 	"tpope/vim-fugitive",
 	"voldikss/vim-floaterm",
-
+	{
+		"rbong/vim-flog",
+		lazy = true,
+		cmd = { "Flog", "Flogsplit", "Floggit" },
+		dependencies = {
+			"tpope/vim-fugitive",
+		},
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },

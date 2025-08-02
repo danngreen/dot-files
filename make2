@@ -1,0 +1,7 @@
+mkdir dot-files2
+mkdir dot-files2/config
+mkdir dot-files2/local
+mkdir dot-files2/local/share
+mkdir dot-files2/local/state
+mkdir dot-files2/local/state/nvim
+echo "XDG_CONFIG_HOME=dot-files2/config XDG_DATA_HOME=dot-files2/local/share XDG_STATE_HOME=dot-files2/local/state NVIM_LOG_FILE=dot-files2/local/state/nvim nvim" > nvim2
