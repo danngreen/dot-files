@@ -135,9 +135,10 @@ require("lazy").setup({
 				fields = { 'timestamp', 'hash', 'author', 'message' },
 				fields2 = { 'tag', 'branch_name' },
 				remotes = {
-					{ server = "origin",   icon = "■", highlight = "WildMenu" },
+					{ server = "origin",   icon = "■", highlight = "SpecialKey" },
+					{ server = "danngreen",   icon = "■", highlight = "QuickFixLine" },
 					{ server = "upstream", icon = "▤", highlight = "QuickFixLine" },
-					{ server = "",         icon = "○", highlight = "@todo" },
+					{ server = "",         icon = "○", highlight = "" },
 				},
 			},
 			hooks = {
