@@ -137,7 +137,7 @@ require("lazy").setup({
 					{ server = "origin",   icon = "■", highlight = "SpecialKey" },
 					{ server = "danngreen",   icon = "■", highlight = "QuickFixLine" },
 					{ server = "upstream", icon = "▤", highlight = "QuickFixLine" },
-					{ server = "",         icon = "○", highlight = "" },
+					{ server = "", icon = "○", highlight = "@todo" },
 				},
 			},
 			hooks = {
@@ -270,6 +270,29 @@ require("lazy").setup({
 	--		}
 	--	end
 	--},
+
+
+
+	{
+		'mfussenegger/nvim-lint',
+		ft = {
+			"json",
+		},
+		opts = {
+			linters_by_ft = {
+				json = { 'jsonlint' },
+			},
+		},
+		config = function(_, opts)
+			local lint = require('lint')
+			lint.linters_by_ft = opts.linters_by_ft
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "InsertLeave" }, {
+				callback = function()
+					require("lint").try_lint()
+				end,
+			})
+		end
+	},
 
 	-- {
 	-- 	"iamcco/markdown-preview.nvim",

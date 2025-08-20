@@ -54,4 +54,6 @@ debug_log.txt
 
 pyenv
 
+metamodule-plugins
 *.mmplugin
+**/*.mmplugin

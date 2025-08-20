@@ -22,8 +22,9 @@ nnoremap("<leader>w", ":bp <BAR> bd #<CR>")
 nnoremap("<M-w>", ":bp <BAR> bd #<CR>")
 
 -- Next/Prev buffer
-nnoremap("<S-Tab>", "<cmd>BufferNext<CR>")
+-- nnoremap("<S-Tab>", "<cmd>BufferNext<CR>")
 nnoremap("<M-Tab>", "<cmd>BufferPrev<CR>")
+nnoremap("<S-Tab>", "<cmd>BufferNext<CR>")
 
 -- Sort buffers
 nnoremap("<leader><Tab>", "<cmd>BufferOrderByBufferNumber<CR>")

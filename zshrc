@@ -69,3 +69,5 @@ alias g=git
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/bin/git-subrepo/.rc
 
+export METAMODULE_SDK_DIR=/Users/dann/4ms/stm32/meta-module/firmware/metamodule-plugin-sdk
+export CMAKE_GENERATOR=Ninja
